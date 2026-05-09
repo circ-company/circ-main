@@ -6,6 +6,7 @@ SUBDIRS += \
     irCore \
     irExe \
     irImage \
+    irLog \
     irMatGeo \
     irTypes \
     irqCore \
