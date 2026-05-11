@@ -5,21 +5,13 @@
 //#include "Types.h"
 
 ATextList::ATextList(const AText::List &other) : AText::List(other) {;}
-
-ATextList::ATextList(const QByteArrayList &other)
-{
-    foreach (const QByteArray cBA, other)
-        append(AText(cBA));
-}
-
-ATextList::ATextList(const QStringList &other)
-{
-    foreach (const QString cS, other)
-        append(AText(cS));
-}
+ATextList::ATextList(const QByteArrayList &other) { set(other); }
+ATextList::ATextList(const QStringList &other) { set(other); }
+ATextList::ATextList(const AText &atx, const char ch) { split(atx, ch); }
 
 ATextList &ATextList::operator =(const AText::List &other)
 {
+    clear();
     foreach (const AText cAT, other)
         append(cAT);
     return it();
@@ -39,7 +31,6 @@ AText ATextList::join(const AText atx) const
 }
 
 ATextList::PairList ATextList::split(const char ch) const
-
 {
     ATextList::PairList result;
     foreach (const AText cATextIn, it())
@@ -49,6 +40,26 @@ ATextList::PairList ATextList::split(const char ch) const
     }
     return result;
 }
+
+void ATextList::set(const QByteArrayList &other)
+{
+    clear();
+    foreach (const QByteArray cBA, other) append(AText(cBA));
+}
+
+void ATextList::set(const QStringList &other)
+{
+    clear();
+    foreach (const QString cS, other) append(AText(cS));
+}
+
+ATextList ATextList::split(const AText &atx, const char ch)
+{
+    clear();
+    append(ATextList(atx.split(ch ? ch : AText::hinge())));
+    return it();
+}
+
 
 // ---------------------- static -----------------------
 

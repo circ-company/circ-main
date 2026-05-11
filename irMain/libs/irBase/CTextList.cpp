@@ -55,7 +55,7 @@ void CTextList::set(const QString &s)
     append(s);
 }
 
-void CTextList::set(const ATextList &atxl)
+void CTextList::set(const AText::List &atxl)
 {
     clear();
     foreach (const QString qs, atxl)

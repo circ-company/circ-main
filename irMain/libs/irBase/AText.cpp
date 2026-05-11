@@ -5,9 +5,6 @@
 #include <ctype.h>
 #include <climits>
 
-#include "ATextList.h"
-#include "Types.h"
-
 char AText::smHingeChar = ' ';
 
 AText::AText(const char ch) { set(ch); }
@@ -16,11 +13,6 @@ AText::AText(const QByteArray &ba) { set(ba); }
 AText::AText(const QByteArray &ba, const QChar repl) { set(ba, repl); }
 AText::AText(const QString &s) { set(s); }
 AText::AText(const Count k, const char ch) { set(k, ch); }
-
-AText::List AText::toList(const char ch) const
-{
-    return ATextList(mid(0).split(ch ? ch : hinge()));
-}
 
 AText::Pair AText::keyValue(const char ch) const
 {

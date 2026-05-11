@@ -6,9 +6,6 @@
 #include <QByteArrayList>
 #include <QStringList>
 
-#include "ATextList.h"
-
-
 class CTextList : public CText::List
 {
 public:
@@ -16,7 +13,7 @@ public:
     CTextList(const QByteArrayList &bal);
     CTextList(const QStringList &qsl);
     CTextList(const QString &s);
-    CTextList(const ATextList &atxl);
+    CTextList(const AText::List &atxl);
     CTextList(const QList<CText> &other);
 
 public: // const
@@ -29,7 +26,7 @@ public: // non-const
     void set(const QByteArrayList &bal);
     void set(const QStringList &qsl);
     void set(const QString &s);
-    void set(const ATextList &atxl);
+    void set(const AText::List &atxl);
 
 public: // pointers
     CTextList it() const;

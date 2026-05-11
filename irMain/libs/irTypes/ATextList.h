@@ -21,6 +21,7 @@ public: // ctors
     ATextList(const AText::List &other);
     ATextList(const QByteArrayList &other);
     ATextList(const QStringList &other);
+    ATextList(const AText &atx, const char ch=0);
     ATextList & operator = (const AText::List &other);
 
 public: // const
@@ -28,6 +29,9 @@ public: // const
     PairList split(const char ch) const;
 
 public: // non-const
+    void set(const QByteArrayList &other);
+    void set(const QStringList &other);
+    ATextList split(const AText &atx, const char ch=0);
 
 public: // pointers
     ATextList it() const;
