@@ -10,10 +10,10 @@
 
 char AText::smHingeChar = ' ';
 
-AText::AText() { clear(); }
 AText::AText(const char ch) { set(ch); }
 AText::AText(const char *pch) { set(pch); }
 AText::AText(const QByteArray &ba) { set(ba); }
+AText::AText(const QByteArray &ba, const QChar repl) { set(ba, repl); }
 AText::AText(const QString &s) { set(s); }
 AText::AText(const Count k, const char ch) { set(k, ch); }
 
@@ -72,17 +72,20 @@ void AText::set(const char ch)
 
 void AText::set(const char *pch)
 {
+    set(pch, QChar());
+}
+
+void AText::set(const char *pch, const QChar repl)
+{
     clear();
     if (0 != *pch)
     {
         QByteArray::reserve(strlen(pch) + 1);
-        if (*pch && isValidFirst(*pch))
-            QByteArray::append(*pch);
+        QByteArray::append(isValidFirst(*pch) ? *pch : repl.cell());
         ++pch;
         while (*pch)
         {
-            if (isValidChar(*pch))
-                QByteArray::append(*pch);
+            QByteArray::append(isValidChar(*pch) ? *pch : repl.cell());
             ++pch;
         }
     }
@@ -111,6 +114,18 @@ AText AText::append(const char ch)
 {
     QByteArray::append(ch);
     return it();
+}
+
+AText AText::takeFirst(const Count k)
+{
+    AText result = QByteArray::first(k);
+    removeFirst(k);
+    return result;
+}
+
+void AText::removeFirst(const Count k)
+{
+    QByteArray::remove(0, k);
 }
 
 void AText::removeEach(const char ch)

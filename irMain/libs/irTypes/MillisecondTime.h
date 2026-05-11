@@ -2,13 +2,13 @@
 
 #include <QtGlobal>
 #include <QDateTime>
+#include <QMetaType>
 
 #include <Types.h>
 
 class MillisecondTime
 {
 public: // ctors
-    MillisecondTime(void);
     MillisecondTime(Milliseconds ems);
     MillisecondTime(const QDateTime & dt);
 
@@ -44,7 +44,15 @@ private:
     static const QDateTime smBaseDateTime;
     static const MillisecondTime smBaseMST;
     static const MillisecondTime smNullMST;
+
+public: // QMetaType
+    MillisecondTime() = default;
+    ~MillisecondTime() = default;
+    MillisecondTime(const MillisecondTime & other) = default;
+    MillisecondTime &operator=(const MillisecondTime & other) = default;
 };
+
+Q_DECLARE_METATYPE(MillisecondTime);
 
 inline Milliseconds MillisecondTime::operator ()() const { return mEpochMS; }
 

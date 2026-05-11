@@ -3,6 +3,7 @@
 #include <QtLogging>
 #include <QByteArray>
 #include <QList>
+#include <QMetaType>
 #include <QString>
 
 #include <cstdio>
@@ -20,10 +21,10 @@ public: // types
     };
 
 public: // ctors
-    AText();
     AText(const char ch);
     AText(const char * pch);
     AText(const QByteArray &ba);
+    AText(const QByteArray &ba, const QChar repl);
     AText(const QString &s);
     AText(const Count k, const char ch=' ');
 
@@ -43,6 +44,7 @@ public: // non-const
     void set(const char ch);
     void set(const char * pch);
     void set(const QByteArray &ba);
+    void set(const char *pch, const QChar repl);
     void set(const QString &s);
     void set(const QByteArrayList &ba);
     void set(const QStringList &s);
@@ -53,6 +55,8 @@ public: // non-const
     void setList(const QString &s);
     AText append(const AText &more);
     AText append(const char ch);
+    AText takeFirst(const Count k);
+    void removeFirst(const Count k);
     void removeEach(const char ch);
     void removeEach(const AText &atx);
     AText operator += (const AText &more);
@@ -73,9 +77,14 @@ protected: // virtual const
 private:
     static char smHingeChar;
 
-private:
-
+public: // QMetaType
+    AText() = default;
+    ~AText() = default;
+    AText(const AText &) = default;
+    AText &operator=(const AText &) = default;
 };
+
+Q_DECLARE_METATYPE(AText);
 
 inline QString AText::toString() const { return QString(constData()); }
 inline AText::operator QString () const { return toString(); }

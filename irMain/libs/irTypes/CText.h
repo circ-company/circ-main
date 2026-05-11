@@ -19,9 +19,8 @@ public: // ctors
     CText(const char ch);
     CText(const char * pch);
     CText(const QByteArray &ba);
+    CText(const QByteArray &ba, const QChar repl);
     CText(const QString &s);
-
-    void set(const char * pch);
 
 public: // static
     static char hinge();

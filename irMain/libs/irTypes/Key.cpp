@@ -1,10 +1,10 @@
 #include "Key.h"
 
+#include "irBase.h"
 #include "Types.h"
 
 QWORD Key::hash64() const
 {
-    QWORD result = 0;
     union
     {
         QWORD qw;
@@ -12,16 +12,13 @@ QWORD Key::hash64() const
     } tUnion;
     tUnion.qw = 0uLL;
     KeySegList tSegments = it();
-    if (tSegments.count() < 5)
-    {
-        for (Index ix = 0; ix < tSegments.count(); ++ix)
-            tUnion.w[3-ix] = qHash(tSegments.takeFirst());
-    }
-    Index tPosition = 3;
+    Index tWordIndex = countof(tUnion.w) - 1;
     while (tSegments.notEmpty())
     {
         const KeySeg tSeg = tSegments.takeLast();
         const WORD tHash16 = tSeg.hash16();
+        tUnion.w[tWordIndex] ^= tHash16;
+        if (tWordIndex) --tWordIndex;
     }
-    return result;
+    return tUnion.qw;
 }

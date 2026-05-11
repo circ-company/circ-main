@@ -4,7 +4,6 @@
 
 //#include "Types.h"
 
-ATextList::ATextList() {;}
 ATextList::ATextList(const AText::List &other) : AText::List(other) {;}
 
 ATextList::ATextList(const QByteArrayList &other)
@@ -40,6 +39,7 @@ AText ATextList::join(const AText atx) const
 }
 
 ATextList::PairList ATextList::split(const char ch) const
+
 {
     ATextList::PairList result;
     foreach (const AText cATextIn, it())
@@ -51,6 +51,22 @@ ATextList::PairList ATextList::split(const char ch) const
 }
 
 // ---------------------- static -----------------------
+
+ATextList ATextList::hexDump(const QByteArray &ba)
+{
+    ATextList result;
+    Index ix = 0;
+    while ((ba.length() - ix) > 16)
+    {
+        result << hexDumpFullLine(ix, ba);
+        ix += 16;
+    }
+    if (ix < ba.length())
+    {
+        result << hexDumpPartLine(ix, ba);
+    }
+    return result;
+}
 
 ATextList ATextList::toList(const PairList atxlpr, const char assign)
 {
@@ -76,5 +92,36 @@ ATextList ATextList::toList(const PairMMap atxlMm, const char assign)
         const AText cAtx = cKey + assign + cVal;
         result << cAtx;
     }
+    return result;
+}
+
+AText ATextList::hexDumpFullLine(const Index ix, const QByteArray &ba)
+{
+    AText tChars(ba.mid(ix, 16), u'.');
+    AText result = QString("%1 0x%2 %3 %4 %5 %6").arg(ix, 5, 10, u'0')
+                        .arg(ba.mid(ix+ 0, 4).toHex().toUpper())
+                        .arg(ba.mid(ix+ 4, 4).toHex().toUpper())
+                        .arg(ba.mid(ix+ 8, 4).toHex().toUpper())
+                        .arg(ba.mid(ix+12, 4).toHex().toUpper())
+                        .arg((tChars.takeFirst(16))());
+    return result;
+}
+
+AText ATextList::hexDumpPartLine(const Index ix, const QByteArray &ba)
+{
+    AText result = QString("%1 0x").arg(ix, 5, 10, u'0');
+    Count k = ba.length() - ix;
+    Index ix2 = 0;
+    QByteArray tBytes = ba.mid(ix);
+    AText tChars(tBytes, u'.');
+    while (k > 0)
+    {
+
+        result += tBytes.mid(ix + ix2, 1).toHex().toUpper();
+        if (++ix2 % 4) result += ' ';
+        --k;
+    }
+    result += AText(42 - result.length(), ' ');
+    result += tChars;
     return result;
 }

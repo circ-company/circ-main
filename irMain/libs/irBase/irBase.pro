@@ -16,11 +16,10 @@ SOURCES += \
     Key.cpp \
     KeySeg.cpp \
     KeySegList.cpp \
-    KeyValueMap.cpp \
+    KeyVarMap.cpp \
     NAText.cpp \
     Severity.cpp \
     UText.cpp \
-    Value.cpp \
     XText.cpp \
     irBase.cpp
 
@@ -39,13 +38,13 @@ HEADERS += \
     KeyMap.h \
     KeySeg.h \
     KeySegList.h \
-    KeyValueMap.h \
+    KeyVarMap.h \
+    MetaType.h \
     NAText.h \
     Named.h \
     Severity.h \
     Types.h \
     UText.h \
-    Value.h \
     XText.h \
     irBase_global.h \
     irBase.h

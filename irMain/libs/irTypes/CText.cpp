@@ -8,6 +8,7 @@ CText::CText() {;}
 CText::CText(const char ch) : AText(ch) {;}
 CText::CText(const char *pch) : AText(pch) {;}
 CText::CText(const QByteArray &ba) : AText(ba) {;}
+CText::CText(const QByteArray &ba, const QChar repl) : AText(ba, repl) {;}
 CText::CText(const QString &s) : AText(s) {;}
 
 bool CText::isValidFirst(const char ch) const

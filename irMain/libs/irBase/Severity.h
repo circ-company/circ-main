@@ -3,38 +3,38 @@
 #include "Enumeration.h"
 
 #define SEVERITY_ENUM(NV) \
-    NV($Null, = 0)  \
-    NV(Minimum,)    /* 1*/  \
-    NV(Severity02,)   \
-    NV(Severity03,)   \
-    NV(Severity04,)   \
+    NV($null, = 0)  \
+    NV($Trace,)         /* 1-Begin Trace*/  \
+    NV(DumpVar,)        /* 2*/  \
+    NV(QObjectDump,)    /* 3*/  \
+    NV(TraceMsg,)       /* 4*/  \
     NV(Severity05,)   \
     NV(Severity06,)   \
-    NV(Severity07,)   \
-    NV(Severity08,)   \
-    NV(Severity09,)   \
-    NV(Severity10,)   \
+    NV(TExpect,)        /* 7*/  \
+    NV(TAssert,)        /* 8*/  \
+    NV($Info,)          /* 9-Begin Info*/  \
+    NV(Detail,)         /*10*/ \
     NV(Severity11,)   \
-    NV(Severity12,)   \
+    NV(Info,)           /*12*/ \
     NV(Severity13,)   \
-    NV(Severity14,)   \
+    NV(Progress,)       /*14*/  \
     NV(Severity15,)   \
-    NV(Severity16,)   \
-    NV(Severity17,)   \
-    NV(Severity18,)   \
-    NV(Severity19,)   \
-    NV(Severity20,)   \
-    NV(Severity21,)   \
-    NV(Severity22,)   \
-    NV(Severity23,)   \
-    NV(Severity24,)   \
-    NV(Severity25,)   \
-    NV(Severity26,)   \
-    NV(Severity27,)   \
-    NV(Severity28,)   \
-    NV(Severity29,)   \
-    NV(Severity30,)   \
-    NV(Maximum,)    /*31*/   \
+    NV(StartUp,)        /*16*/  \
+    NV($Warning,)       /*17-Begin Warning*/ \
+    NV(Prefer,)         /*18*/  \
+    NV(Warning,)        /*19*/  \
+    NV(WExpect,)        /*20*/  \
+    NV(WAssert,)        /*21*/  \
+    NV(WMemory,)        /*22*/  \
+    NV($Error,)         /*23-Begin Error*/ \
+    NV(MinorError,)     /*24*/  \
+    NV(Error,)          /*25*/  \
+    NV(MajorError,)     /*26*/  \
+    NV($Fault,)         /*27-Begin Fault*/ \
+    NV(ProcessFault,)   /*28*/  \
+    NV(MemoryFault,)    /*29*/  \
+    NV(SystemFault,)    /*30*/  \
+    NV($max,)           /*31*/  \
 
 class Severity : public Enumeration
 {

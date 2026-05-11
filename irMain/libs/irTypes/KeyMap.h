@@ -18,5 +18,5 @@ public:
 };
 
 typedef KeyMapT<QVariant> KeyMap;
-typedef KeyMapT<IdNo> KeyNoMap;
+typedef KeyMapT<IdNo> KeyIdNoMap;
 typedef KeyMapT<AText> KeyTextMap;

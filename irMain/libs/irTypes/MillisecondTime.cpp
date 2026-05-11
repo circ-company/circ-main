@@ -4,20 +4,10 @@ const QDateTime MillisecondTime::smBaseDateTime(QDateTime::currentDateTime());
 const MillisecondTime MillisecondTime::smBaseMST(smBaseDateTime);
 const MillisecondTime MillisecondTime::smNullMST(INT64_MIN);
 
-MillisecondTime::MillisecondTime(void)
-    : mEpochMS(smNullMST)
-{
-}
 
-MillisecondTime::MillisecondTime(Milliseconds ems)
-    : mEpochMS(ems)
-{
-}
-
+MillisecondTime::MillisecondTime(Milliseconds ems) : mEpochMS(ems) {;}
 MillisecondTime::MillisecondTime(const QDateTime & dt)
-    : mEpochMS(dt.isValid() ? dt.toMSecsSinceEpoch() : INT64_MIN)
-{
-}
+    : mEpochMS(dt.isValid() ? dt.toMSecsSinceEpoch() : INT64_MIN) {;}
 
 MillisecondTime MillisecondTime::current(void)
 {

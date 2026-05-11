@@ -8,13 +8,16 @@ include(../../useBase.pri)
 include(../../useTypes.pri)
 
 SOURCES += \
+    Log.cpp \
     LogEngine.cpp \
     LogItem.cpp \
     irLog.cpp
 
 HEADERS += \
+    Log.h \
     LogEngine.h \
     LogItem.h \
+    LogMacros.h \
     irLog_global.h \
     irLog.h
 
