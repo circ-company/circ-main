@@ -5,6 +5,7 @@
 #include <QList>
 #include <QMetaType>
 #include <QString>
+#include <QVariantList>
 
 #include <cstdio>
 
@@ -31,8 +32,9 @@ public: // ctors
 public: // const
     bool isEmpty() const;
     bool isValid(const Index ix);
+    AText formatted(const QVariantList vars);
     Pair keyValue(const char ch) const;
-    AText at(const IndexList ixs);
+    AText sub(const IndexList ixs);
     QString toString() const;
     operator QString() const;
     QString operator () () const;
@@ -74,6 +76,7 @@ protected: // virtual const
     virtual bool isValidChar(const char ch) const;
 
 private:
+    static QString saveVarListString(const QVariantList &vars, const Index ix);
     static char smHingeChar;
 
 public: // QMetaType

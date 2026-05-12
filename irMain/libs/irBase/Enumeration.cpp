@@ -118,6 +118,12 @@ void Enumeration::set(const CText &name)
     }
 }
 
+void Enumeration::max(const Enumeration &other)
+{
+    if (other.value() > value())
+        set(other);
+}
+
 void Enumeration::setInvalid(void)
 {
     mValue = 0, mName.clear(), mpNamedMap = 0;

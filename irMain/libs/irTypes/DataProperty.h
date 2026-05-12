@@ -22,7 +22,7 @@ public:
     }
 };
 
-class EIRCORESHARED_EXPORT LogItem
+class LogItem
 {
     DECLARE_PARENT_DATAPROPS(LOGITEM_DATAPROPS)
     DECLARE_DATAPROPS(LogItem, LogItemData)

@@ -11,6 +11,7 @@ SOURCES += \
     Enumeration.cpp \
     Severity.cpp \
     UText.cpp \
+    VersionInfo.cpp \
     irBase.cpp
 
 HEADERS += \
@@ -24,6 +25,7 @@ HEADERS += \
     Severity.h \
     Types.h \
     UText.h \
+    VersionInfo.h \
     irBase_global.h \
     irBase.h
 

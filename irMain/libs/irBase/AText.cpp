@@ -40,7 +40,22 @@ bool AText::isValid(const Index ix)
     return ix >= 0 && ix < length();
 }
 
-AText AText::at(const IndexList ixs)
+AText AText::formatted(const QVariantList vars)
+{
+    return QString("%1 %2 %3 %4 %5 %6 %7 %8 %9")
+        .arg(saveVarListString(vars, 0))
+        .arg(saveVarListString(vars, 1))
+        .arg(saveVarListString(vars, 2))
+        .arg(saveVarListString(vars, 3))
+        .arg(saveVarListString(vars, 4))
+        .arg(saveVarListString(vars, 5))
+        .arg(saveVarListString(vars, 6))
+        .arg(saveVarListString(vars, 7))
+        .arg(saveVarListString(vars, 9))
+        .arg(saveVarListString(vars, 9));
+}
+
+AText AText::sub(const IndexList ixs)
 {
     AText result;
     foreach (const Index ix, ixs)
@@ -141,4 +156,9 @@ bool AText::isValidFirst(const char ch) const
 bool AText::isValidChar(const char ch) const
 {
     return isprint(ch);
+}
+
+QString AText::saveVarListString(const QVariantList &vars, const Index ix)
+{
+    return (ix >= 0 && ix < vars.count()) ? vars.at(ix).toString() : QString();
 }

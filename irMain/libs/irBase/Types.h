@@ -46,3 +46,6 @@ typedef QList<UINT>  UIntList;
 typedef QList<QWORD>     QWordList;
 typedef QList<FLOAT>    FloatList;
 
+#define countof(array) (sizeof(array) / sizeof(array[0]))
+
+
