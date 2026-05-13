@@ -58,7 +58,7 @@ public: // const
     QString toString(const StringOptions opts=$null) const;
     quint32 toDWord() const;
     quint64 toQWord() const;
-    bool updateApp(QCoreApplication * pCoreApp) const;
+    bool set(QCoreApplication * pCoreApp) const;
 
 
 public: // non-const

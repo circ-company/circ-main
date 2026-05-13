@@ -187,7 +187,7 @@ quint64 VersionInfo::toQWord() const
     return stUnion.uQWord;
 }
 
-bool VersionInfo::updateApp(QCoreApplication *pCoreApp) const
+bool VersionInfo::set(QCoreApplication *pCoreApp) const
 {
     pCoreApp->setApplicationName(appname());
     pCoreApp->setApplicationVersion(toString());

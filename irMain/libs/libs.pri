@@ -1,4 +1,4 @@
-# {Eclipse7}//libs/libs.pri
+# {irMain}/libs/libs.pri
 #message(____________/src/libs/libs.pri)
 
 include(../LIBDIR.pri)

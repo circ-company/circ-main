@@ -1,5 +1,5 @@
 # {Eclipse6}/src/CVMAJOR.pri
-CVMAJOR = "CV0"
+CVMAJOR = "0"
 #message(............/src/CVMAJOR.pri = $$CVMAJOR)
 
 
