@@ -23,6 +23,7 @@ public:
     bool contains(const CText &name) const { return mNameTDMap.contains(name.toLower()); }
     CText name(const T & t) const { return mNameTDMap.a(t); }
     T value(const CText &name) const { return mNameTDMap.b(name); }
+    T value(const T &t) const { return mNameTDMap.a(t); }
     void insert(const T & t, const CText &name) { mNameTDMap.insert(name.toLower(), t); }
     T first(const T & t1) const { (void)t1; return isEmpty() ? T() : mNameTDMap.constBegin().key(); }
     CTextList names(void) const { return mNameTDMap.aList(); }

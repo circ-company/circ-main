@@ -22,12 +22,13 @@ public: // ctors
 public: // const
     NanosecondTime time() const;
     CodeContext context() const;
-    Severity severity() const;
+    Severity minSeverity() const;
+    Severity maxSeverity() const;
     Count statusCount() const;
     bool isValidStatusIndex(const Index ix) const;
     StatusCode status(const Index ix) const;
     StatusCode::List sortedStatus() const;
-    StatusCode::List statusLIst(const Severity sev) const;
+    StatusCode::List statusList(const Severity sev) const;
 
 public: // non-const
     void clear();
@@ -35,17 +36,19 @@ public: // non-const
     void add(const StatusCode::List &stsl);
 
 private:
-    Nanoseconds mEpochNS = 0;
+    Nanoseconds mEpochNS=0;
     CodeContext mContext;
-    Severity mSeverity;
+    Severity mMinSeverity=0;
+    Severity mMaxSeverity=0;
     StatusCode::List mStatusCodeList;
     QMultiMap<Severity, StatusCode> mSevStatusMMap;
 };
 
 inline NanosecondTime Result::time() const { return NanosecondTime(mEpochNS); }
 inline CodeContext Result::context() const { return mContext; }
-inline Severity Result::severity() const { return mSeverity; }
+inline Severity Result::minSeverity() const { return mMinSeverity; }
+inline Severity Result::maxSeverity() const { return mMaxSeverity; }
 inline Count Result::statusCount() const { return mStatusCodeList.count(); }
 inline StatusCode::List Result::sortedStatus() const { return mSevStatusMMap.values(); }
-inline StatusCode::List Result::statusLIst(const Severity sev) const { return mSevStatusMMap.values(sev); }
+inline StatusCode::List Result::statusList(const Severity sev) const { return mSevStatusMMap.values(sev); }
 

@@ -71,6 +71,7 @@ public:
     void set(const int value);
     void set(const CText & value);
     void max(const Enumeration & other);
+    void min(const Enumeration & other);
     void setInvalid(void);
     bool operator == (const Enumeration & other) const;
     bool operator < (const Enumeration & other) const;

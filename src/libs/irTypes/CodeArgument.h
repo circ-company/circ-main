@@ -17,6 +17,9 @@ public: // const
 
 public: // non-const
 
+public: // debug
+    QString toDebugString() const;
+
 private:
     QVariant mValue;
     CText mArgumentName;

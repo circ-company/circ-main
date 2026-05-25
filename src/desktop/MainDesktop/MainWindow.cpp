@@ -1,7 +1,12 @@
 #include "MainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-{}
+    : QQMainWindow(Contents(QQMainWindow::Grid
+                         | QQMainWindow::TextEdit
+                         | QQMainWindow::LogStderr),
+                   parent)
+{
+    setObjectName("MainWindow");
+}
 
-MainWindow::~MainWindow() {}
+MainWindow::~MainWindow() {;}

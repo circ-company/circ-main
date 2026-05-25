@@ -22,12 +22,13 @@ public: // types
     };
 
 public: // ctors
-    AText(const char ch);
     AText(const char * pch);
+    AText(const char ch);
     AText(const QByteArray &ba);
     AText(const QByteArray &ba, const QChar repl);
     AText(const QString &s);
     AText(const Count k, const char ch=' ');
+    AText(const unsigned u, const BYTE base=10);
 
 public: // const
     bool isEmpty() const;
@@ -52,6 +53,7 @@ public: // non-const
     void set(const QByteArrayList &ba);
     void set(const QStringList &s);
     void set(const Count k, const char ch=' ');
+    void set(const unsigned u, const BYTE base=10);
     int vprintf(const char * format, va_list vlist);
     void setList(const char * pch);
     void setList(const QByteArray &ba);

@@ -1,0 +1,47 @@
+#pragma once
+
+#include <QObject>
+
+#include <QMap>
+#include <QString>
+#include <QStringList>
+
+#include <FSText.h>
+#include <KeyMap.h>
+
+class ObjectHelper
+{
+public: // types
+    typedef QMap<FSText, QMetaProperty> NameMetaPropertyMap;
+
+public: // ctors
+    ObjectHelper(QObject *obj);
+
+public: // const
+    const QMetaObject * metaObject() const;
+    const QMetaEnum metaEnum(const QString &enumName) const;
+    QStringList namesOfEnums(const bool all=false) const;
+    QStringList keysInEnum(const QString &enumName) const;
+    bool enumIsFlags(const QString &enumName) const;
+    QString enumKey(const QString &enumName, const int value) const;
+    int enumValue(const QString &enumName, const QString &key) const;
+    QStringList flagKeys(const QString &enumName, int flags,
+                         const bool isSet=true) const;
+    bool isValidPropertyName(const FSText &name, const bool okDynamic=true) const;
+    bool isValidEnumName(const FSText &enumName) const;
+    bool isValidEnumKey(const FSText &enumName, const FSText &key) const;
+
+public: // non-const
+    bool setEnum(const FSText &enumName, const FSText &enumKey);
+    NameMetaPropertyMap readProperties(const bool readAll=false);
+    void set(const KeyMap values, const bool okDynamic=false);
+
+public: // pointers
+    QObject * obj();
+
+private:
+    QObject * mpObject=nullptr;
+    NameMetaPropertyMap mNameMetaPropertyMap;
+};
+
+inline QObject *ObjectHelper::obj() { Q_CHECK_PTR(mpObject); return mpObject; }

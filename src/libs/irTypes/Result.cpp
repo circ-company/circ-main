@@ -14,14 +14,16 @@ StatusCode Result::status(const Index ix) const
 
 void Result::clear()
 {
-    mSeverity = Severity::$null;
+    mMinSeverity = Severity::$null;
+    mMaxSeverity = Severity::$null;
     mStatusCodeList.clear();
     mSevStatusMMap.clear();
 }
 
 void Result::add(const StatusCode &sts)
 {
-    mSeverity.max(sts.severity());
+    mMaxSeverity.max(sts.severity());
+    mMinSeverity.min(sts.severity());
     mStatusCodeList.append(sts);
     mSevStatusMMap.insert(sts.severity(), sts);
 }

@@ -1,4 +1,4 @@
-QT = core
+QT *= core
 CONFIG += cmdline
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 

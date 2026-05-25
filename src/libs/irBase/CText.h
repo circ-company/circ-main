@@ -16,11 +16,13 @@ public: // types
 
 public: // ctors
     CText();
-    CText(const char ch);
     CText(const char * pch);
     CText(const QByteArray &ba);
     CText(const QByteArray &ba, const QChar repl);
     CText(const QString &s);
+    CText(const unsigned u, const BYTE base=10);
+
+//    virtual void set(const char * pch);
 
 public: // static
     static char hinge();

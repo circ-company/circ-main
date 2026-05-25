@@ -1,11 +1,17 @@
+#include "Application.h"
 #include "MainWindow.h"
 
-#include <QApplication>
+#include <QTimer>
+
+#define DOCTEST_CONFIG_IMPLEMENT
+#include "../../../doctest/doctest/doctest.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    Application a(argc, argv);
     MainWindow w;
+    a.mainWindow(&w);
     w.show();
+    QTimer::singleShot(100, &a, &Application::run);
     return a.exec();
 }

@@ -1,15 +1,20 @@
 #pragma once
 
+#include <QQFileInfo.h>
+
 #include "CText.h"
-#include "FileInfo.h"
 #include "FSText.h"
 #include "FunctionInfo.h"
 #include "Types.h"
 
 class CodeContext
 {
-public:
+public: // ctors
     CodeContext(const QString &qfi, const FSText &file, const int line);
+
+public: // debug
+    QString toDebugString() const;
+    QStringList toDebugStrings() const;
 
 private:
     Nanoseconds mEpochNS;
@@ -17,7 +22,7 @@ private:
     FSText mFileName;
     int mFileLine;
     FunctionInfo mFuncInfo;
-    FileInfo mFileInfo;
+    QQFileInfo mFileInfo;
 
 
 public: // QMetaType

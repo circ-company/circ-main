@@ -1,6 +1,7 @@
 #include "Id.h"
 
 #include <MillisecondTime.h>
+#include <Uid.h>
 
 
 DEFINE_DATAPROPS(Id, IdData);
@@ -12,10 +13,14 @@ Id::Id(const Uid::Version ver) : data(new IdData) { uid(ver); ctor(); }
 Id::Id(const Uid &u) : data(new IdData) { uid(u); ctor(); }
 Id::Id(const Uid &u, const IdNo i)  : data(new IdData) { set(u, i); ctor(); }
 Id::Id(const Uid &u, const Key &k) : data(new IdData) { set(u, k); ctor(); }
-Id::Id(const Uid &u, const AText &n) : data(new IdData) { set(u, n); ctor(); }
+Id::Id(const Uid &u, const QString &n) : data(new IdData) { set(u, n); ctor(); }
 Id::Id(const IdNo i) : data(new IdData) { idno(i); ctor(); }
 Id::Id(const Key &k) : data(new IdData) { key(k); ctor(); }
-Id::Id(const AText &n) : data(new IdData) { name(n); ctor(); }
+Id::Id(const QString &n) : data(new IdData) { name(n); ctor(); }
+Id::Id(const Uid &u, const IdNo i, const Key &k, const QString &n)
+    : data(new IdData) { uid(u); idno(i); key(k); name(n); ctor(); }
+void Id::ctor(void) { ctorEms(MillisecondTime::current()); ctorSeq(++smCtorSeq); }
+void Id::dtor(void) {;}
 
 bool Id::isNull() const
 {
@@ -38,43 +43,25 @@ QString Id::toString() const
     return result;
 }
 
-void Id::uid(const bool nilUid)
+void Id::set(const Uid::Version ver)
 {
-    uid(Uid(nilUid));
+    switch (ver)
+    {
+    case Uid::VerTextMd5:
+    case Uid::VerTextSha:
+        uid(Uid(ver, key().toString()));
+        idno(uid().lo() ^ uid().hi());
+        break;
+    default:
+        // unhandled
+        break;
+    }
 }
-
-void Id::set(const Uid &u, const IdNo i)
-{
-    uid(u), idno(i);
-}
-
-void Id::set(const Uid &u, const Key &k)
-{
-    uid(u), key(k);
-}
-
-void Id::set(const Uid &u, const AText &n)
-{
-    uid(u), name(n);
-}
-
-void Id::set(const Uid &u, const IdNo i, const Key &k, const AText &n)
-{
-    uid(u), idno(i), key(k), name(n);
-}
-
-void Id::ctor(void)
-{
-    ctorEms(MillisecondTime::current());
-    ctorSeq(++smCtorSeq);
-}
-
-void Id::dtor(void) {;}
 
 QDebug operator << (QDebug debug, const Id &ident)
 {
     debug << "{Ident:" << ident.uid().tail() << ident.idno()
-          << ident.key().toString() << ident.name() << "Ident}";
+          << ident.key().toString() << ident.name() << "}";
     return debug;
 }
 

@@ -3,4 +3,5 @@ TEMPLATE = subdirs
 SUBDIRS += \
     console \
     desktop \
-    libs
+    guicon \
+    libs \

@@ -31,6 +31,10 @@ public: // const
 public: // non-const
     void set(const CText &ctx);
 
+public: // debug
+    QString toDebugString() const;
+    QStringList toDebugStrings() const;
+
 private:
     QSharedDataPointer<FunctionInfoData> data;
 };

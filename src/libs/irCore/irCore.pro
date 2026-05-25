@@ -3,6 +3,7 @@ TEMPLATE = lib
 DEFINES += IRCORE_LIBRARY
 
 include(../libs.pri)
+include(../../useTypes.pri)
 
 SOURCES += \
     irCore.cpp

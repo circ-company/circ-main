@@ -4,6 +4,7 @@
 #include <DataProperty.h>
 #include <QSharedData>
 
+#include <QString>
 #include <QVariant>
 
 #include <AText.h>
@@ -11,13 +12,14 @@
 #include <Types.h>
 #include <Uid.h>
 #include <UidList.h>
+#include <KeyMap.h>
 
 #define IDENT_DATAPROPS(TND) \
     TND(Uid, uid, 0) \
     TND(IdNo, idno, 0) \
     TND(Key, key, Key()) \
-    TND(AText, name, AText()) \
-    TND(QVariant, var, QVariant()) \
+    TND(QString, name, QString()) \
+    TND(KeyMap, var, KeyMap()) \
     TND(Uid, parentuid, Uid()) \
     TND(UidList, childuids, UidList()) \
     TND(Milliseconds, ctorEms, 0) \
@@ -44,25 +46,34 @@ public: // our ctors
     Id(const Uid &u);
     Id(const Uid &u, const IdNo i);
     Id(const Uid &u, const Key &k);
-    Id(const Uid &u, const AText &n);
+    Id(const Uid &u, const QString &n);
     Id(const IdNo i);
     Id(const Key &k);
-    Id(const AText &n);
-    Id(const Uid &u, const IdNo i, const Key &k, const AText &n);
+    Id(const QString &n);
+    Id(const Uid &u, const IdNo i, const Key &k, const QString &n);
 
 public: // const
     bool isNull() const;
     QString toString() const;
 
 public: // non-const
-    void uid(const bool nilUid=true); // else maxUid
+    void uid(const bool nilUid); // else maxUid
+    void set(const Uid::Version ver);
     void set(const Uid &u, const IdNo i);
     void set(const Uid &u, const Key &k);
-    void set(const Uid &u, const AText &n);
-    void set(const Uid &u, const IdNo i, const Key &k, const AText &n);
+    void set(const Uid &u, const QString &n);
+    void set(const Uid &u, const IdNo i, const Key &k, const QString &n);
 
 private:
     static QWORD smCtorSeq;
 };
 
 extern QDebug operator << (QDebug debug, const Id &ident);
+
+inline void Id::uid(const bool nilUid) { uid(Uid(nilUid)); }
+inline void Id::set(const Uid &u, const IdNo i) { uid(u), idno(i); }
+inline void Id::set(const Uid &u, const Key &k) { uid(u), key(k); }
+inline void Id::set(const Uid &u, const QString &n) { uid(u), name(n); }
+inline void Id::set(const Uid &u, const IdNo i, const Key &k, const QString &n)
+    { uid(u), idno(i), key(k), name(n); }
+

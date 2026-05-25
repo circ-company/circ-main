@@ -2,9 +2,9 @@
 include(LIBDIR.pri)
 include(DESTDIR.pri)
 
-INCLUDEPATH *= $$LIBDIR/irTypes
-INCLUDEPATH *= $$LIBDIR/../../irMain/libs/irTypes
-QT *= network
+INCLUDEPATH *= $$LIBDIR/irBase $$LIBDIR/irTypes
+INCLUDEPATH *= $$LIBDIR/../../src/libs/irBase
+INCLUDEPATH *= $$LIBDIR/../../src/libs/irTypes
 windows:LIBS *= -lirTypes6
 linux:LIBS *= -lirTypes
 LIBS *= -L$$DESTDIR

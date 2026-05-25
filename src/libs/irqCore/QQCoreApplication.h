@@ -2,18 +2,20 @@
 
 #include <QCoreApplication>
 #include <QObject>
-
+#include <QTextStream>
 class QTimer;
 
 #include <Types.h>
-#include <QTextStream>
+
 #include <VersionInfo.h>
+
 
 class QQCoreApplication : public QCoreApplication
 {
     Q_OBJECT
-public: // ctors
+protected: // ctors
     QQCoreApplication(int &argc, char **argv);
+public:
     ~QQCoreApplication();
 
 public slots:
@@ -53,7 +55,6 @@ private:
 };
 
 inline VersionInfo QQCoreApplication::versionInfo() const { return mVersion; }
-
 inline QTextStream &QQCoreApplication::cout() { return mCout; }
 
 

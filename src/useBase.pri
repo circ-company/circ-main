@@ -1,9 +1,9 @@
-# {ottoZcode}/src/useBase.pri
+# {circ-code}/src/useBase.pri
 include(LIBDIR.pri)
 include(DESTDIR.pri)
 
 INCLUDEPATH *= $$LIBDIR/irBase
-INCLUDEPATH *= $$LIBDIR/../../irMain/libs/irBase
+INCLUDEPATH *= $$LIBDIR/../../src/libs/irBase
 windows:LIBS *= -lirBase6
 linux:LIBS *= -lirBase
 LIBS *= -L$$DESTDIR

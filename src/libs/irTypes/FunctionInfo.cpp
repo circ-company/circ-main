@@ -64,3 +64,26 @@ void FunctionInfo::set(const CText &ctx)
     Q_CHECK_PTR(data);
     data->dQFIString = ctx;
 }
+
+QString FunctionInfo::toDebugString() const
+{
+    Q_CHECK_PTR(data);
+    return QString("{FunctionInfo: %1}").arg(data->dQFIString());
+}
+
+QStringList FunctionInfo::toDebugStrings() const
+{
+    QStringList result;
+    Q_CHECK_PTR(data);
+    result << QString("{==Function Info:          %1").arg(data->dQFIString());
+    result << QString("---Return Type:            %1").arg(data->dReturnType.join(',')());
+    result << QString("---Ante:                   %1").arg(data->dAnte.join(',')());
+    result << QString("---Namespaces:             %1").arg(data->dNamespaces.join(',')());
+    result << QString("---Class Name:             %1").arg(data->dClassName());
+    result << QString("---Function Name:          %1").arg(data->dFunctionName());
+    result << QString("---Arguments:              %1").arg(argCount());
+    for (Index ix = 0; ix < Index(argCount()); ++ix)
+        result << QString("   %1.                    %2").arg(arg(ix).toDebugString());
+    result << QString("---Post:                   %1}").arg(data->dPost.join(',')());
+    return result;
+}

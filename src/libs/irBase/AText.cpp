@@ -5,14 +5,24 @@
 #include <ctype.h>
 #include <climits>
 
+#include "../../../doctest/doctest/doctest.h"
+
 char AText::smHingeChar = ' ';
 
-AText::AText(const char ch) { set(ch); }
 AText::AText(const char *pch) { set(pch); }
+AText::AText(const char ch) { set(ch); }
 AText::AText(const QByteArray &ba) { set(ba); }
 AText::AText(const QByteArray &ba, const QChar repl) { set(ba, repl); }
 AText::AText(const QString &s) { set(s); }
 AText::AText(const Count k, const char ch) { set(k, ch); }
+AText::AText(const unsigned int u, const BYTE base) { set(u, base); }
+
+TEST_CASE("irBasee/AText ctors")
+{
+    AText atxNull;
+
+    CHECK(atxNull.isNull());
+}
 
 AText::Pair AText::keyValue(const char ch) const
 {
@@ -109,6 +119,12 @@ void AText::set(const char *pch, const QChar repl)
 void AText::set(const Count k, const char ch)
 {
     fill(ch, k);
+}
+
+void AText::set(const unsigned int u, const BYTE base)
+{
+    clear();
+    append(QString::number(u, base).toLocal8Bit());
 }
 
 int AText::vprintf(const char *format, va_list vlist)

@@ -89,7 +89,7 @@ void Enumeration::set(const int value)
     if (mpNamedMap && mpNamedMap->contains(value))
     {
         mValue = value;
-        mName = mpNamedMap->value(mValue);
+        mName = mpNamedMap->name(mValue);
     }
     else
         mpNamedMap = 0;
@@ -106,7 +106,7 @@ void Enumeration::set(const CText &name)
     if (mpNamedMap && mpNamedMap->contains(name))
     {
         mValue = mpNamedMap->value(name);
-        mName = mpNamedMap->value(mValue);
+        mName = mpNamedMap->name(mValue);
     }
     else
         mpNamedMap = 0;
@@ -121,6 +121,12 @@ void Enumeration::set(const CText &name)
 void Enumeration::max(const Enumeration &other)
 {
     if (other.value() > value())
+        set(other);
+}
+
+void Enumeration::min(const Enumeration &other)
+{
+    if (other.value() < value())
         set(other);
 }
 

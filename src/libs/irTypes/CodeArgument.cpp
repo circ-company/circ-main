@@ -8,3 +8,8 @@ CodeArgument::CodeArgument(const QVariant &var, const CText &argName, const CTex
 {
     mMetaType = QMetaType::fromName(mTypeMetaName);
 }
+
+QString CodeArgument::toDebugString() const
+{
+    return QString("%1 %2(%3)").arg(mArgumentName()).arg(mMetaType.name()).arg(mValue.toString());
+}
