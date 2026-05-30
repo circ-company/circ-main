@@ -8,13 +8,13 @@
     NV(DumpVar,)        /* 2*/  \
     NV(QObjectDump,)    /* 3*/  \
     NV(TraceMsg,)       /* 4*/  \
-    NV(Severity05,)   \
-    NV(Severity06,)   \
-    NV(TExpect,)        /* 7*/  \
-    NV(TAssert,)        /* 8*/  \
-    NV($Info,)          /* 9-Begin Info*/  \
-    NV(Detail,)         /*10*/ \
-    NV(Severity11,)   \
+    NV(FuncEnter,)      /* 5*/  \
+    NV(FuncArg,)        /* 6*/  \
+    NV(FuncLeave,)      /* 7*/  \
+    NV(TExpect,)        /* 8*/  \
+    NV(TAssert,)        /* 9*/  \
+    NV($Info,)          /*10-Begin Info*/  \
+    NV(Detail,)         /*11*/ \
     NV(Info,)           /*12*/ \
     NV(Severity13,)   \
     NV(Progress,)       /*14*/  \

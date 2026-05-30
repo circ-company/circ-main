@@ -1,37 +1,35 @@
 #include "QQMainWindow.h"
 
 #include <QApplication>
-#include <QApplication>
-#include <QApplication>
-#include <QApplication>
 
-QQMainWindow::QQMainWindow(const Contents cf, QWidget *parent)
-    : QMainWindow{parent}
+#include <QQApplication.h>
+
+QQMainWindow::QQMainWindow(const Contents cf, QQApplication *qqapp)
+    : QMainWindow{nullptr}
+    , mpApplication(qqapp)
     , cmContents(cf)
 {
-    setObjectName("QQMainWindow:"+qApp->applicationName());
+    setObjectName("QQMainWindow:" + app()->applicationName());
 }
 
 void QQMainWindow::run()
 {
-    connect(this, &QQMainWindow::running, this, &QQMainWindow::initialize);
-    connect(this, &QQMainWindow::initialized, this, &QQMainWindow::setup);
-    connect(this, &QQMainWindow::setuped, this, &QQMainWindow::ready);
-    emit running();
+    qInfo() << Q_FUNC_INFO;
 }
 
 void QQMainWindow::initialize()
 {
+    qInfo() << Q_FUNC_INFO;
     if (cmContents & Grid)  mpMainGrid = new QGridLayout(mpMainWidget);
     if (cmContents & TextEdit)  mpMainEdit = new QQTextEdit(mpMainWidget);
     if (cmContents & TextDocument)  mpMainDoc = new QQTextDocument(mpMainWidget);
-    if (cmContents & (ImageLabel | TextLabel))  mpMainLabel = new Label(mpMainWidget);
+    if (cmContents & ImageLabel)  mpMainLabel = new Label(mpMainWidget);
     // TODO LogStderr req grid unless alone
-    emit initialized();
 }
 
 void QQMainWindow::setup()
 {
+    qInfo() << Q_FUNC_INFO;
     if (cmContents & TextEdit)
     {
         Q_CHECK_PTR(mpMainEdit);
@@ -45,14 +43,14 @@ void QQMainWindow::setup()
 //        mpMainDoc->setMinimumSize(mMainWinSize);
   //      if (mpMainGrid) mpMainGrid->addWidget(mpMainDoc);
     }
-    if (cmContents & (ImageLabel | TextLabel))
+    if (cmContents & ImageLabel)
     {
         Q_CHECK_PTR(mpMainLabel);
         mpMainLabel->setMinimumSize(mMainWinSize);
         if (mpMainGrid)
             mpMainGrid->addWidget(mpMainLabel);
         else
-            mpMainWidget = mpMainEdit;
+            mpMainWidget = mpMainLabel;
     }
     if (mpMainGrid)
     {
@@ -62,7 +60,6 @@ void QQMainWindow::setup()
     }
     Q_CHECK_PTR(mpMainWidget);
     setCentralWidget(mpMainWidget);
-    emit setuped();
 }
 
 void QQMainWindow::ready()

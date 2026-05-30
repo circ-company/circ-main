@@ -30,7 +30,7 @@ AText ATextList::join(const AText atx) const
     return result;
 }
 
-ATextList::PairList ATextList::split(const char ch) const
+ATextList::PairList ATextList::splitPairs(const char ch) const
 {
     ATextList::PairList result;
     foreach (const AText cATextIn, it())
@@ -58,6 +58,14 @@ ATextList ATextList::split(const AText &atx, const char ch)
     clear();
     append(ATextList(atx.split(ch ? ch : AText::hinge())));
     return it();
+}
+
+void ATextList::prependEach(const AText &atx)
+{
+    ATextList tNewList;
+    foreach (const AText cText, it())
+        tNewList.append(atx + cText);
+    it() = tNewList;
 }
 
 

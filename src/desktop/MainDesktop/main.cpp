@@ -9,7 +9,7 @@
 int main(int argc, char *argv[])
 {
     Application a(argc, argv);
-    MainWindow w;
+    MainWindow w(&a);
     a.mainWindow(&w);
     w.show();
     QTimer::singleShot(100, &a, &Application::run);

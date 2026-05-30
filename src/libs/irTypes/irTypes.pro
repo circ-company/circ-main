@@ -8,42 +8,19 @@ include(../../useQCore.pri)
 include(../../useQNetwork.pri)
 
 SOURCES += \
-    CodeArgument.cpp \
-    CodeArgumentList.cpp \
-    CodeContext.cpp \
-    FunctionInfo.cpp \
-    GerogianHNanoTime.cpp \
-    Id.cpp \
-    KeyVarMap.cpp \
-    NanosecondTime.cpp \
     RandomGenerator.cpp \
     Result.cpp \
+    Signum.cpp \
     StatusCode.cpp \
-    StructTM.cpp \
-    UTextList.cpp \
-    UidKeyMap.cpp \
-    UidList.cpp \
     irTypes.cpp
 
 HEADERS += \
-    CodeArgument.h \
-    CodeArgumentList.h \
-    CodeContext.h \
-    DataProperty.h \
-    FunctionInfo.h \
-    GerogianHNanoTime.h \
-    Id.h \
-    KeyMap.h \
-    KeyVarMap.h \
+    CircularArray.h \
     MetaType.h \
-    NanosecondTime.h \
     RandomGenerator.h \
     Result.h \
+    Signum.h \
     StatusCode.h \
-    StructTM.h \
-    UTextList.h \
-    UidKeyMap.h \
-    UidList.h \
     irTypes_global.h \
     irTypes.h
 

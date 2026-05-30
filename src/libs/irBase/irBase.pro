@@ -11,18 +11,35 @@ SOURCES += \
     ATextList.cpp \
     CText.cpp \
     CTextList.cpp \
+    CodeContext.cpp \
+    CodeValue.cpp \
+    CodeValueList.cpp \
+    DirInfo.cpp \
     Enumeration.cpp \
     FSText.cpp \
     FSTextList.cpp \
+    FileInfo.cpp \
+    FileInfoList.cpp \
+    FunctionInfo.cpp \
+    Id.cpp \
     Key.cpp \
+    KeyList.cpp \
     KeySeg.cpp \
     KeySegList.cpp \
+    KeyVarMap.cpp \
     MillisecondTime.cpp \
+    NanosecondTime.cpp \
     Null.cpp \
     Severity.cpp \
+    StructTM.cpp \
     TriBool.cpp \
     UText.cpp \
+    UTextList.cpp \
     Uid.cpp \
+    UidKeyMap.cpp \
+    UidList.cpp \
+    Url.cpp \
+    UrlType.cpp \
     VersionInfo.cpp \
     XText.cpp \
     irBase.cpp
@@ -33,22 +50,40 @@ HEADERS += \
     ATextList.h \
     CText.h \
     CTextList.h \
+    CodeContext.h \
+    CodeValue.h \
+    CodeValueList.h \
+    DirInfo.h \
     DualMap.h \
     Enumeration.h \
     FSText.h \
     FSTextList.h \
+    FileInfo.h \
+    FileInfoList.h \
+    FunctionInfo.h \
+    Id.h \
     Key.h \
+    KeyList.h \
+    KeyMap.h \
     KeySeg.h \
     KeySegList.h \
+    KeyVarMap.h \
     List.h \
     MillisecondTime.h \
     Named.h \
+    NanosecondTime.h \
     Null.h \
     Severity.h \
+    StructTM.h \
     TriBool.h \
     Types.h \
     UText.h \
+    UTextList.h \
     Uid.h \
+    UidKeyMap.h \
+    UidList.h \
+    Url.h \
+    UrlType.h \
     VersionInfo.h \
     XText.h \
     irBase_global.h \

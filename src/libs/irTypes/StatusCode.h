@@ -23,8 +23,8 @@
 #include "CText.h"
 #include "CTextList.h"
 #include "NanosecondTime.h"
-#include "CodeArgument.h"
-#include "CodeArgumentList.h"
+#include "CodeValue.h"
+#include "CodeValueList.h"
 #include "Types.h"
 
 
@@ -33,7 +33,7 @@
     TND(int, SeverityCode, 0) \
     TND(CodeContext, Context, CodeContext()) \
     TND(FORMAT, Format, FORMAT()) \
-    TND(CodeArgumentList, Arguments, CodeArgumentList()) \
+    TND(CodeValueList, Arguments, CodeValueList()) \
 
 class StatusCodeData : public QSharedData
 {
@@ -53,12 +53,12 @@ public: // types
 public: // ctors
     StatusCode(const CodeContext &ctx, const Severity sev, const FORMAT msg=FORMAT());
     StatusCode(const CodeContext &ctx, const Severity sev, const FORMAT msg,
-               const CodeArgument &arg1,
-               const CodeArgument &arg2=CodeArgument(),
-               const CodeArgument &arg3=CodeArgument(),
-               const CodeArgument &arg4=CodeArgument());
+               const CodeValue &arg1,
+               const CodeValue &arg2=CodeValue(),
+               const CodeValue &arg3=CodeValue(),
+               const CodeValue &arg4=CodeValue());
     StatusCode(const CodeContext &ctx, const Severity sev, const FORMAT msg,
-               const CodeArgumentList &args);
+               const CodeValueList &args);
 
 
 public: // const
@@ -68,7 +68,7 @@ public: // const
     FORMATLIST formattedMessageArgs() const;
     Count argumentCount() const;
     bool isValidArgumentIndex(const Index ix) const;
-    CodeArgument argument(const Index ix) const;
+    CodeValue argument(const Index ix) const;
 
 public: // non-const
 

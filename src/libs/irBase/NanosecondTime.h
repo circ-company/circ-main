@@ -40,10 +40,11 @@ public: // static
     static Nanoseconds nanoYear(const WORD year);
     static std::time_t epochSTT(const Nanoseconds tick=0);
     static Nanoseconds offset(const StructTM other);
+    static Nanoseconds gregorianOffset();
 
 private:
     Nanoseconds mNanoTicks=-1;
-    static const Nanoseconds smBaseNST;
+    static const Nanoseconds scmBaseNST;
 
 public: // QMetaType
     NanosecondTime() = default;
@@ -57,5 +58,5 @@ Q_DECLARE_METATYPE(NanosecondTime);
 inline Nanoseconds NanosecondTime::value() const { return mNanoTicks; }
 inline Nanoseconds NanosecondTime::operator()() const { return value(); }
 inline void NanosecondTime::nullify() { mNanoTicks = -1; }
-inline Nanoseconds NanosecondTime::base() { return smBaseNST; }
+inline Nanoseconds NanosecondTime::base() { return scmBaseNST; }
 inline Nanoseconds NanosecondTime::nanoFactor() { return 1000000000LL; }

@@ -4,28 +4,32 @@ DEFINES += IRLOG_LIBRARY
 
 include(../libs.pri)
 include(../../useBase.pri)
-include(../../useTypes.pri)
-include(../../useQNetwork.pri)
 
 SOURCES += \
     Log.cpp \
+    LogClass.cpp \
     LogEngine.cpp \
+    LogFunction.cpp \
     LogItem.cpp \
     LogMsgType.cpp \
+    LogOperator.cpp \
     LogOutput.cpp \
-    OutputInterface.cpp \
-    OutputPlugin.cpp \
+#    OutputInterface.cpp \
+ #   OutputPlugin.cpp \
     irLog.cpp
 
 HEADERS += \
     Log.h \
+    LogClass.h \
     LogEngine.h \
+    LogFunction.h \
     LogItem.h \
     LogMacros.h \
     LogMsgType.h \
+    LogOperator.h \
     LogOutput.h \
-    OutputInterface.h \
-    OutputPlugin.h \
+  #  OutputInterface.h \
+   # OutputPlugin.h \
     irLog_global.h \
     irLog.h
 

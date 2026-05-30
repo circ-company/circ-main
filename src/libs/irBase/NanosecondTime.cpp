@@ -1,6 +1,8 @@
 #include "NanosecondTime.h"
 
 #include <chrono>
+#include <ctime>
+#include <time.h>
 
 NanosecondTime::NanosecondTime(const Nanoseconds kTicks) { set(kTicks); }
 
@@ -102,6 +104,16 @@ Nanoseconds NanosecondTime::offset(const StructTM other)
     std::time_t tSTTbase = epochSTT();
     std::time_t tSTTother = other.timeT();
     return Nanoseconds(tSTTother) - Nanoseconds(tSTTbase);
+}
+
+Nanoseconds NanosecondTime::gregorianOffset()
+{
+    struct tm tGregTM;
+    tGregTM.tm_year = 1582 - 1900, tGregTM.tm_mon = 9, tGregTM.tm_mday = 15;
+    tGregTM.tm_hour = 0, tGregTM.tm_min = 0, tGregTM.tm_sec = 0;
+    tGregTM.tm_isdst = 0;
+    const time_t cGregTT = mktime(&tGregTM);
+    return Nanoseconds(cGregTT) * NanosecondTime::nanoFactor();
 }
 
 

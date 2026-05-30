@@ -35,3 +35,8 @@ private:
     char mPrefix;
     QtMsgType mQMT;
 };
+
+inline LogMsgType::Type LogMsgType::type() const { return mType; }
+inline CText LogMsgType::name() const { return mName; }
+inline char LogMsgType::prefix() const { return mPrefix; }
+inline QtMsgType LogMsgType::qmt() const { return mQMT; }

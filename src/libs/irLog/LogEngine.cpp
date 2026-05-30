@@ -1,34 +1,41 @@
 #include "LogEngine.h"
 
+#include <QTextStream>
+
 #include <ATextList.h>
 #include <NanosecondTime.h>
 
 #include "LogMsgType.h"
 
-LogEngine::LogEngine(QObject *parent) : QObject{parent} {;}
+LogEngine::LogEngine() : QObject{nullptr} {;}
 
 void LogEngine::capture()
 {
     qSetMessagePattern(messagePattern());
-    mOldHandler = qInstallMessageHandler(&messageHandler);
+    mpOldHandler = qInstallMessageHandler(&messageHandler);
+    mCaptured = mpOldHandler;
     emit captured();
 }
 
 void LogEngine::release()
 {
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}");
-    qInstallMessageHandler(mOldHandler);
+    if (mpOldHandler)
+        qInstallMessageHandler(mpOldHandler);
+    mpOldHandler = nullptr;
+    mCaptured = mpOldHandler;
     emit released();
 }
 
 void LogEngine::enqueue(const LogItem &li)
 {
-    Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
+    //Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
     const Uid cUid = li.uid();
     const Severity cSev = li.severity();
     mUidItemMap.insert(cUid, li);
     mSevUidMMap.insert(cSev, cUid);
-    Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
+    //Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
+    if (mCaptured && mTrollEnabled) sendTroll(li);
 }
 
 void LogEngine::dequeue()
@@ -62,6 +69,26 @@ LogItem LogEngine::takeQueue()
     else
         emit count(mUidItemMap.count());
     return result;
+}
+
+void LogEngine::sendTroll(const LogItem &li)
+{
+    const Severity cSev = li.severity();
+    const LogMsgType cLMT = LogMsgType::from(cSev);
+    QString tText(cLMT.prefix());
+    const Uid cUid = li.uid();
+    const NanosecondTime cNST(cUid.nsecs());
+    tText += cNST.timeString();
+    tText += " <" + li.message() + "> ";
+    tText += li.contextString();
+    writeTroll(cLMT, tText);
+}
+
+void LogEngine::writeTroll(const LogMsgType lmt, const AText atx)
+{
+    Q_UNUSED(lmt);
+    QTextStream tTS(stderr);
+    tTS << atx() << Qt::endl;
 }
 
 /* --------------------- static public --------------------- */
@@ -110,8 +137,7 @@ void LogEngine::messageHandler(QtMsgType qmt, const QMessageLogContext &ctx, con
     tMap.import(parse(s));
 }
 
-
-const QStringList scmMessageFields = QStringList()
+const QStringList LogEngine::scmMessageFields = QStringList()
                                      << "Message"
                                      << "AppName"
                                      << "Category"

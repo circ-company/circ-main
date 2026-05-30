@@ -6,7 +6,7 @@
 
 Label::Label(QWidget *parent) : QLabel{parent} {;}
 Label::Label(const QString &text, QWidget *parent) : QLabel(text, parent) {;}
-Label::Label(const BYTE digits, QWidget *parent) : QLabel(QString(digits, '0'), parent) { set(""); }
+Label::Label(const BYTE digits, QWidget *parent) : QLabel(QString(digits, '0'), parent) { clear(); }
 Label::Label(const QPixmap &pxm, QWidget *parent, const QString &text) : QLabel(text, parent) { setPixmap(pxm); }
 Label::Label(const QImage &img, QWidget *parent, const QString &text)  : QLabel(text, parent) { setPixmap(QPixmap::fromImage(img)); }
 Label::Label(const Size sz, const QColor &clr, QWidget *parent) : QLabel(parent) { set(sz, clr); }
@@ -25,7 +25,7 @@ void Label::set(const QPixmap &pxm)
 
 void Label::set(const QImage &img)
 {
-    set(QPixmap::fromImage(img));
+    set(mImageSize, img);
 }
 
 void Label::set(const Size sz, const QColor &clr)

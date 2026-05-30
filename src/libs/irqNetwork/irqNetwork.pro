@@ -8,14 +8,10 @@ include(../../useBase.pri)
 
 SOURCES += \
     NetworkMacAddress.cpp \
-    Url.cpp \
-    UrlType.cpp \
     irqNetwork.cpp
 
 HEADERS += \
     NetworkMacAddress.h \
-    Url.h \
-    UrlType.h \
     irqNetwork_global.h \
     irqNetwork.h
 

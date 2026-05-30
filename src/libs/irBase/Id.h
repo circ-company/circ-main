@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include <DataProperty.h>
+#include "DataProperty.h"
 #include <QSharedData>
 
 #include <QString>

@@ -134,7 +134,9 @@ public: // const
 #ifndef Q_CC_MSVC
     OWORD oword() const;
 #endif
+    Version ver() const;
     Milliseconds msecs() const;
+    Nanoseconds nsecs() const;
     DWORD address() const;
 
 public: // non-const

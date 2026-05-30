@@ -13,6 +13,7 @@ public: // types
 public: // ctors
     FSText();
     FSText(const char * pch);
+    FSText(const char * pch, const QChar repl);
     FSText(const char ch);
     FSText(const QByteArray &ba);
     FSText(const QString &s);

@@ -7,7 +7,7 @@
 #include "../../../doctest/doctest/doctest.h"
 
 #include "KeySeg.h"
-//#include "MillisecondTime.h"
+#include "NanosecondTime.h"
 #include "XText.h"
 
 //DWORD smMacAddress24 = 0;
@@ -133,6 +133,52 @@ QWORD Uid::lo() const
 OWORD Uid::oword() const
 {
     return mUnion.data128[0];
+}
+
+Uid::Version Uid::ver() const
+{
+    return Version(segment(SegmentC) >> 12);
+}
+
+Nanoseconds Uid::nsecs() const
+{
+    Nanoseconds result = -1;
+    DWORD tLow = 0, tMid = 0, tHi = 0;
+    switch (ver())
+    {
+    case Uid::VerGTimeseqNode1:
+        tLow = segment(SegmentA);
+        tMid = segment(SegmentB);
+        tHi  = segment(SegmentC);
+        result += tHi  << (segmentBitLength(SegmentA) + segmentBitLength(SegmentB));
+        result += tMid <<  segmentBitLength(SegmentA);
+        result += tLow;
+        result *= 100;
+        result += NanosecondTime::gregorianOffset();
+        break;
+
+    case Uid::VerGTimeseqNode6:
+        tLow = segment(SegmentC);
+        tMid = segment(SegmentB);
+        tHi  = segment(SegmentA);
+        result += tHi  << (segmentBitLength(SegmentB) + segmentBitLength(SegmentC));
+        result += tMid <<  segmentBitLength(SegmentC);
+        result += tLow;
+        result *= 100;
+        result += NanosecondTime::gregorianOffset();
+        break;
+
+    case Uid::VerUTimeseqRandom:
+        tHi  = segment(SegmentA);
+        tLow = segment(SegmentB);
+        result = ((tHi << 16) + tLow) * NanosecondTime::nanoFactor();
+        break;
+
+    default:
+        // no time info in these versions
+        break;
+    }
+    return result;
 }
 #endif
 
@@ -291,10 +337,12 @@ Uid Uid::reference()
 
 DWORD Uid::machineAddress()
 {
-    qDebug() << Q_FUNC_INFO << QNetworkInterface::allInterfaces();
+    DWORD result = 0;
     QNetworkInterface tNetIf = QNetworkInterface::interfaceFromIndex(2);
     XText tXTx = tNetIf.hardwareAddress();
-    return tXTx.toULong(nullptr, 16) & 0x00FFFFFF;
+    result = tXTx.toULong(nullptr, 16) & 0x00FFFFFF;
+    qDebug() << Q_FUNC_INFO << tNetIf.name() << tXTx << Qt::hex << result;
+    return result;
 }
 
 XText Uid::xtext(const Segment uidseg) const

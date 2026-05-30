@@ -11,6 +11,7 @@ include("../../useTypes.pri")
 include("../../useLog.pri")
 include("../../useQGui.pri")
 include("../../useQWidgets.pri")
+include("../../useStore.pri")
 include("../../useImage.pri")
 
 SOURCES += \

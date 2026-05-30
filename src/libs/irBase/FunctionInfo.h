@@ -5,8 +5,8 @@
 #include "AText.h"
 #include "CText.h"
 #include "CTextList.h"
-#include "CodeArgument.h"
-#include "CodeArgumentList.h"
+#include "CodeValue.h"
+#include "CodeValueList.h"
 #include "Types.h"
 
 
@@ -26,7 +26,7 @@ public:
 public: // const
     bool isNull() const;
     Count argCount() const;
-    CodeArgument arg(const Index argix) const;
+    CodeValue arg(const Index argix) const;
 
 public: // non-const
     void set(const CText &ctx);

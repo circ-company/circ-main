@@ -32,6 +32,7 @@ public slots:
     void set(const QString &s);
     void set(const QPixmap &pxm);
     void set(const QImage &img);
+    void set(const Size sz);
     void set(const Size sz, const QColor &clr);
     void set(const Size sz, const QImage &img);
 
@@ -52,9 +53,11 @@ private: // non-const
     void set(const Size labelSize, const Size origSize);
 
 private:
+    Size mImageSize;
     QColor mBackColor = QColor(Qt::darkGray);
 };
 
+inline void Label::set(const Size sz) { mImageSize = sz; }
 inline void Label::setBack(const QColor &c) { mBackColor = c; }
 inline QFrame *Label::frame() const { return (QFrame *)(this); }
 inline Label::WidgetPtr Label::widget() const { return (QWidget *)(this); }

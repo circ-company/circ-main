@@ -14,7 +14,7 @@ public:
     CTextList       dNamespaces;
     CText           dClassName;
     CText           dFunctionName;
-    CodeArgumentList dArgumentList;
+    CodeValueList dArgumentList;
     CTextList       dPost;
     int             dFuncInfoFlags;
 };
@@ -51,12 +51,12 @@ Count FunctionInfo::argCount() const
     return data->dArgumentList.count();
 }
 
-CodeArgument FunctionInfo::arg(const Index argix) const
+CodeValue FunctionInfo::arg(const Index argix) const
 {
     Q_CHECK_PTR(data);
     return (argix >= 0 && argix < Index(argCount()))
                ? data->dArgumentList.at(argix)
-               : CodeArgument();
+               : CodeValue();
 }
 
 void FunctionInfo::set(const CText &ctx)

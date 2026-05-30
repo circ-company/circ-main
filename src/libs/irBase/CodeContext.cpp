@@ -1,6 +1,7 @@
 #include "CodeContext.h"
 
 #include <QtDebug>
+#include <QDir>
 
 #include "NanosecondTime.h"
 
@@ -11,16 +12,17 @@ CodeContext::CodeContext(const QString &qfi, const FSText &file, const int line)
     , mFuncInfo(mQFIText)
     , mFileInfo(mFileName)
 {
-    qInfo() << Q_FUNC_INFO << qfi << file << line << mFuncInfo.toDebugString() << mFileInfo;
+//    qInfo() << Q_FUNC_INFO << qfi << file << line << mFuncInfo.toDebugString() << mFileInfo;
 }
 
 QString CodeContext::toDebugString() const
 {
-    return QString("{%1(%2) %3 @%4}")
+    return QString("{%1(%2) %3 @%4 %5}")
         .arg(mFileInfo.completeBaseName())
         .arg(mFileLine)
         .arg(mQFIText())
-        .arg(NanosecondTime(mEpochNS).timeString());
+        .arg(NanosecondTime(mEpochNS).timeString())
+        .arg(mFileInfo.dir().path());
 }
 
 QStringList CodeContext::toDebugStrings() const

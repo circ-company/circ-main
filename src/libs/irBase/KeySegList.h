@@ -44,6 +44,7 @@ protected: // static
 
 inline bool KeySegList::isNull() const { return isEmpty(); }
 inline bool KeySegList::notEmpty() const { return ! isEmpty(); }
+inline KeySegList::operator QString() const { return toString(); }
 inline void KeySegList::set() { clear(); }
 inline void KeySegList::set(const char *pch) { set(AText(pch)); }
 inline void KeySegList::set(const QString &s) { set(AText(s.toLocal8Bit())); }

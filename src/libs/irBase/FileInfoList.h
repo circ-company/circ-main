@@ -1,0 +1,10 @@
+#pragma once
+
+#include "FileInfo.h"
+#include "List.h"
+
+class FileInfoList : public ListT<FileInfo>
+{
+public:
+    FileInfoList() {;}
+};

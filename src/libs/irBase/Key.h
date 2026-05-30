@@ -18,6 +18,8 @@ public: // ctors
     Key(const QString &s) : KeySegList(s) {;}
 
 public: // const
+    bool startsWith(const Key &start) const;
+    bool isValidIndex(const Index ix) const;
     QWORD hash64() const;
 
 public: // static
@@ -25,6 +27,7 @@ public: // static
 
 };
 
+inline bool Key::isValidIndex(const Index ix) const { return ix >= 0 && ix < count(); }
 inline char Key::hinge() { return '/'; }
 
 

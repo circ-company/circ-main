@@ -2,7 +2,7 @@
 
 #include "TriBool.h"
 
-class Null : private TriBool
+class Null : public TriBool
 {
 public:
     Null();
@@ -21,4 +21,4 @@ public: // non-const
 inline bool Null::null() const { return TriBool::isTrue(); }
 inline bool Null::full() const { return TriBool::isFalse(); }
 inline bool Null::nullify() { TriBool::set(); return null(); }
-inline bool Null::fullify() { TriBool::reset(); return null(); }
+inline bool Null::fullify() { TriBool::reset(); return full(); }

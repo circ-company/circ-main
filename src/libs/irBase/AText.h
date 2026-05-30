@@ -23,6 +23,7 @@ public: // types
 
 public: // ctors
     AText(const char * pch);
+    AText(const char * pch, const QChar repl);
     AText(const char ch);
     AText(const QByteArray &ba);
     AText(const QByteArray &ba, const QChar repl);
@@ -89,6 +90,8 @@ public: // QMetaType
     AText(const AText &) = default;
     AText &operator=(const AText &) = default;
 };
+
+extern AText operator + (const AText &lhs, const AText &rhs);
 
 Q_DECLARE_METATYPE(AText);
 

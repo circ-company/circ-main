@@ -2,6 +2,7 @@
 
 #include <QObject>
 
+#include <QCoreApplication>
 #include <QQueue>
 #include <QStringList>
 
@@ -16,7 +17,7 @@ public: // types
 
 
 public: // ctors
-    explicit LogEngine(QObject *parent = nullptr);
+    explicit LogEngine();
 
 public slots:
     void capture();
@@ -37,6 +38,8 @@ public: // const
 
 public: // non-const
     LogItem takeQueue();
+    void sendTroll(const LogItem &li);
+    void writeTroll(const LogMsgType lmt, const AText atx);
 
 public: // static
     static KeyTextMap parse(const QString s);
@@ -47,7 +50,12 @@ private: // static
     static const QStringList scmMessageFields;
 
 private:
-    QtMessageHandler mOldHandler;
+    bool mCaptured=false;
+    bool mTrollEnabled=true;
+    QtMessageHandler mpOldHandler;
     QMap<Uid, LogItem> mUidItemMap;
     QMultiMap<Severity, Uid> mSevUidMMap;
 };
+
+
+Q_GLOBAL_STATIC(LogEngine, LOG);

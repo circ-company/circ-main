@@ -8,11 +8,11 @@ class ListT : public QList<T>
 {
 public: // ctors
     ListT() {;}
-    ListT(const QList<T> other) { *this = other; }
+    ListT(const QList<T> &other) { *this = other; }
 
 public: // const
     bool isValidIndex(const qsizetype ix) const;
-    virtual T at(const qsizetype ix) const; // safe, no assert
+    T at(const qsizetype ix) const; // safe, no assert
     ListT<T> constFirst(qsizetype k) const;
     T constFirst(const qsizetype k, const T tJoin) const;
     T constFirst(const qsizetype k, const char cJoin) const;

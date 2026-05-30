@@ -10,6 +10,7 @@
 char AText::smHingeChar = ' ';
 
 AText::AText(const char *pch) { set(pch); }
+AText::AText(const char *pch, const QChar repl) { set(pch, repl); }
 AText::AText(const char ch) { set(ch); }
 AText::AText(const QByteArray &ba) { set(ba); }
 AText::AText(const QByteArray &ba, const QChar repl) { set(ba, repl); }
@@ -185,3 +186,12 @@ QString AText::saveVarListString(const QVariantList &vars, const Index ix)
 {
     return (ix >= 0 && ix < vars.count()) ? vars.at(ix).toString() : QString();
 }
+
+AText operator + (const AText &lhs, const AText &rhs)
+{
+    QString ls(lhs), rs(rhs);
+    QString res(ls + rs);
+    AText result(res);
+    return result;
+}
+

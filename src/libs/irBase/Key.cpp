@@ -1,7 +1,14 @@
 #include "Key.h"
 
-#include "irBase.h"
 #include "Types.h"
+
+bool Key::startsWith(const Key &start) const
+{
+    for (Index ix = 0; ix < start.count(); ++ix)
+        if ( ! isValidIndex(ix) || at(ix) != start.at(ix))
+            return false;
+    return true;
+}
 
 QWORD Key::hash64() const
 {

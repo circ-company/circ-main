@@ -22,7 +22,7 @@ public: // non-const
     void nullify();
     void invalidate();
 
-private:
+protected:
     bool mValue = false;
     bool mValid = false;
 };

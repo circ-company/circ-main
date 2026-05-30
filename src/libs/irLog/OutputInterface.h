@@ -6,5 +6,5 @@ class OutputInterface
 {
 public:
     OutputInterface() = default;
-    virtual bool open(const Url &logOutUrl);
+    virtual bool open(const Url &logOutUrl) = 0;
 };

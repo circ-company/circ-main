@@ -1,13 +1,13 @@
 #pragma once
 
-#include "CodeArgument.h"
+#include "CodeValue.h"
 
 #include "Types.h"
 
-class CodeArgumentList : public CodeArgument::List
+class CodeValueList : public CodeValue::List
 {
 public: // ctors
-    CodeArgumentList();
+    CodeValueList();
 
 public: // const
     bool isValid(const Index ix) const;

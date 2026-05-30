@@ -1,0 +1,56 @@
+#pragma once
+
+
+#include "CText.h"
+#include "FSText.h"
+#include "FileInfo.h"
+#include "FunctionInfo.h"
+#include "Types.h"
+
+class CodeContext
+{
+public: // ctors
+    CodeContext(const QString &qfi, const FSText &file, const int line);
+
+public: // const
+    Nanoseconds epochNS() const;
+    CText qfiText() const;
+    FSText fileName() const;
+    int fileLine() const;
+    FunctionInfo funcInfo() const;
+    FileInfo fileInfo() const;
+
+public: // non-const
+
+public: // pointers
+
+public: // debug
+    QString toDebugString() const;
+    QStringList toDebugStrings() const;
+
+private:
+    Nanoseconds mEpochNS;
+    CText mQFIText;
+    FSText mFileName;
+    int mFileLine;
+    FunctionInfo mFuncInfo;
+    FileInfo mFileInfo;
+
+
+public: // QMetaType
+    CodeContext() = default;
+    ~CodeContext() = default;
+    CodeContext(const CodeContext &) = default;
+    CodeContext &operator=(const CodeContext &) = default;
+};
+
+inline Nanoseconds CodeContext::epochNS() const { return mEpochNS; }
+inline CText CodeContext::qfiText() const { return mQFIText; }
+inline FSText CodeContext::fileName() const { return mFileName; }
+inline int CodeContext::fileLine() const { return mFileLine; }
+inline FunctionInfo CodeContext::funcInfo() const { return mFuncInfo; }
+inline FileInfo CodeContext::fileInfo() const { return mFileInfo; }
+
+Q_DECLARE_METATYPE(CodeContext);
+
+

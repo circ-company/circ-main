@@ -34,7 +34,7 @@ bool Url::isLocalFile() const
         QFileInfo tFI(cFileString);
         result |= tFI.isFile() && tFI.exists();
     }
-    qInfo() << result << tQUrl << tQUrl.isLocalFile() << tQUrl.toLocalFile();
+    qInfo() << Q_FUNC_INFO << result << tQUrl << tQUrl.isLocalFile() << tQUrl.toLocalFile();
     return result;
 }
 
@@ -118,7 +118,7 @@ void Url::set(const QString &s, QUrl::ParsingMode mode)
     if ( ! mQueryText.isEmpty())
     {
         mQueryList = mQueryText.split('&');
-        mQueryPairs = mQueryList.ATextList::split('=');
+        mQueryPairs = mQueryList.ATextList::splitPairs('=');
         foreach (const AText::Pair cPair,  mQueryPairs)
         {
             const AText cName = cPair.first;
@@ -134,6 +134,7 @@ void Url::set(const QString &s, QUrl::ParsingMode mode)
     {
         mUrl.setScheme(mScheme = "file");
         mLocalFileInfo = QFileInfo(mUrl.toLocalFile());
+        qDebug() << mUrl << mScheme << mLocalFileInfo;
     }
     mUsername = mUrl.userName();
     mPassword = mUrl.password();
@@ -141,9 +142,9 @@ void Url::set(const QString &s, QUrl::ParsingMode mode)
     mPort = mUrl.port();
     mPath = mUrl.path();
     mPathList = mPath.split(QDir::separator().cell());
-    qInfo() << Q_FUNC_INFO << string() << scheme() << type().name() << authority();
-    qInfo() << path() << pathCount() << pathDir();
-    qInfo() << localFlleInfo() << localDir() << queryMapList();
+    qInfo() << Q_FUNC_INFO << string() << scheme() << type().name() << authority()
+            << path() << pathCount() << pathDir()
+            << localFlleInfo() << localDir() << queryMapList();
 }
 
 void Url::dir(const QDir &dir)

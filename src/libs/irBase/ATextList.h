@@ -26,12 +26,13 @@ public: // ctors
 
 public: // const
     AText join(const AText atx) const;
-    PairList split(const char ch) const;
+    PairList splitPairs(const char ch) const;
 
 public: // non-const
     void set(const QByteArrayList &other);
     void set(const QStringList &other);
     ATextList split(const AText &atx, const char ch);
+    void prependEach(const AText &atx);
 
 public: // pointers
     ATextList it() const;
