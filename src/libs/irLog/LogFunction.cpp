@@ -4,27 +4,26 @@
 
 LogFunction::LogFunction(const CodeContext ctx) : cmContext(ctx)
 {
-    LogItem li(Severity::FuncEnter, ctx);
+    LogItem li(Log::ItemOnly, Severity::FuncEnter, ctx);
     LOG->enqueue(li);
 }
 
-void LogFunction::add(const Severity sev, const CodeValue &arg)
+void LogFunction::add(const CodeValue &arg)
 {
-    LogItem li(sev);
-    li.argument(mArgList.count(), arg);
-    mArgList.append(arg);
+    LogItem li(Log::FuncArgument, Severity::FuncArg, cmContext);
+    li.set(mArgList.count(), arg);
     LOG->enqueue(li);
 }
 
-void LogFunction::leave(const CodeContext ctx)
+void LogFunction::leave()
 {
-    LogItem li(Severity::FuncLeave, ctx);
+    LogItem li(Log::ReturnVoid, Severity::FuncLeave, cmContext);
     LOG->enqueue(li);
 }
 
-void LogFunction::leave(const CodeContext ctx, const CodeValue &arg)
+void LogFunction::leave(const CodeValue &arg)
 {
-    LogItem li(Severity::FuncLeave, ctx);
-    li.returnValue(arg);
+    LogItem li(Log::ReturnValue, Severity::FuncLeave, cmContext);
+    li.set(arg);
     LOG->enqueue(li);
 }

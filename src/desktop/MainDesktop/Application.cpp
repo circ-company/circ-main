@@ -32,7 +32,6 @@ void Application::run()
 void Application::initialize()
 {
     FNENTER();
-    FNVAR(mMainDir.path());
     QQApplication::initialize();
     if (argList().count() > 1)
         mMainDir.setPath(argAt(1));
@@ -52,7 +51,6 @@ void Application::initialize()
 void Application::start()
 {
     FNENTER()
-    FNVAR(dirLoader()->toDebugStrings());
     QQApplication::start();
     connect(dirLoader(), &DirLoader::file, this, &Application::processFile);
     dirLoader()->start();

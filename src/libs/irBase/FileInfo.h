@@ -25,6 +25,9 @@ public: // const
     FSText dirLast() const;
     QString toString();
 
+public: // non-const
+    void clear();
+
 private: // non-const
     void setDirs();
 

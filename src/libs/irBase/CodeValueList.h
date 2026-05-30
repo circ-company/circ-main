@@ -13,5 +13,6 @@ public: // const
     bool isValid(const Index ix) const;
 
 public: // non-const
+    void set(const Index ix, const CodeValue &cv);
 
 };

@@ -15,6 +15,16 @@ CodeContext::CodeContext(const QString &qfi, const FSText &file, const int line)
 //    qInfo() << Q_FUNC_INFO << qfi << file << line << mFuncInfo.toDebugString() << mFileInfo;
 }
 
+void CodeContext::clear()
+{
+    mEpochNS = 0;
+    mQFIText.clear();
+    mFileName.clear();
+    mFileLine = 0;
+    mFuncInfo.clear();
+    mFileInfo.clear();
+}
+
 QString CodeContext::toDebugString() const
 {
     return QString("{%1(%2) %3 @%4 %5}")

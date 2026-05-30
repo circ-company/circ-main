@@ -29,6 +29,7 @@ public: // const
     CodeValue arg(const Index argix) const;
 
 public: // non-const
+    void clear();
     void set(const CText &ctx);
 
 public: // debug

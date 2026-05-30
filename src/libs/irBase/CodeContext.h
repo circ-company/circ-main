@@ -13,6 +13,7 @@ public: // ctors
     CodeContext(const QString &qfi, const FSText &file, const int line);
 
 public: // const
+    bool isNull() const;
     Nanoseconds epochNS() const;
     CText qfiText() const;
     FSText fileName() const;
@@ -21,6 +22,7 @@ public: // const
     FileInfo fileInfo() const;
 
 public: // non-const
+    void clear();
 
 public: // pointers
 
@@ -29,10 +31,10 @@ public: // debug
     QStringList toDebugStrings() const;
 
 private:
-    Nanoseconds mEpochNS;
+    Nanoseconds mEpochNS=0;
     CText mQFIText;
     FSText mFileName;
-    int mFileLine;
+    int mFileLine=0;
     FunctionInfo mFuncInfo;
     FileInfo mFileInfo;
 
@@ -44,6 +46,7 @@ public: // QMetaType
     CodeContext &operator=(const CodeContext &) = default;
 };
 
+inline bool CodeContext::isNull() const { return 0 == epochNS(); }
 inline Nanoseconds CodeContext::epochNS() const { return mEpochNS; }
 inline CText CodeContext::qfiText() const { return mQFIText; }
 inline FSText CodeContext::fileName() const { return mFileName; }

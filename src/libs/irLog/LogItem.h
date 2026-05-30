@@ -8,53 +8,62 @@
 #include <Severity.h>
 #include <Uid.h>
 
+#include "LogClass.h"
 #include "LogMsgType.h"
+#include "LogOperator.h"
 
 class CodeContext;
 
 class LogItem
 {
+public: // types
+    typedef Log::ItemType Type;
+
 public: // ctors
-    LogItem(const bool &open); // or nil
-    LogItem(const Severity sev, const CodeContext &ctx);
+    LogItem(const Type type, const Severity sev, const CodeContext &ctx);
 
 public: // const
-    bool isNull() const;
     bool isNil() const;
-    bool isEmpty() const;
-    bool contains(const Key &key) const;
-    AText at(const Key &key) const;
+    bool isNull() const;
+    Uid uid() const;
+    Type type() const;
     Severity severity() const;
+    CodeContext context() const;
     AText message() const;
+    AText formatted() const;
     AText contextString() const;
     LogMsgType logMessageType() const;
+    CodeValue value() const;
+    Count count() const;
+    CodeValue value(const Index ix) const;
 
 public: // non-const
     void clear();
-    // setup
+    void set(const Type type);
     void set(const Severity sev);
     void set(const CodeContext &ctx);
-    // value
-    void message(const AText &atx);
-    void returnValue(const CodeValue &arg);
-    void argument(const Index ix, const CodeValue &arg);
-    // low level
-    bool set(const Key &key, const AText &atx, const bool override=true);
-    bool set(const Key &key, const int i, const bool override=true);
-    void import(const KeyTextMap &other);
-
+    void set(const AText &msg);
+    void set(const LogOperator op);
+    void set(const CodeValue &cv);
+    void set(const CodeValueList &cvs);
+    void set(const Index ix, const CodeValue &cv);
+    void asert(const LogOperator op, const bool is, const char *exp);
 
 public: // pointers
-    const Uid & uid() const;
-    Uid & uid();
-    const KeyTextMap & map() const;
-    KeyTextMap & map();
+    const CodeValueList codeValues() const;
+    CodeValueList & codeValues();
     const LogItem & it() const;
     LogItem & it();
 
 private:
     Uid mUid;
-    KeyTextMap mMap;
+    Type mType;
+    Severity mSeverity;
+    CodeContext mContext;
+    AText mMessage;
+    LogOperator mOperator=LogOperator::$null;
+    CodeValue mValue;
+    CodeValueList mValues;
 
 public: // QMetaType
     LogItem() = default;
@@ -63,18 +72,21 @@ public: // QMetaType
     LogItem &operator=(const LogItem &) = default;
 };
 
-//Q_DECLARE_METATYPE(LogItem);
+Q_DECLARE_METATYPE(LogItem);
 
-inline bool LogItem::isNull() const { return isNil() || isEmpty(); }
 inline bool LogItem::isNil() const { return uid().isNil(); }
-inline bool LogItem::isEmpty() const { return map().isEmpty(); }
-inline bool LogItem::contains(const Key &key) const { return map().contains(key); }
-inline AText LogItem::at(const Key &key) const { return map().value(key); }
-inline AText LogItem::message() const { return at("/Message/Message"); }
-inline AText LogItem::contextString() const { return at("/Base/ContextString"); }
-inline const Uid &LogItem::uid() const { return mUid; }
-inline Uid &LogItem::uid() { return mUid; }
-inline const KeyTextMap &LogItem::map() const { return mMap; }
-inline KeyTextMap &LogItem::map() { return *(KeyTextMap *)this; }
+inline bool LogItem::isNull() const { return Type::$null == type(); }
+inline Uid LogItem::uid() const { return mUid; }
+inline Severity LogItem::severity() const { return mSeverity; }
+inline LogItem::Type LogItem::type() const { return mType; }
+inline CodeContext LogItem::context() const { return mContext; }
+inline AText LogItem::message() const { return mMessage; }
+inline AText LogItem::contextString() const { return context().toDebugString(); }
+inline void LogItem::set(const Severity sev) { mSeverity = sev; }
+inline void LogItem::set(const AText &msg) { mMessage = msg; }
+inline void LogItem::set(const LogOperator op) { mOperator = op; }
+inline void LogItem::set(const CodeValue &cv) { mValue = cv; }
+inline const CodeValueList LogItem::codeValues() const { return mValues; }
+inline CodeValueList &LogItem::codeValues() { return mValues; }
 inline const LogItem &LogItem::it() const { return *this; }
 inline LogItem &LogItem::it() { return *this; }

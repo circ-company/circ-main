@@ -28,8 +28,9 @@ DirLoader::DirLoader(const QDir &dir, QObject *parent)
 
 void DirLoader::start(const StartOptions opts)
 {
-    qInfo() << Q_FUNC_INFO << Qt::hex << opts;
-    LogFunction logFunction(CodeContext(Q_FUNC_INFO, __FILE__, __LINE__));
+    FNENTER();
+//    qInfo() << Q_FUNC_INFO << Qt::hex << opts;
+  //  LogFunction logFunction(CodeContext(Q_FUNC_INFO, __FILE__, __LINE__));
 //    logFunction.add(CodeValue(CodeValue::Argument, int(opts), "opts"));
 
     mpModel = new QFileSystemModel(this);
@@ -51,21 +52,21 @@ void DirLoader::start(const StartOptions opts)
 
 void DirLoader::start(const FSText &dirName, const StartOptions opts)
 {
-    qInfo() << Q_FUNC_INFO << dirName << Qt::hex << opts;
+    FNENTER();
     set(dirName);
     start(opts);
 }
 
 void DirLoader::start(const QDir &dir, const StartOptions opts)
 {
-    qInfo() << Q_FUNC_INFO << dir << Qt::hex << opts;
+    FNENTER();
     set(dir);
     start(opts);
 }
 
 void DirLoader::processDir(const QDir &dir, const StartOptions opts)
 {
-    qInfo() << Q_FUNC_INFO << dir << Qt::hex << opts;
+    FNENTER();
     mCurrentDir = dir;
     mCurrentOptions = opts;
     mCurrentRow = 0;
@@ -78,7 +79,7 @@ void DirLoader::processDir(const QDir &dir, const StartOptions opts)
 
 void DirLoader::pulse()
 {
-    Q_CHECK_PTR(mpModel);
+    FNENTER();
     int tRows = mpModel->rowCount(mParentIndex);
     if (tRows)
         if (mCurrentRow >= tRows)
@@ -99,7 +100,7 @@ void DirLoader::pulse()
 
 void DirLoader::processDir(const FileInfo fileInfo)
 {
-    qInfo() << Q_FUNC_INFO << fileInfo;
+    FNENTER();
     if (mCurrentOptions | SubDirs)
         mSubDirList.append(fileInfo.dir());
 
@@ -107,7 +108,7 @@ void DirLoader::processDir(const FileInfo fileInfo)
 
 void DirLoader::processFile(const FileInfo fileInfo)
 {
-    qInfo() << Q_FUNC_INFO << fileInfo;
+    FNENTER();
     if (mCurrentOptions | Collect)
         mCurrentFiles.append(fileInfo);
 

@@ -11,12 +11,16 @@
 
 #define FNENTER() LogFunction logFunction(CODECONTEXT());
 #define FNARG(arg) QVariant qv=QVariant::fromValue(arg); \
-            logFunction.add(Severity::FuncArg, CodeValue(CodeValue::Argument, qv, #arg));
-#define FNVAR(var) QVariant qv=QVariant::fromValue(var); \
-            logFunction.add(Severity::DumpVar, CodeValue(CodeValue::Variable, qv, #var));
-#define FNLEAVE() logFunction.leave(CODECONTEXT());
+            logFunction.add(CodeValue(CodeValue::Argument, qv, #arg));
+#define FNLEAVE() logFunction.leave();
 #define FNRETURN(rvar) QVariant qv=QVariant::fromValue(rvar); \
-            logFunction.leave(CodeValue(CodeValue::Variable, qv, #rvar))
+            logFunction.leave(CodeValue(CodeValue::Value, qv, #rvar))
 
 #define PROGMSG(msg)        MESSAGELI(Severity::Progress, msg);
-#define WEXPECT(exp, act)   EXPECTLI(Severity::Warning, exp, act);
+#define TASSERT(bval)       ASSERTLI(LogOperator::True, Severity::TAssert, bval);
+#define WASSERT(bval)       ASSERTLI(LogOperator::True, Severity::Warning, bval);
+#define ASSERT(bval)        ASSERTLI(LogOperator::True, Severity::Error, bval);
+#define JASSERT(bval)       ASSERTLI(LogOperator::True, Severity::MajorError, bval);
+#define PASSERT(bval)       ASSERTLI(LogOperator::True, Severity::ProcessFault, bval);
+#define MASSERT(bval)       ASSERTLI(LogOperator::True, Severity::MemoryFault, bval);
+#define SASSERT(bval)       ASSERTLI(LogOperator::True, Severity::SystemFault, bval);

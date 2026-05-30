@@ -30,6 +30,12 @@ QString FileInfo::toString()
     return result;
 }
 
+void FileInfo::clear()
+{
+    QFileInfo::setFile("");
+    Null::nullify();
+}
+
 void FileInfo::setDirs()
 {
     FSText tDirNameText = dir().path();

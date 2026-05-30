@@ -35,7 +35,7 @@ void LogEngine::enqueue(const LogItem &li)
     mUidItemMap.insert(cUid, li);
     mSevUidMMap.insert(cSev, cUid);
     //Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
-    if (mCaptured && mTrollEnabled) sendTroll(li);
+    if ( ! mCaptured && mTrollEnabled) sendTroll(li);
 }
 
 void LogEngine::dequeue()
@@ -75,20 +75,25 @@ void LogEngine::sendTroll(const LogItem &li)
 {
     const Severity cSev = li.severity();
     const LogMsgType cLMT = LogMsgType::from(cSev);
-    QString tText(cLMT.prefix());
     const Uid cUid = li.uid();
     const NanosecondTime cNST(cUid.nsecs());
-    tText += cNST.timeString();
-    tText += " <" + li.message() + "> ";
-    tText += li.contextString();
+    QString tText = QString("%1%2 <%3> %4")
+                        .arg(cLMT.prefix(), cNST.timeString(),
+                         li.formatted()(), li.contextString()());
     writeTroll(cLMT, tText);
 }
 
 void LogEngine::writeTroll(const LogMsgType lmt, const AText atx)
 {
-    Q_UNUSED(lmt);
-    QTextStream tTS(stderr);
-    tTS << atx() << Qt::endl;
+    switch (lmt.qmt())
+    {
+    case QtInfoMsg:         qInfo() << atx();       break;
+    case QtDebugMsg:        qDebug() << atx();      break;
+    case QtWarningMsg:      qWarning() << atx();    break;
+    default:
+    case QtCriticalMsg:     qCritical() << atx();   break;
+    case QtFatalMsg:        qFatal() << atx();      break;
+    }
 }
 
 /* --------------------- static public --------------------- */
@@ -124,17 +129,14 @@ QString LogEngine::messagePattern()
 
 /* --------------------- static private --------------------- */
 
-void LogEngine::messageHandler(QtMsgType qmt, const QMessageLogContext &ctx, const QString &s)
+void LogEngine::messageHandler(QtMsgType qmt, const QMessageLogContext &qmlctx, const QString &s)
 {
     const LogMsgType cLMT(qmt);
-    LogItem tMap(true);
-    tMap.set("LogMsgType", cLMT.name());
-    tMap.set("Context/FileName", ctx.file);
-    tMap.set("Context/FileLine", CText(ctx.line));
-    tMap.set("Context/Category", ctx.category);
-    tMap.set("Context/Function", ctx.function);
-    tMap.set("Context/Version", CText(ctx.version));
-    tMap.import(parse(s));
+    const Severity cSev(qmt);
+    const CodeContext cCtx(qmlctx.function, qmlctx.file, qmlctx.line);
+    LogItem li(Log::Troll, cSev, cCtx);
+    li.set(AText(s));
+    LOG->enqueue(li);
 }
 
 const QStringList LogEngine::scmMessageFields = QStringList()

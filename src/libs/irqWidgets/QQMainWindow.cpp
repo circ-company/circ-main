@@ -1,25 +1,25 @@
 #include "QQMainWindow.h"
 
-#include <QApplication>
-
 #include <QQApplication.h>
+#include <Log.h>
 
 QQMainWindow::QQMainWindow(const Contents cf, QQApplication *qqapp)
     : QMainWindow{nullptr}
     , mpApplication(qqapp)
     , cmContents(cf)
 {
+    FNENTER();
     setObjectName("QQMainWindow:" + app()->applicationName());
 }
 
 void QQMainWindow::run()
 {
-    qInfo() << Q_FUNC_INFO;
+    FNENTER();
 }
 
 void QQMainWindow::initialize()
 {
-    qInfo() << Q_FUNC_INFO;
+    FNENTER();
     if (cmContents & Grid)  mpMainGrid = new QGridLayout(mpMainWidget);
     if (cmContents & TextEdit)  mpMainEdit = new QQTextEdit(mpMainWidget);
     if (cmContents & TextDocument)  mpMainDoc = new QQTextDocument(mpMainWidget);
@@ -29,7 +29,7 @@ void QQMainWindow::initialize()
 
 void QQMainWindow::setup()
 {
-    qInfo() << Q_FUNC_INFO;
+    FNENTER();
     if (cmContents & TextEdit)
     {
         Q_CHECK_PTR(mpMainEdit);
@@ -64,5 +64,5 @@ void QQMainWindow::setup()
 
 void QQMainWindow::ready()
 {
-    qInfo() << Q_FUNC_INFO;
+    FNENTER();
 }

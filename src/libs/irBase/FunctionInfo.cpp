@@ -59,6 +59,13 @@ CodeValue FunctionInfo::arg(const Index argix) const
                : CodeValue();
 }
 
+void FunctionInfo::clear()
+{
+    Q_CHECK_PTR(data);
+    data->dQFIString.clear();
+    // TODO remaining
+}
+
 void FunctionInfo::set(const CText &ctx)
 {
     Q_CHECK_PTR(data);

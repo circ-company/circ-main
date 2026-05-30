@@ -340,8 +340,8 @@ DWORD Uid::machineAddress()
     DWORD result = 0;
     QNetworkInterface tNetIf = QNetworkInterface::interfaceFromIndex(2);
     XText tXTx = tNetIf.hardwareAddress();
-    result = tXTx.toULong(nullptr, 16) & 0x00FFFFFF;
-    qDebug() << Q_FUNC_INFO << tNetIf.name() << tXTx << Qt::hex << result;
+    result = tXTx.toULong(nullptr, 16) & 0x00FFFFFF; // TODO fix me
+//    qDebug() << Q_FUNC_INFO << tNetIf.name() << tXTx << Qt::hex << result;
     return result;
 }
 

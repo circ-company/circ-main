@@ -6,6 +6,21 @@
 
 class Log
 {
+public: // types
+    enum ItemType
+    {
+        $null = 0,
+        ItemOnly,
+        FuncArgument,
+        Message,
+        Formatted,
+        ReturnVoid,
+        ReturnValue,
+        Assert,
+        Troll,
+        $end
+    };
+
 public: // static
     static QtMsgType qtMsgType(const Severity sev);
     static CText qtMsgType(const QtMsgType qmt);

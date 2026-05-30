@@ -12,7 +12,6 @@ public: // types
     enum Type { Variable, Argument };
 
 public: // ctors
-//    CodeValue(const Type typ, const QVariant &var);
     CodeValue(const Type typ, const QVariant &var, const CText &argName);
     CodeValue(const Type typ, const QVariant &var, const char argPch[]);
 
