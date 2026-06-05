@@ -16,7 +16,6 @@ DirLoader::DirLoader(const FSText &dirName, QObject *parent)
 {
     set(dirName);
     setObjectName("DirLoader:" + basePath()());
-
 }
 
 DirLoader::DirLoader(const QDir &dir, QObject *parent)
@@ -26,26 +25,39 @@ DirLoader::DirLoader(const QDir &dir, QObject *parent)
     setObjectName("DirLoader:" + basePath()());
 }
 
-void DirLoader::start(const StartOptions opts)
+void DirLoader::initialize(const StartOptions opts)
 {
     FNENTER();
-//    qInfo() << Q_FUNC_INFO << Qt::hex << opts;
-  //  LogFunction logFunction(CodeContext(Q_FUNC_INFO, __FILE__, __LINE__));
-//    logFunction.add(CodeValue(CodeValue::Argument, int(opts), "opts"));
-
     mpModel = new QFileSystemModel(this);
     Q_CHECK_PTR(mpModel);
-    mpModel->setReadOnly(true);
+    mpModel->setObjectName("DirLoader:FileSystemModel");
     mpModel->setOption(QFileSystemModel::DontWatchForChanges, ! (opts & Watch));
     mpModel->setFilter(mBaseDir.filter());
     mpModel->setNameFilters(mBaseDir.nameFilters());
-//    connect(this, &DirLoader::dir, this, &DirLoader::processDir);
-    connect(this, &DirLoader::file, this, &DirLoader::processFile);
+    //    connect(this, &DirLoader::dir, this, &DirLoader::piiiiiim,                                                                     rocessDir);
+    if (mCurrentOptions | Collect)
+        connect(this, &DirLoader::file, this, &DirLoader::processFile);
 
     mpPulseTimer = new QTimer(this);
     Q_CHECK_PTR(mpPulseTimer);
+    mpPulseTimer->setObjectName("DirLoader:PulseTimer");
     mpPulseTimer->setInterval(mPulseMsec);
     connect(mpPulseTimer, &QTimer::timeout, this, &DirLoader::pulse);
+}
+
+void DirLoader::start(const StartOptions opts)
+{
+    FNENTER();
+    FNARG(opts);
+    Q_CHECK_PTR(mpPulseTimer);
+    TRACE2("PulseTimer Starting Msec=%1 Running=%2",
+           mpPulseTimer->interval(), mpPulseTimer->isActive());
+    mpPulseTimer->start();
+    Q_CHECK_PTR(mpModel);
+
+    TRACE2("Model:SetRootPath BasePath=%1 Exists=%2",
+           basePath(), baseDir().exists());
+    mpModel->setRootPath(basePath());
 
 //    processDir(baseDir(), opts);
 }
@@ -87,11 +99,10 @@ void DirLoader::pulse()
             emit dirFinished(mCurrentDir.path());
             return;                                                     /*/===\*/
         }
-
     mCurrentIndex = mpModel->index(mCurrentRow++, 0, mParentIndex);
     QFileInfo tQFI = mpModel->fileInfo(mCurrentIndex);
     FileInfo tFI(tQFI);
-    qInfo() << Q_FUNC_INFO << tRows << mCurrentRow << tFI << tFI.isDir();
+    TDETAIL4("%1 %2 %3 %4", tRows, mCurrentRow, tFI, tFI.isDir());
     if (tFI.isDir())
         processDir(tFI); // emit dir(tFI);
     else

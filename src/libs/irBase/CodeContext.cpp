@@ -25,14 +25,22 @@ void CodeContext::clear()
     mFileInfo.clear();
 }
 
-QString CodeContext::toDebugString() const
+QString CodeContext::toDebugString(const bool timeFirst) const
 {
-    return QString("{%1(%2) %3 @%4 %5}")
-        .arg(mFileInfo.completeBaseName())
-        .arg(mFileLine)
-        .arg(mQFIText())
-        .arg(NanosecondTime(mEpochNS).timeString())
-        .arg(mFileInfo.dir().path());
+    const NanosecondTime cNST(mEpochNS);
+    return timeFirst
+      ? QString("{@%1 %2(%3) %4 in %5}")
+              .arg(cNST.timeString())
+              .arg(mFileInfo.completeBaseName())
+              .arg(mFileLine, 4, 10, u'0')
+              .arg(mQFIText())
+              .arg(mFileInfo.dir().path())
+      : QString("{%1(%2) %3 @%4 in %5}")
+                .arg(mFileInfo.completeBaseName())
+                .arg(mFileLine, 4, 10, u'0')
+                .arg(mQFIText())
+                .arg(NanosecondTime(mEpochNS).timeString())
+                .arg(mFileInfo.dir().path());
 }
 
 QStringList CodeContext::toDebugStrings() const

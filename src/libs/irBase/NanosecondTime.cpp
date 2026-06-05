@@ -49,7 +49,7 @@ QString NanosecondTime::nanoString() const
 {
     const Nanoseconds cNanos  = value() % 1000LL;
     const Nanoseconds cMicros = (value() / 1000LL) % 1000LL;
-    return QString(" %1 %2").arg(cMicros, 3, u'0').arg(cNanos, 3, u'0');
+    return QString(" %1 %2").arg(cMicros, 3, 10, u'0').arg(cNanos, 3, 10, u'0');
 }
 
 QString NanosecondTime::timeString() const

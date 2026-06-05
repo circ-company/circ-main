@@ -13,8 +13,9 @@ void CodeValueList::set(const Index ix, const CodeValue &cv)
     if ( ! isValid(ix))
     {
         Index ix2 = count();
-        while (ix2 < ix)
+        while (ix2++ <= ix)
             append(cv);
     }
+    Q_ASSERT(isValid(ix));
     replace(ix, cv);
 }

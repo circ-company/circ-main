@@ -36,7 +36,8 @@ public: // ctors
     DirLoader(const QDir &dir, QObject *parent = nullptr);
 
 public slots:
-    void start(const StartOptions opts=$null);
+    void initialize(const StartOptions opts=DirLoader::StartOption::$null);
+    void start(const StartOptions opts=DirLoader::StartOption::$null);
     void start(const FSText &dirName, const DirLoader::StartOptions opts);
     void start(const QDir &dir, const DirLoader::StartOptions opts);
     void processDir(const QDir &dir, const DirLoader::StartOptions opts);
@@ -68,7 +69,7 @@ public: // debug
     QStringList toDebugStrings() const;
 
 private:
-    Milliseconds mPulseMsec=25;
+    Milliseconds mPulseMsec=500;
     QDir mBaseDir;
     QDirList mSubDirList;
     QFileSystemModel * mpModel;

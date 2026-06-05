@@ -14,7 +14,7 @@ class LogEngine : public QObject
 {
     Q_OBJECT
 public: // types
-
+    typedef Log::ItemType Type;
 
 public: // ctors
     explicit LogEngine();
@@ -22,7 +22,7 @@ public: // ctors
 public slots:
     void capture();
     void release();
-    void enqueue(const LogItem &li);
+    void enqueue(LogItem li);
     void dequeue();
 
 signals:

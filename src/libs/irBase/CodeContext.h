@@ -5,6 +5,7 @@
 #include "FSText.h"
 #include "FileInfo.h"
 #include "FunctionInfo.h"
+#include "NanosecondTime.h"
 #include "Types.h"
 
 class CodeContext
@@ -15,6 +16,7 @@ public: // ctors
 public: // const
     bool isNull() const;
     Nanoseconds epochNS() const;
+    NanosecondTime NSTime() const;
     CText qfiText() const;
     FSText fileName() const;
     int fileLine() const;
@@ -27,7 +29,7 @@ public: // non-const
 public: // pointers
 
 public: // debug
-    QString toDebugString() const;
+    QString toDebugString(const bool fullTimeFirst=true) const;
     QStringList toDebugStrings() const;
 
 private:
@@ -48,6 +50,7 @@ public: // QMetaType
 
 inline bool CodeContext::isNull() const { return 0 == epochNS(); }
 inline Nanoseconds CodeContext::epochNS() const { return mEpochNS; }
+inline NanosecondTime CodeContext::NSTime() const { return NanosecondTime(epochNS()); }
 inline CText CodeContext::qfiText() const { return mQFIText; }
 inline FSText CodeContext::fileName() const { return mFileName; }
 inline int CodeContext::fileLine() const { return mFileLine; }

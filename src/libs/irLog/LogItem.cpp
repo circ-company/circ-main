@@ -5,21 +5,28 @@
 LogItem::LogItem(const Type type, const Severity sev, const CodeContext &ctx)
     : mUid(Uid::VerGTimeseqNode6)
     , mType(type)
-    , mSeverity(sev)
+    , mSevValue(sev)
     , mContext(ctx) {;}
 
 AText LogItem::formatted() const
 {
-    AText result = message();
-    // case Message:
-    return result;
+    ATextList tDebug;
+    AText result = value(0).string();
+    for (Index ix = 1; ix < count(); ++ix)
+    {
+        AText tPctNum = QString("%%%1").arg(ix);
+        if (result.contains(tPctNum))
+            result.replace(tPctNum.toQBAV(), AText(value(ix).string()));
+        tDebug << value(ix).toDebugString();
+    }
+    return result + AText("\n") + tDebug.join("\n");
 }
 
 void LogItem::clear()
 {
     mUid.nilify();
     mType = Type::$null;
-    mSeverity = Severity::$null;
+    mSevValue = Severity::$null;
     mContext.clear();
     mMessage.clear();
     mValues.clear();

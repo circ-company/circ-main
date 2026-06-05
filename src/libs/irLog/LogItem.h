@@ -82,6 +82,8 @@ inline LogItem::Type LogItem::type() const { return mType; }
 inline CodeContext LogItem::context() const { return mContext; }
 inline AText LogItem::message() const { return mMessage; }
 inline AText LogItem::contextString() const { return context().toDebugString(); }
+inline Count LogItem::count() const { return codeValues().count(); }
+inline CodeValue LogItem::value(const Index ix) const { return codeValues().at(ix); }
 inline void LogItem::set(const Severity sev) { mSeverity = sev; }
 inline void LogItem::set(const AText &msg) { mMessage = msg; }
 inline void LogItem::set(const LogOperator op) { mOperator = op; }

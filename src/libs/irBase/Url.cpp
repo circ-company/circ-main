@@ -6,20 +6,17 @@
 
 //#include <ObjectHelper.h>
 
-Url::Url() {;}
-Url::Url(const QString &url, QUrl::ParsingMode mode) { set(url, mode); }
-Url::Url(const QUrl &other) noexcept { set(other.toString()); }
-
-Url &Url::operator =(const QString &url) { set(url); return it(); }
+Url::Url() : mpType(new UrlType()) {;}
+Url::Url(const QString &url, QUrl::ParsingMode mode) : mpType(new UrlType()) { set(url, mode); }
 
 bool Url::isNull() const
 {
-    return mUrl.isEmpty() || UrlType::$null == type();
+    return mUrl.isEmpty() || type()->isNull();
 }
 
 bool Url::isValid() const
 {
-    return mUrl.isValid() && UrlType::$null != type() && UrlType::$other != type();
+    return mUrl.isValid() && ! type()->isNull();
 }
 
 bool Url::isLocalFile() const
@@ -27,7 +24,7 @@ bool Url::isLocalFile() const
     qInfo() << Q_FUNC_INFO << mUrl.toString() << mUrl.isLocalFile() << mUrl.toLocalFile();
     bool result = false;
     QUrl tQUrl(mUrl);
-    if (type().isFile()) tQUrl.setScheme("file");
+    if (type()->file()) tQUrl.setScheme("file");
     if (tQUrl.isLocalFile())
     {
         const QString cFileString =  tQUrl.toLocalFile();
@@ -57,7 +54,7 @@ bool Url::isLocalDir() const
 
 AText Url::authority() const
 {
-    return username() + ":" + password();
+    return username() + AText(":") + password();
 }
 
 QString Url::toString(const bool encoded) const
@@ -102,7 +99,7 @@ ATextList Url::queryMapList()
 
 void Url::clear()
 {
-    mType = UrlType::$null, mUrl.clear(), mQuery.clear(), mQueryText.clear(),
+    type()->nullify(), mUrl.clear(), mQuery.clear(), mQueryText.clear(),
         mQueryList.clear(), mQueryPairs.clear(), mQueryPairMMap.clear();
 }
 
@@ -130,7 +127,7 @@ void Url::set(const QString &s, QUrl::ParsingMode mode)
     mString = s;
     mScheme = mUrl.scheme();
     type(scheme());
-    if (type().isFile())
+    if (type()->file())
     {
         mUrl.setScheme(mScheme = "file");
         mLocalFileInfo = QFileInfo(mUrl.toLocalFile());
@@ -142,8 +139,8 @@ void Url::set(const QString &s, QUrl::ParsingMode mode)
     mPort = mUrl.port();
     mPath = mUrl.path();
     mPathList = mPath.split(QDir::separator().cell());
-    qInfo() << Q_FUNC_INFO << string() << scheme() << type().name() << authority()
-            << path() << pathCount() << pathDir()
+    qInfo() << Q_FUNC_INFO << string() << scheme() << type()->name()
+            << authority() << path() << pathCount() << pathDir()
             << localFlleInfo() << localDir() << queryMapList();
 }
 
@@ -152,27 +149,27 @@ void Url::dir(const QDir &dir)
     mUrl.setPath(dir.path());
 }
 
-void Url::setScheme(const AText &scheme)
+void Url::setScheme(const CText &scheme)
 {
     type(scheme);
     mUrl.setScheme(scheme);
 }
 
-UrlType Url::type(const AText &scheme)
+bool Url::type(const CText &scheme)
 {
-    UrlType result;
-    result.set(scheme);
-    return mType = result;
+    bool result = !! mpType;
+    if (result) result &= mpType->set(scheme);
+    return result;
 }
 
-Url::List Url::list(const QString delimtedUrls, const QChar hinge)
+QStringList Url::list(const QString delimtedUrls, const QChar hinge)
 {
-    Url::List result;
+    QStringList result;
     foreach (QString s, delimtedUrls.split(hinge))
     {
         Url tUrl(s);
         if (tUrl.isValid())
-            result << tUrl;
+            result << s;
     }
     return result;
 }

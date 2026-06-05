@@ -23,5 +23,5 @@ public: // types
 
 public: // static
     static QtMsgType qtMsgType(const Severity sev);
-    static CText qtMsgType(const QtMsgType qmt);
+    static CText qtMsgName(const QtMsgType qmt);
 };

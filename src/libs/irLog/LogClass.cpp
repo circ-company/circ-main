@@ -7,15 +7,15 @@
 QtMsgType Log::qtMsgType(const Severity sev)
 {
     QtMsgType result = QtMsgType(0);
-    if (sev > Severity::$Fault)    result = QtFatalMsg;
-    else if (sev > Severity::$Error)    result = QtCriticalMsg;
-    else if (sev > Severity::$Warn)     result = QtWarningMsg;
-    else if (sev > Severity::$Info)     result = QtInfoMsg;
-    else if (sev > Severity::$Trace)    result = QtDebugMsg;
+         if (sev.fault())       result = QtFatalMsg;
+    else if (sev.error())       result = QtCriticalMsg;
+    else if (sev.warn())        result = QtWarningMsg;
+    else if (sev.info())        result = QtInfoMsg;
+    else if (sev.trace())       result = QtDebugMsg;
     return result;
 }
 
-CText Log::qtMsgType(const QtMsgType qmt)
+CText Log::qtMsgName(const QtMsgType qmt)
 {
     CText result = "{invalid}";
     switch (qmt)

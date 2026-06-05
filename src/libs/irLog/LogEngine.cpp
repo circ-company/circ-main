@@ -27,11 +27,18 @@ void LogEngine::release()
     emit released();
 }
 
-void LogEngine::enqueue(const LogItem &li)
+void LogEngine::enqueue(LogItem li)
 {
     //Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
+    const Type cType = li.type();
     const Uid cUid = li.uid();
     const Severity cSev = li.severity();
+    switch (cType)
+    {
+    case Type::Formatted:   li.set(li.formatted());     break; // new message
+    default:                /* leave alone */           break; // TODO more?
+    }
+
     mUidItemMap.insert(cUid, li);
     mSevUidMMap.insert(cSev, cUid);
     //Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
@@ -51,17 +58,17 @@ bool LogEngine::isEmpty() const
 
 LogItem LogEngine::takeQueue()
 {
-    LogItem result;
+    LogItem result(LogItem::Type::$null, Severity::$null, CodeContext());
     Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
     if ( ! isEmpty())
     {
-        Severity tSev = mSevUidMMap.lastKey();
-        Uid tUid = mSevUidMMap.last();
-        Q_ASSERT(mUidItemMap.contains(tUid));
-        LogItem tItem = mUidItemMap.take(tUid);
+        const Severity cSev = mSevUidMMap.lastKey();
+        const Uid cUid = mSevUidMMap.last();
+        Q_ASSERT(mUidItemMap.contains(cUid));
+        LogItem tItem = mUidItemMap.take(cUid);
         if ( ! tItem.isNull())
             result = tItem;
-        mSevUidMMap.remove(tSev, tUid);
+        mSevUidMMap.remove(cSev, cUid);
         Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
     }
     if (isEmpty())
@@ -75,11 +82,12 @@ void LogEngine::sendTroll(const LogItem &li)
 {
     const Severity cSev = li.severity();
     const LogMsgType cLMT = LogMsgType::from(cSev);
-    const Uid cUid = li.uid();
-    const NanosecondTime cNST(cUid.nsecs());
-    QString tText = QString("%1%2 <%3> %4")
-                        .arg(cLMT.prefix(), cNST.timeString(),
-                         li.formatted()(), li.contextString()());
+    const NanosecondTime cNST = li.context().NSTime();
+    QString tText = QString("%1%2: <%3> %4\n")
+                        .arg(cNST.timeString())
+                        .arg(cSev.name()(), -10, cLMT.prefix())
+                        .arg(li.message()())
+                        .arg(li.contextString()());
     writeTroll(cLMT, tText);
 }
 

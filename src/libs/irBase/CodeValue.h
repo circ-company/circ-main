@@ -9,7 +9,7 @@ class CodeValue
 {
 public: // types
     typedef QList<CodeValue> List;
-    enum Type { Variable, Argument };
+    enum Type { $null = 0, Variable, Argument };
 
 public: // ctors
     CodeValue(const Type typ, const QVariant &var, const CText &argName);
@@ -28,7 +28,7 @@ public: // debug
     QString toDebugString() const;
 
 private:
-    Type mType;
+    Type mType=$null;
     QVariant mValue;
     CText mName;
     QMetaType mMetaType;

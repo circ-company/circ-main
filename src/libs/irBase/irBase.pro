@@ -15,7 +15,6 @@ SOURCES += \
     CodeValue.cpp \
     CodeValueList.cpp \
     DirInfo.cpp \
-    Enumeration.cpp \
     FSText.cpp \
     FSTextList.cpp \
     FileInfo.cpp \
@@ -55,7 +54,7 @@ HEADERS += \
     CodeValueList.h \
     DirInfo.h \
     DualMap.h \
-    Enumeration.h \
+    EnumHelper.h \
     FSText.h \
     FSTextList.h \
     FileInfo.h \
@@ -96,6 +95,7 @@ unix {
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
+    ../../../.gitignore \
     ../../BINDIR.pri \
     ../../BLDCFG.pri \
     ../../CVMAJOR.pri \

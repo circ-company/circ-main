@@ -40,6 +40,7 @@ public: // const
     QString toString() const;
     operator QString() const;
     QString operator () () const;
+    QByteArrayView toQBAV() const;
     bool equals(const AText &rhs) const;
     bool less(const AText &rhs) const;
     bool operator == (const AText &rhs);
@@ -98,6 +99,8 @@ Q_DECLARE_METATYPE(AText);
 inline QString AText::toString() const { return QString(constData()); }
 inline AText::operator QString () const { return toString(); }
 inline QString AText::operator () () const { return toString(); }
+
+inline QByteArrayView AText::toQBAV() const { return QByteArrayView(it()); }
 inline bool AText::operator ==(const AText &rhs) { return equals(rhs); }
 inline bool AText::operator <(const AText &rhs) { return less(rhs); }
 inline void AText::set(const QByteArray &ba) { set(ba.constData()); }
