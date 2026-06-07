@@ -1,14 +1,17 @@
 #pragma once
 
-#include <QObject>
+#include <QList>
+#include <QMetaType>
+
 
 #include "CText.h"
 #include "Types.h"
 
-class Severity : public QObject
+class Severity
 {
-    Q_GADGET
 public: // types
+    typedef QList<Severity> List;
+
     enum Enum : BYTE
     {
         $null = 0,
@@ -49,16 +52,15 @@ public: // types
         System,             // 30
         $max,               // 31
     };
-    Q_ENUM(Enum);
+//    Q_ENUM(Enum);
 
 public: // ctors
-    Severity(); // null
     Severity(const BYTE val);
     Severity(const CText nam);
-    ~Severity();
 
 public: // const
     bool isNull() const;
+    bool isValid() const;
     bool trace() const;
     bool info() const;
     bool warn() const;
@@ -66,28 +68,53 @@ public: // const
     bool fault() const;
     bool isWarn() const;
     bool isError() const;
-    bool inRange(const Enum &lo, const Enum &hi) const;
-    Enum evalue() const;
+    bool inRange(const Severity &lo, const Severity &hi) const;
+    Severity evalue() const;
     BYTE value() const;
     CText name() const;
+    bool equal(const Severity &other) const;
+    bool less(const Severity &other) const;
+    bool operator < (const Severity &other);
 
 public: // non-const
     void nullify();
     bool set(const BYTE val);
-    bool set(const CText nam);
-    void set(const Enum other);
+    bool set(const CText &nam);
+    void set(const Severity other);
+    void max(const Severity other);
+    void min(const Severity other);
 
 private:
     Enum mEnum=$null;
+
+public: // QMetaType
+    Severity() = default;
+    ~Severity() = default;
+    Severity(const Severity &) = default;
+    Severity &operator=(const Severity &) = default;
+    const Severity & it() const { return *this; }
+    Severity & it() { return *this; }
 };
 
-inline bool Severity::isNull() const { return $null == evalue(); }
-inline bool Severity::trace() const { return inRange($Trace, $Info); }
-inline bool Severity::info() const { return inRange($Info, $Warn); }
-inline bool Severity::warn() const { return inRange($Warn, $Error); }
-inline bool Severity::error() const { return inRange($Error, $Fault); }
-inline bool Severity::fault() const { return inRange($Fault, $max); }
-inline bool Severity::isWarn() const { return inRange($Warn, $max); }
-inline bool Severity::isError() const { return inRange($Error, $max); }
-inline void Severity::nullify() { mEnum = $null; }
-inline void Severity::set(const Enum other) { mEnum = other; }
+Q_DECLARE_METATYPE(Severity);
+
+extern bool operator < (const Severity &rhs, const Severity &lhs);
+extern bool operator <= (const Severity &rhs, const Severity &lhs);
+
+inline bool Severity::isNull() const { return Enum::$null == value(); }
+inline bool Severity::isValid() const { return inRange(Enum::$Trace, Enum::$max); }
+inline bool Severity::trace() const { return inRange(Enum::$Trace, Enum::$Info); }
+inline bool Severity::info() const { return inRange(Enum::$Info, Enum::$Warn); }
+inline bool Severity::warn() const { return inRange(Enum::$Warn,Enum:: $Error); }
+inline bool Severity::error() const { return inRange(Enum::$Error, Enum::$Fault); }
+inline bool Severity::fault() const { return inRange(Enum::$Fault, Enum::$max); }
+inline bool Severity::isWarn() const { return inRange(Enum::$Warn, Enum::$max); }
+inline bool Severity::isError() const { return inRange(Enum::$Error, Enum::$max); }
+inline BYTE Severity::value() const { return BYTE(evalue().mEnum); }
+inline bool Severity::equal(const Severity &other) const { return value() == other.value(); }
+inline bool Severity::less(const Severity &other) const { return value() < other.value(); }
+inline bool Severity::operator < (const Severity &other) { return less(other); }
+inline void Severity::nullify() { mEnum = Enum::$null; }
+//inline void Severity::set(const Enum other) { mEnum = other; }
+inline void Severity::max(const Severity other) { it() = qMax(it(), other); }
+inline void Severity::min(const Severity other) { it() = qMin(it(), other); }

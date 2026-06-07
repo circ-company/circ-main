@@ -46,9 +46,9 @@ private:
 
 inline NanosecondTime Result::time() const { return NanosecondTime(mEpochNS); }
 inline CodeContext Result::context() const { return mContext; }
-inline Severity Result::minSeverity() const { return mMinSeverity; }
-inline Severity Result::maxSeverity() const { return mMaxSeverity; }
+//inline Severity Result::minSeverity() const { return mMinSeverity; }
+//inline Severity Result::maxSeverity() const { return mMaxSeverity; }
 inline Count Result::statusCount() const { return mStatusCodeList.count(); }
 inline StatusCode::List Result::sortedStatus() const { return mSevStatusMMap.values(); }
-inline StatusCode::List Result::statusList(const Severity sev) const { return mSevStatusMMap.values(sev); }
+//inline StatusCode::List Result::statusList(const Severity sev) const { return mSevStatusMMap.values(sev); }
 

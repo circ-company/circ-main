@@ -10,17 +10,17 @@
 
 #include <AText.h>
 #include <ATextList.h>
+#include <CText.h>
 #include <Types.h>
+#include <Utility.h>
 
-#include "UrlType.h"
 
-class Url : public QObject
+class Url
 {
-    Q_GADGET
 public: // types
     typedef QList<Url> List;
 
-    enum class Type : BYTE
+    enum Type : BYTE
     {
         $null = 0,
         $File ,             //  1-Begin File
@@ -50,7 +50,6 @@ public: // const
     bool isLocalDir() const;
     AText string() const;
     CText scheme() const;
-    const UrlType * type() const;
     AText username() const;
     AText password() const;
     AText userinfo() const;
@@ -68,14 +67,32 @@ public: // const
     AText value(const AText &queryName) const;
     AText operator [] (const AText &queryName) const;
     ATextList queryMapList();
+    Type type() const;
 
 public: // non-const
     void clear();
     void set(const QString &s, QUrl::ParsingMode mode=QUrl::TolerantMode);
     void dir(const QDir &dir);
-    void setScheme(const CText &scheme);
-    bool type(const CText &scheme);
-    UrlType * type();
+    bool type(const CText &sch);
+
+    // ------------------------ enum class Type ------------------------
+public: // const
+    bool isNullType() const;
+    bool fileType() const;
+    bool dirType() const;
+    bool sqlType() const;
+    bool inRangeType(const Type &lo, const Type &hi) const;
+    Type evalueType() const;
+    BYTE valueType() const;
+    CText nameType() const;
+
+public: // non-const
+    void nullifyType();
+    bool setType(const BYTE val);
+    bool setType(const CText &nam);
+    void setType(const Type other);
+
+private:
 
 public: // static
     QStringList list(const QString delimtedUrls, const QChar hinge=QChar(';'));
@@ -84,7 +101,7 @@ private:
     Url * it();
 
 private:
-    UrlType * mpType=nullptr;
+    Type mType=Type::$null;
     QUrl mUrl;
     QUrlQuery mQuery;
     AText mQueryText;
@@ -107,13 +124,22 @@ private:
 inline AText Url::string() const { return mString; }
 inline CText Url::scheme() const { return mScheme; }
 inline AText Url::operator [](const AText &queryName) const { return value(queryName); }
-inline UrlType *Url::type() { Q_CHECK_PTR(mpType); return mpType; }
+inline bool Url::isNullType() const { return Type::$null == mType; }
+inline bool Url::fileType() const { return inRangeType(Type::$File, Type::$Dir); }
+inline bool Url::dirType() const { return inRangeType(Type::$Dir, Type::$SQL); }
+inline bool Url::sqlType() const { return inRangeType(Type::$SQL, Type::$max); }
+inline Url::Type Url::type() const { return mType; }
 inline Url * Url::it() { return this; }
-inline const UrlType *Url::type() const { Q_CHECK_PTR(mpType); return mpType; }
 inline AText Url::username() const  { return mUsername; }
 inline AText Url::password() const  { return mPassword; }
 inline AText Url::path() const  { return mPath; }
 inline Count Url::pathCount() const  { return mPathList.count(); }
 inline QFileInfo Url::localFlleInfo() const  { return mLocalFileInfo; }
+
+
+inline Url::Type Url::evalueType() const { return mType; }
+inline BYTE Url::valueType() const { return BYTE(mType); }
+inline void Url::nullifyType() { mType = Type::$null; }
+inline void Url::setType(const Type other) { mType = other; }
 
 

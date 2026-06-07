@@ -7,6 +7,7 @@
 #include <QList>
 
 #include "CText.h"
+#include "Utility.h"
 
 namespace EnumHelper
 {
@@ -39,7 +40,7 @@ CText name(const ENUM eval)
 template<typename ENUM>
 bool inRange(const ENUM evlo, const ENUM eval, const ENUM evhi)
 {
-    return evlo <= eval && eval < evhi;
+    return Utility::inRange(evlo, eval, evhi);
 }
 
 template<typename ENUM>

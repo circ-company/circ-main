@@ -5,9 +5,8 @@
 #include "CText.h"
 #include "Types.h"
 
-class LogOperator : public QObject
+class LogOperator
 {
-    Q_GADGET
 public: // types
     enum Enum : BYTE
     {
@@ -27,7 +26,6 @@ public: // types
         NotGreater = LessEqual,
         $max
     };
-    Q_ENUM(Enum);
 
 public: // ctors
     LogOperator(); // null
@@ -49,11 +47,12 @@ public: // non-const
     void set(const Enum other);
 
 private:
-    Enum mEnum=$null;
+    Enum mEnum=Enum::$null;
 
 };
 
 inline LogOperator::Enum LogOperator::evalue() const { return mEnum; }
+inline bool LogOperator::isNull() const { return Enum::$null == mEnum; }
 inline BYTE LogOperator::value() const { return BYTE(mEnum); }
-inline void LogOperator::nullify() { mEnum = $null; }
+inline void LogOperator::nullify() { mEnum = Enum::$null; }
 inline void LogOperator::set(const Enum other) { mEnum = other; }

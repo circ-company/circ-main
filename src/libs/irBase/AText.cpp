@@ -66,6 +66,13 @@ AText AText::formatted(const QVariantList vars)
         .arg(saveVarListString(vars, 9));
 }
 
+AText AText::modified(const Modify mod) const
+{
+    AText result = it();
+    result.set(mod);
+    return result;
+}
+
 AText AText::sub(const IndexList ixs)
 {
     AText result;
@@ -77,8 +84,15 @@ AText AText::sub(const IndexList ixs)
 
 bool AText::equals(const AText &rhs) const
 {
-    QByteArray lhsBA = QByteArray(it()).toLower();
-    QByteArray rhsBA = QByteArray(rhs).toLower();
+    QByteArray lhsBA = QByteArray(it());
+    QByteArray rhsBA = QByteArray(rhs);
+    return lhsBA == rhsBA;
+}
+
+bool AText::like(const AText &rhs, const Modify mod) const
+{
+    QByteArray lhsBA = modified(mod);
+    QByteArray rhsBA = rhs.modified(mod);
     return lhsBA == rhsBA;
 }
 
@@ -126,6 +140,17 @@ void AText::set(const unsigned int u, const BYTE base)
 {
     clear();
     append(QString::number(u, base).toLocal8Bit());
+}
+
+void AText::set(const Modify mod)
+{
+    switch (mod)
+    {
+    case(Upper):    it() = it().toUpper();      break;
+    case(CaseFold): Q_FALLTHROUGH();
+    case(Lower):    it() = it().toLower();      break;
+    default:        Q_UNREACHABLE();
+    };
 }
 
 int AText::vprintf(const char *format, va_list vlist)

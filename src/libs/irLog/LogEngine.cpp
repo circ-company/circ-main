@@ -58,7 +58,7 @@ bool LogEngine::isEmpty() const
 
 LogItem LogEngine::takeQueue()
 {
-    LogItem result(LogItem::Type::$null, Severity::$null, CodeContext());
+    LogItem result(LogItem::Type::$null, Severity(), CodeContext());
     Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
     if ( ! isEmpty())
     {

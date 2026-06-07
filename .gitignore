@@ -55,10 +55,15 @@ compile_commands.json
 
 *_qmlcache.qrc
 
-# QtBuild in line //260516aho
+# QtBuild in line //260605aho
 */temp/*
 *.h.*.idx
 *.cpp.*.idx
-*/.qtc_clangd/*
+.qtc_clangd/*
+./src/.qtc_clangd/*
+.qtcreator/*
+./src/.qtcreator/*
 */.cache/*
+*.idx
+.*
 

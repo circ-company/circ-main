@@ -38,7 +38,7 @@ SOURCES += \
     UidKeyMap.cpp \
     UidList.cpp \
     Url.cpp \
-    UrlType.cpp \
+    Utility.cpp \
     VersionInfo.cpp \
     XText.cpp \
     irBase.cpp
@@ -82,7 +82,7 @@ HEADERS += \
     UidKeyMap.h \
     UidList.h \
     Url.h \
-    UrlType.h \
+    Utility.h \
     VersionInfo.h \
     XText.h \
     irBase_global.h \

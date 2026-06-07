@@ -18,7 +18,11 @@ public: // types
     typedef QPair<AText, AText>  Pair;
     enum Clean
     {
-        $null = 0, All, TrimL, TrimR, Trim, Simplify
+        $nullClean = 0, All, TrimL, TrimR, Trim, Simplify, $maxClean
+    };
+    enum Modify
+    {
+        $nullModify = 0, Upper, Lower, CaseFold,  Local8, Utf8, Latin1, $maxModify
     };
 
 public: // ctors
@@ -35,6 +39,7 @@ public: // const
     bool isEmpty() const;
     bool isValid(const Index ix);
     AText formatted(const QVariantList vars);
+    AText modified(const Modify mod) const;
     Pair keyValue(const char ch) const;
     AText sub(const IndexList ixs);
     QString toString() const;
@@ -42,6 +47,7 @@ public: // const
     QString operator () () const;
     QByteArrayView toQBAV() const;
     bool equals(const AText &rhs) const;
+    bool like(const AText &rhs, const Modify mod) const;
     bool less(const AText &rhs) const;
     bool operator == (const AText &rhs);
     bool operator < (const AText &rhs);
@@ -56,6 +62,7 @@ public: // non-const
     void set(const QStringList &s);
     void set(const Count k, const char ch=' ');
     void set(const unsigned u, const BYTE base=10);
+    void set(const Modify mod);
     int vprintf(const char * format, va_list vlist);
     void setList(const char * pch);
     void setList(const QByteArray &ba);

@@ -2,21 +2,19 @@
 
 #include <QtDebug>
 #include <QDir>
-#include <QMetaProperty>
+#include <QVariant>
 
-//#include <ObjectHelper.h>
-
-Url::Url() : mpType(new UrlType()) {;}
-Url::Url(const QString &url, QUrl::ParsingMode mode) : mpType(new UrlType()) { set(url, mode); }
+Url::Url() : mType(Type::$null) {;}
+Url::Url(const QString &url, QUrl::ParsingMode mode) : mType(Type::$null) { set(url, mode); }
 
 bool Url::isNull() const
 {
-    return mUrl.isEmpty() || type()->isNull();
+    return mUrl.isEmpty() || isNullType();
 }
 
 bool Url::isValid() const
 {
-    return mUrl.isValid() && ! type()->isNull();
+    return mUrl.isValid() && ! isNullType();
 }
 
 bool Url::isLocalFile() const
@@ -24,7 +22,7 @@ bool Url::isLocalFile() const
     qInfo() << Q_FUNC_INFO << mUrl.toString() << mUrl.isLocalFile() << mUrl.toLocalFile();
     bool result = false;
     QUrl tQUrl(mUrl);
-    if (type()->file()) tQUrl.setScheme("file");
+    if (fileType()) tQUrl.setScheme(nameType());
     if (tQUrl.isLocalFile())
     {
         const QString cFileString =  tQUrl.toLocalFile();
@@ -99,7 +97,7 @@ ATextList Url::queryMapList()
 
 void Url::clear()
 {
-    type()->nullify(), mUrl.clear(), mQuery.clear(), mQueryText.clear(),
+    nullifyType(), mUrl.clear(), mQuery.clear(), mQueryText.clear(),
         mQueryList.clear(), mQueryPairs.clear(), mQueryPairMMap.clear();
 }
 
@@ -127,7 +125,7 @@ void Url::set(const QString &s, QUrl::ParsingMode mode)
     mString = s;
     mScheme = mUrl.scheme();
     type(scheme());
-    if (type()->file())
+    if (fileType())
     {
         mUrl.setScheme(mScheme = "file");
         mLocalFileInfo = QFileInfo(mUrl.toLocalFile());
@@ -139,7 +137,7 @@ void Url::set(const QString &s, QUrl::ParsingMode mode)
     mPort = mUrl.port();
     mPath = mUrl.path();
     mPathList = mPath.split(QDir::separator().cell());
-    qInfo() << Q_FUNC_INFO << string() << scheme() << type()->name()
+    qInfo() << Q_FUNC_INFO << string() << scheme() << nameType()
             << authority() << path() << pathCount() << pathDir()
             << localFlleInfo() << localDir() << queryMapList();
 }
@@ -149,17 +147,28 @@ void Url::dir(const QDir &dir)
     mUrl.setPath(dir.path());
 }
 
-void Url::setScheme(const CText &scheme)
+bool Url::type(const CText &sch)
 {
-    type(scheme);
-    mUrl.setScheme(scheme);
+    bool result = ! sch.isEmpty();
+    if (result) result &= setType(sch);
+    if (result) mUrl.setScheme(nameType());
+    return result;
 }
 
-bool Url::type(const CText &scheme)
+bool Url::inRangeType(const Type &lo, const Type &hi) const
 {
-    bool result = !! mpType;
-    if (result) result &= mpType->set(scheme);
-    return result;
+    return Utility::inRange(lo, mType, hi);
+}
+
+CText Url::nameType() const
+{
+    return QVariant(mType).toString();
+}
+
+bool Url::setType(const CText &nam)
+{
+    mType = Type(Utility::fromName($null, nam, $max));
+    return inRangeType($null, $max);
 }
 
 QStringList Url::list(const QString delimtedUrls, const QChar hinge)

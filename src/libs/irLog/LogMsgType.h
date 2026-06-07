@@ -27,7 +27,7 @@ public: // non-const
 public: // static
     static Type from(const CText &ctx);
     static Type from(const QtMsgType qmt);
-    static Type from(const Severity sev);
+    static Type from(const Severity &sev);
 
 private:
     Type mType;

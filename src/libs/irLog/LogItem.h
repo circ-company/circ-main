@@ -19,8 +19,10 @@ class LogItem
 public: // types
     typedef Log::ItemType Type;
 
-public: // ctors
-    LogItem(const Type type, const Severity sev, const CodeContext &ctx);
+public: // ctors // TODO This really smells
+    LogItem(const Type type, const CText &sevName, const CodeContext &ctx);
+    LogItem(const Type type, const Severity::Enum &sen, const CodeContext &ctx);
+    LogItem(const Type type, const Severity &sev, const CodeContext &ctx);
 
 public: // const
     bool isNil() const;
@@ -28,6 +30,7 @@ public: // const
     Uid uid() const;
     Type type() const;
     Severity severity() const;
+    Severity::Enum sevEnum() const;
     CodeContext context() const;
     AText message() const;
     AText formatted() const;
@@ -40,14 +43,14 @@ public: // const
 public: // non-const
     void clear();
     void set(const Type type);
-    void set(const Severity sev);
+    void set(const Severity::Enum sev);
     void set(const CodeContext &ctx);
     void set(const AText &msg);
-    void set(const LogOperator op);
+    void set(const LogOperator::Enum op);
     void set(const CodeValue &cv);
     void set(const CodeValueList &cvs);
     void set(const Index ix, const CodeValue &cv);
-    void asert(const LogOperator op, const bool is, const char *exp);
+    void asert(const LogOperator::Enum op, const bool is, const char *exp);
 
 public: // pointers
     const CodeValueList codeValues() const;
@@ -61,7 +64,7 @@ private:
     Severity mSeverity;
     CodeContext mContext;
     AText mMessage;
-    LogOperator mOperator=LogOperator::$null;
+    LogOperator::Enum mOperator=LogOperator::Enum::$null;
     CodeValue mValue;
     CodeValueList mValues;
 
@@ -84,9 +87,9 @@ inline AText LogItem::message() const { return mMessage; }
 inline AText LogItem::contextString() const { return context().toDebugString(); }
 inline Count LogItem::count() const { return codeValues().count(); }
 inline CodeValue LogItem::value(const Index ix) const { return codeValues().at(ix); }
-inline void LogItem::set(const Severity sev) { mSeverity = sev; }
+
 inline void LogItem::set(const AText &msg) { mMessage = msg; }
-inline void LogItem::set(const LogOperator op) { mOperator = op; }
+inline void LogItem::set(const LogOperator::Enum op) { mOperator = op; }
 inline void LogItem::set(const CodeValue &cv) { mValue = cv; }
 inline const CodeValueList LogItem::codeValues() const { return mValues; }
 inline CodeValueList &LogItem::codeValues() { return mValues; }

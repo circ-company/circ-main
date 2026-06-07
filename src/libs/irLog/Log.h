@@ -16,22 +16,21 @@
 #define FNRETURN(rvar) QVariant qv=QVariant::fromValue(rvar); \
             logFunction.leave(CodeValue(CodeValue::Value, qv, #rvar))
 
-#define PROGMSG(msg)        MESSAGELI(Severity::Progress, msg);
+#define PROGMSG(msg)        MESSAGELI(Severity::Enum::Progress, msg);
 
-#define TASSERT(bval)       ASSERTLI(LogOperator::True, Severity::TAssert, bval);
-#define WASSERT(bval)       ASSERTLI(LogOperator::True, Severity::Warning, bval);
-#define ASSERT(bval)        ASSERTLI(LogOperator::True, Severity::Error, bval);
-#define JASSERT(bval)       ASSERTLI(LogOperator::True, Severity::MajorError, bval);
-#define PASSERT(bval)       ASSERTLI(LogOperator::True, Severity::ProcessFault, bval);
-#define MASSERT(bval)       ASSERTLI(LogOperator::True, Severity::MemoryFault, bval);
-#define SASSERT(bval)       ASSERTLI(LogOperator::True, Severity::SystemFault, bval);
+#define TASSERT(bval)       ASSERTLI(LogOperator::True, Severity::Enum::TAssert, bval);
+#define WASSERT(bval)       ASSERTLI(LogOperator::True, Severity::Enum::WAssert, bval);
+#define ASSERT(bval)        ASSERTLI(LogOperator::True, Severity::Enum::Assert, bval);
+#define PASSERT(bval)       ASSERTLI(LogOperator::True, Severity::Enum::Process, bval);
+#define MASSERT(bval)       ASSERTLI(LogOperator::True, Severity::Enum::MAlloc, bval);
+#define SASSERT(bval)       ASSERTLI(LogOperator::True, Severity::Enum::System, bval);
 
 #define TDETAIL4(fmt, v1, v2, v3, v4) QVariant qvf(AText(fmt)); \
             QVariant qv1=QVariant::fromValue(v1); \
             QVariant qv2=QVariant::fromValue(v2); \
             QVariant qv3=QVariant::fromValue(v3); \
             QVariant qv4=QVariant::fromValue(v4); \
-        FORMATLI(Severity::TDetail,                     \
+        FORMATLI(Severity::Enum::TDetail,                     \
             CodeValue(CodeValue::Variable, qvf, #fmt),  \
             CodeValue(CodeValue::Variable, qv1, #v1),   \
             CodeValue(CodeValue::Variable, qv2, #v2),   \
@@ -41,7 +40,7 @@
 #define TRACE2(fmt, v1, v2) { QVariant qvf(AText(fmt)); \
 QVariant qv1=QVariant::fromValue(v1); \
     QVariant qv2=QVariant::fromValue(v2); \
-    FORMATLI(Severity::TraceMsg,                     \
+    FORMATLI(Severity::Enum::TraceMsg,                     \
              CodeValue(CodeValue::Variable, qvf, #fmt),  \
              CodeValue(CodeValue::Variable, qv1, #v1),   \
              CodeValue(CodeValue::Variable, qv2, #v2),  \

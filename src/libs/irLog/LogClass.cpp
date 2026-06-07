@@ -6,7 +6,7 @@
 // static
 QtMsgType Log::qtMsgType(const Severity sev)
 {
-    QtMsgType result = QtMsgType(0);
+    QtMsgType result = QtMsgType(-1);
          if (sev.fault())       result = QtFatalMsg;
     else if (sev.error())       result = QtCriticalMsg;
     else if (sev.warn())        result = QtWarningMsg;

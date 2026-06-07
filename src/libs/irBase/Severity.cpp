@@ -1,7 +1,8 @@
 #include "Severity.h"
 
 #include <QtDebug>
-#include "EnumHelper.h"
+
+#include "Utility.h"
 
 #include "../../../doctest/doctest/doctest.h"
 TEST_CASE("irCore/Severity")
@@ -15,28 +16,43 @@ TEST_CASE("irCore/Severity")
 }
 
 
-Severity::Severity() { nullify(); }
-Severity::Severity(const BYTE val) { set(val); }
+Severity::Severity(const BYTE val) : mEnum(Enum(val)) {;}
 Severity::Severity(const CText nam) { set(nam); }
-Severity::~Severity() {;}
 
-bool Severity::inRange(const Enum &lo, const Enum &hi) const
+bool Severity::inRange(const Severity &lo, const Severity &hi) const
 {
-    return EnumHelper::inRange(lo, evalue(), hi);
+    return Utility::inRange(lo, evalue(), hi);
+}
+
+Severity Seeeeeeeeeeeeeeeeeeverity::evalue() const
+{
+    return mEnum;
+}
+
+CText Severity::name() const
+{
+    return QVariant(Enum(mEnum)).toString();
 }
 
 bool Severity::set(const BYTE val)
 {
-    bool result = EnumHelper::values<Enum>().contains(WORD(val));
-    if (result) mEnum = Enum();
+    bool result = Utility::inRange(Severity($null).value(), val, Severity($max).value());
+    if (result) mEnum = Enum(val);
     return result;
 }
 
-bool Severity::set(const CText nam)
+bool Severity::set(const CText &nam)
 {
-    bool result=false;
-    mEnum = EnumHelper::value<Enum>(nam, &result);
-    return result;
+    mEnum = Enum(Utility::fromName($null, nam, $max));
+    return inRange($null, $max);
 }
 
+bool operator < (const Severity &lhs, const Severity &rhs)
+{
+    return lhs.less(rhs);
+}
 
+bool operator <= (const Severity &lhs, const Severity &rhs)
+{
+    return lhs.less(rhs) || lhs.equal(rhs);
+}

@@ -7,14 +7,15 @@ LogMsgType::LogMsgType(const QtMsgType qmt) { set(from(qmt)); }
 void LogMsgType::set(const Type typ)
 {
     mType = typ;
+    mQMT = QtMsgType(0);
     switch (typ)
     {
     case $null:     mName = "{nul}",    mPrefix = '@';                          break;
     case Trace:     mName = "Trace",    mPrefix = '.',  mQMT = QtDebugMsg;      break;
-    case Info:      mName = "Info ",    mPrefix = '-',  mQMT = QtInfoMsg;;      break;
-    case Warn:      mName = "Warn ",    mPrefix = '=',  mQMT = QtWarningMsg;;   break;
-    case Error:     mName = "Error",    mPrefix = '#',  mQMT = QtCriticalMsg;;  break;
-    case Fault:     mName = "Fault",    mPrefix = '*',  mQMT = QtFatalMsg;;     break;
+    case Info:      mName = "Info ",    mPrefix = '-',  mQMT = QtInfoMsg;       break;
+    case Warn:      mName = "Warn ",    mPrefix = '=',  mQMT = QtWarningMsg;    break;
+    case Error:     mName = "Error",    mPrefix = '#',  mQMT = QtCriticalMsg;   break;
+    case Fault:     mName = "Fault",    mPrefix = '*',  mQMT = QtFatalMsg;      break;
     default:        mName = "{err}",    mPrefix = '$';                          break;
     }
 }
@@ -45,7 +46,7 @@ LogMsgType::Type LogMsgType::from(const QtMsgType qmt)
     return result;
 }
 
-LogMsgType::Type LogMsgType::from(const Severity sev)
+LogMsgType::Type LogMsgType::from(const Severity &sev)
 {
     LogMsgType::Type result = $null;
          if (false)         {;}

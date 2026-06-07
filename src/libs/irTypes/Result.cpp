@@ -14,8 +14,8 @@ StatusCode Result::status(const Index ix) const
 
 void Result::clear()
 {
-    mMinSeverity = Severity::$null;
-    mMaxSeverity = Severity::$null;
+    mMinSeverity.nullify();
+    mMaxSeverity.nullify();
     mStatusCodeList.clear();
     mSevStatusMMap.clear();
 }
