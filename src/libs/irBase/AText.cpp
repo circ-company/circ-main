@@ -5,8 +5,6 @@
 #include <ctype.h>
 #include <climits>
 
-#include "../../../doctest/doctest/doctest.h"
-
 char AText::smHingeChar = ' ';
 
 AText::AText(const char *pch) { set(pch); }
@@ -17,13 +15,6 @@ AText::AText(const QByteArray &ba, const QChar repl) { set(ba, repl); }
 AText::AText(const QString &s) { set(s); }
 AText::AText(const Count k, const char ch) { set(k, ch); }
 AText::AText(const unsigned int u, const BYTE base) { set(u, base); }
-
-TEST_CASE("irBasee/AText ctors")
-{
-    AText atxNull;
-
-    CHECK(atxNull.isNull());
-}
 
 AText::Pair AText::keyValue(const char ch) const
 {

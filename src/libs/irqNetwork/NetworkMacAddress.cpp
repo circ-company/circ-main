@@ -2,8 +2,6 @@
 
 #include <QtDebug>
 
-#include "../../../doctest/doctest/doctest.h"
-
 NetworkMacAddress::NetworkMacAddress() : m48bits(-1) {;} // invalid
 NetworkMacAddress::NetworkMacAddress(const bool universal) { set(universal); } // null or local
 NetworkMacAddress::NetworkMacAddress(const QWORD &u48) { set(u48); }
@@ -11,6 +9,7 @@ NetworkMacAddress::NetworkMacAddress(const DWORD &org24, const DWORD &oui24) { s
 NetworkMacAddress::NetworkMacAddress(const AText &natx) { set(natx); }
 NetworkMacAddress::NetworkMacAddress(const XText &xtx) { set(xtx); }
 
+/*
 TEST_CASE("eirCore/NetworkMacAddress ctors")
 {
     NetworkMacAddress nmaInvalid;
@@ -30,7 +29,7 @@ TEST_CASE("eirCore/NetworkMacAddress ctors")
     CHECK(0x00123456 == nmaOrgOui.org24());
     CHECK(0x00789ABC == nmaOrgOui.oui24());
 }
-
+*/
 
 bool NetworkMacAddress::isNull() const
 {

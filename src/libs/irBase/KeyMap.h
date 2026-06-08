@@ -14,7 +14,7 @@ public: // ctors
     KeyMapT() {;}
 
 public: // const
-    KeyList keys() const { return KeyMapT<T>::keys(); }
+    KeyList allkeys() const { return QMap<Key, T>::keys(); }
     KeyList keys(const Key &starts) const;
     Key currentGroup() const { return mCurrentGroup; }
     bool containsGroup(const Key &key) const;
@@ -49,11 +49,13 @@ inline KeyList KeyMapT<T>::keys(const Key &starts) const
     return result;
 }
 
+
+
 template<typename T>
 inline bool KeyMapT<T>::containsGroup(const Key &key) const
 {
     const Key cGroupKey = currentGroup() + key;
-    const KeyList cGroupKeys = keys();
+    const KeyList cGroupKeys = allkeys();
     foreach (const Key cKey, cGroupKeys)
         if (cKey.startsWith(key))
             return true;

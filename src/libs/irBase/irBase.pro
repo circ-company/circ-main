@@ -1,6 +1,8 @@
 QT -= gui
 QT *= core
 QT *= network
+QT *= testlib
+
 TEMPLATE = lib
 DEFINES += IRBASE_LIBRARY
 

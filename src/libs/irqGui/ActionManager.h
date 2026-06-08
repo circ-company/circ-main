@@ -36,6 +36,6 @@ private:
 
 };
 
-inline Key::List ActionManager::keys() const { return mKeyActionMap.keys(); }
+inline Key::List ActionManager::keys() const { return mKeyActionMap.allkeys(); }
 
 Q_GLOBAL_STATIC(ActionManager, ACTMGR);

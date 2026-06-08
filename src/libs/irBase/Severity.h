@@ -52,7 +52,6 @@ public: // types
         System,             // 30
         $max,               // 31
     };
-//    Q_ENUM(Enum);
 
 public: // ctors
     Severity(const BYTE val);

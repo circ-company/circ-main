@@ -4,8 +4,6 @@
 #include <QNetworkInterface>
 #include <QRandomGenerator>
 
-#include "../../../doctest/doctest/doctest.h"
-
 #include "KeySeg.h"
 #include "NanosecondTime.h"
 #include "XText.h"
@@ -32,7 +30,7 @@ Uid::Uid(const DWORD segA, const WORD segB, const WORD segC, const WORD segD,
          const QWORD segE48, const Version ver, const Variant var)
     { set(segA, segB, segC, segD, segE48, ver, var); }
 
-
+#if 0
 TEST_CASE("eirCore/Uid ctors")
 {
     Uid uidNull;
@@ -55,7 +53,7 @@ TEST_CASE("eirCore/Uid ctors")
     CHECK(0x0123 == uidRef.segment(Uid::SegmentD));
 //    CHECK(0x0000456789ABCDEFUL == uidRef.segment(Uid::SegmentE));
 }
-
+#endif
 bool Uid::isNull() const
 {
     return scmNullValue == mUnion.data128[0];

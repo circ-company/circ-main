@@ -5,3 +5,4 @@ SUBDIRS += \
     desktop \
     guicon \
     libs \
+    testlibs

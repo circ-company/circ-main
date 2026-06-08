@@ -4,18 +4,6 @@
 
 #include "Utility.h"
 
-#include "../../../doctest/doctest/doctest.h"
-TEST_CASE("irCore/Severity")
-{
-    CHECK(false);
-
-    Severity sevInvalid;
-
-    CHECK(sevInvalid.isNull());
-    CHECK( ! sevInvalid.isNull());
-}
-
-
 Severity::Severity(const BYTE val) : mEnum(Enum(val)) {;}
 Severity::Severity(const CText nam) { set(nam); }
 
@@ -24,14 +12,17 @@ bool Severity::inRange(const Severity &lo, const Severity &hi) const
     return Utility::inRange(lo, evalue(), hi);
 }
 
-Severity Seeeeeeeeeeeeeeeeeeverity::evalue() const
+Severity Severity::evalue() const
 {
     return mEnum;
 }
 
 CText Severity::name() const
 {
-    return QVariant(Enum(mEnum)).toString();
+    const QVariant cVar((Enum(mEnum)));
+    const QString cStr = cVar.toString();
+//    qDebug() << Q_FUNC_INFO << cVar << cStr;
+    return CText(cStr);
 }
 
 bool Severity::set(const BYTE val)

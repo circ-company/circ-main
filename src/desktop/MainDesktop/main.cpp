@@ -3,9 +3,6 @@
 
 #include <QTimer>
 
-#define DOCTEST_CONFIG_IMPLEMENT
-#include "../../../doctest/doctest/doctest.h"
-
 int main(int argc, char *argv[])
 {
     Application a(argc, argv);

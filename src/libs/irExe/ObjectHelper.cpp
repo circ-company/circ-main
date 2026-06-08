@@ -158,7 +158,7 @@ ObjectHelper::NameMetaPropertyMap ObjectHelper::readProperties(const bool readAl
 
 void ObjectHelper::set(const KeyMap values, const bool okDynamic)
 {
-    foreach (const Key &key, values.keys())
+    foreach (const Key &key, values.allkeys())
     {
         const KeySeg cSeg = key.toSeg();
         if (okDynamic || isValidPropertyName(cSeg))

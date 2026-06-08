@@ -23,7 +23,7 @@ public: // non-const
     void invalidate();
 
 protected:
-    bool mValue = false;
+    bool mValue = true;
     bool mValid = false;
 };
 
