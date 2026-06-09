@@ -1,5 +1,6 @@
 #include "Application.h"
 
+#include <QFileSystemModel>
 #include <QTimer>
 #include <QVariant>
 #include <QWidget>
@@ -45,7 +46,10 @@ void Application::initialize()
         dirLoader()->setFilter(mDirFilters);
         dirLoader()->set(mMainDir);
         dirLoader()->initialize();
+        QFileSystemModel * pModel = dirLoader()->model();
         connect(dirLoader(), &DirLoader::file, this, &Application::processFile);
+        connect(pModel, &QFileSystemModel::rootPathChanged, this, &Application::rootDirChanged);
+        connect(pModel, &QFileSystemModel::directoryLoaded, this, &Application::dirLoadFinished);
         emit initialized();
     }
 }
@@ -68,4 +72,18 @@ void Application::processFile(const FileInfo fi)
     if (tImage.isNull()) return;                                        /*/===\*/
     mainWindow()->mainLabel()->set(tImage);
     emit processedFile(fi, tImage);
+}
+
+void Application::rootDirChanged(const QString &path)
+{
+    FNENTER()
+    FNARG((QFileInfo(path)));
+
+}
+
+void Application::dirLoadFinished(const QString &path)
+{
+    FNENTER()
+    FNARG((QFileInfo(path)));
+
 }

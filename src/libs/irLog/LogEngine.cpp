@@ -32,7 +32,7 @@ void LogEngine::enqueue(LogItem li)
     //Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
     const Type cType = li.type();
     const Uid cUid = li.uid();
-    const Severity cSev = li.severity();
+    const StatusLevel cSlv = li.level();
     switch (cType)
     {
     case Type::Formatted:   li.set(li.formatted());     break; // new message
@@ -40,7 +40,7 @@ void LogEngine::enqueue(LogItem li)
     }
 
     mUidItemMap.insert(cUid, li);
-    mSevUidMMap.insert(cSev, cUid);
+    mLevelUidMMap.insert(cSlv, cUid);
     //Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
     if ( ! mCaptured && mTrollEnabled) sendTroll(li);
 }
@@ -52,24 +52,24 @@ void LogEngine::dequeue()
 
 bool LogEngine::isEmpty() const
 {
-    Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
+    Q_ASSERT(mUidItemMap.count() == mLevelUidMMap.count());
     return mUidItemMap.isEmpty();
 }
 
 LogItem LogEngine::takeQueue()
 {
-    LogItem result(LogItem::Type::$null, Severity(), CodeContext());
-    Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
+    LogItem result(LogItem::Type::$null, StatusLevel(), CodeContext());
+    Q_ASSERT(mUidItemMap.count() == mLevelUidMMap.count());
     if ( ! isEmpty())
     {
-        const Severity cSev = mSevUidMMap.lastKey();
-        const Uid cUid = mSevUidMMap.last();
+        const StatusLevel cSlv = mLevelUidMMap.lastKey();
+        const Uid cUid = mLevelUidMMap.last();
         Q_ASSERT(mUidItemMap.contains(cUid));
         LogItem tItem = mUidItemMap.take(cUid);
         if ( ! tItem.isNull())
             result = tItem;
-        mSevUidMMap.remove(cSev, cUid);
-        Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
+        mLevelUidMMap.remove(cSlv, cUid);
+        Q_ASSERT(mUidItemMap.count() == mLevelUidMMap.count());
     }
     if (isEmpty())
         emit empty();
@@ -80,14 +80,19 @@ LogItem LogEngine::takeQueue()
 
 void LogEngine::sendTroll(const LogItem &li)
 {
-    const Severity cSev = li.severity();
-    const LogMsgType cLMT = LogMsgType::from(cSev);
+    const StatusLevel cSlv = li.level();
+    const CText cSlvCtx = cSlv.name();
+    const LogMsgType cLMT = LogMsgType::from(cSlv);
+    const char cLmtChar = cLMT.prefix();
+    const AText cMsgAtx = li.message();
+    const AText cCtxAtx = li.context().toString(false);
     const NanosecondTime cNST = li.context().NSTime();
-    QString tText = QString("%1%2: <%3> %4\n")
-                        .arg(cNST.timeString())
-                        .arg(cSev.name()(), -10, cLMT.prefix())
-                        .arg(li.message()())
-                        .arg(li.contextString()());
+    const QString cNstStr = cNST.timeString();
+    QString tText = QString("%1 %2: <%3> %4\n")
+                        .arg(cNstStr)
+                        .arg(cSlvCtx(), -10, cLmtChar)
+                        .arg(cMsgAtx())
+                        .arg(cCtxAtx());
     writeTroll(cLMT, tText);
 }
 
@@ -140,9 +145,9 @@ QString LogEngine::messagePattern()
 void LogEngine::messageHandler(QtMsgType qmt, const QMessageLogContext &qmlctx, const QString &s)
 {
     const LogMsgType cLMT(qmt);
-    const Severity cSev(qmt);
+    const StatusLevel cSlv(qmt);
     const CodeContext cCtx(qmlctx.function, qmlctx.file, qmlctx.line);
-    LogItem li(Log::Troll, cSev, cCtx);
+    LogItem li(Log::Troll, cSlv, cCtx);
     li.set(AText(s));
     LOG->enqueue(li);
 }

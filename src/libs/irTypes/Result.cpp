@@ -14,18 +14,18 @@ StatusCode Result::status(const Index ix) const
 
 void Result::clear()
 {
-    mMinSeverity.nullify();
-    mMaxSeverity.nullify();
+    mMinLevel.invalidate();
+    mMaxLevel.invalidate();
     mStatusCodeList.clear();
-    mSevStatusMMap.clear();
+    mLevelStatusMMap.clear();
 }
 
 void Result::add(const StatusCode &sts)
 {
-    mMaxSeverity.max(sts.severity());
-    mMinSeverity.min(sts.severity());
+    mMaxLevel.max(sts.level().value());
+    mMinLevel.min(sts.level().value());
     mStatusCodeList.append(sts);
-    mSevStatusMMap.insert(sts.severity(), sts);
+    mLevelStatusMMap.insert(sts.level(), sts);
 }
 
 void Result::add(const StatusCode::List &stsl)

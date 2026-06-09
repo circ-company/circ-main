@@ -35,7 +35,7 @@ public: // const
     ABList abList() const;
 
 public: // non-const
-    void clear();
+    void clear() { mABMap.clear(), mBAMap.clear(); }
     void insert(const AB &ab) { insert(ab.first, ab.second); }
     void insert(const A &a, const B &b) { mABMap.insert(a, b); mBAMap.insert(b, a); }
     void remove(const A &a);

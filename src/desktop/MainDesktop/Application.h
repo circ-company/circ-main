@@ -21,7 +21,9 @@ public slots:
     virtual void run() final;
     virtual void initialize() final;
     virtual void start() final;
-    virtual void processFile(const FileInfo fi) final;
+    void processFile(const FileInfo fi);
+    void rootDirChanged(const QString & path);
+    void dirLoadFinished(const QString & path);
 
 signals:
     void running();

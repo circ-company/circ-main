@@ -40,10 +40,10 @@ typedef size_t          Seed;
 typedef Count           Seq;
 typedef QWORD           IdNo;
 
-typedef QList<Index>     IndexList;
-typedef QList<INT>    IntList;
-typedef QList<UINT>  UIntList;
-typedef QList<QWORD>     QWordList;
+typedef QList<Index>    IndexList;
+typedef QList<INT>      IntList;
+typedef QList<UINT>     UIntList;
+typedef QList<QWORD>    QWordList;
 typedef QList<FLOAT>    FloatList;
 
 #define countof(array) (sizeof(array) / sizeof(array[0]))

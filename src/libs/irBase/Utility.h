@@ -22,13 +22,18 @@ public: // static
 template<typename ENUM>
 inline ENUM Utility::fromName(const ENUM loEnum, const CText &nam, const ENUM hiEnum)
 {
-    ENUM result = ENUM(-1);
-    for (Index ix = loEnum; ix < hiEnum && result < 0; ++ix)
+    ENUM result = ENUM();
+    for (Index ix = loEnum; ix < hiEnum; ++ix)
     {
         QVariant tVar;
         tVar.setValue((ENUM(ix)));
-        const CText cCtx = tVar.toByteArray();
-        if (cCtx.like(nam, CText::Lower)) result = ENUM(ix);
+        const QString cStr = tVar.toString();
+        const CText cCtx(cStr);
+        if (cCtx.like(nam, CText::Lower))
+        {
+            result = ENUM(ix);
+            break;
+        }
     }
     return result;
 }

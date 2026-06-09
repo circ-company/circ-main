@@ -3,7 +3,7 @@
 #include <QtLogging>
 
 #include <CText.h>
-#include <Severity.h>
+#include <StatusLevel.h>
 
 class LogMsgType
 {
@@ -27,7 +27,7 @@ public: // non-const
 public: // static
     static Type from(const CText &ctx);
     static Type from(const QtMsgType qmt);
-    static Type from(const Severity &sev);
+    static Type from(const StatusLevel sl);
 
 private:
     Type mType;

@@ -14,7 +14,7 @@ AText::AText(const QByteArray &ba) { set(ba); }
 AText::AText(const QByteArray &ba, const QChar repl) { set(ba, repl); }
 AText::AText(const QString &s) { set(s); }
 AText::AText(const Count k, const char ch) { set(k, ch); }
-AText::AText(const unsigned int u, const BYTE base) { set(u, base); }
+//AText::AText(const unsigned int u, const BYTE base) { set(u, base); }
 
 AText::Pair AText::keyValue(const char ch) const
 {
@@ -108,6 +108,7 @@ void AText::set(const char *pch)
 void AText::set(const char *pch, const QChar repl)
 {
     clear();
+    if (nullptr == pch) return;                                 /*/=====\*/
     if (0 != *pch)
     {
         QByteArray::reserve(strlen(pch) + 1);
@@ -126,13 +127,13 @@ void AText::set(const Count k, const char ch)
 {
     fill(ch, k);
 }
-
+/*
 void AText::set(const unsigned int u, const BYTE base)
 {
     clear();
     append(QString::number(u, base).toLocal8Bit());
 }
-
+*/
 void AText::set(const Modify mod)
 {
     switch (mod)

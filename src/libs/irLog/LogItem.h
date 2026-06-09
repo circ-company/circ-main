@@ -5,7 +5,7 @@
 #include <CodeValue.h>
 #include <CodeContext.h>
 #include <KeyMap.h>
-#include <Severity.h>
+#include <StatusLevel.h>
 #include <Uid.h>
 
 #include "LogClass.h"
@@ -21,20 +21,17 @@ public: // types
 
 public: // ctors // TODO This really smells
     LogItem(const Type type, const CText &sevName, const CodeContext &ctx);
-    LogItem(const Type type, const Severity::Enum &sen, const CodeContext &ctx);
-    LogItem(const Type type, const Severity &sev, const CodeContext &ctx);
+    LogItem(const Type type, const StatusLevel &slv, const CodeContext &ctx);
 
 public: // const
     bool isNil() const;
     bool isNull() const;
     Uid uid() const;
     Type type() const;
-    Severity severity() const;
-    Severity::Enum sevEnum() const;
+    StatusLevel level() const;
     CodeContext context() const;
     AText message() const;
     AText formatted() const;
-    AText contextString() const;
     LogMsgType logMessageType() const;
     CodeValue value() const;
     Count count() const;
@@ -43,7 +40,6 @@ public: // const
 public: // non-const
     void clear();
     void set(const Type type);
-    void set(const Severity::Enum sev);
     void set(const CodeContext &ctx);
     void set(const AText &msg);
     void set(const LogOperator::Enum op);
@@ -61,7 +57,7 @@ public: // pointers
 private:
     Uid mUid;
     Type mType;
-    Severity mSeverity;
+    StatusLevel mLevel;
     CodeContext mContext;
     AText mMessage;
     LogOperator::Enum mOperator=LogOperator::Enum::$null;
@@ -80,14 +76,12 @@ Q_DECLARE_METATYPE(LogItem);
 inline bool LogItem::isNil() const { return uid().isNil(); }
 inline bool LogItem::isNull() const { return Type::$null == type(); }
 inline Uid LogItem::uid() const { return mUid; }
-inline Severity LogItem::severity() const { return mSeverity; }
+inline StatusLevel LogItem::level() const { return mLevel; }
 inline LogItem::Type LogItem::type() const { return mType; }
 inline CodeContext LogItem::context() const { return mContext; }
 inline AText LogItem::message() const { return mMessage; }
-inline AText LogItem::contextString() const { return context().toDebugString(); }
 inline Count LogItem::count() const { return codeValues().count(); }
 inline CodeValue LogItem::value(const Index ix) const { return codeValues().at(ix); }
-
 inline void LogItem::set(const AText &msg) { mMessage = msg; }
 inline void LogItem::set(const LogOperator::Enum op) { mOperator = op; }
 inline void LogItem::set(const CodeValue &cv) { mValue = cv; }

@@ -20,7 +20,7 @@ public: // ctors
     CText(const QByteArray &ba);
     CText(const QByteArray &ba, const QChar repl);
     CText(const QString &s);
-    CText(const unsigned u, const BYTE base=10);
+//    CText(const unsigned u, const BYTE base=10);
 
 //    virtual void set(const char * pch);
 

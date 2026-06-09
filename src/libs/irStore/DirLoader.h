@@ -64,6 +64,7 @@ public: // non-const
     void setNameFilters(const FSText &suffixNames);
 
 public: // pointers
+    QFileSystemModel * model();
 
 public: // debug
     QStringList toDebugStrings() const;
@@ -77,10 +78,12 @@ private:
     QDir mCurrentDir;
     QModelIndex mParentIndex;
     QModelIndex mCurrentIndex;
-    int mCurrentRow;
+    int mCurrentRow=0;
     StartOptions mCurrentOptions;
     FileInfoList mCurrentFiles;
 };
 
 inline FSText DirLoader::basePath() const { return baseDir().path(); }
 inline QDir DirLoader::baseDir() const { return mBaseDir; }
+inline QFileSystemModel *DirLoader::model() { Q_CHECK_PTR(mpModel); return mpModel; }
+

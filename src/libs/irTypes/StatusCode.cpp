@@ -2,7 +2,7 @@
 
 bool StatusCode::isNull() const
 {
-    return 0 == NSTimeStamp() && 0 == SeverityCode();
+    return 0 == NSTimeStamp() && 0 == StatusLevelValue();
 }
 
 

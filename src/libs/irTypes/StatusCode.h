@@ -17,7 +17,7 @@
 
 #include <QList>
 
-#include <Severity.h>
+#include <StatusLevel.h>
 
 #include "CodeContext.h"
 #include "CText.h"
@@ -30,7 +30,7 @@
 
 #define STATUSCODE_DATAPROPS(TND) \
     TND(Nanoseconds, NSTimeStamp, 0) \
-    TND(int, SeverityCode, 0) \
+    TND(int, StatusLevelValue, StatusLevel::Invalid) \
     TND(CodeContext, Context, CodeContext()) \
     TND(FORMAT, Format, FORMAT()) \
     TND(CodeValueList, Arguments, CodeValueList()) \
@@ -51,19 +51,19 @@ public: // types
     typedef QList<StatusCode> List;
 
 public: // ctors
-    StatusCode(const CodeContext &ctx, const Severity sev, const FORMAT msg=FORMAT());
-    StatusCode(const CodeContext &ctx, const Severity sev, const FORMAT msg,
+    StatusCode(const CodeContext &ctx, const StatusLevel lvl, const FORMAT msg=FORMAT());
+    StatusCode(const CodeContext &ctx, const StatusLevel lvl, const FORMAT msg,
                const CodeValue &arg1,
                const CodeValue &arg2=CodeValue(),
                const CodeValue &arg3=CodeValue(),
                const CodeValue &arg4=CodeValue());
-    StatusCode(const CodeContext &ctx, const Severity sev, const FORMAT msg,
+    StatusCode(const CodeContext &ctx, const StatusLevel lvl, const FORMAT msg,
                const CodeValueList &args);
 
 
 public: // const
     bool isNull() const;
-    Severity severity() const;
+    StatusLevel level() const;
     FORMAT formattedMessage() const;
     FORMATLIST formattedMessageArgs() const;
     Count argumentCount() const;
@@ -77,4 +77,4 @@ public:
     DECLARE_DATAPROPS(StatusCode, StatusCodeData)
 };
 
-inline Severity StatusCode::severity() const { return Severity(SeverityCode()); }
+inline StatusLevel StatusCode::level() const { return StatusLevel(StatusLevelValue()); }

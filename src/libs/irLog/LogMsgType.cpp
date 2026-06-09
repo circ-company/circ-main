@@ -46,15 +46,15 @@ LogMsgType::Type LogMsgType::from(const QtMsgType qmt)
     return result;
 }
 
-LogMsgType::Type LogMsgType::from(const Severity &sev)
+LogMsgType::Type LogMsgType::from(const StatusLevel sl)
 {
     LogMsgType::Type result = $null;
          if (false)         {;}
-    else if (sev.fault())   result = Fault;
-    else if (sev.error())   result = Error;
-    else if (sev.warn())    result = Warn;
-    else if (sev.info())    result = Info;
-    else if (sev.trace())   result = Trace;
+    else if (sl.fault())    result = Fault;
+    else if (sl.error())    result = Error;
+    else if (sl.warn())     result = Warn;
+    else if (sl.info())     result = Info;
+    else if (sl.trace())    result = Trace;
     return result;
 }
 

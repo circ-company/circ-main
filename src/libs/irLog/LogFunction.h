@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Severity.h>
 #include <CodeValue.h>
 #include <CodeValueList.h>
 #include <CodeContext.h>
+#include <StatusLevel.h>
 
 class LogFunction
 {

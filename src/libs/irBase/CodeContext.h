@@ -22,6 +22,7 @@ public: // const
     int fileLine() const;
     FunctionInfo funcInfo() const;
     FileInfo fileInfo() const;
+    AText toString(const bool withTime=true) const;
 
 public: // non-const
     void clear();

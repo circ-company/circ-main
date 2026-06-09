@@ -6,9 +6,10 @@
 #include <QQueue>
 #include <QStringList>
 
-#include <LogItem.h>
-#include <Severity.h>
+#include <StatusLevel.h>
 #include <Uid.h>
+
+#include "LogItem.h"
 
 class LogEngine : public QObject
 {
@@ -54,8 +55,7 @@ private:
     bool mTrollEnabled=true;
     QtMessageHandler mpOldHandler;
     QMap<Uid, LogItem> mUidItemMap;
-    QMultiMap<Severity, Uid> mSevUidMMap;
+    QMultiMap<StatusLevel, Uid> mLevelUidMMap;
 };
-
 
 Q_GLOBAL_STATIC(LogEngine, LOG);

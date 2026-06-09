@@ -19,7 +19,7 @@ Severity Severity::evalue() const
 
 CText Severity::name() const
 {
-    const QVariant cVar((Enum(mEnum)));
+    const QVariant cVar(mEnum);
     const QString cStr = cVar.toString();
 //    qDebug() << Q_FUNC_INFO << cVar << cStr;
     return CText(cStr);

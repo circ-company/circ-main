@@ -14,9 +14,11 @@ SOURCES += \
     CText.cpp \
     CTextList.cpp \
     CodeContext.cpp \
+    CodeLevel.cpp \
     CodeValue.cpp \
     CodeValueList.cpp \
     DirInfo.cpp \
+    Enumeration.cpp \
     FSText.cpp \
     FSTextList.cpp \
     FileInfo.cpp \
@@ -31,7 +33,7 @@ SOURCES += \
     MillisecondTime.cpp \
     NanosecondTime.cpp \
     Null.cpp \
-    Severity.cpp \
+    StatusLevel.cpp \
     StructTM.cpp \
     TriBool.cpp \
     UText.cpp \
@@ -52,11 +54,13 @@ HEADERS += \
     CText.h \
     CTextList.h \
     CodeContext.h \
+    CodeLevel.h \
     CodeValue.h \
     CodeValueList.h \
     DirInfo.h \
     DualMap.h \
     EnumHelper.h \
+    Enumeration.h \
     FSText.h \
     FSTextList.h \
     FileInfo.h \
@@ -74,7 +78,7 @@ HEADERS += \
     Named.h \
     NanosecondTime.h \
     Null.h \
-    Severity.h \
+    StatusLevel.h \
     StructTM.h \
     TriBool.h \
     Types.h \

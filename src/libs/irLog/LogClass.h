@@ -2,7 +2,7 @@
 
 #include <QtDebug>
 
-#include <Severity.h>
+#include <StatusLevel.h>
 
 class Log
 {
@@ -22,6 +22,6 @@ public: // types
     };
 
 public: // static
-    static QtMsgType qtMsgType(const Severity sev);
+    static QtMsgType qtMsgType(const StatusLevel sl);
     static CText qtMsgName(const QtMsgType qmt);
 };

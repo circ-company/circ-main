@@ -9,11 +9,10 @@ class CodeValue
 {
 public: // types
     typedef QList<CodeValue> List;
-    enum Type { $null = 0, Variable, Argument };
 
 public: // ctors
-    CodeValue(const Type typ, const QVariant &var, const CText &argName);
-    CodeValue(const Type typ, const QVariant &var, const char argPch[]);
+    CodeValue(const QVariant &var, const CText &argName);
+    CodeValue(const QVariant &var, const char argPch[]);
 
 public: // const
     QVariant value() const;
@@ -28,17 +27,20 @@ public: // debug
     QString toDebugString() const;
 
 private:
-    Type mType=$null;
     QVariant mValue;
     CText mName;
     QMetaType mMetaType;
 
 public: // QMetaType
+    CodeValue it() const { return *this; }
+    CodeValue & it() { return *this; }
     CodeValue() = default;
     ~CodeValue() = default;
     CodeValue(const CodeValue &) = default;
     CodeValue &operator=(const CodeValue &) = default;
 };
+
+Q_DECLARE_METATYPE(CodeValue);
 
 inline QVariant CodeValue::value() const { return mValue; }
 inline QString CodeValue::string() const { return value().toString(); }
@@ -46,7 +48,6 @@ inline CText CodeValue::name() const { return mName; }
 inline CText CodeValue::metaName() const { return metaType().name(); }
 inline QMetaType CodeValue::metaType() const { return mMetaType; }
 
-Q_DECLARE_METATYPE(CodeValue);
 
 
 

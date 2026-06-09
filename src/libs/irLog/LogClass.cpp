@@ -4,14 +4,14 @@
 #include <Types.h>
 
 // static
-QtMsgType Log::qtMsgType(const Severity sev)
+QtMsgType Log::qtMsgType(const StatusLevel sl)
 {
-    QtMsgType result = QtMsgType(-1);
-         if (sev.fault())       result = QtFatalMsg;
-    else if (sev.error())       result = QtCriticalMsg;
-    else if (sev.warn())        result = QtWarningMsg;
-    else if (sev.info())        result = QtInfoMsg;
-    else if (sev.trace())       result = QtDebugMsg;
+    QtMsgType result = QtMsgType(0);
+         if (sl.fault())       result = QtFatalMsg;
+    else if (sl.error())       result = QtCriticalMsg;
+    else if (sl.warn())        result = QtWarningMsg;
+    else if (sl.info())        result = QtInfoMsg;
+    else if (sl.trace())       result = QtDebugMsg;
     return result;
 }
 
