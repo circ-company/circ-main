@@ -12,6 +12,8 @@
 #define FNENTER() LogFunction logFunction(CODECONTEXT());
 #define FNARG(arg) QVariant qv=QVariant::fromValue(arg); \
             logFunction.add(CodeValue(qv, #arg));
+#define FNARGD(arg, def) QVariant qv=QVariant::fromValue(arg); \
+            logFunction.add(CodeValue(qv, #arg, def, #def));
 #define FNLEAVE() logFunction.leave();
 #define FNRETURN(rvar) QVariant qv=QVariant::fromValue(rvar); \
             logFunction.leave(CodeValue(qv, #rvar))
