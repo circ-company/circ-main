@@ -5,6 +5,8 @@
 #include <ctype.h>
 #include <climits>
 
+#include "ATextList.h"
+
 char AText::smHingeChar = ' ';
 
 AText::AText(const char *pch) { set(pch); }
@@ -37,12 +39,24 @@ bool AText::isEmpty() const
     return result;
 }
 
-bool AText::isValid(const Index ix)
+bool AText::isValid(const Index ix) const
 {
     return ix >= 0 && ix < length();
 }
 
-AText AText::formatted(const QVariantList vars)
+AText::List AText::split(const char hinge) const
+{
+    QString tString(it());
+    return ATextList(tString.split(hinge));
+}
+
+AText::List AText::split(const AText &hinge) const
+{
+    QString tString(it());
+    return ATextList(tString.split(hinge));
+}
+
+AText AText::formatted(const QVariantList vars) const
 {
     return QString("%1 %2 %3 %4 %5 %6 %7 %8 %9")
         .arg(saveVarListString(vars, 0))
@@ -64,7 +78,7 @@ AText AText::modified(const Modify mod) const
     return result;
 }
 
-AText AText::sub(const IndexList ixs)
+AText AText::sub(const IndexList ixs) const
 {
     AText result;
     foreach (const Index ix, ixs)

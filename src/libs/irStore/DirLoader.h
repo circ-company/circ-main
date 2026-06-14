@@ -40,6 +40,7 @@ public slots:
     void start(const StartOptions opts=DirLoader::StartOption::$null);
     void start(const FSText &dirName, const DirLoader::StartOptions opts);
     void start(const QDir &dir, const DirLoader::StartOptions opts);
+    void dirIsLoaded(const QString &path);
     void processDir(const QDir &dir, const DirLoader::StartOptions opts);
     void pulse();
     void processDir(const FileInfo fileInfo);
@@ -75,6 +76,7 @@ private:
     QDirList mSubDirList;
     QFileSystemModel * mpModel;
     QTimer * mpPulseTimer;
+    bool mDirLoaded=false;
     QDir mCurrentDir;
     QModelIndex mParentIndex;
     QModelIndex mCurrentIndex;

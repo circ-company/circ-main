@@ -2,30 +2,28 @@
 
 #include <CodeContext.h>
 
-LogItem::LogItem(const Type type, const CText &slvName, const CodeContext &ctx)
+LogItem::LogItem(const Type type, const CText &lvlName, const CodeContext &ctx)
     : mUid(Uid::VerGTimeseqNode6)
     , mType(type)
-    , mLevel(slvName)
+    , mLevel(lvlName)
     , mContext(ctx) {;}
 
-LogItem::LogItem(const Type type, const StatusLevel &slv, const CodeContext &ctx)
+LogItem::LogItem(const Type type, const StatusLevel &lvl, const CodeContext &ctx)
     : mUid(Uid::VerGTimeseqNode6)
     , mType(type)
-    , mLevel(slv)
+    , mLevel(lvl)
     , mContext(ctx) {;}
 
 AText LogItem::formatted() const
 {
-    ATextList tDbgAtxl;
     AText result = value(0).string();
     for (Index ix = 1; ix < Index(count()); ++ix)
     {
         AText tPctNum = QString("%") + QString::number(ix, 10);
         if (result.contains(tPctNum))
             result.replace(tPctNum.toQBAV(), AText(value(ix).string()));
-        tDbgAtxl << value(ix).toDebugString();
     }
-    return result + AText("\n") + tDbgAtxl.join("\n");
+    return result;
 }
 
 void LogItem::clear()

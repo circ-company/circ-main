@@ -32,7 +32,7 @@ QString Id::toString() const
     QString result;
     if ( ! key().isNull())
         result = key().toString();
-    else if ( ! name().isNull())
+    else if ( ! name().isEmpty())
         result = name().simplified().replace(' ', '-');
     else if (0 != idno())
         result = QString::number(idno());

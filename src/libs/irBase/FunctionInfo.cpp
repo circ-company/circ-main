@@ -8,13 +8,13 @@
 class FunctionInfoData : public QSharedData
 {
 public:
-    CText           dQFIString;
+    AText           dQFIString;
     CTextList       dReturnType;
     CTextList       dAnte;
-    CTextList       dNamespaces;
+    CText           dNamespaces;
     CText           dClassName;
     CText           dFunctionName;
-    CodeValueList dArgumentList;
+    CodeValueList   dArgumentList;
     CTextList       dPost;
     int             dFuncInfoFlags;
 };
@@ -59,6 +59,16 @@ CodeValue FunctionInfo::arg(const Index argix) const
                : CodeValue();
 }
 
+CText FunctionInfo::completeBaseName() const
+{
+    Q_CHECK_PTR(data);
+    CText result = data->dNamespaces;
+    if ( ! data->dClassName.isEmpty())
+        result += (result.isEmpty() ? "" : "::") + data->dClassName();
+    result += (result.isEmpty() ? "" : "::") + data->dFunctionName() + "()";
+    return result;
+}
+
 void FunctionInfo::clear()
 {
     Q_CHECK_PTR(data);
@@ -70,6 +80,30 @@ void FunctionInfo::set(const CText &ctx)
 {
     Q_CHECK_PTR(data);
     data->dQFIString = ctx;
+    parse();
+}
+
+void FunctionInfo::parse()
+{
+    Q_CHECK_PTR(data);
+    AText tInput = data->dQFIString;
+    const int cFirstOpenParenPos = tInput.indexOf('(');
+    if (cFirstOpenParenPos < 0) return;                         /*/=====\*/
+    AText tFront = tInput.left(cFirstOpenParenPos);
+    const int cFrontLastSpacePos = tFront.lastIndexOf(' ');
+    if (cFrontLastSpacePos < 1) return;                         /*/=====\*/
+    AText tAnte = tFront.left(cFrontLastSpacePos - 1);
+    AText tNames = tFront.mid(cFrontLastSpacePos + 1);
+    CTextList tNameList = tNames.split("::");
+    if (tNameList.isEmpty()) return;                            /*/=====\*/
+    CText tFuncName = tNameList.takeLast();
+    CText tClassName = tNameList.isEmpty() ? CText() : tNameList.takeLast();
+    CText tNamespaces = tNameList.join("::");
+    // TODO Arguments, post
+    // TODO parse flags
+    data->dNamespaces = tNamespaces,
+        data->dClassName = tClassName,
+        data->dFunctionName = tFuncName;
 }
 
 QString FunctionInfo::toDebugString() const
@@ -85,7 +119,7 @@ QStringList FunctionInfo::toDebugStrings() const
     result << QString("{==Function Info:          %1").arg(data->dQFIString());
     result << QString("---Return Type:            %1").arg(data->dReturnType.join(',')());
     result << QString("---Ante:                   %1").arg(data->dAnte.join(',')());
-    result << QString("---Namespaces:             %1").arg(data->dNamespaces.join(',')());
+    result << QString("---Namespaces:             %1").arg(data->dNamespaces());
     result << QString("---Class Name:             %1").arg(data->dClassName());
     result << QString("---Function Name:          %1").arg(data->dFunctionName());
     result << QString("---Arguments:              %1").arg(argCount());

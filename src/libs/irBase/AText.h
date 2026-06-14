@@ -37,11 +37,13 @@ public: // ctors
 
 public: // const
     bool isEmpty() const;
-    bool isValid(const Index ix);
-    AText formatted(const QVariantList vars);
+    bool isValid(const Index ix) const;
+    List split(const char hinge) const;
+    List split(const AText &hinge) const;
+    AText formatted(const QVariantList vars) const;
     AText modified(const Modify mod) const;
     Pair keyValue(const char ch) const;
-    AText sub(const IndexList ixs);
+    AText sub(const IndexList ixs) const;
     QString toString() const;
     operator QString() const;
     QString operator () () const;
@@ -49,8 +51,8 @@ public: // const
     bool equals(const AText &rhs) const;
     bool like(const AText &rhs, const Modify mod) const;
     bool less(const AText &rhs) const;
-    bool operator == (const AText &rhs);
-    bool operator < (const AText &rhs);
+    bool operator == (const AText &rhs) const;
+    bool operator < (const AText &rhs) const;
 
 public: // non-const
     void set(const char ch);
@@ -61,7 +63,6 @@ public: // non-const
     void set(const QByteArrayList &ba);
     void set(const QStringList &s);
     void set(const Count k, const char ch=' ');
-//    void set(const unsigned u, const BYTE base=10);
     void set(const Modify mod);
     int vprintf(const char * format, va_list vlist);
     void setList(const char * pch);
@@ -108,8 +109,8 @@ inline AText::operator QString () const { return toString(); }
 inline QString AText::operator () () const { return toString(); }
 
 inline QByteArrayView AText::toQBAV() const { return QByteArrayView(it()); }
-inline bool AText::operator ==(const AText &rhs) { return equals(rhs); }
-inline bool AText::operator <(const AText &rhs) { return less(rhs); }
+inline bool AText::operator ==(const AText &rhs) const { return equals(rhs); }
+inline bool AText::operator <(const AText &rhs) const { return less(rhs); }
 inline void AText::set(const QByteArray &ba) { set(ba.constData()); }
 inline void AText::set(const QString &s)  { set(s.toLocal8Bit()); }
 inline AText AText::operator +=(const AText &more) { return append(more); }

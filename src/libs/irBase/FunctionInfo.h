@@ -27,10 +27,12 @@ public: // const
     bool isNull() const;
     Count argCount() const;
     CodeValue arg(const Index argix) const;
+    CText completeBaseName() const;
 
 public: // non-const
     void clear();
     void set(const CText &ctx);
+    void parse();
 
 public: // debug
     QString toDebugString() const;

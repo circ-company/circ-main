@@ -2,7 +2,8 @@
 
 FSTextList::FSTextList() {;}
 FSTextList::FSTextList(const QByteArrayList &other) { set(other); }
-FSTextList::FSTextList(const FSText::List &other) { *this = other; }
+FSTextList::FSTextList(const AText::List &other) { set(other); }
+FSTextList::FSTextList(const QList<FSText> &other) { set(other); }
 
 FSText FSTextList::join(const FSText fstx) const
 {
@@ -37,6 +38,20 @@ void FSTextList::set(const QStringList qsl)
     clear();
     foreach (const QString cQS, qsl)
         append(FSText(cQS));
+}
+
+void FSTextList::set(const AText::List atxl)
+{
+    clear();
+    foreach (const AText cAtx, atxl)
+        append(FSText(cAtx));
+}
+
+void FSTextList::set(const QList<FSText> fstxl)
+{
+    clear();
+    foreach (const FSText cFStx, fstxl)
+        append(cFStx);
 }
 
 void FSTextList::prependEach(const FSText &fstx)

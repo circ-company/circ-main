@@ -10,6 +10,7 @@ CTextList::CTextList() {;}
 CTextList::CTextList(const QByteArrayList &bal) { set(bal); }
 CTextList::CTextList(const QStringList &qsl) { set(qsl); }
 CTextList::CTextList(const QString &s) { set(s); }
+CTextList::CTextList(const AText::List &atxl) { set(atxl); }
 CTextList::CTextList(const QList<CText> &other) : CText::List(other) {;}
 
 CText CTextList::join(char ch) const
@@ -26,6 +27,18 @@ CText CTextList::join(char ch) const
     return result;
 }
 
+CText CTextList::join(const CText hinge) const
+{
+    CTextList tList = *this;
+    CText result = isEmpty() ? CText() : tList.takeFirst();
+    while ( ! tList.isEmpty())
+    {
+        result.removeLast(); // take off NUL from previous string
+        result += hinge;
+        result += tList.takeFirst();
+    }
+    return result;
+}
 
 QStringList CTextList::toStringList() const
 {

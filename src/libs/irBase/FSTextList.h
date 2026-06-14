@@ -7,7 +7,8 @@ class FSTextList : public FSText::List
 public: // ctors
     FSTextList();
     FSTextList(const QByteArrayList &other);
-    FSTextList(const FSText::List &other);
+    FSTextList(const AText::List &other);
+    FSTextList(const QList<FSText> &other);
 
 public: // const
     FSText join(const FSText fstx) const;
@@ -17,6 +18,8 @@ public: // const
 public: // non-const
     void set(const QByteArrayList bal);
     void set(const QStringList qsl);
+    void set(const AText::List atxl);
+    void set(const QList<FSText> fstxl);
     void prependEach(const FSText &fstx);
 
 public: // pointers

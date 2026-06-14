@@ -33,9 +33,9 @@ void DirLoader::initialize(const StartOptions opts)
     model()->setOption(QFileSystemModel::DontWatchForChanges, ! (opts & Watch));
     model()->setFilter(mBaseDir.filter());
     model()->setNameFilters(mBaseDir.nameFilters());
-    //    connect(this, &DirLoader::dir, this, &DirLoader::piiiiiim,                                                                     rocessDir);
-    if (mCurrentOptions | Collect)
-        connect(this, &DirLoader::file, this, &DirLoader::processFile);
+    connect(model(), &QFileSystemModel::directoryLoaded,
+            this, &DirLoader::dirIsLoaded);
+    connect(this, &DirLoader::file, this, &DirLoader::processFile);
 
     mpPulseTimer = new QTimer(this);
     Q_CHECK_PTR(mpPulseTimer);
@@ -55,6 +55,8 @@ void DirLoader::start(const StartOptions opts)
 
     TRACE2("Model:SetRootPath BasePath=%1 Exists=%2",
            basePath(), baseDir().exists());
+    mCurrentRow = 0;
+    mDirLoaded = false;
     model()->setRootPath(basePath());
 
 //    processDir(baseDir(), opts);
@@ -74,12 +76,19 @@ void DirLoader::start(const QDir &dir, const StartOptions opts)
     start(opts);
 }
 
+void DirLoader::dirIsLoaded(const QString &path)
+{
+    FNENTER();
+    Q_UNUSED(path);
+    mDirLoaded = true;
+    FNLEAVE();
+}
+
 void DirLoader::processDir(const QDir &dir, const StartOptions opts)
 {
     FNENTER();
     mCurrentDir = dir;
     mCurrentOptions = opts;
-    mCurrentRow = 0;
     Q_CHECK_PTR(mpPulseTimer);
     mpPulseTimer->start();
     mParentIndex = model()->setRootPath(mCurrentDir.path());
@@ -90,12 +99,13 @@ void DirLoader::pulse()
 {
     FNENTER();
     int tRows = model()->rowCount(mParentIndex);
-    if (tRows)
-        if (mCurrentRow >= tRows)
-        {
-            emit dirFinished(mCurrentDir.path());
-            return;                                                     /*/===\*/
-        }
+    if (0 ==tRows)
+    {
+        if (mDirLoaded)
+            emit dirFinished(basePath());
+        else
+            return;                                      /*/=====\*/
+    }
     mCurrentIndex = model()->index(mCurrentRow, 0, mParentIndex);
     QFileInfo tQFI = model()->fileInfo(mCurrentIndex);
     FileInfo tFI(tQFI);
@@ -120,7 +130,7 @@ void DirLoader::processFile(const FileInfo fileInfo)
     FNENTER();
     if (mCurrentOptions | Collect)
         mCurrentFiles.append(fileInfo);
-
+    emit file(fileInfo);
 }
 
 void DirLoader::set(const FSText &dirName)

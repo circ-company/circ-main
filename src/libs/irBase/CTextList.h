@@ -18,6 +18,7 @@ public:
 
 public: // const
     CText join(char ch=0) const;
+    CText join(const CText hinge) const;
     QStringList toStringList() const;
     operator QStringList () const;
 

@@ -20,8 +20,8 @@ public: // types
     typedef Log::ItemType Type;
 
 public: // ctors // TODO This really smells
-    LogItem(const Type type, const CText &sevName, const CodeContext &ctx);
-    LogItem(const Type type, const StatusLevel &slv, const CodeContext &ctx);
+    LogItem(const Type type, const CText &lvlName, const CodeContext &ctx);
+    LogItem(const Type type, const StatusLevel &lvl, const CodeContext &ctx);
 
 public: // const
     bool isNil() const;

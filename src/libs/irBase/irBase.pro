@@ -13,6 +13,7 @@ SOURCES += \
     ATextList.cpp \
     CText.cpp \
     CTextList.cpp \
+    CharType.cpp \
     CodeContext.cpp \
     CodeLevel.cpp \
     CodeValue.cpp \
@@ -35,6 +36,9 @@ SOURCES += \
     Null.cpp \
     StatusLevel.cpp \
     StructTM.cpp \
+    Token.cpp \
+    TokenList.cpp \
+    Tokenizer.cpp \
     TriBool.cpp \
     UText.cpp \
     UTextList.cpp \
@@ -53,6 +57,7 @@ HEADERS += \
     ATextList.h \
     CText.h \
     CTextList.h \
+    CharType.h \
     CodeContext.h \
     CodeLevel.h \
     CodeValue.h \
@@ -80,6 +85,9 @@ HEADERS += \
     Null.h \
     StatusLevel.h \
     StructTM.h \
+    Token.h \
+    TokenList.h \
+    Tokenizer.h \
     TriBool.h \
     Types.h \
     UText.h \
