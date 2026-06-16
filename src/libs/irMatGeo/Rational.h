@@ -1,13 +1,12 @@
 #pragma once
 
-#include "Types.h"
+#include <QMetaType>
 
 class Rational
 {
 public:
     typedef signed Term;
 public:
-    Rational();
     Rational(const Term num, const Term den);
     Rational(const qreal f, const signed den=1000000);
 
@@ -18,6 +17,8 @@ public: // const
     bool notNull() const { return ! isNull(); }
     bool isValid() const;
     bool notValid() const { return ! isValid(); }
+    bool isReal() const;
+    bool isUnreal() const { return ! isReal(); }
     signed ratio() const;
     Rational flipped() const;
     Rational multiplied(const Term aNum) const;
@@ -38,6 +39,8 @@ public: // non-const
     void adjustDenominator(const Term aDen);
     void normalize();
     void nullify();
+    void invalidate();
+    void flip();
     void add(const Rational aRat);
     void operator + (const Rational aRat) { add(aRat); }
 
@@ -46,17 +49,37 @@ public: // static
     static Term invalidTerm();
 
 private:
-    Term  mNumerator;
-    Term  mDenominator;
+    Term  mNumerator = smInvalidTerm;
+    Term  mDenominator= smInvalidTerm;
     static Term smInvalidTerm;
+
+public: // QMetaType
+    Rational() = default;
+    ~Rational() = default;
+    Rational(const Rational &) = default;
+    Rational &operator=(const Rational &) = default;
+    Rational & it() { return *this; }
+    const Rational & it() const { return *this; }
 };
+
+Q_DECLARE_METATYPE(Rational);
 
 inline Rational::Term Rational::n() const { return mNumerator; }
 inline Rational::Term Rational::d() const { return mDenominator; }
 inline Rational::Term Rational::invalidTerm() { return smInvalidTerm; }
+inline bool Rational::isNull() const { return 0 == n(); }
+inline bool Rational::isValid() const { return isValid(n()) && isValid(d()); }
+inline Rational Rational::flipped() const { return Rational(d(), n()); }
 inline Rational::operator qreal() const { return toReal(); }
 inline bool Rational::operator ==(const Rational other) { return equal(other); }
 inline bool Rational::operator <(const Rational other) { return less(other); }
 inline void Rational::n(const Term aNum) { mNumerator = aNum; }
 inline void Rational::d(const Term aDen) { mDenominator = aDen; }
+inline void Rational::set(const Term aNum, const Term aDen) { n(aNum), d(aDen); }
+inline void Rational::normalize() { if (d() < 0) n( - n()), d( - d()); }
+inline void Rational::nullify() { n(0), d(0); }
+inline void Rational::invalidate() { n(smInvalidTerm), d(smInvalidTerm); }
+inline void Rational::flip() { qSwap(mNumerator, mDenominator); }
+
+
 

@@ -1,14 +1,15 @@
 #include "Size.h"
 
+#include "Aspect.h"
 #include "SCRect.h"
 
 Size::Size(const bool null) : QSize(null ? 0 : -1, null ? 0 : -1) {;}
 Size::Size(const QSize other) : QSize(other) {;}
 Size::Size(const int w, const int h) : QSize(w, h) {;}
 Size::Size(const int dim) : QSize(dim, dim) {;}
-Size::Size(const int dim, const Rational aspect) { set(dim, aspect); }
+Size::Size(const int dim, const Aspect aspect) { set(dim, aspect); }
 Size::Size(const Size &other) : QSize(other) {;}
-Size::Size(const Size other, const Rational aspect) { set(other, aspect); }
+Size::Size(const Size outside, const Aspect aspect) { set(outside, aspect); }
 
 unsigned int Size::area() const
 {
@@ -48,11 +49,9 @@ bool Size::less(const Size &rhs) const
 
 bool Size::isEqualAspect(const Size &rhs) const
 {
-    const Rational cLtAspectR = aspect();
-    const Rational cRtAspectR = rhs.aspect();
-    const qreal cLtAspectF = cLtAspectR.toReal();
-    const qreal cRtAspectF = cRtAspectR.toReal();
-    return qFuzzyCompare(cLtAspectF, cRtAspectF);
+    const Aspect cLt(it());
+    const Aspect cRt(rhs);
+    return cLt == cRt;
 }
 
 Size Size::expanded(const Size sz) const
@@ -101,24 +100,18 @@ Size Size::intersected(const Size &rhs) const
     return cOurRect.toQRect().intersected(cRhsRect).size();
 }
 
-Size Size::set(const Size other, const Rational aspect)
+Aspect Size::aspect() const
 {
-    if (isEqualAspect(other))
-    {
-        return set(other);
-    }
-    else if (other.aspect() < aspect)
-    {
-        const int w = other.width();
-        const int h = w / aspect;
-        return set(w, h);
-    }
-    else
-    {
-        const int h = other.height();
-        const int w = h * aspect;
-        return set(w, h);
-    }
+    return Aspect(width(), height());
+}
+
+Size Size::set(const Size outside, const Aspect aspect)
+{
+    Size result;
+    const int cWidth  = aspect.width(outside);
+    const int cHeight = aspect.height(outside);
+    result.set(cWidth, cHeight);
+    return set(result);
 }
 
 Size Size::unionWith(const Size &rhs)
@@ -143,4 +136,9 @@ Size Size::set(const int w, const int h)
 {
     QSize::setWidth(w), QSize::setHeight(h);
     return it();
+}
+
+Size Size::set(const int dim, const Aspect aspect)
+{
+    return Size(Size(dim), aspect);
 }

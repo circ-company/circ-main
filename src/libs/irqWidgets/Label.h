@@ -34,7 +34,7 @@ public slots:
     void set(const QImage &img);
     void set(const Size sz);
     void set(const Size sz, const QColor &clr);
-    void set(const Size sz, const QImage &img);
+    void set(const Size displaySize, const QImage &img);
 
 signals:
 

@@ -6,5 +6,7 @@
 class FileInfoList : public ListT<FileInfo>
 {
 public:
-    FileInfoList() {;}
+    FileInfoList();
+    FileInfoList(const QList<QFileInfo> &other);
+    void set(const QList<QFileInfo> &other);
 };

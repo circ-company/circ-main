@@ -18,6 +18,7 @@ public: // const
     Nanoseconds epochNS() const;
     NanosecondTime NSTime() const;
     CText qfiText() const;
+    FSText baseFileName() const;
     FSText fileName() const;
     int fileLine() const;
     FunctionInfo funcInfo() const;

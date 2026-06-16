@@ -40,8 +40,6 @@ void QQMainWindow::setup()
     if (cmContents & TextDocument)
     {
         Q_CHECK_PTR(mpMainDoc);
-//        mpMainDoc->setMinimumSize(mMainWinSize);
-  //      if (mpMainGrid) mpMainGrid->addWidget(mpMainDoc);
     }
     if (cmContents & ImageLabel)
     {

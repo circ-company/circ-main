@@ -55,6 +55,9 @@ public: // pointers
     LogItem & it();
 
 private:
+    AText formatValues() const;
+
+private:
     Uid mUid;
     Type mType;
     StatusLevel mLevel;

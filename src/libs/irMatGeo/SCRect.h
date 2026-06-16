@@ -7,7 +7,7 @@
 
 #include "Point.h"
 #include "Size.h"
-class Rational;
+class Aspect;
 
 class SCRect
 {
@@ -60,12 +60,13 @@ public: // non-const
     void height(const int h);
     void width(const int w);
     void size(const int w, const int h);
+    void set(const Size sz);
     SCRect trim(const int i);
     SCRect scale(const unsigned u);
     SCRect scale(const qreal f);
     SCRect offset(const Point pt);
     SCRect operator *= (const unsigned u);
-    void aspect(const Rational &ra);
+    void aspect(const Aspect &aspect);
 
     friend SCRect operator & (const SCRect scr, const QRect qrc);
 
@@ -103,6 +104,7 @@ inline SCRect::operator QRect() const { return toQRect(); }
 inline void SCRect::height(const int h) { mSize.setHeight(h); }
 inline void SCRect::width(const int w) { mSize.setWidth(w); }
 inline void SCRect::size(const int w, const int h) { width(w), height(h); }
+inline void SCRect::set(const Size sz) { mSize = sz; }
 inline SCRect SCRect::operator *= (const unsigned u) { return scale(u); }
 
 

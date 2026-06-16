@@ -2,6 +2,8 @@
 
 #include <QPainter>
 
+#include <Aspect.h>
+#include <Log.h>
 #include <SCRect.h>
 
 Label::Label(QWidget *parent) : QLabel{parent} {;}
@@ -30,23 +32,31 @@ void Label::set(const QImage &img)
 
 void Label::set(const Size sz, const QColor &clr)
 {
+    FNENTER()
+    FNARG(sz)
     QPixmap tPixmap(sz);
     tPixmap.fill(clr);
     set(tPixmap);
 }
 
-void Label::set(const Size sz, const QImage &img)
+void Label::set(const Size displaySize, const QImage &img)
 {
+    FNENTER()
+    FNARG(displaySize)
     const Size cOrigSize = img.size();
-    const Size cAspectSize(sz, cOrigSize.aspect());
+    TRACE2("Image Size=%1 Format=%2", img.size(), img.format());
+    const Aspect cOriginalAspect = cOrigSize.aspect();
+    const Size cAspectSize(displaySize, cOriginalAspect);
     const SCRect cCenteredRect(cAspectSize);
     const QRect cPaintRect(cCenteredRect.toQRect());
     const qreal cScaleF = cAspectSize.scaleToF(size());
-    resize(sz);
-    QPixmap tPixmap(sz);
+    TDETAIL4("AspectSize=%1 CenteredRect=%2 cPaintRect=%3 ScaleF=%4",
+             cAspectSize, cCenteredRect, cPaintRect, cScaleF);
+    resize(displaySize);
+    QPixmap tPixmap(displaySize);
     QPainter tPainter;
     tPainter.begin(&tPixmap);
-    tPainter.fillRect(SCRect(sz).toQRect(), mBackColor);
+    tPainter.fillRect(SCRect(displaySize).toQRect(), mBackColor);
     tPainter.drawImage(cPaintRect, img.scaled(cAspectSize * cScaleF));
     tPainter.end();
     set(tPixmap);

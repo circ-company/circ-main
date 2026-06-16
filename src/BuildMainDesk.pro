@@ -26,8 +26,9 @@ irqGui.depends          = irBase    irTypes
 irqWidgets.depends      = irBase    irLog       irMatGeo    irTypes
 irStore.depends         = irBase    irLog
 irImage.depends         = irBase
-MainDesktop.depends     = irBase    irMatGeo    irLog   irqNetwork  irqCore irTypes  \
-                            irqGui  irqWidgets  irStore irImage
+MainDesktop.depends     = irBase    irLog       irMatGeo    irqNetwork  irqCore \
+                                                            irTypes   \
+                            irqGui  irqWidgets  irStore     irImage
 
 
 
