@@ -6,6 +6,7 @@
 #include <QWidget>
 
 #include <Log.h>
+#include <NameFilters.h>
 
 #include "MainWindow.h"
 
@@ -41,15 +42,13 @@ void Application::initialize()
     TRACE2("MainDirPath=%1 Exists=%2", mMainDir.path(), mMainDir.exists());
     if (mMainDir.exists())
     {
-        mpDirLoader = new DirLoader(this);
-        dirLoader()->setNameFilters("JPG PNG");
-        dirLoader()->setFilter(mDirFilters);
-        dirLoader()->set(mMainDir);
-        dirLoader()->initialize();
-        QFileSystemModel * pModel = dirLoader()->model();
-        connect(dirLoader(), &DirLoader::file, this, &Application::processFile);
-        connect(pModel, &QFileSystemModel::rootPathChanged, this, &Application::rootDirChanged);
-        connect(pModel, &QFileSystemModel::directoryLoaded, this, &Application::dirLoadFinished);
+        NameFilters mNF;
+        mNF.setExtensions("JPG PNG");
+        mainDir().setNameFilters(mNF.filterList());
+        mainDir().setFilter(QDir::Files
+                            | QDir::NoDotAndDotDot
+                            | QDir::Readable);
+        mFileList = mainDir().entryInfoList();
         emit initialized();
     }
 }
@@ -58,32 +57,25 @@ void Application::start()
 {
     FNENTER()
     QQApplication::start();
-    dirLoader()->start();
+    if ( ! mFileList.isEmpty())
+        QTimer::singleShot(50, this, &Application::processFile);
     emit started();
 }
 
-void Application::processFile(const FileInfo fi)
+void Application::processFile()
 {
     FNENTER()
-    FNARG((QFileInfo(fi)));
-    QQApplication::processFile(fi);
-    QImage tImage(fi.filePath());
-    TRACE2("FileName=%1 ImageSize=%2", fi.filePath(), tImage.size());
-    if (tImage.isNull()) return;                                        /*/===\*/
-    mainWindow()->mainLabel()->set(tImage);
-    emit processedFile(fi, tImage);
-}
-
-void Application::rootDirChanged(const QString &path)
-{
-    FNENTER()
-    FNARG((QFileInfo(path)));
-
-}
-
-void Application::dirLoadFinished(const QString &path)
-{
-    FNENTER()
-    FNARG((QFileInfo(path)));
-
+    QQApplication::processFile();
+    if (mFileList.isEmpty()) return;                                    /*/===\*/
+    const FileInfo cFI = mFileList.takeFirst();
+    QImage tImage(cFI.filePath());
+    TRACE2("FileName=%1 ImageSize=%2", cFI.filePath(), tImage.size());
+    if ( ! tImage.isNull())
+    {
+        mainWindow()->mainLabel()->set(mainWindow()->mainLabel()->size(), tImage);
+        mainWindow()->setWindowTitle(cFI.baseName());
+        emit processedFile(cFI, tImage);
+    }
+    if ( ! mFileList.isEmpty())
+        QTimer::singleShot(5000, this, &Application::processFile);
 }

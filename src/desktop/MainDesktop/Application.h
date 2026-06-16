@@ -5,8 +5,10 @@
 
 #include <QDir>
 #include <QImage>
+#include <QTimer>
 
 #include <FileInfo.h>
+#include <FileInfoList.h>
 #include <DirLoader.h>
 
 class MainWindow;
@@ -21,9 +23,7 @@ public slots:
     virtual void run() final;
     virtual void initialize() final;
     virtual void start() final;
-    void processFile(const FileInfo fi);
-    void rootDirChanged(const QString & path);
-    void dirLoadFinished(const QString & path);
+    virtual void processFile() final;
 
 signals:
     void running();
@@ -38,16 +38,16 @@ public: // non-const
 public: // pointers
     void mainWindow(MainWindow * pMW);
     MainWindow * mainWindow();
-    DirLoader * dirLoader();
+    QDir mainDir(); // arg[1]
 
 private:
     MainWindow * mpMainWindow=nullptr;
     QDir mMainDir; // arg[1]
     QDir::Filters mDirFilters = QDir::Files | QDir::NoDotAndDotDot
                                 | QDir::Readable | QDir::AllDirs;
-    DirLoader *mpDirLoader=nullptr;
+    FileInfoList mFileList;
 };
 
 inline MainWindow *Application::mainWindow() { Q_CHECK_PTR(mpMainWindow); return mpMainWindow; }
+inline QDir Application::mainDir() { return mMainDir; }
 inline void Application::mainWindow(MainWindow *pMW) { Q_CHECK_PTR(pMW); mpMainWindow = pMW; }
-inline DirLoader *Application::dirLoader() { Q_CHECK_PTR(mpDirLoader); return mpDirLoader; }

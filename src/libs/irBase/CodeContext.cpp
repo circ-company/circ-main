@@ -15,14 +15,23 @@ CodeContext::CodeContext(const QString &qfi, const FSText &file, const int line)
 //    qInfo() << Q_FUNC_INFO << qfi << file << line << mFuncInfo.toDebugString() << mFileInfo;
 }
 
+FSText CodeContext::baseFileName() const
+{
+    FSText result;
+    if (mFileInfo.exists())
+        result = mFileInfo.completeBaseName();
+    return result;
+}
+
 AText CodeContext::toString(const bool withTime) const
 {
-    AText result = QString("%1(%2) %3 ")
-                       .arg(fileName()(), -20)
-                       .arg(fileLine(), -4, 10, u'0')
-                       .arg(qfiText()());
-    if (withTime) result += NSTime().timeString();
-    return result;
+    AText result('{');
+    result.append(QString("%1(%2) %3")
+                       .arg(baseFileName()(), 20)
+                       .arg(fileLine(), 4, 10, u'0')
+                       .arg(qfiText()()));
+    if (withTime) result += " " + NSTime().timeString();
+    return result + AText('}');
 }
 
 void CodeContext::clear()

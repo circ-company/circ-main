@@ -2,6 +2,7 @@
 
 #include <QtDebug>
 
+#include "Aspect.h"
 
 SCRect::SCRect() : mSize(0,0), mCenter(0,0) {;}
 SCRect::SCRect(const int dim, const bool centered) : mSize(dim), mCenter(centered ? size().center() : QPoint(0, 0)) {;}
@@ -95,11 +96,10 @@ SCRect SCRect::offset(const Point pt)
     return *this;
 }
 
-void SCRect::aspect(const Rational &ra)
+void SCRect::aspect(const Aspect &aspect)
 {
-    Rational szr(width(), height());
-    szr.n((szr.d() * ra.n() / ra.d()));
-    width(szr.n()), height(szr.d());
+    const Size cSize(size(), aspect);
+    set(cSize);
 }
 
 SCRect operator & (const SCRect scr, const QRect qrc)

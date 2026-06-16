@@ -21,7 +21,7 @@ public slots:
     virtual void run();
     virtual void initialize();
     virtual void start();
-    virtual void processFile(const FileInfo fi);
+    virtual void processFile();
 
 signals:
     void running();

@@ -23,7 +23,7 @@ void QQApplication::start()
 
 }
 
-void QQApplication::processFile(const FileInfo fi)
+void QQApplication::processFile()
 {
 
 }

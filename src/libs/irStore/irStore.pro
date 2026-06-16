@@ -9,10 +9,12 @@ include(../../useLog.pri)
 
 SOURCES += \
     DirLoader.cpp \
+    NameFilters.cpp \
     irStore.cpp
 
 HEADERS += \
     DirLoader.h \
+    NameFilters.h \
     irStore_global.h \
     irStore.h
 

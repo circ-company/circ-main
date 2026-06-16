@@ -10,7 +10,7 @@ public: // types
     enum ItemType
     {
         $null = 0,
-        ItemOnly,
+        MessageOnly,
         FuncArgument,
         Message,
         Formatted,

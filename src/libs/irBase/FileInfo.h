@@ -14,6 +14,9 @@
 
 class FileInfo : public QFileInfo, Null
 {
+public: // types
+    typedef QList<FileInfo> List;
+
 public: // ctors
     FileInfo(const QFileInfo &other);
     FileInfo(const FSText &filePathName);
