@@ -17,8 +17,9 @@ public: // types
         FuncArg,            //  1-Begin Trace
         $Trace = FuncArg,   //  1
         FuncLeave,          //  2
-        FuncEnter,          //  3
-        DumpHex,            //  4
+        FuncEmit,           //  3
+        DumpHex = FuncEmit, //  3
+        FuncEnter,          //  4
         DumpVar,            //  5
         DumpObj,            //  6
         TDetail,            //  7
@@ -120,7 +121,7 @@ inline bool StatusLevel::isWarn() const { return inRange($Warn, $max); }
 inline bool StatusLevel::isError() const { return inRange($Error, $max); }
 inline bool StatusLevel::equal(const StatusLevel &other) const { return value() == other.value(); }
 inline bool StatusLevel::less(const StatusLevel &other) const { return value() < other.value(); }
-inline void StatusLevel::nullify() { mValue = $null; }
+
 inline void StatusLevel::invalidate() { mValue = Invalid; }
 inline void StatusLevel::min(const int val) { set(qMin(value(), val)); }
 inline void StatusLevel::max(const int val) { set(qMax(value(), val)); }

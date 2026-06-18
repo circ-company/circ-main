@@ -2,6 +2,8 @@
 
 DEFINE_DATAPROPS(cvODCatalogEntry, cvODCatalogEntryData)
 
+void cvODCatalogEntry::ctor() {;}
+void cvODCatalogEntry::dtor() {;}
 
 cvODType cvODCatalogEntry::odType() const
 {

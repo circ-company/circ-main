@@ -1,11 +1,13 @@
 QT *= core
 QT *= gui
 QT *= widgets
+QT *= xml
 
 include("../desktop.pri")
 include("../../useBase.pri")
 include("../../useMatGeo.pri")
 include("../../useCVCore.pri")
+include("../../useCVobjdetect.pri")
 include("../../useQNetwork.pri")
 include("../../useQCore.pri")
 include("../../useTypes.pri")

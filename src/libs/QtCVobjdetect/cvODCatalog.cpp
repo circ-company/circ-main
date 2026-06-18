@@ -8,8 +8,10 @@ cvODCatalog::cvODCatalog(const QString &url, QObject *parent) : QObject{parent} 
 
 void cvODCatalog::clear()
 {
+    FNENTER();
     mUrl.clear();
     mEntryMap.clear();
+    FNEMIT(urlSet);
     emit urlSet(mUrl);
 }
 

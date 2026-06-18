@@ -12,6 +12,11 @@ bool StatusLevel::inRange(const StatusLevel &lo, const StatusLevel &hi) const
     return Utility::inRange(lo, it(), hi);
 }
 
+void StatusLevel::nullify()
+{
+    instance()->set($null);
+}
+
 void StatusLevel::set(const int val)
 {
     nullify();
@@ -41,7 +46,7 @@ bool operator <= (const StatusLevel &lhs, const StatusLevel &rhs)
     return lhs.less(rhs) || lhs.equal(rhs);
 }
 
-// ======================== status =========================
+// ======================== static =========================
 
 StatusLevel *StatusLevel::instance()
 {
@@ -97,4 +102,5 @@ StatusLevel::PairList StatusLevel::initializer()
            << Pair(MAlloc, "MAlloc")
            << Pair(Invalid, "Invalid");
 }
+
 

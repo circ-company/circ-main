@@ -2,17 +2,13 @@
 
 #include <CodeContext.h>
 
-LogItem::LogItem(const Type type, const CText &lvlName, const CodeContext &ctx)
-    : mUid(Uid::VerGTimeseqNode6)
-    , mType(type)
-    , mLevel(lvlName)
-    , mContext(ctx) {;}
-
 LogItem::LogItem(const Type type, const StatusLevel &lvl, const CodeContext &ctx)
     : mUid(Uid::VerGTimeseqNode6)
-    , mType(type)
-    , mLevel(lvl)
-    , mContext(ctx) {;}
+{
+    mType = type;
+    mLevel = lvl;
+    mContext = ctx;
+}
 
 AText LogItem::formatted() const
 {

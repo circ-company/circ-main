@@ -10,6 +10,7 @@
 #include <FileInfo.h>
 #include <FileInfoList.h>
 #include <DirLoader.h>
+class cvODCatalog;
 
 class MainWindow;
 
@@ -42,6 +43,7 @@ public: // pointers
 
 private:
     MainWindow * mpMainWindow=nullptr;
+    cvODCatalog * mpCatalog=nullptr;
     QDir mMainDir; // arg[1]
     QDir::Filters mDirFilters = QDir::Files | QDir::NoDotAndDotDot
                                 | QDir::Readable | QDir::AllDirs;

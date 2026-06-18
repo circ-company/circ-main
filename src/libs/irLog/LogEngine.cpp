@@ -32,15 +32,19 @@ void LogEngine::enqueue(LogItem li)
     //Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
     const Type cType = li.type();
     const Uid cUid = li.uid();
-    const StatusLevel cSlv = li.level();
+    const StatusLevel cLevel = li.level();
     switch (cType)
     {
+    case Type::MessageOnly: break;
     case Type::Formatted:   li.set(li.formatted());     break; // new message
-    default:                /* leave alone */           break; // TODO more?
+    default:        //        /* leave alone */           break; // TODO more?
+        qWarning() << Q_FUNC_INFO << "Unhandled Type:"
+                   << cType << cLevel.name();
+        break;
     }
 
     mUidItemMap.insert(cUid, li);
-    mLevelUidMMap.insert(cSlv, cUid);
+    mLevelUidMMap.insert(cLevel, cUid);
     //Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
     if ( ! mCaptured && mTrollEnabled) sendTroll(li);
 }
@@ -80,19 +84,22 @@ LogItem LogEngine::takeQueue()
 
 void LogEngine::sendTroll(const LogItem &li)
 {
-    const StatusLevel cSlv = li.level();
-    const CText cSlvCtx = cSlv.name();
-    const LogMsgType cLMT = LogMsgType::from(cSlv);
+    const StatusLevel cLevel = li.level();
+    const int cLevelValue = cLevel.value();
+    const CText cLevelName = cLevel.name();
+    const LogMsgType cLMT = LogMsgType::from(cLevel);
     const char cLmtChar = cLMT.prefix();
     const AText cMsgAtx = li.message();
     const AText cCtxAtx = li.context().toString(false);
     const NanosecondTime cNST = li.context().NSTime();
     const QString cNstStr = cNST.timeString();
-    QString tText = QString("%1 %2: <%3> %4\n")
+    QString tText = QString("%1 %2(%5): <%3> %4\n")
                         .arg(cNstStr)
-                        .arg(cSlvCtx(), -10, cLmtChar)
+                        .arg(cLevelName(), -10, cLmtChar)
                         .arg(cMsgAtx())
-                        .arg(cCtxAtx());
+                        .arg(cCtxAtx())
+                        .arg(cLevelValue)
+        ;
     writeTroll(cLMT, tText);
 }
 

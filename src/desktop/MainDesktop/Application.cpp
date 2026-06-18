@@ -7,6 +7,7 @@
 
 #include <Log.h>
 #include <NameFilters.h>
+#include <cvODCatalog.h>
 
 #include "MainWindow.h"
 
@@ -28,6 +29,7 @@ void Application::run()
     connect(mainWindow(), &MainWindow::initialized, mainWindow(), &MainWindow::setup);
     connect(mainWindow(), &MainWindow::setuped, mainWindow(), &MainWindow::ready);
     connect(mainWindow(), &MainWindow::readied,  this, &Application::start);
+    FNEMIT(running);
     emit running();
 }
 
@@ -39,6 +41,9 @@ void Application::initialize()
         mMainDir.setPath(argAt(1));
     else
         mMainDir.setPath("../EFPin");
+
+    mpCatalog = new cvODCatalog("file://../Detectors/Detectors.xml");
+
     TRACE2("MainDirPath=%1 Exists=%2", mMainDir.path(), mMainDir.exists());
     if (mMainDir.exists())
     {

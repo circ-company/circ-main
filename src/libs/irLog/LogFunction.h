@@ -3,6 +3,7 @@
 #include <CodeValue.h>
 #include <CodeValueList.h>
 #include <CodeContext.h>
+#include <CText.h>
 #include <StatusLevel.h>
 
 class LogFunction
@@ -11,7 +12,8 @@ public: // ctors
     LogFunction(const CodeContext ctx);
 
 public: // non-const
-    void add(const CodeValue &arg);
+    void addArgument(const CodeValue &arg);
+    void emitSignal(const CText &sigName);
     void leave();
     void leave(const CodeValue &res);
 
