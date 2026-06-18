@@ -6,14 +6,10 @@ include(../libs.pri)
 include(../../useTypes.pri)
 
 SOURCES += \
-    ActionManager.cpp \
-    QQAction.cpp \
     QQGuiApplication.cpp \
     irqGui.cpp
 
 HEADERS += \
-    ActionManager.h \
-    QQAction.h \
     QQGuiApplication.h \
     irqGui_global.h \
     irqGui.h

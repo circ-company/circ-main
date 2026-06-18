@@ -34,6 +34,7 @@ SOURCES += \
     MillisecondTime.cpp \
     NanosecondTime.cpp \
     Null.cpp \
+    StatusLevel.cpp \
     StructTM.cpp \
     Token.cpp \
     TokenList.cpp \
@@ -82,6 +83,7 @@ HEADERS += \
     Named.h \
     NanosecondTime.h \
     Null.h \
+    StatusLevel.h \
     StructTM.h \
     Token.h \
     TokenList.h \

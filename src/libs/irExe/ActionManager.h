@@ -7,8 +7,7 @@
 #include <KeyMap.h>
 #include <Id.h>
 
-//#include "QQAction.h"
-class QQAction;
+class Action;
 
 class ActionManager : public QObject // global static: ACTMGR
 {
@@ -17,10 +16,10 @@ public:
     explicit ActionManager(QCoreApplication *parent=qApp);
 
 public slots:
-    QQAction * add(const Key &key);
+    Action * add(const Key &key);
 
 signals:
-    void added(const Key &key, const QQAction * act);
+    void added(const Key &key, const Action * act);
 
 public: // const
     Key::List keys() const;
@@ -32,7 +31,7 @@ public: // pointer
 
 private:
     Id mParentId;
-    KeyMapT<QQAction *> mKeyActionMap;
+    KeyMapT<Action *> mKeyActionMap;
 
 };
 

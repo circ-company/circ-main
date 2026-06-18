@@ -92,9 +92,9 @@ StatusLevel::PairList StatusLevel::initializer()
            << Pair(Expect, "Expect")
            << Pair(Assert, "Assert")
            << Pair(Thread, "Thread")
+           << Pair(MustDo, "MustDo")
            << Pair(Process, "Process")
            << Pair(MAlloc, "MAlloc")
-           << Pair(System, "System")
-           << Pair($max, "$max");
+           << Pair(Invalid, "Invalid");
 }
 

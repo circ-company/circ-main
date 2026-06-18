@@ -7,6 +7,7 @@ DEFINES += QTCVOBJDETECT_LIBRARY
 
 include(../libs.pri)
 include(../../useBase.pri)
+include(../../useLog.pri)
 
 SOURCES += \
     QtCVobjdetect.cpp \

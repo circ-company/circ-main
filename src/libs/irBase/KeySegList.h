@@ -21,6 +21,7 @@ public: // const
     QString toString() const;
     QString toString(const QString &separator) const;
     operator QString() const;
+    QString operator () () const;
     QStringList toStringList() const;
     operator QStringList() const;
     KeySeg toSeg() const;
@@ -45,6 +46,7 @@ protected: // static
 inline bool KeySegList::isNull() const { return isEmpty(); }
 inline bool KeySegList::notEmpty() const { return ! isEmpty(); }
 inline KeySegList::operator QString() const { return toString(); }
+inline QString KeySegList::operator ()() const { return toString(); }
 inline void KeySegList::set() { clear(); }
 inline void KeySegList::set(const char *pch) { set(AText(pch)); }
 inline void KeySegList::set(const QString &s) { set(AText(s.toLocal8Bit())); }

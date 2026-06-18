@@ -10,7 +10,6 @@
 
 #include "FSText.h"
 #include "FSTextList.h"
-#include "Types.h"
 
 class FileInfo : public QFileInfo, public Null
 {
@@ -44,8 +43,6 @@ public: // QMetaType
     FileInfo(const FileInfo &) = default;
     FileInfo &operator=(const FileInfo &) = default;
 };
-
-inline bool FileInfo::exists() const { return full() ? exists() : false; }
 
 Q_DECLARE_METATYPE(FileInfo);
 

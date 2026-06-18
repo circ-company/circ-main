@@ -15,13 +15,14 @@
 #define FNARGD(arg, def) QVariant qv=QVariant::fromValue(arg); \
             logFunction.add(CodeValue(qv, #arg, def, #def));
 #define FNLEAVE() logFunction.leave();
-#define FNRETURN(rvar) QVariant qv=QVariant::fromValue(rvar); \
-            logFunction.leave(CodeValue(qv, #rvar))
+#define FNLEAVER(rvar) QVariant qvrvar=QVariant::fromValue(rvar); \
+            logFunction.leave(CodeValue(qvrvar, #rvar))
 
 #define PROGMSG(msg)        MESSAGELI(StatusLevel::Progress, msg);
 
 #define TASSERT(bval)       ASSERTLI(LogOperator::True, StatusLevel::TAssert, bval);
 #define WASSERT(bval)       ASSERTLI(LogOperator::True, StatusLevel::WAssert, bval);
+#define MUSTDO()            ASSERTLI(LogOperator::False, StatusLevel::MustDo, true);
 #define ASSERT(bval)        ASSERTLI(LogOperator::True, StatusLevel::Assert, bval);
 #define PASSERT(bval)       ASSERTLI(LogOperator::True, StatusLevel::Process, bval);
 #define MASSERT(bval)       ASSERTLI(LogOperator::True, StatusLevel::MAlloc, bval);

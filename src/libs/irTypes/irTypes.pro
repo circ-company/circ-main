@@ -11,7 +11,6 @@ SOURCES += \
     RandomGenerator.cpp \
     Result.cpp \
     Signum.cpp \
-    ExeObject.cpp \
     StatusItem.cpp \
     StatusItemList.cpp \
     StatusCode.cpp \
@@ -20,7 +19,6 @@ SOURCES += \
 HEADERS += \
     CircularArray.h \
     MetaType.h \
-    ExeObject.h \
     RandomGenerator.h \
     Result.h \
     StatusItem.h \

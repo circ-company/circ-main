@@ -21,6 +21,17 @@ File::File(const FSText &fstx, const QIODeviceBase::OpenMode mode)
     emit infoSet(mFileInfo, mFileInfo.exists());
 }
 
+void File::set(const FileInfo &fi)
+{
+    mFileInfo = fi;
+    emit infoSet(mFileInfo, mFileInfo.exists());
+}
+
+void File::set(const FSText &fstx)
+{
+    set(FileInfo(fstx));
+}
+
 Result File::open(const QIODeviceBase::OpenMode mode)
 {
     FNENTER();
@@ -44,7 +55,6 @@ void File::close()
 Result File::read()
 {
     FNENTER();
-    FNARG(mode);
     Result result(CODECONTEXT());
     Q_ASSERT(!"Finished"); // TODO
     FNLEAVER(result);
@@ -54,7 +64,6 @@ Result File::read()
 Result File::write()
 {
     FNENTER();
-    FNARG(mode);
     Result result(CODECONTEXT());
     Q_ASSERT(!"Finished"); // TODO
 

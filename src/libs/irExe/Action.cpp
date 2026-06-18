@@ -1,14 +1,16 @@
-#include "QQAction.h"
+#include "Action.h"
 
-QQAction::QQAction() : mpAction{nullptr} {;}
-QQAction::QQAction(const Key &key) : mpAction(new QAction(ACTMGR)) { set(key); }
+#include "ActionManager.h"
 
-void QQAction::set(const Key &key)
+Action::Action() : mpAction{nullptr} {;}
+Action::Action(const AText &key) : mpAction(new QAction(ACTMGR)) { set(key); }
+
+void Action::set(const AText &key)
 {
     const Uid cBase(Uid::VerUTimeseqRandom);
     const Key cKey(key);
-    const AText cName = (id().name().isEmpty()) ? ampify(cKey) : id().name();
-    Uid tUid(Uid::VerTextMd5, key.toString(), cBase);
+    const AText cName = (id().name().isEmpty()) ? ampify(key) : id().name();
+    Uid tUid(Uid::VerTextMd5, cKey(), cBase);
     const IdNo cIdNo = tUid.lo() ^ tUid.hi();
     const Uid cParentUid = ACTMGR->attachParent(tUid);
 
@@ -20,7 +22,7 @@ void QQAction::set(const Key &key)
 
 }
 
-QString QQAction::ampify(const Key &key)
+QString Action::ampify(const Key &key)
 {
     QString result = key.toString();
     result.replace("&", "&&");

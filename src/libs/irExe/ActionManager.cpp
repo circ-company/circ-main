@@ -1,6 +1,6 @@
 #include "ActionManager.h"
 
-#include "QQAction.h"
+#include "Action.h"
 
 ActionManager::ActionManager(QCoreApplication *parent)
     : QObject{parent}
@@ -9,9 +9,9 @@ ActionManager::ActionManager(QCoreApplication *parent)
     setObjectName("ActionManager:" + parent->applicationName());
 }
 
-QQAction *ActionManager::add(const Key &key)
+Action *ActionManager::add(const Key &key)
 {
-    QQAction * pAct = new QQAction(key);
+    Action * pAct = new Action(key());
     mKeyActionMap.insert(key, pAct);
     return pAct;
 }

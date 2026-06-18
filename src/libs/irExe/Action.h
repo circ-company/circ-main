@@ -2,22 +2,21 @@
 
 #include <QAction>
 
+#include <AText.h>
 #include <Id.h>
 #include <Key.h>
 
-#include "ActionManager.h"
-
-class QQAction
+class Action
 {
 protected: // NULL ctor
-    explicit QQAction();
+    explicit Action();
 public: // ctors
-    explicit QQAction(const Key &key);
+    explicit Action(const AText &key);
 
 public: // const
 
 public: // non-const
-    void set(const Key &key);
+    void set(const AText &key);
 
 public: // pointer
     Id & id();

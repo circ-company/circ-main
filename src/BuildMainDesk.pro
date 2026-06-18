@@ -6,6 +6,7 @@ SUBDIRS +=              \
     libs/irBase         \
     libs/irLog          \
     libs/irMatGeo       \
+    libs/irExe          \
     libs/irqNetwork     \
     libs/irqCore	\
     libs/irStore        \
@@ -22,6 +23,7 @@ SUBDIRS +=              \
 irBase.depends          =
 irLog.depends           = irBase
 irMatGeo.depends        =           irLog
+irExe.depends           = irBase    irLog
 irqNetwork.depends      = irBase    irLog
 irqCore.depends         = irBase    irLog
 irStore.depends         = irBase    irLog

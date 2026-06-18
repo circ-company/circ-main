@@ -14,8 +14,8 @@ public: // types
     enum Value
     {
         $null = 0,
-        FuncArg,   //  1
-        $Trace = FuncArg,             //  1-Begin Trace
+        FuncArg,            //  1-Begin Trace
+        $Trace = FuncArg,   //  1
         FuncLeave,          //  2
         FuncEnter,          //  3
         DumpHex,            //  4
@@ -27,30 +27,34 @@ public: // types
         TPrefer,            // 10
         TExpect,            // 11
         TAssert,            // 12
-        Exit,               // 17
-        $Info = Exit,              // 13-Begin Info
-        Detail,     // 13
-        Info,               // 14
-        Prefer,             // 15
-        Progress,           // 16
-        Start,            // 18
-        Warning,              // 19-Begin Warn
-        $Warn = Warning,       // 19
+
+        Exit,               // 13-Begin Info
+        $Info = Exit,       // 13
+        Detail,             // 14
+        Info,               // 15
+        Prefer,             // 16
+        Progress,           // 17
+        Start,              // 18
+
+        Warning,            // 19-Begin Warn
+        $Warn = Warning,    // 19
         WPrefer,            // 20
         WExpect,            // 21
         WAssert,            // 22
         WMemory,            // 23
-        Error,             // 24-Begin Error
+
+        Error,              // 24-Begin Error
         $Error = Error,     // 24
         Expect,             // 25
         Assert,             // 26
-        Thread,    // 27
-        $Fault = Thread,             // 27-Begin Fault
-        Process,            // 28
-        MAlloc,             // 29
-        System,             // 30
+
+        Thread,             // 27-Begin Fault
+        $Fault = Thread,    // 27
+        MustDo,             // 28
+        Process,            // 29
+        MAlloc,             // 30
         Invalid,            // 31
-        $max = Invalid,               // 31
+        $max = Invalid,     // 31
     };
 
 public: // ctors

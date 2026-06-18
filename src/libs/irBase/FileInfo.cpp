@@ -1,9 +1,16 @@
 #include "FileInfo.h"
 
+FileInfo::FileInfo(const QFileInfo &other)
+    : QFileInfo(other), Null(false) { setDirs(); }
+FileInfo::FileInfo(const FSText &filePathName)
+    : QFileInfo(filePathName), Null(false) { setDirs(); }
+FileInfo::FileInfo(const QDir &dir, const QString &fileName)
+    : QFileInfo(dir, fileName), Null(false) { setDirs(); }
 
-FileInfo::FileInfo(const QFileInfo &other) : QFileInfo(other), Null(false) { setDirs(); }
-FileInfo::FileInfo(const FSText &filePathName) : QFileInfo(filePathName), Null(false) { setDirs(); }
-FileInfo::FileInfo(const QDir &dir, const QString &fileName) : QFileInfo(dir, fileName), Null(false) { setDirs(); }
+bool FileInfo::exists() const
+{
+    return full() ? QFileInfo::exists() : false;
+}
 
 FSText FileInfo::dirFirst(const qsizetype k) const
 {

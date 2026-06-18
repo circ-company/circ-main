@@ -2,11 +2,15 @@
 
 QString KeySegList::toString() const
 {
+#if 1
+    return toString(QString(hinge()));
+#else
     QString result;
     KeySegList tCopy = it();
     if ( ! tCopy.isEmpty())     result = tCopy.takeFirst();
     while ( ! tCopy.isEmpty())  result += hinge() + tCopy.takeFirst();
     return result;
+#endif
 }
 
 QString KeySegList::toString(const QString &separator) const
@@ -14,7 +18,7 @@ QString KeySegList::toString(const QString &separator) const
     QString result;
     KeySegList tCopy = it();
     if ( ! tCopy.isEmpty())     result = tCopy.takeFirst();
-    while ( ! tCopy.isEmpty())  result += separator + tCopy.takeFirst();
+    while ( ! tCopy.isEmpty())  result += separator + QString(tCopy.takeFirst());
     return result;
 }
 
