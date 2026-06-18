@@ -12,7 +12,7 @@
 #include "FSTextList.h"
 #include "Types.h"
 
-class FileInfo : public QFileInfo, Null
+class FileInfo : public QFileInfo, public Null
 {
 public: // types
     typedef QList<FileInfo> List;
@@ -23,6 +23,7 @@ public: // ctors
     FileInfo(const QDir &dir, const QString &fileName);
 
 public: // const
+    bool exists() const;
     FSText dirFirst(const qsizetype k) const;
     FSText dirFirst(const qsizetype k, const char ch) const;
     FSText dirLast() const;
@@ -43,6 +44,8 @@ public: // QMetaType
     FileInfo(const FileInfo &) = default;
     FileInfo &operator=(const FileInfo &) = default;
 };
+
+inline bool FileInfo::exists() const { return full() ? exists() : false; }
 
 Q_DECLARE_METATYPE(FileInfo);
 

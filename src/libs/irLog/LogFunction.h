@@ -13,7 +13,7 @@ public: // ctors
 public: // non-const
     void add(const CodeValue &arg);
     void leave();
-    void leave(const CodeValue &arg);
+    void leave(const CodeValue &res);
 
 private:
     CodeContext cmContext;

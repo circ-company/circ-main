@@ -22,9 +22,9 @@ void LogFunction::leave()
     LOG->enqueue(li);
 }
 
-void LogFunction::leave(const CodeValue &arg)
+void LogFunction::leave(const CodeValue &res)
 {
     LogItem li(Log::MessageOnly, StatusLevel::FuncLeave, cmContext);
-    li.set(arg);
+    li.set(res);
     LOG->enqueue(li);
 }

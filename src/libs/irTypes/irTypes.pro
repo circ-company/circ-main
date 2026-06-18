@@ -11,14 +11,20 @@ SOURCES += \
     RandomGenerator.cpp \
     Result.cpp \
     Signum.cpp \
+    ExeObject.cpp \
+    StatusItem.cpp \
+    StatusItemList.cpp \
     StatusCode.cpp \
     irTypes.cpp
 
 HEADERS += \
     CircularArray.h \
     MetaType.h \
+    ExeObject.h \
     RandomGenerator.h \
     Result.h \
+    StatusItem.h \
+    StatusItemList.h \
     Signum.h \
     StatusCode.h \
     irTypes_global.h \

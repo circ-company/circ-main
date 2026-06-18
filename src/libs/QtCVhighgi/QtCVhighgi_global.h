@@ -1,0 +1,12 @@
+#ifndef QTCVHIGHGI_GLOBAL_H
+#define QTCVHIGHGI_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(QTCVHIGHGI_LIBRARY)
+#define QTCVHIGHGI_EXPORT Q_DECL_EXPORT
+#else
+#define QTCVHIGHGI_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // QTCVHIGHGI_GLOBAL_H

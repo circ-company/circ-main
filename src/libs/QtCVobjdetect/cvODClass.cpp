@@ -1,0 +1,3 @@
+#include "cvODClass.h"
+
+DEFINE_ENUMERATION(cvODClass, CVODCLASS_ENUM);

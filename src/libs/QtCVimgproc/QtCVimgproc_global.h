@@ -1,0 +1,12 @@
+#ifndef QTCVIMGPROC_GLOBAL_H
+#define QTCVIMGPROC_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(QTCVIMGPROC_LIBRARY)
+#define QTCVIMGPROC_EXPORT Q_DECL_EXPORT
+#else
+#define QTCVIMGPROC_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // QTCVIMGPROC_GLOBAL_H

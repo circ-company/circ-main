@@ -2,15 +2,17 @@
 
 #include <QSharedDataPointer>
 
+#include <QMetaType>
 #include <QMultiMap>
 #include <QVariant>
 #include <QVariantList>
 
-#include "CodeContext.h"
-#include "NanosecondTime.h"
-#include "StatusLevel.h"
-#include "StatusCode.h"
+#include <CodeContext.h>
+#include <NanosecondTime.h>
+#include <CodeLevel.h>
+#include <TriBool.h>
 
+#include "StatusCode.h"
 
 class Result
 {

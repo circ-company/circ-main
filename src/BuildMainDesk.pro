@@ -3,32 +3,36 @@
 TEMPLATE = subdirs
 
 SUBDIRS +=              \
-    desktop/MainDesktop \
     libs/irBase         \
-    libs/irImage        \
     libs/irLog          \
     libs/irMatGeo       \
-    libs/irStore \
-    libs/irStore        \
-    libs/irqCore	\
-    libs/irqGui         \
     libs/irqNetwork     \
-    libs/irqWidgets	\
+    libs/irqCore	\
+    libs/irStore        \
+    libs/irqXml         \
     libs/irTypes        \
+    libs/irqGui         \
+    libs/irqWidgets	\
+    libs/QtCVcore       \
+    libs/QtCVobjdetect  \
+    libs/QtCVutils      \
+    libs/irImage        \
+    desktop/MainDesktop \
 
 irBase.depends          =
-irMatGeo.depends        =
 irLog.depends           = irBase
-irqNetwork.depends      = irBase
-irqCore.depends         = irBase
-irTypes.depends         = irBase    irqCore     irqNetwork
-irqGui.depends          = irBase    irTypes
-irqWidgets.depends      = irBase    irLog       irMatGeo    irTypes
+irMatGeo.depends        =           irLog
+irqNetwork.depends      = irBase    irLog
+irqCore.depends         = irBase    irLog
 irStore.depends         = irBase    irLog
-irImage.depends         = irBase
-MainDesktop.depends     = irBase    irLog       irMatGeo    irqNetwork  irqCore \
-                                                            irTypes   \
-                            irqGui  irqWidgets  irStore     irImage
+irTypes.depends         = irBase    irLog                               irqCore     irqNetwork
+irqXml.depends          = irBase    irLog                   irTypes                             irStore
+irqGui.depends          = irBase    irLog                   irTypes
+irqWidgets.depends      = irBase    irLog       irMatGeo    irTypes
+irImage.depends         = irBase ## TBD
+QtCVobjdetect.depends   = QtCVcore
+MainDesktop.depends     = irBase    irLog       irMatGeo    irTypes     irqCore     irqNetwork  irStore \
+                            irqGui      irqWidgets      irImage
 
 
 

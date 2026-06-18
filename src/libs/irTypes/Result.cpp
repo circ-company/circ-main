@@ -1,6 +1,7 @@
 #include "Result.h"
 
-Result::Result(const CodeContext &ctx) : mEpochNS(NanosecondTime::current()), mContext(ctx) {;}
+Result::Result(const CodeContext &ctx)
+    : mEpochNS(NanosecondTime::current()), mContext(ctx) {;}
 
 bool Result::isValidStatusIndex(const Index ix) const
 {

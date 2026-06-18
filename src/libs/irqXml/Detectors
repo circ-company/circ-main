@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<CIRC-CO.com type="ObjDetect">
+<ObjDetect>
+<ODCatalog>
+<ODClass name="FaceFrontal" value="1">
+<ODType name="HaarCascade" value="1">
+<ODCatalogEntry name="Aim8Face">
+<Url key="/ObjDetect/ODCatalog/FaceFrontalFull/HaarCascade/ODCatalogEntry/CVFFace"/>
+<IsDefault type="bool" value="true"/>
+<Name type="AText" value="OpenCV Frontal Face Default"/>
+<EntryKey type="Key" value="/ObjDetect/ODCatalog/ODCatalogEntry/FaceFrontalFull/HaarCascade/CVFFace"/>
+<ResourceUrl file="../Detectors/Aim8Face.xml"/>
+</ODCatalogEntry>
+<ODCatalogEntry name="CVFFace">
+<Url key="/ObjDetect/ODCatalog/ODCatalogEntry/CVFFace"/>
+<IsDefault type="bool" value="false"/>
+<Name type="AText" value="OpenCV Frontal Face Default"/>
+<EntryKey type="Key" value="/ObjDetect/ODCatalog/ODCatalogEntry/CVFFace"/>
+<ResourceUrl file="../Detectors/haarcascade_frontalface_default.xml"/>
+</ODCatalogEntry>
+<ODCatalogEntry name="CVEye">
+<Url key="/ObjDetect/ODCatalog/EitherEye/HaarCascade/ODCatalogEntry/CVFFace"/>
+<IsDefault type="bool" value="true"/>
+<Name type="AText" value="OpenCV Frontal Face Default"/>
+<EntryKey type="Key" value="/ObjDetect/ODCatalog/ODCatalogEntry/CVEye"/>
+<ResourceUrl file="../Detectors/haarcascade_eye.xml"/>
+</ODCatalogEntry>
+</ODType>
+</ODClass>
+</ODCatalog>
+</ObjDetect>
+</CIRC-CO.com>
