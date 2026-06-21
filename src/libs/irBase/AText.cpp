@@ -44,6 +44,11 @@ bool AText::isValid(const Index ix) const
     return ix >= 0 && ix < length();
 }
 
+AText AText::formatted(const QVariantList vars) const
+{
+    return formatted(it(), vars);
+}
+
 AText::List AText::split(const char hinge) const
 {
     QString tString(it());
@@ -56,7 +61,7 @@ AText::List AText::split(const AText &hinge) const
     return ATextList(tString.split(hinge));
 }
 
-AText AText::formatted(const QVariantList vars) const
+AText AText::formattedList(const QVariantList vars) const
 {
     return QString("%1 %2 %3 %4 %5 %6 %7 %8 %9")
         .arg(saveVarListString(vars, 0))
@@ -134,7 +139,6 @@ void AText::set(const char *pch, const QChar repl)
             ++pch;
         }
     }
-    QByteArray::append(char(0));
 }
 
 void AText::set(const Count k, const char ch)
@@ -201,6 +205,18 @@ void AText::removeEach(const AText &atx)
 {
     foreach(const char ch, atx)
         removeEach(ch);
+}
+
+AText AText::formatted(const AText aFormat, const QVariantList vars)
+{
+    AText result = aFormat;
+    for (Index ix = 1; ix < Index(vars.count()); ++ix)
+    {
+        AText tPctNum = QString("%") + QString::number(ix, 10);
+        if (result.contains(tPctNum))
+            result.replace(tPctNum.toQBAV(), AText(vars.at(ix).toString()));
+    }
+    return result;
 }
 
 bool AText::isValidFirst(const char ch) const

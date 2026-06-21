@@ -20,6 +20,7 @@ SOURCES += \
     CodeValueList.cpp \
     DirInfo.cpp \
     Enumeration.cpp \
+    ExeObject.cpp \
     FSText.cpp \
     FSTextList.cpp \
     FileInfo.cpp \
@@ -66,6 +67,7 @@ HEADERS += \
     DualMap.h \
     EnumHelper.h \
     Enumeration.h \
+    ExeObject.h \
     FSText.h \
     FSTextList.h \
     FileInfo.h \

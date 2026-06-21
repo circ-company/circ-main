@@ -5,8 +5,6 @@
 
 #include "LogItem.h"
 
-#define CODECONTEXT() CodeContext(Q_FUNC_INFO, __FILE__, __LINE__)
-
 #define LOGITEM(typ, lvl, ctx) LogItem li(typ, lvl, ctx)
 
 #define MESSAGELI(sev, msg) \

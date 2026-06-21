@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<CIRC-CO.com type="ObjDetect">
+  <ObjDetect>
+    <ODCatalog>
+      <ODType name="HaarCascade" value="1">
+        <ODClass name="FaceFrontal" value="1">
+          <ODCatalogEntry name="Aim8Face">
+            <IsDefault type="bool" value="true"/>
+            <Name type="AText" value="Aim8 World Face (Default)"/>
+            <ResourceFile type="FileInfo" value="../Detectors/Aim8Face.xml"/>
+          </ODCatalogEntry>
+          </ODClass>
+          <ODClass name="FaceFrontalFull" value="2">
+          <ODCatalogEntry name="CVFFace">
+            <IsDefault type="bool" value="false"/>
+            <Name type="AText" value="OpenCV's Frontal Face Default"/>
+            <ResourceFile type="FileInfo" value="../Detectors/haarcascade_frontalface_default.xml"/>
+          </ODCatalogEntry>
+        </ODClass>
+        <ODClass name="EitherEye" value="3">
+          <ODCatalogEntry name="CVEye">
+            <IsDefault type="bool" value="true"/>
+            <Name type="AText" value="OpenCV Eye Default"/>
+            <ResourceFile type="FileInfo" value="../Detectors/haarcascade_eye.xml"/>
+          </ODCatalogEntry>
+        </ODClass>
+      </ODType>
+    </ODCatalog>
+  </ObjDetect>
+</CIRC-CO.com>

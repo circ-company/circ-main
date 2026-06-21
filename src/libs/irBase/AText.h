@@ -41,6 +41,7 @@ public: // const
     List split(const char hinge) const;
     List split(const AText &hinge) const;
     AText formatted(const QVariantList vars) const;
+    AText formattedList(const QVariantList vars) const;
     AText modified(const Modify mod) const;
     Pair keyValue(const char ch) const;
     AText sub(const IndexList ixs) const;
@@ -84,6 +85,7 @@ public: // pointers
 public: // static
     static char hinge();
     static void hinge(const char ch);
+    static AText formatted(const AText aFormat, const QVariantList vars);
 
 protected: // virtual const
     virtual bool isValidFirst(const char ch) const;

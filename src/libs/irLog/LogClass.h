@@ -9,7 +9,7 @@ class Log
 public: // types
     enum ItemType
     {
-        $null = 0,
+        $nullType = 0,
         MessageOnly,
         FuncArgument,
         Message,
@@ -18,8 +18,28 @@ public: // types
         ReturnValue,
         Assert,
         Troll,
-        $end
+        $maxType
     };
+
+    enum Operator : BYTE
+    {
+        $nullOperator = 0,
+        True,
+        False,
+        Is,
+        Not,
+        Invert,
+        Equal,
+        NotEqual,
+        Less,
+        LessEqual,
+        Greater,
+        GreaterEqual,
+        NotLess = GreaterEqual,
+        NotGreater = LessEqual,
+        $maxOperator
+    };
+
 
 public: // static
     static QtMsgType qtMsgType(const StatusLevel sl);

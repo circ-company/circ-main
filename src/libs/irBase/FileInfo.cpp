@@ -30,7 +30,12 @@ FSText FileInfo::dirLast() const
     return mDirNames.constLast();
 }
 
-QString FileInfo::toString()
+QVariant FileInfo::toVariant() const
+{
+    return isNull() ? QVariant() : QVariant(it());
+}
+
+QString FileInfo::toString() const
 {
     QString result;
     // TODO

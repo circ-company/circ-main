@@ -7,6 +7,7 @@
 #include <QDir>
 #include <QMetaType>
 #include <QString>
+#include <QVariant>
 
 #include "FSText.h"
 #include "FSTextList.h"
@@ -26,7 +27,8 @@ public: // const
     FSText dirFirst(const qsizetype k) const;
     FSText dirFirst(const qsizetype k, const char ch) const;
     FSText dirLast() const;
-    QString toString();
+    QString toString() const;
+    QVariant toVariant() const;
 
 public: // non-const
     void clear();
@@ -38,6 +40,8 @@ private:
     FSTextList mDirNames;
 
 public: // QMetaType
+    FileInfo & it() { return *this; }
+    const FileInfo & it() const { return *this; }
     FileInfo() = default;
     ~FileInfo() = default;
     FileInfo(const FileInfo &) = default;

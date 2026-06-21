@@ -62,10 +62,10 @@ CodeValue FunctionInfo::arg(const Index argix) const
 CText FunctionInfo::completeBaseName() const
 {
     Q_CHECK_PTR(data);
-    CText result = data->dNamespaces;
+    CText result;
     if ( ! data->dClassName.isEmpty())
-        result += (result.isEmpty() ? "" : "::") + data->dClassName();
-    result += (result.isEmpty() ? "" : "::") + data->dFunctionName() + "()";
+        result += data->dClassName() + "::";
+    result += data->dFunctionName() + "()";
     return result;
 }
 
@@ -91,12 +91,18 @@ void FunctionInfo::parse()
     if (cFirstOpenParenPos < 0) return;                         /*/=====\*/
     AText tFront = tInput.left(cFirstOpenParenPos);
     const int cFrontLastSpacePos = tFront.lastIndexOf(' ');
-    if (cFrontLastSpacePos < 1) return;                         /*/=====\*/
-    AText tAnte = tFront.left(cFrontLastSpacePos - 1);
-    AText tNames = tFront.mid(cFrontLastSpacePos + 1);
+    AText tAnte, tNames;
+    if (cFrontLastSpacePos < 1)
+    {
+        tNames = tFront;
+    }
+    else
+    {
+        tAnte = tFront.left(cFrontLastSpacePos - 1);
+        tNames = tFront.mid(cFrontLastSpacePos + 1);
+    }
     CTextList tNameList = tNames.split("::");
-    if (tNameList.isEmpty()) return;                            /*/=====\*/
-    CText tFuncName = tNameList.takeLast();
+    CText tFuncName = tNameList.isEmpty() ? CText() : tNameList.takeLast();
     CText tClassName = tNameList.isEmpty() ? CText() : tNameList.takeLast();
     CText tNamespaces = tNameList.join("::");
     // TODO Arguments, post

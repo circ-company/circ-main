@@ -42,7 +42,8 @@ void Application::initialize()
     else
         mMainDir.setPath("../EFPin");
 
-    mpCatalog = new cvODCatalog("file://../Detectors/Detectors.xml");
+    const Url cCatUrl(QUrl::fromLocalFile("../Detectors/Detectors.xml").toString());
+    mpCatalog = new cvODCatalog(cCatUrl);
 
     TRACE2("MainDirPath=%1 Exists=%2", mMainDir.path(), mMainDir.exists());
     if (mMainDir.exists())

@@ -62,7 +62,7 @@ bool LogEngine::isEmpty() const
 
 LogItem LogEngine::takeQueue()
 {
-    LogItem result(LogItem::Type::$null, StatusLevel(), CodeContext());
+    LogItem result(LogItem::Type::$nullType, StatusLevel(), CodeContext());
     Q_ASSERT(mUidItemMap.count() == mLevelUidMMap.count());
     if ( ! isEmpty())
     {
@@ -95,10 +95,10 @@ void LogEngine::sendTroll(const LogItem &li)
     const QString cNstStr = cNST.timeString();
     QString tText = QString("%1 %2(%5): <%3> %4\n")
                         .arg(cNstStr)
-                        .arg(cLevelName(), -10, cLmtChar)
+                        .arg(cLevelName(), -12, cLmtChar)
                         .arg(cMsgAtx())
                         .arg(cCtxAtx())
-                        .arg(cLevelValue)
+                        .arg(cLevelValue, 2)
         ;
     writeTroll(cLMT, tText);
 }

@@ -7,6 +7,14 @@ bool CodeValueList::isValid(const Index ix) const
     return ix >= 0 && ix < count();
 }
 
+QVariantList CodeValueList::values() const
+{
+    QVariantList result;
+    foreach (const CodeValue cCV, it())
+        result << cCV.value();
+    return result;
+}
+
 void CodeValueList::set(const Index ix, const CodeValue &cv)
 {
     if (ix < 0) return;                                                 /*/===\*/

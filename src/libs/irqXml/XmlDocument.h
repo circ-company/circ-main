@@ -8,28 +8,34 @@
 
 #include <File.h>
 #include <FileInfo.h>
+#include <KeyMap.h>
+class Result;
 
 #include "XmlElement.h"
-#include "XmlElementList.h"
+//#include "XmlElementList.h"
 
 class XmlDocument : public QDomDocument
 {
 public: // types
 
 public: // ctors
-    XmlDocument(const FileInfo &fi);
+    XmlDocument(const FileInfo &aFI);
 
 public: // const
+    bool isOpen() const;
 
 public: // non-const
+    bool set(const FileInfo &aFI);
+    void close();
+    Result readAll();
 
 public: // pointers
 
 private:
     FileInfo mFileInfo;
-    File mFile;
+    File * mpFile;
     XmlElement mRootElement;
-    XmlElementList mTopElements;
+    KeyMap mXmlMap;
 
 public: // QMetaType
     XmlDocument() = default;

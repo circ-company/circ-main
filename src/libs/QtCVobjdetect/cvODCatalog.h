@@ -3,6 +3,8 @@
 #include <QObject>
 
 #include <KeyMap.h>
+#include <Result.h>
+#include <Url.h>
 
 #include "cvODCatalogEntry.h"
 
@@ -26,8 +28,8 @@ public slots:
 
 signals:
     void urlSet(const Url &url);
-    void urlRead(const Url &url);
-    void parsed();
+    void urlRead(const Url &url, const Result &aResult);
+    void parsed(const Url &url, const Result &aResult);
 
 public: // const
     EntryList list(const cvODClass cls, const cvODType type);

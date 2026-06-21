@@ -1,13 +1,13 @@
 #pragma once
 
 #include "KeySeg.h"
-#include <QList>
+#include "List.h"
 
 #include <QString>
 #include <QStringList>
 
 
-class  KeySegList : public QList<KeySeg>
+class  KeySegList : public ListT<KeySeg>
 {
 public:
     KeySegList() { set(); }

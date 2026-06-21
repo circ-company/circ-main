@@ -18,12 +18,12 @@ WORD KeySeg::hash16() const
 
 bool KeySeg::isValidFirst(const char ch) const
 {
-    return std::isalpha(ch) || '_' == ch;
+    return std::isalpha(ch) || '$' == ch;
 }
 
 bool KeySeg::isValidChar(const char ch) const
 {
-    return std::isalnum(ch) || '_' == ch;
+    return std::isalnum(ch) || '_' == ch || '-' == ch;
 }
 
 Seed KeySeg::smHashSeed()

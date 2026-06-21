@@ -21,13 +21,13 @@
 
 #define PROGMSG(msg)        MESSAGELI(StatusLevel::Progress, msg);
 
-#define TASSERT(bval)       ASSERTLI(LogOperator::True, StatusLevel::TAssert, bval);
-#define WASSERT(bval)       ASSERTLI(LogOperator::True, StatusLevel::WAssert, bval);
-#define MUSTDO()            ASSERTLI(LogOperator::False, StatusLevel::MustDo, true);
-#define ASSERT(bval)        ASSERTLI(LogOperator::True, StatusLevel::Assert, bval);
-#define PASSERT(bval)       ASSERTLI(LogOperator::True, StatusLevel::Process, bval);
-#define MASSERT(bval)       ASSERTLI(LogOperator::True, StatusLevel::MAlloc, bval);
-#define SASSERT(bval)       ASSERTLI(LogOperator::True, StatusLevel::System, bval);
+#define TASSERT(bval)       ASSERTLI(Log::True, StatusLevel::TAssert, bval);
+#define WASSERT(bval)       ASSERTLI(Log::True, StatusLevel::WAssert, bval);
+#define MUSTDO()            ASSERTLI(Log::False, StatusLevel::MustDo, true);
+#define ASSERT(bval)        ASSERTLI(Log::True, StatusLevel::Assert, bval);
+#define PASSERT(bval)       ASSERTLI(Log::True, StatusLevel::Process, bval);
+#define MASSERT(bval)       ASSERTLI(Log::True, StatusLevel::MAlloc, bval);
+#define SASSERT(bval)       ASSERTLI(Log::True, StatusLevel::System, bval);
 
 #define TDETAIL4(fmt, v1, v2, v3, v4) QVariant qvf(AText(fmt)); \
             QVariant qv1=QVariant::fromValue(v1); \

@@ -38,6 +38,13 @@ Result File::open(const QIODeviceBase::OpenMode mode)
     FNARG(mode);
     Result result(CODECONTEXT());
     MUSTDO();
+    StatusItem tStartStatus("CIRCCOcom/circ-main/irStore/File/open", CODECONTEXT());
+    tStartStatus.add(int(mode));
+    tStartStatus.add(mFileInfo.toVariant());
+    result.add(tStartStatus);
+
+    StatusItem tNewStatus("CIRCCOcom/circ-main/irStore/File/open/new", CODECONTEXT());
+
 
     FNLEAVER(result);
     return result;

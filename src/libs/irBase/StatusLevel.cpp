@@ -19,9 +19,10 @@ void StatusLevel::nullify()
 
 void StatusLevel::set(const int val)
 {
-    nullify();
     if (smNamedInt.contains(val))
         mValue = Value(val);
+    else
+        nullify();
 }
 
 void StatusLevel::set(const CText &nam)

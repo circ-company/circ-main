@@ -4,11 +4,12 @@
 #include <QVariant>
 
 #include "CText.h"
+#include "List.h"
 
 class CodeValue
 {
 public: // types
-    typedef QList<CodeValue> List;
+    typedef ListT<CodeValue> List;
 
 public: // ctors
     CodeValue(const QVariant &var, const CText &argName,
@@ -17,11 +18,13 @@ public: // ctors
               const QVariant &def=QVariant(), const char *defPch=0);
 
 public: // const
+    bool isNull() const;
     QVariant value() const;
     QString string() const;
     CText name() const;
     CText metaName() const;
     QMetaType metaType() const;
+    int metaTypeId() const;
     QVariant defValue() const;
     QString defString() const;
     CText defName() const;
@@ -39,6 +42,7 @@ private:
     QMetaType mMetaType;
     QVariant mDefValue;
     AText mDefName;
+    AText mDescription;
     QMetaType mDefMetaType;
 
 
@@ -53,11 +57,13 @@ public: // QMetaType
 
 Q_DECLARE_METATYPE(CodeValue);
 
+inline bool CodeValue::isNull() const { return QMetaType::UnknownType == metaTypeId(); }
 inline QVariant CodeValue::value() const { return mValue; }
 inline QString CodeValue::string() const { return value().toString(); }
 inline CText CodeValue::name() const { return mName; }
 inline CText CodeValue::metaName() const { return metaType().name(); }
 inline QMetaType CodeValue::metaType() const { return mMetaType; }
+inline int CodeValue::metaTypeId() const { return metaType().id(); }
 inline QVariant CodeValue::defValue() const { return mDefValue; }
 inline QString CodeValue::defString() const { return defValue().toString(); }
 inline CText CodeValue::defName() const { return mDefName; }

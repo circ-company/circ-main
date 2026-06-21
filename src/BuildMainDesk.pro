@@ -32,7 +32,7 @@ irqXml.depends          = irBase    irLog                   irTypes             
 irqGui.depends          = irBase    irLog                   irTypes
 irqWidgets.depends      = irBase    irLog       irMatGeo    irTypes
 irImage.depends         = irBase ## TBD
-QtCVobjdetect.depends   = QtCVcore
+QtCVobjdetect.depends   = irBase    irLog                   irTypes     QtCVcore
 MainDesktop.depends     = irBase    irLog       irMatGeo    irTypes     irqCore     irqNetwork  irStore \
                             irqGui      irqWidgets      irImage
 

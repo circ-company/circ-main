@@ -4,6 +4,7 @@ DEFINES += IRTYPES_LIBRARY
 
 include(../libs.pri)
 include(../../useBase.pri)
+include(../../useLog.pri)
 include(../../useQCore.pri)
 include(../../useQNetwork.pri)
 

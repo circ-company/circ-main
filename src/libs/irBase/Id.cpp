@@ -15,7 +15,7 @@ Id::Id(const Uid &u, const IdNo i)  : data(new IdData) { set(u, i); ctor(); }
 Id::Id(const Uid &u, const Key &k) : data(new IdData) { set(u, k); ctor(); }
 Id::Id(const Uid &u, const QString &n) : data(new IdData) { set(u, n); ctor(); }
 Id::Id(const IdNo i) : data(new IdData) { idno(i); ctor(); }
-Id::Id(const Key &k) : data(new IdData) { key(k); ctor(); }
+Id::Id(const Key &k) : data(new IdData) { key(k); ctor(); set(Uid::VerTextSha); }
 Id::Id(const QString &n) : data(new IdData) { name(n); ctor(); }
 Id::Id(const Uid &u, const IdNo i, const Key &k, const QString &n)
     : data(new IdData) { uid(u); idno(i); key(k); name(n); ctor(); }

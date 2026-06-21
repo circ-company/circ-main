@@ -12,7 +12,6 @@ SOURCES += \
     LogFunction.cpp \
     LogItem.cpp \
     LogMsgType.cpp \
-    LogOperator.cpp \
     LogOutput.cpp \
 #    OutputInterface.cpp \
  #   OutputPlugin.cpp \
@@ -26,7 +25,6 @@ HEADERS += \
     LogItem.h \
     LogMacros.h \
     LogMsgType.h \
-    LogOperator.h \
     LogOutput.h \
   #  OutputInterface.h \
    # OutputPlugin.h \

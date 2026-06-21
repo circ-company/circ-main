@@ -27,7 +27,7 @@ AText CodeContext::toString(const bool withTime) const
 {
     AText result('{');
     result.append(QString("%1(%2) %3")
-                       .arg(baseFileName()(), 20)
+                       .arg(baseFileName()())
                        .arg(fileLine(), 4, 10, u'0')
                        .arg(qfiText()()));
     if (withTime) result += " " + NSTime().timeString();

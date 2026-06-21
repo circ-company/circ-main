@@ -1,80 +1,78 @@
 #pragma once
 
-#include <QSharedDataPointer>
-#include "DataProperty.h"
+#include <List.h>
 
-#ifdef STATUS_UTEXT
-#include <UText.h>
-#include "UTextList.h"
-#define FORMAT UText
-#define FORMATLIST UTextList
-#else
+#include <QMetaType>
+
 #include <AText.h>
-#include "ATextList.h"
-#define FORMAT AText
-#define FORMATLIST ATextList
-#endif
-
-#include <QList>
-
+#include <ATextList.h>
+#include <Id.h>
+#include <List.h>
 #include <StatusLevel.h>
+#include <Types.h>
 
 #include "CodeContext.h"
-#include "CText.h"
-#include "CTextList.h"
-#include "NanosecondTime.h"
 #include "CodeValue.h"
 #include "CodeValueList.h"
-#include "Types.h"
 
-
-#define STATUSCODE_DATAPROPS(TND) \
-    TND(Nanoseconds, NSTimeStamp, 0) \
-    TND(int, StatusLevelValue, StatusLevel::Invalid) \
-    TND(CodeContext, Context, CodeContext()) \
-    TND(FORMAT, Format, FORMAT()) \
-    TND(CodeValueList, Arguments, CodeValueList()) \
-
-class StatusCodeData : public QSharedData
-{
-    DECLARE_CHILD_DATAPROPS(STATUSCODE_DATAPROPS);
-public:
-    StatusCodeData(void)
-    {
-        DEFINE_DATAPROPS_CTORS(STATUSCODE_DATAPROPS);
-    }
-};
-
-class StatusCode
+class StatusCode : public Id
 {
 public: // types
-    typedef QList<StatusCode> List;
+    typedef ListT<StatusCode> List;
 
 public: // ctors
-    StatusCode(const CodeContext &ctx, const StatusLevel lvl, const FORMAT msg=FORMAT());
-    StatusCode(const CodeContext &ctx, const StatusLevel lvl, const FORMAT msg,
+    StatusCode(const Key &aKey);
+    StatusCode(const Key &aKey, const StatusLevel aLevel,
+               const AText aMessage=AText(), const AText aDesc=AText());
+    StatusCode(const Key &aKey, const StatusLevel aLevel,
+               const AText aFormat,
                const CodeValue &arg1,
                const CodeValue &arg2=CodeValue(),
                const CodeValue &arg3=CodeValue(),
-               const CodeValue &arg4=CodeValue());
-    StatusCode(const CodeContext &ctx, const StatusLevel lvl, const FORMAT msg,
-               const CodeValueList &args);
-
+               const CodeValue &arg4=CodeValue(),
+               const AText aDesc=AText());
+    StatusCode(const Key &aKey, const StatusLevel lvl,
+               const AText aFormat,
+               const CodeValueList &aValues,
+               const AText aDesc=AText());
 
 public: // const
     bool isNull() const;
     StatusLevel level() const;
-    FORMAT formattedMessage() const;
-    FORMATLIST formattedMessageArgs() const;
+    AText formatted() const;
+    ATextList formattedMulti() const;
     Count argumentCount() const;
     bool isValidArgumentIndex(const Index ix) const;
     CodeValue argument(const Index ix) const;
 
 public: // non-const
+    void set(const Key &aKey, const StatusLevel aLevel,
+             const AText aFormat,
+             const CodeValueList &aValues,
+             const AText aDesc=AText());
 
-public:
-    DECLARE_PARENT_DATAPROPS(STATUSCODE_DATAPROPS)
-    DECLARE_DATAPROPS(StatusCode, StatusCodeData)
+public: // pointers
+
+private:
+    StatusLevel mLevel=StatusLevel::Invalid;
+    CodeContext mContext;
+    AText mFormat;
+    AText mDescription;
+    CodeValueList mValues;
+
+public: // QMetaType
+    StatusCode() = default;
+    ~StatusCode() = default;
+    StatusCode(const StatusCode &) = default;
+    StatusCode &operator=(const StatusCode &) = default;
+    StatusCode & it() { return *this; }
+    const StatusCode & it() const { return *this; }
 };
 
-inline StatusLevel StatusCode::level() const { return StatusLevel(StatusLevelValue()); }
+Q_DECLARE_METATYPE(StatusCode);
+
+inline bool StatusCode::isNull() const { return ! level().isValid(); }
+inline StatusLevel StatusCode::level() const { return mLevel;; }
+inline Count StatusCode::argumentCount() const { return mValues.count(); }
+inline bool StatusCode::isValidArgumentIndex(const Index ix) const { return mValues.isValidIndex(ix); }
+inline CodeValue StatusCode::argument(const Index ix) const { return mValues.at(ix); }

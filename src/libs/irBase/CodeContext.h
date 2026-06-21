@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "CText.h"
 #include "FSText.h"
 #include "FileInfo.h"
@@ -60,5 +59,7 @@ inline FunctionInfo CodeContext::funcInfo() const { return mFuncInfo; }
 inline FileInfo CodeContext::fileInfo() const { return mFileInfo; }
 
 Q_DECLARE_METATYPE(CodeContext);
+
+#define CODECONTEXT() CodeContext(Q_FUNC_INFO, __FILE__, __LINE__)
 
 
