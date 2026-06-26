@@ -1,24 +1,38 @@
 #pragma once
 
-#include <CodeValue.h>
-#include <CodeValueList.h>
+#include <ArgumentInfo.h>
+#include <ArgumentInfoList.h>
 #include <CodeContext.h>
 #include <CText.h>
 #include <StatusLevel.h>
 
 class LogFunction
 {
+public: // types
+    struct EmitArgs
+    {
+        int FileLine;
+        CText EmitName;
+        ArgumentInfoList EmitArgs;
+    };
+
 public: // ctors
     LogFunction(const CodeContext ctx);
 
 public: // non-const
-    void addArgument(const CodeValue &arg);
-    void emitSignal(const CText &sigName);
-    void leave();
-    void leave(const CodeValue &res);
+    void addArgument(const ArgumentInfo &arg);
+    int emitSignal(const int aLineAbove, const CText &sigName);
+    void emitArgument(const int aEmitLine, const ArgumentInfo &arg);
+    void returnVoid();
+    void returnValue(const ArgumentInfo &arg);
+
+private:
+    void closeOut();
 
 private:
     CodeContext cmContext;
-    CodeValueList mArgList;
+    ArgumentInfoList mArgList;
+    QMap<int, EmitArgs> mEmitLineArgsMap;
+    ArgumentInfo mReturnArg;
 };
 

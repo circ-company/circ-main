@@ -29,13 +29,14 @@ void LogEngine::release()
 
 void LogEngine::enqueue(LogItem li)
 {
-    //Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
     const Type cType = li.type();
     const Uid cUid = li.uid();
     const StatusLevel cLevel = li.level();
     switch (cType)
     {
-    case Type::MessageOnly: break;
+    case Type::Assert:      Q_FALLTHROUGH();
+    case Type::Expect:      Q_FALLTHROUGH();
+    case Type::MessageOnly:                             break;
     case Type::Formatted:   li.set(li.formatted());     break; // new message
     default:        //        /* leave alone */           break; // TODO more?
         qWarning() << Q_FUNC_INFO << "Unhandled Type:"
@@ -45,8 +46,9 @@ void LogEngine::enqueue(LogItem li)
 
     mUidItemMap.insert(cUid, li);
     mLevelUidMMap.insert(cLevel, cUid);
-    //Q_ASSERT(mUidItemMap.count() == mSevUidMMap.count());
     if ( ! mCaptured && mTrollEnabled) sendTroll(li);
+    if (cLevel.isFault())
+        Q_ASSERT_X(!"LOG FAULT", li.context().toString(), li.message());
 }
 
 void LogEngine::dequeue()
@@ -93,13 +95,12 @@ void LogEngine::sendTroll(const LogItem &li)
     const AText cCtxAtx = li.context().toString(false);
     const NanosecondTime cNST = li.context().NSTime();
     const QString cNstStr = cNST.timeString();
-    QString tText = QString("%1 %2(%5): <%3> %4\n")
-                        .arg(cNstStr)
-                        .arg(cLevelName(), -12, cLmtChar)
-                        .arg(cMsgAtx())
-                        .arg(cCtxAtx())
-                        .arg(cLevelValue, 2)
-        ;
+    QString tText = QString("%1 %2(%5): [%3] %4\n")
+                        .arg(cNstStr)                       // %1
+                        .arg(cLevelName(), -12, cLmtChar)   // %2
+                        .arg(cMsgAtx(),                     // %3
+                             cCtxAtx())                     // %4
+                        .arg(cLevelValue, 2);               // %5
     writeTroll(cLMT, tText);
 }
 
@@ -111,8 +112,8 @@ void LogEngine::writeTroll(const LogMsgType lmt, const AText atx)
     case QtDebugMsg:        qDebug() << atx();      break;
     case QtWarningMsg:      qWarning() << atx();    break;
     default:
+    case QtFatalMsg:        Q_FALLTHROUGH(); // let LogEngine::enqueue() fault
     case QtCriticalMsg:     qCritical() << atx();   break;
-    case QtFatalMsg:        qFatal() << atx();      break;
     }
 }
 

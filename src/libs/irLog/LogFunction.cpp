@@ -1,38 +1,63 @@
 #include "LogFunction.h"
 
-#include "Log.h" // required for LOG gstatic
+#include "Log.h"
 #include "LogItem.h"
+#include "LogMacros.h"
 
-LogFunction::LogFunction(const CodeContext ctx) : cmContext(ctx)
+LogFunction::LogFunction(const CodeContext ctx)
+    : cmContext(ctx)
 {
-    LogItem li(Log::MessageOnly, StatusLevel::FuncEnter, ctx);
-    li.set("Entering " + ctx.funcInfo().completeBaseName()());
-    LOG->enqueue(li);
 }
 
-void LogFunction::addArgument(const CodeValue &arg)
+void LogFunction::addArgument(const ArgumentInfo &arg)
 {
-    LogItem li(Log::FuncArgument, StatusLevel::FuncArg, cmContext);
-    li.set(mArgList.count(), arg);
-    LOG->enqueue(li);
+    mArgList.append(arg);
 }
 
-void LogFunction::emitSignal(const CText &sigName)
+int LogFunction::emitSignal(const int aLineAbove, const CText &aSigName)
 {
-    LogItem li(Log::MessageOnly, StatusLevel::FuncEmit, cmContext);
-    li.set(CText("Emit ") + sigName);
-    LOG->enqueue(li);
+    EmitArgs tEA = { aLineAbove - 1, aSigName, ArgumentInfoList() };
+    mEmitLineArgsMap.insert(tEA.FileLine, tEA);
+    return tEA.FileLine;
 }
 
-void LogFunction::leave()
+void LogFunction::emitArgument(const int aEmitLine, const ArgumentInfo &arg)
 {
-    LogItem li(Log::MessageOnly, StatusLevel::FuncLeave, cmContext);
-    LOG->enqueue(li);
+    mEmitLineArgsMap[aEmitLine].EmitArgs.append(arg);
 }
 
-void LogFunction::leave(const CodeValue &res)
+void LogFunction::returnVoid()
 {
-    LogItem li(Log::MessageOnly, StatusLevel::FuncLeave, cmContext);
-    li.set(res);
-    LOG->enqueue(li);
+    mReturnArg.clear();
+}
+
+void LogFunction::returnValue(const ArgumentInfo &arg)
+{
+    mReturnArg = arg;
+}
+
+void LogFunction::closeOut()
+{
+    LogItem liEnter(Log::Function, StatusLevel::FuncEnter, cmContext);
+    LOG->enqueue(liEnter);
+    foreach (const ArgumentInfo cAI, mArgList)
+    {
+        LogItem liArg(Log::Function, StatusLevel::FuncArg, cmContext);
+        liArg.set(cAI);
+        LOG->enqueue(liArg);
+    }
+    foreach (const EmitArgs cEA, mEmitLineArgsMap.values())
+    {
+        LogItem liEmit(Log::Function, StatusLevel::FuncEmit,
+                       CodeContext(cmContext.qfiText(),
+                                   cmContext.fileName(),
+                                   cEA.FileLine));
+        LOG->enqueue(liEmit);
+    }
+    if ( ! mReturnArg.isNull())
+    {
+        LogItem liReturn(Log::Function, StatusLevel::FuncLeave, cmContext);
+        liReturn.set(mReturnArg);
+        LOG->enqueue(liReturn);
+    }
 }

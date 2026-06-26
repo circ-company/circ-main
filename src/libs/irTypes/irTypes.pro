@@ -10,22 +10,14 @@ include(../../useQNetwork.pri)
 
 SOURCES += \
     RandomGenerator.cpp \
-    Result.cpp \
     Signum.cpp \
-    StatusItem.cpp \
-    StatusItemList.cpp \
-    StatusCode.cpp \
     irTypes.cpp
 
 HEADERS += \
     CircularArray.h \
     MetaType.h \
     RandomGenerator.h \
-    Result.h \
-    StatusItem.h \
-    StatusItemList.h \
     Signum.h \
-    StatusCode.h \
     irTypes_global.h \
     irTypes.h
 

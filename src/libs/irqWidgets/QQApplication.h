@@ -20,6 +20,7 @@ protected:
 public slots:
     virtual void run();
     virtual void initialize();
+    virtual void setup();
     virtual void start();
     virtual void processFile();
 

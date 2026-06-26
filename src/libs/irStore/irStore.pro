@@ -9,15 +9,17 @@ include(../../useTypes.pri)
 
 
 SOURCES += \
-    DirLoader.cpp \
-    File.cpp \
+    BaseFile.cpp \
+    DataFile.cpp \
     NameFilters.cpp \
+    TextFile.cpp \
     irStore.cpp
 
 HEADERS += \
-    DirLoader.h \
-    File.h \
+    BaseFile.h \
+    DataFile.h \
     NameFilters.h \
+    TextFile.h \
     irStore_global.h \
     irStore.h
 

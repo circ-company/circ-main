@@ -29,6 +29,7 @@ void MainWindow::setup()
 {
     FNENTER();
     QQMainWindow::setup();
+    show();
     emit setuped();
 }
 

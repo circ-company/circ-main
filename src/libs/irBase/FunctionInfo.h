@@ -3,10 +3,9 @@
 #include <QSharedDataPointer>
 
 #include "AText.h"
+#include "ArgumentInfo.h"
 #include "CText.h"
 #include "CTextList.h"
-#include "CodeValue.h"
-#include "CodeValueList.h"
 #include "Types.h"
 
 
@@ -26,7 +25,7 @@ public:
 public: // const
     bool isNull() const;
     Count argCount() const;
-    CodeValue arg(const Index argix) const;
+    ArgumentInfo arg(const Index argix) const;
     CText completeBaseName() const;
 
 public: // non-const

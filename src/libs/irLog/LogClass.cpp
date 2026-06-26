@@ -1,6 +1,7 @@
 #include "LogClass.h"
 
 #include <AText.h>
+#include <EnumHelper.h>
 #include <Types.h>
 
 // static
@@ -15,6 +16,7 @@ QtMsgType Log::qtMsgType(const StatusLevel sl)
     return result;
 }
 
+// static
 CText Log::qtMsgName(const QtMsgType qmt)
 {
     CText result = "{invalid}";
@@ -27,5 +29,11 @@ CText Log::qtMsgName(const QtMsgType qmt)
     case QtFatalMsg:    result = "Fault";       break;
     }
     return result;
+}
+
+// static
+CText Log::opName(const Operator aOp)
+{
+    return EnumHelper::name<Operator>(aOp);
 }
 

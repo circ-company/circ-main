@@ -16,7 +16,7 @@ AText::AText(const QByteArray &ba) { set(ba); }
 AText::AText(const QByteArray &ba, const QChar repl) { set(ba, repl); }
 AText::AText(const QString &s) { set(s); }
 AText::AText(const Count k, const char ch) { set(k, ch); }
-//AText::AText(const unsigned int u, const BYTE base) { set(u, base); }
+AText::AText(const QVariant &aVar) { set(aVar); }
 
 AText::Pair AText::keyValue(const char ch) const
 {
@@ -145,13 +145,12 @@ void AText::set(const Count k, const char ch)
 {
     fill(ch, k);
 }
-/*
-void AText::set(const unsigned int u, const BYTE base)
+
+void AText::set(const QVariant &aVar)
 {
-    clear();
-    append(QString::number(u, base).toLocal8Bit());
+    it() = AText::format(aVar);
 }
-*/
+
 void AText::set(const Modify mod)
 {
     switch (mod)
@@ -205,18 +204,6 @@ void AText::removeEach(const AText &atx)
 {
     foreach(const char ch, atx)
         removeEach(ch);
-}
-
-AText AText::formatted(const AText aFormat, const QVariantList vars)
-{
-    AText result = aFormat;
-    for (Index ix = 1; ix < Index(vars.count()); ++ix)
-    {
-        AText tPctNum = QString("%") + QString::number(ix, 10);
-        if (result.contains(tPctNum))
-            result.replace(tPctNum.toQBAV(), AText(vars.at(ix).toString()));
-    }
-    return result;
 }
 
 bool AText::isValidFirst(const char ch) const

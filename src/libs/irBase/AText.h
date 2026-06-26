@@ -33,7 +33,7 @@ public: // ctors
     AText(const QByteArray &ba, const QChar repl);
     AText(const QString &s);
     AText(const Count k, const char ch=' ');
-//    AText(const unsigned u, const BYTE base=10);
+    AText(const QVariant &aVar);
 
 public: // const
     bool isEmpty() const;
@@ -64,6 +64,7 @@ public: // non-const
     void set(const QByteArrayList &ba);
     void set(const QStringList &s);
     void set(const Count k, const char ch=' ');
+    void set(const QVariant &aVar);
     void set(const Modify mod);
     int vprintf(const char * format, va_list vlist);
     void setList(const char * pch);
@@ -86,6 +87,7 @@ public: // static
     static char hinge();
     static void hinge(const char ch);
     static AText formatted(const AText aFormat, const QVariantList vars);
+    static AText format(const QVariant aVar);
 
 protected: // virtual const
     virtual bool isValidFirst(const char ch) const;
@@ -120,4 +122,5 @@ inline AText AText::operator +=(const char ch) { return append(ch); }
 inline AText AText::it() const { return *this; }
 inline AText &AText::it() { return *this; }
 inline char AText::hinge() { return smHingeChar; }
+inline void AText::hinge(const char ch) { smHingeChar = ch; }
 

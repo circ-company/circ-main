@@ -35,7 +35,7 @@ QVariant FileInfo::toVariant() const
     return isNull() ? QVariant() : QVariant(it());
 }
 
-QString FileInfo::toString() const
+QString FileInfo::toString(const StringOptions aOptions) const
 {
     QString result;
     // TODO

@@ -21,6 +21,8 @@ public: // non-const
     void reset();
     void nullify();
     void invalidate();
+    bool andEqual(const TriBool &other);
+    bool operator &= (const TriBool &other);
 
 protected:
     bool mValue = true;
@@ -39,4 +41,6 @@ inline void TriBool::set(const bool is) { mValue = is, mValid = true; }
 inline void TriBool::reset() { mValue = false, mValid = true; }
 inline void TriBool::nullify() { reset(); }
 inline void TriBool::invalidate() { mValue = false, mValid = false; }
+inline bool TriBool::operator &=(const TriBool &other) { return andEqual(other); }
+
 

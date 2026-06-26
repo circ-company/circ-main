@@ -9,15 +9,15 @@ DEFINES += IRBASE_LIBRARY
 include(../libs.pri)
 
 SOURCES += \
+    AText-static.cpp \
     AText.cpp \
     ATextList.cpp \
+    ArgumentInfo.cpp \
+    ArgumentInfoList.cpp \
     CText.cpp \
     CTextList.cpp \
     CharType.cpp \
     CodeContext.cpp \
-    CodeLevel.cpp \
-    CodeValue.cpp \
-    CodeValueList.cpp \
     DirInfo.cpp \
     Enumeration.cpp \
     ExeObject.cpp \
@@ -35,11 +35,9 @@ SOURCES += \
     MillisecondTime.cpp \
     NanosecondTime.cpp \
     Null.cpp \
+    Status.cpp \
     StatusLevel.cpp \
     StructTM.cpp \
-    Token.cpp \
-    TokenList.cpp \
-    Tokenizer.cpp \
     TriBool.cpp \
     UText.cpp \
     UTextList.cpp \
@@ -56,13 +54,12 @@ HEADERS += \
     ../../version.h \
     AText.h \
     ATextList.h \
+    ArgumentInfo.h \
+    ArgumentInfoList.h \
     CText.h \
     CTextList.h \
     CharType.h \
     CodeContext.h \
-    CodeLevel.h \
-    CodeValue.h \
-    CodeValueList.h \
     DirInfo.h \
     DualMap.h \
     EnumHelper.h \
@@ -85,11 +82,9 @@ HEADERS += \
     Named.h \
     NanosecondTime.h \
     Null.h \
+    Status.h \
     StatusLevel.h \
     StructTM.h \
-    Token.h \
-    TokenList.h \
-    Tokenizer.h \
     TriBool.h \
     Types.h \
     UText.h \

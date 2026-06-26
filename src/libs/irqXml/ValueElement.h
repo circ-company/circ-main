@@ -27,3 +27,5 @@ private: // non-const
 private:
     XmlElement mElement;
 };
+
+inline XmlElement ValueElement::element() const { return mElement; }

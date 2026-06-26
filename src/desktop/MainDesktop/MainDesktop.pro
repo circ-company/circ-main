@@ -16,6 +16,8 @@ include("../../useQGui.pri")
 include("../../useQWidgets.pri")
 include("../../useStore.pri")
 include("../../useImage.pri")
+include(../../useQXml.pri)
+include(../../QtCVobjdetect.pri)
 
 SOURCES += \
     Application.cpp \

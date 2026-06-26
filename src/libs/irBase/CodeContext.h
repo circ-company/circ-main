@@ -26,6 +26,7 @@ public: // const
 
 public: // non-const
     void clear();
+    void epochNS(const Nanoseconds aENS);
 
 public: // pointers
 
@@ -57,6 +58,7 @@ inline FSText CodeContext::fileName() const { return mFileName; }
 inline int CodeContext::fileLine() const { return mFileLine; }
 inline FunctionInfo CodeContext::funcInfo() const { return mFuncInfo; }
 inline FileInfo CodeContext::fileInfo() const { return mFileInfo; }
+inline void CodeContext::epochNS(const Nanoseconds aENS) { mEpochNS = aENS; }
 
 Q_DECLARE_METATYPE(CodeContext);
 

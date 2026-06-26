@@ -14,48 +14,68 @@ public: // types
     enum Value
     {
         $null = 0,
-        FuncArg,            //  1-Begin Trace
-        $Trace = FuncArg,   //  1
-        FuncLeave,          //  2
-        FuncEmit,           //  3
-        DumpHex = FuncEmit, //  3
-        FuncEnter,          //  4
-        DumpVar,            //  5
-        DumpObj,            //  6
-        TDetail,            //  7
-        TraceMsg,           //  8
-        TProgress,          //  9
-        TPrefer,            // 10
-        TExpect,            // 11
-        TAssert,            // 12
+        $Trace = 10,        // 10-Begin Trace
+        FuncArg,            // 11
+        FuncLeave,          // 12
+        FuncEmit,           // 13
+        FuncRes,            // 14
+        FuncResEn,          // 15
+        FuncEnter,          // 16
+        DumpHex = 21,       // 21
+        Level22,
+        DumpVar,            // 23
+        Level24,
+        DumpObj,            // 25
+        TDetail = 31,       // 31
+        Level32,
+        TraceMsg,           // 33
+        Level34,
+        TProgress,          // 35
+        Level36,
+        TPrefer,            // 37
+        TExpect,            // 38
+        TAssert,            // 39
 
-        Exit,               // 13-Begin Info
-        $Info = Exit,       // 13
-        Detail,             // 14
-        Info,               // 15
-        Prefer,             // 16
-        Progress,           // 17
-        Start,              // 18
+        $Info = 40,         // 40-Begin Info
+        Exit,               // 41
+        Detail,             // 42
+        Level43,
+        Info,               // 44
+        Level45,
+        Prefer,             // 46
+        Level47,
+        Progress,           // 48
+        Start,              // 49
 
-        Warning,            // 19-Begin Warn
-        $Warn = Warning,    // 19
-        WPrefer,            // 20
-        WExpect,            // 21
-        WAssert,            // 22
-        WMemory,            // 23
+        $Warn = 50,         // 50-Begin Warn
+        Warning,            // 51
+        Level52,
+        WPrefer,            // 53
+        Level54,
+        WExpect,            // 55
+        Level56,
+        WAssert,            // 57
+        Level58,
+        WMalloc,            // 59
 
-        Error,              // 24-Begin Error
-        $Error = Error,     // 24
-        Expect,             // 25
-        Assert,             // 26
+        $Error = 60,        // 60-Begin Error
+        Error,              // 61
+        Level62,
+        Expect,             // 63
+        Level64,
+        Assert,             // 65
 
-        Thread,             // 27-Begin Fault
-        $Fault = Thread,    // 27
-        MustDo,             // 28
-        Process,            // 29
-        MAlloc,             // 30
-        Invalid,            // 31
-        $max = Invalid,     // 31
+        $Fault = 70,        // 70-Begin Fault
+        Thread,             // 71
+        Level72,
+        MustDo,             // 73
+        Level74,
+        Process,            // 75
+        Level76,
+        MAlloc,             // 77
+
+        Invalid = 99,       // 99-Invalid
+        $max = Invalid,     // 99
     };
 
 public: // ctors
@@ -64,6 +84,7 @@ public: // ctors
 
 public: // const
     CText name() const;
+    QChar prefix() const;
     int value() const;
     bool isValid() const;
     bool trace() const;
@@ -73,6 +94,7 @@ public: // const
     bool fault() const;
     bool isWarn() const;
     bool isError() const;
+    bool isFault() const;
     bool inRange(const StatusLevel &lo, const StatusLevel &hi) const;
     bool equal(const StatusLevel &other) const;
     bool less(const StatusLevel &other) const;
@@ -117,11 +139,12 @@ inline bool StatusLevel::info() const { return inRange($Info, $Warn); }
 inline bool StatusLevel::warn() const { return inRange($Warn,  $Error); }
 inline bool StatusLevel::error() const { return inRange($Error, $Fault); }
 inline bool StatusLevel::fault() const { return inRange($Fault, $max); }
-inline bool StatusLevel::isWarn() const { return inRange($Warn, $max); }
-inline bool StatusLevel::isError() const { return inRange($Error, $max); }
+
+
+
 inline bool StatusLevel::equal(const StatusLevel &other) const { return value() == other.value(); }
 inline bool StatusLevel::less(const StatusLevel &other) const { return value() < other.value(); }
-
+inline bool StatusLevel::operator ==(const StatusLevel &other) { return equal(other); }
 inline void StatusLevel::invalidate() { mValue = Invalid; }
 inline void StatusLevel::min(const int val) { set(qMin(value(), val)); }
 inline void StatusLevel::max(const int val) { set(qMax(value(), val)); }

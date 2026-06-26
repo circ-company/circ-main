@@ -9,7 +9,6 @@
 
 #include <FileInfo.h>
 #include <FileInfoList.h>
-#include <DirLoader.h>
 class cvODCatalog;
 
 class MainWindow;
@@ -18,11 +17,12 @@ class Application : public QQApplication
 {
     Q_OBJECT
 public:
-    Application(int argc, char *argv[]);
+    Application(int &argc, char **argv);
 
 public slots:
     virtual void run() final;
     virtual void initialize() final;
+    virtual void setup() final;
     virtual void start() final;
     virtual void processFile() final;
 
@@ -39,6 +39,7 @@ public: // non-const
 public: // pointers
     void mainWindow(MainWindow * pMW);
     MainWindow * mainWindow();
+    cvODCatalog * catalog();
     QDir mainDir(); // arg[1]
 
 private:
@@ -51,5 +52,6 @@ private:
 };
 
 inline MainWindow *Application::mainWindow() { Q_CHECK_PTR(mpMainWindow); return mpMainWindow; }
+inline cvODCatalog *Application::catalog() {  Q_CHECK_PTR(mpCatalog); return mpCatalog; }
 inline QDir Application::mainDir() { return mMainDir; }
 inline void Application::mainWindow(MainWindow *pMW) { Q_CHECK_PTR(pMW); mpMainWindow = pMW; }

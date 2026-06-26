@@ -2,9 +2,11 @@
 
 #include <QObject>
 
+#include <FileInfo.h>
 #include <KeyMap.h>
-#include <Result.h>
+#include <Status.h>
 #include <Url.h>
+#include <XmlDocument.h>
 
 #include "cvODCatalogEntry.h"
 
@@ -23,21 +25,27 @@ public slots:
     void clear();
     void set(const Url &url);
     void set(const QString &url);
-    void read();
-    void parse();
 
 signals:
     void urlSet(const Url &url);
-    void urlRead(const Url &url, const Result &aResult);
-    void parsed(const Url &url, const Result &aResult);
+    void urlRead(const Url &url, const Status &aStatus);
+    void parsed(const Url &url, const Status &aStatus);
 
 public: // const
+    Url url() const;
+    FileInfo fileInfo() const;
     EntryList list(const cvODClass cls, const cvODType type);
 
 public: // non-const
+    Status read();
+    Status parse();
 
 private:
     Url mUrl;
-    QDomDocument mDomDocument;
+    FileInfo mFileInfo;
+    XmlDocument mXmlDocument;
     KeyMapT<cvODCatalogEntry> mEntryMap;
 };
+
+inline Url cvODCatalog::url() const { return mUrl; }
+inline FileInfo cvODCatalog::fileInfo() const { return mFileInfo; }

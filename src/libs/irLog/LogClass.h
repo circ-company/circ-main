@@ -1,22 +1,26 @@
 #pragma once
 
+#include <QObject>
+
 #include <QtDebug>
 
 #include <StatusLevel.h>
 
-class Log
+class Log : QObject
 {
+    Q_GADGET
 public: // types
     enum ItemType
     {
         $nullType = 0,
         MessageOnly,
-        FuncArgument,
-        Message,
+        Function,
         Formatted,
         ReturnVoid,
         ReturnValue,
         Assert,
+        Expect,
+        Malloc,
         Troll,
         $maxType
     };
@@ -39,9 +43,11 @@ public: // types
         NotGreater = LessEqual,
         $maxOperator
     };
+    Q_ENUM(Operator);
 
 
 public: // static
     static QtMsgType qtMsgType(const StatusLevel sl);
     static CText qtMsgName(const QtMsgType qmt);
+    static CText opName(const Operator aOp);
 };

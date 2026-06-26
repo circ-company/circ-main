@@ -13,6 +13,7 @@ public: // types
     typedef ListT<XmlElement> List;
 
 public: // ctors
+    XmlElement(const QDomElement &other);
 
 public: // const
 

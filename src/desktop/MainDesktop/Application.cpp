@@ -11,7 +11,7 @@
 
 #include "MainWindow.h"
 
-Application::Application(int argc, char *argv[])
+Application::Application(int &argc, char **argv)
     : QQApplication(argc, argv)
 {
     FNENTER()
@@ -21,7 +21,7 @@ Application::Application(int argc, char *argv[])
 void Application::run()
 {
     FNENTER()
-    PROGMSG("Running Application" + mainWindow()->objectName());
+    PROGMSG("Running Application:" + mainWindow()->objectName());
     QQApplication::run();
     connect(this, &Application::running, mainWindow(), &MainWindow::run);
     connect(mainWindow(), &MainWindow::running, this, &Application::initialize);
@@ -43,7 +43,8 @@ void Application::initialize()
         mMainDir.setPath("../EFPin");
 
     const Url cCatUrl(QUrl::fromLocalFile("../Detectors/Detectors.xml").toString());
-    mpCatalog = new cvODCatalog(cCatUrl);
+    mpCatalog = new cvODCatalog(cCatUrl, this);
+    NEWOBJ(mpCatalog, cvODCatalog, this);
 
     TRACE2("MainDirPath=%1 Exists=%2", mMainDir.path(), mMainDir.exists());
     if (mMainDir.exists())
@@ -59,9 +60,15 @@ void Application::initialize()
     }
 }
 
+void Application::setup()
+{
+    catalog()->read();
+}
+
 void Application::start()
 {
     FNENTER()
+
     QQApplication::start();
     if ( ! mFileList.isEmpty())
         QTimer::singleShot(50, this, &Application::processFile);
@@ -82,6 +89,8 @@ void Application::processFile()
         mainWindow()->setWindowTitle(cFI.baseName());
         emit processedFile(cFI, tImage);
     }
-    if ( ! mFileList.isEmpty())
+    if (mFileList.isEmpty())
+        QTimer::singleShot(5000, this, &QCoreApplication::quit);
+    else
         QTimer::singleShot(5000, this, &Application::processFile);
 }

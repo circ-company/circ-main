@@ -2,17 +2,17 @@
 
 #include <QDomDocument>
 
-#include <QDomElement>
+//#include <QDomElement>
+#include <QIODevice>
 
 #include <QMetaType>
 
-#include <File.h>
+#include <TextFile.h>
 #include <FileInfo.h>
 #include <KeyMap.h>
-class Result;
+#include <Status.h>
 
 #include "XmlElement.h"
-//#include "XmlElementList.h"
 
 class XmlDocument : public QDomDocument
 {
@@ -26,14 +26,16 @@ public: // const
 
 public: // non-const
     bool set(const FileInfo &aFI);
+    Status open(const QIODevice::OpenMode aMode);
     void close();
-    Result readAll();
+    Status read();
+    Status parse();
 
 public: // pointers
 
 private:
     FileInfo mFileInfo;
-    File * mpFile;
+    TextFile * mpFile;
     XmlElement mRootElement;
     KeyMap mXmlMap;
 

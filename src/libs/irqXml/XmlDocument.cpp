@@ -1,8 +1,10 @@
 #include "XmlDocument.h"
 
+#include <QCoreApplication>
+
 #include <CodeContext.h>
+#include <TextFile.h>
 #include <Log.h>
-#include <StatusItem.h>
 
 XmlDocument::XmlDocument(const FileInfo &aFI) { set(aFI); }
 
@@ -17,29 +19,52 @@ bool XmlDocument::isOpen() const
 bool XmlDocument::set(const FileInfo &aFI)
 {
     mFileInfo.setFile(aFI.filePath());
-    return mFileInfo.exists();
+    return mFileInfo.exists() && mFileInfo.isReadable();
+}
+
+Status XmlDocument::open(const QIODeviceBase::OpenMode aMode)
+{
+    Status status;
+    close();
+    if ( ! mFileInfo.isReadable())
+    {
+        status.set(StatusLevel::Error, "Expected file %1 readable",
+                   mFileInfo.filePath());
+        return status;                                      /*/=====\*/
+    }
+    TextFile * pFile = new TextFile(mFileInfo, aMode, (QObject *)qApp);
+    NEWOBJ(pFile, TextFile,  (QObject *)qApp);
+    return status;
 }
 
 void XmlDocument::close()
 {
-    if (isOpen())
-        if (mpFile)
-        {
-            mpFile->close();
-        }
-
+    if (mpFile)
+    {
+        mpFile->close();
+        mpFile->deleteLater();
+        mpFile = nullptr;
+    }
 }
 
-Result XmlDocument::readAll()
+Status XmlDocument::read()
 {
-    Result result(CODECONTEXT());
-    StatusItem tStartStatus("CIRCCOcom/circ-main/irqXml/XmlDocument/readAll", CODECONTEXT());
-    tStartStatus.add(mFileInfo.toVariant());
-    result.add(tStartStatus);
+    Status status;
 
-    StatusItem tOpenStatus("CIRCCOcom/circ-main/irqXml/XmlDocument/readAll/OpenFile", CODECONTEXT());
+    return status;
+}
 
-    result.add(tOpenStatus);
+Status XmlDocument::parse()
+{
+    Status status;
+    mRootElement = documentElement();
+    if ("ODCatalog" != mRootElement.tagName())
+    {
+        status.set(StatusLevel::Error, "Expected RootElement `ODCatalog`: "
+                                       "tag=%1 file=%2", QVariantList()
+                        << QVariant(mRootElement.tagName())
+                        << QVariant(mFileInfo.filePath()));
+    }
+    return status;
 
-    return result;
 }

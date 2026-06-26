@@ -18,6 +18,11 @@ void QQApplication::initialize()
 
 }
 
+void QQApplication::setup()
+{
+
+}
+
 void QQApplication::start()
 {
 

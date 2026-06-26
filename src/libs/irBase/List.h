@@ -12,7 +12,6 @@ public: // ctors
 
 public: // const
     bool isValidIndex(const qsizetype ix) const;
-    T at(const qsizetype ix) const; // safe, no assert
     ListT<T> constFirst(qsizetype k) const;
     T constFirst(const qsizetype k, const T tJoin) const;
     T constFirst(const qsizetype k, const char cJoin) const;
@@ -22,19 +21,14 @@ public: // const
     T constLast(const qsizetype k, const T tJoin) const;
 
 public: // non-const
-
+    void set(const qsizetype ix, const T &t);
+    ListT<T> operator <<(const T &t);
 };
 
 template<typename T>
 inline bool ListT<T>::isValidIndex(const qsizetype ix) const
 {
     return ix >= 0 && ix < ListT<T>::count();
-}
-
-template<typename T>
-inline T ListT<T>::at(const qsizetype ix) const
-{
-    return isValidIndex(ix) ? ListT<T>::at(ix) : T();
 }
 
 template<typename T>
@@ -98,4 +92,18 @@ inline T ListT<T>::constLast(const qsizetype k, const T tJoin) const
 {
     ListT<T> tList = constLast(k);
     return tList.join(tJoin);
+}
+
+template<typename T>
+inline void ListT<T>::set(const qsizetype ix, const T &t)
+{
+    qsizetype ix2 = ListT<T>::count();
+    while (ix2++ <= ix) ListT<T>::append(T());
+    ListT<T>::replace(ix, t);
+}
+
+template<typename T>
+inline ListT<T> ListT<T>::operator <<(const T &t)
+{
+    ListT<T>::append(t);
 }

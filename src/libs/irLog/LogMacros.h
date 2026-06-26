@@ -8,20 +8,28 @@
 #define LOGITEM(typ, lvl, ctx) LogItem li(typ, lvl, ctx)
 
 #define MESSAGELI(sev, msg) \
-{   LogItem li(Log::Message, sev, CODECONTEXT()); \
+{   LogItem li(Log::MessageOnly, sev, CODECONTEXT()); \
     li.set(AText(msg)); \
     LOG->enqueue(li); }
 
 #define ASSERTLI(op, sev, bval) \
 {   LOGITEM(Log::Assert, sev, CODECONTEXT()); \
-    li.asert(op, bval, #bval); \
+    li.assertIs(op, bval, #bval); \
     LOG->enqueue(li); }
 
-#define FORMATLI(sev, cvfmt, cv1, cv2, cv3, cv4) \
-    { \
-    LOGITEM(Log::Formatted, sev, CODECONTEXT()); \
-    li.set(0, cvfmt), li.set(1, cv1), li.set(2, cv2), \
-    li.set(3, cv3), li.set(4, cv4); \
-    LOG->enqueue(li); \
-    }
+#define EXPECT2LI(op, sev, act) \
+{   LOGITEM(Log::Expect, sev, CODECONTEXT()); \
+        li.expect(op, act, #act); \
+        LOG->enqueue(li); }
+
+#define EXPECT4LI(op, sev, exp, act) \
+{   LOGITEM(Log::Expect, sev, CODECONTEXT()); \
+        li.expect(op, exp, #exp, act, #act); \
+        LOG->enqueue(li); }
+
+#define FORMATLI(sev, atxfmt, ai1, ai2, ai3, ai4)       \
+    { LOGITEM(Log::Formatted, sev, CODECONTEXT());      \
+    li.set(0, atxfmt), li.set(1, ai1), li.set(2, ai2),  \
+    li.set(3, ai3), li.set(4, ai4);                     \
+    LOG->enqueue(li); }                                 \
 

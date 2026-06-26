@@ -2,21 +2,21 @@
 
 #include <utility>
 
-#include <QList>
-
+#include "ArgumentInfo.h"
+#include "ArgumentInfoList.h"
 
 class FunctionInfoData : public QSharedData
 {
 public:
-    AText           dQFIString;
-    CTextList       dReturnType;
-    CTextList       dAnte;
-    CText           dNamespaces;
-    CText           dClassName;
-    CText           dFunctionName;
-    CodeValueList   dArgumentList;
-    CTextList       dPost;
-    int             dFuncInfoFlags;
+    AText               dQFIString;
+    CTextList           dReturnType;
+    CTextList           dAnte;
+    CText               dNamespaces;
+    CText               dClassName;
+    CText               dFunctionName;
+    ArgumentInfoList    dArgumentList;
+    CTextList           dPost;
+    int                 dFuncInfoFlags;
 };
 
 FunctionInfo::FunctionInfo() : data(new FunctionInfoData) {;}
@@ -51,12 +51,12 @@ Count FunctionInfo::argCount() const
     return data->dArgumentList.count();
 }
 
-CodeValue FunctionInfo::arg(const Index argix) const
+ArgumentInfo FunctionInfo::arg(const Index argix) const
 {
     Q_CHECK_PTR(data);
     return (argix >= 0 && argix < Index(argCount()))
                ? data->dArgumentList.at(argix)
-               : CodeValue();
+               : ArgumentInfo();
 }
 
 CText FunctionInfo::completeBaseName() const
