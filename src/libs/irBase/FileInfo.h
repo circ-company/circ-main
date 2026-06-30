@@ -39,12 +39,20 @@ public: // types
         Root                = 0x00000100,
         Absolute            = 0x00000080,
         Alias               = 0x00000040,
-        Bundle              = 0x00000020,
-        Junction            = 0x00000010,
-        Native              = 0x00000008,
-        Other               = 0x00000004,
-        SymLink             = 0x00000002,
-        Symbolic            = 0x00000001
+        Junction            = 0x00000020,
+        Native              = 0x00000010,
+        Other               = 0x00000008,
+        SymLink             = 0x00000004,
+        Symbolic            = 0x00000002,
+        Negatives           = 0x00000001,
+        ElipsesPath         = FirstPath | Elipses | LastPath,
+        FileName            = CompleteBaseName | SuffixDot | Suffix,
+        AllFilePath         = AllPath | FileName,
+        BasicFilePath       = ElipsesPath | FileName,
+        Status              = Exists | Readable | Writable | Executable,
+        Characteristics     = Dir | File | Hidden | Root,
+        Flags               = Absolute | Alias | Junction | Native | Other
+                                | SymLink | Symbolic,
     };
     Q_DECLARE_FLAGS(StringOptions, StringOption);
 
@@ -58,7 +66,7 @@ public: // const
     FSText dirFirst(const qsizetype k) const;
     FSText dirFirst(const qsizetype k, const char ch) const;
     FSText dirLast() const;
-    QString toString(const StringOptions aOptions) const;
+    QString toString(const StringOptions aOptions=StringOptions(BasicFilePath | Status)) const;
     QVariant toVariant() const;
 
 public: // non-const

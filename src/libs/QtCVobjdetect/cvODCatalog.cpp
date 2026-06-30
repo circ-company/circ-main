@@ -1,5 +1,7 @@
 #include "cvODCatalog.h"
 
+#include <QCoreApplication>
+
 #include <Log.h>
 
 cvODCatalog::cvODCatalog(QObject *parent) : QObject{parent} { clear(); }
@@ -21,7 +23,10 @@ void cvODCatalog::set(const Url &url)
     mUrl = url;
     emit urlSet(mUrl);
     if (mUrl.isLocalFile())
-        mFileInfo = mUrl.localFlleInfo();
+    {
+        mFileInfo.setFile(qApp->arguments().first());
+        mFileInfo.setFile(mUrl.localFllePath());
+    }
 }
 
 void cvODCatalog::set(const QString &url)
@@ -34,32 +39,57 @@ void cvODCatalog::set(const QString &url)
 
 Status cvODCatalog::read()
 {
+    FNENTER()
     Status status;
     if (fileInfo().isNull())
     {
+        QVariant tVar;
+        tVar.setValue<Url>(url());
         status.set(StatusLevel::Error,
-                   AText::formatted("Only Supporting Local Files: url=%1",
-                        QVariantList() << QVariant::fromValue(url())));
-        STATUS(status);
-        return status;                                          /*/=====\*/
+                   AText::format("Only Supporting Local Files: url=%1", tVar));
     }
-    if ( ! mXmlDocument.set(fileInfo()))
+    if (status.notError())
     {
-        status.set(StatusLevel::Error,
-                   AText::formatted("Local File Does Not Readable: %1",
-                        QVariantList() << QVariant(fileInfo().filePath())));
-        STATUS(status);
-        return status;                                          /*/=====\*/
+        if ( ! mXmlDocument.set(fileInfo()))
+        {
+            status.set(StatusLevel::Error,
+                       AText::format("Local File is Not Readable: %1",
+                            fileInfo().filePath()));
+        }
     }
-    status = mXmlDocument.read();
+    if (status.notError())
+    {
+        status = mXmlDocument.open(QIODevice::ReadOnly | QIODevice::ExistingOnly);
+    }
+    if (status.notError())
+    {
+        status = mXmlDocument.read();
+    }
+    if (status.isNull())
+        status.level(StatusLevel::Progress);
     STATUS(status);
     return status;
 }
 
 Status cvODCatalog::parse()
 {
+    FNENTER()
     Status status;
+    status = mXmlDocument.read();
+    if (status.notError())
+    {
+        if ("ODCatalog" != mXmlDocument.rootTag())
+        {
+            status.set(StatusLevel::Error, "Expected RootElement `ODCatalog`: "
+                                           "tag=%1 file=%2", QVariantList()
+                           << mXmlDocument.rootTag()
+                           << mFileInfo.filePath());
+        }
+    }
+    if (status.notError())
+    {
 
+    }
     STATUS(status);
     return status;
 }

@@ -2,6 +2,8 @@
 
 #include <QTimer>
 
+#include <Log.h>
+
 DataFile::DataFile()
 {
     setObjectName("DataFile:Null");
@@ -35,3 +37,22 @@ DataFile::DataFile(const FSText &aFName,
     });
 }
 
+void DataFile::set(const QIODeviceBase::OpenMode aMode)
+{
+    mOpenMode = aMode & ~ QIODevice::Text;
+    emit modeSet(fileInfo(), mode());
+}
+
+bool DataFile::open(const QIODeviceBase::OpenMode aMode)
+{
+    TriBool result;
+    MUSTDO() // TODO DataFile::open()
+    return result;
+}
+
+bool DataFile::read()
+{
+    TriBool result;
+    MUSTDO() // TODO DataFile::read()
+    return result;
+}

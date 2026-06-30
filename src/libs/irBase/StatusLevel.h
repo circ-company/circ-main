@@ -85,7 +85,9 @@ public: // ctors
 public: // const
     CText name() const;
     QChar prefix() const;
+    QString string(const int aWidth=12) const;
     int value() const;
+    bool isNull() const;
     bool isValid() const;
     bool trace() const;
     bool info() const;
@@ -95,7 +97,7 @@ public: // const
     bool isWarn() const;
     bool isError() const;
     bool isFault() const;
-    bool inRange(const StatusLevel &lo, const StatusLevel &hi) const;
+    bool inRange(const Value &lo, const Value &hi) const;
     bool equal(const StatusLevel &other) const;
     bool less(const StatusLevel &other) const;
     bool operator == (const StatusLevel &other);
@@ -110,6 +112,7 @@ public: // non-const
     void max(const int val);
 
 public: // static
+    static bool isValid(const StatusLevel aLevel);
     static StatusLevel * instance();
     static void load(const PairList &pairs);
     static PairList initializer();
@@ -131,17 +134,15 @@ extern bool operator == (const StatusLevel &rhs, const StatusLevel &lhs);
 extern bool operator <  (const StatusLevel &rhs, const StatusLevel &lhs);
 extern bool operator <= (const StatusLevel &rhs, const StatusLevel &lhs);
 
-
 inline CText StatusLevel::name() const { return smNamedInt.name(value()); }
 inline int StatusLevel::value() const { return mValue; }
+inline bool StatusLevel::isNull() const { return $null == value(); }
+inline bool StatusLevel::isValid() const { Q_ASSERT(value() < Invalid); return value() < Invalid; }
 inline bool StatusLevel::trace() const { return inRange($Trace, $Info); }
 inline bool StatusLevel::info() const { return inRange($Info, $Warn); }
 inline bool StatusLevel::warn() const { return inRange($Warn,  $Error); }
 inline bool StatusLevel::error() const { return inRange($Error, $Fault); }
 inline bool StatusLevel::fault() const { return inRange($Fault, $max); }
-
-
-
 inline bool StatusLevel::equal(const StatusLevel &other) const { return value() == other.value(); }
 inline bool StatusLevel::less(const StatusLevel &other) const { return value() < other.value(); }
 inline bool StatusLevel::operator ==(const StatusLevel &other) { return equal(other); }

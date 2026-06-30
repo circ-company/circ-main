@@ -14,6 +14,7 @@
 Application::Application(int &argc, char **argv)
     : QQApplication(argc, argv)
 {
+    LOG->initialize();
     FNENTER()
     setObjectName("Application:MainDesk");
 }
@@ -58,11 +59,14 @@ void Application::initialize()
         mFileList = mainDir().entryInfoList();
         emit initialized();
     }
+    setup();
 }
 
 void Application::setup()
 {
+    FNENTER();
     catalog()->read();
+    catalog()->parse();
 }
 
 void Application::start()
@@ -83,10 +87,11 @@ void Application::processFile()
     const FileInfo cFI = mFileList.takeFirst();
     QImage tImage(cFI.filePath());
     TRACE2("FileName=%1 ImageSize=%2", cFI.filePath(), tImage.size());
+    mainWindow()->setWindowTitle(cFI.toString(FileInfo::CompleteBaseName)
+                                 + (tImage.isNull() ? " NULL" : ""));
     if ( ! tImage.isNull())
     {
         mainWindow()->mainLabel()->set(mainWindow()->mainLabel()->size(), tImage);
-        mainWindow()->setWindowTitle(cFI.baseName());
         emit processedFile(cFI, tImage);
     }
     if (mFileList.isEmpty())

@@ -13,6 +13,11 @@
 #define FNENTER() LogFunction logFunction(CODECONTEXT());
 #define FNARG(arg) QVariant qv=QVariant::fromValue(arg); \
             logFunction.addArgument(ArgumentInfo(#arg, #arg, qv));
+#define FNARG2(arg1, arg2) \
+            QVariant qv1=QVariant::fromValue(arg1); \
+            QVariant qv2=QVariant::fromValue(arg2); \
+            logFunction.addArgument(ArgumentInfo(#arg1, #arg1, qv1)); \
+            logFunction.addArgument(ArgumentInfo(#arg2, #arg2, qv2));
 #define FNARGD(arg, def) QVariant qv=QVariant::fromValue(arg); \
             logFunction.add(ArgumentInfo(#arg, #arg, qv, #def, def));
 #define FNEMIT(sig) logFunction.emitSignal(__LINE__, #sig);

@@ -4,6 +4,7 @@
 
 #include <QMetaType>
 
+#include <Key.h>
 #include <List.h>
 
 class XmlElement : public QDomElement
@@ -22,6 +23,7 @@ public: // non-const
 public: // pointers
 
 private:
+    Key mElementKey;
 
 public: // QMetaType
     XmlElement() = default;

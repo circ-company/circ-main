@@ -23,6 +23,8 @@ public: // ctors
 
 public: // const
     bool isOpen() const;
+    XmlElement rootElement() const;
+    QString rootTag() const;
 
 public: // non-const
     bool set(const FileInfo &aFI);
@@ -33,11 +35,14 @@ public: // non-const
 
 public: // pointers
 
+private: // non-const
+    bool parse(const XmlElement &aParentXE, const Key &aParentKey);
+
 private:
     FileInfo mFileInfo;
     TextFile * mpFile;
     XmlElement mRootElement;
-    KeyMap mXmlMap;
+    KeyMapT<XmlElement> mKeyElementMap;
 
 public: // QMetaType
     XmlDocument() = default;
@@ -47,5 +52,8 @@ public: // QMetaType
     XmlDocument & it() { return *this; }
     const XmlDocument & it() const { return *this; }
 };
+
+inline XmlElement XmlDocument::rootElement() const { return mRootElement; }
+inline QString XmlDocument::rootTag() const { return rootElement().tagName(); }
 
 Q_DECLARE_METATYPE(XmlDocument);

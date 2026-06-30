@@ -2,6 +2,8 @@
 
 #include <QTimer>
 
+#include <Log.h>
+
 TextFile::TextFile()
 {
     setObjectName("TextFile:Null");
@@ -25,6 +27,7 @@ TextFile::TextFile(const FSText &aFName,
                    const QIODeviceBase::OpenMode aMode,
                    QObject *parent)
     : BaseFile(aFName, aMode | QIODevice::Text, parent)
+
 {
     setObjectName("TextFile:" + fileInfo().completeBaseName()
                   + "." + fileInfo().suffix());
@@ -33,4 +36,26 @@ TextFile::TextFile(const FSText &aFName,
         emit infoSet(fileInfo(), exists());
         emit modeSet(fileInfo(), mode());
     });
+}
+
+void TextFile::set(const QIODeviceBase::OpenMode aMode)
+{
+    mOpenMode = aMode | QIODevice::Text;
+    emit modeSet(fileInfo(), mode());
+}
+
+bool TextFile::open(const QIODeviceBase::OpenMode aMode)
+{
+    QIODeviceBase::OpenMode tOpenMode = aMode;
+    if (QIODevice::NotOpen != tOpenMode)
+        tOpenMode |= QIODevice::Text;
+    return BaseFile::open(tOpenMode);
+}
+
+bool TextFile::read()
+{
+    bool result = BaseFile::read();
+    if (result)
+        mText.set(mBytes);
+    return result;
 }

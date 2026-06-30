@@ -18,7 +18,7 @@ void Status::set(const StatusLevel aLevel, const AText &aMsg)
 void Status::set(const StatusLevel aLevel, const AText &aFmt,
                  const QVariantList &aVars)
 {
-    const AText cText = AText::formatted(aFmt, aVars);
+    const AText cText = AText::format(aFmt, aVars);
     set(aLevel, cText);
 }
 

@@ -9,7 +9,6 @@ DEFINES += IRBASE_LIBRARY
 include(../libs.pri)
 
 SOURCES += \
-    AText-static.cpp \
     AText.cpp \
     ATextList.cpp \
     ArgumentInfo.cpp \
@@ -18,6 +17,7 @@ SOURCES += \
     CTextList.cpp \
     CharType.cpp \
     CodeContext.cpp \
+    CppTypeFormat.cpp \
     DirInfo.cpp \
     Enumeration.cpp \
     ExeObject.cpp \
@@ -39,6 +39,7 @@ SOURCES += \
     StatusLevel.cpp \
     StructTM.cpp \
     TriBool.cpp \
+    TypeFormat.cpp \
     UText.cpp \
     UTextList.cpp \
     Uid.cpp \
@@ -60,6 +61,7 @@ HEADERS += \
     CTextList.h \
     CharType.h \
     CodeContext.h \
+    CppTypeFormat.h \
     DirInfo.h \
     DualMap.h \
     EnumHelper.h \
@@ -86,6 +88,7 @@ HEADERS += \
     StatusLevel.h \
     StructTM.h \
     TriBool.h \
+    TypeFormat.h \
     Types.h \
     UText.h \
     UTextList.h \

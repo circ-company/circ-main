@@ -21,6 +21,7 @@ public: // ctors
     explicit LogEngine();
 
 public slots:
+    void initialize();
     void capture();
     void release();
     void enqueue(LogItem li);
@@ -40,7 +41,7 @@ public: // const
 public: // non-const
     LogItem takeQueue();
     void sendTroll(const LogItem &li);
-    void writeTroll(const LogMsgType lmt, const AText atx);
+    void writeTroll(const LogMsgType lmt, const QString msg);
 
 public: // static
     static KeyTextMap parse(const QString s);

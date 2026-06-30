@@ -18,8 +18,6 @@ public: // ctors
     ArgumentInfo(const CText aName, const QMetaType aMetaType);
     ArgumentInfo(const char * aPCH, const QVariant aValue);
     ArgumentInfo(const CText aName, const QVariant aValue);
-//    ArgumentInfo(const CText aName, const QVariant aValue,
-  //               const QVariant aDefault);
     ArgumentInfo(const CText aName,
                  const AText &aValueText, const QVariant &aValue);
     ArgumentInfo(const CText aName,

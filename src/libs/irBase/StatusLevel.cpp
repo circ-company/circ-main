@@ -11,18 +11,24 @@ QChar StatusLevel::prefix() const
 {
     QChar result(0x2753);
          if (false)         ;
-    else if (trace())       result = QChar(0x2705);
-    else if (info())        result = QChar(0x00B0);
-    else if (warn())        result = QChar(0x270B);
-    else if (error())       result = QChar(0x26D4);
-    else if (fault())       result = QChar(0x267F);
-    else                    result = QChar(0x2B55);
+    else if (info())        result = QChar(u'-'); //QChar(0x00B0);
+    else if (trace())       result = QChar(u'+'); //QChar(0x2705);
+    else if (warn())        result = QChar(u'!'); //QChar(0x270B);
+    else if (error())       result = QChar(u'#'); //QChar(0x26D4);
+    else if (fault())       result = QChar(u'&'); //QChar(0x267F);
+    else                    result = QChar(u'?'); //QChar(0x2B55);
     return result;
 }
 
-bool StatusLevel::inRange(const StatusLevel &lo, const StatusLevel &hi) const
+QString StatusLevel::string(const int aWidth) const
 {
-    return Utility::inRange(lo, it(), hi);
+    return QString("%1").arg(name()(), aWidth, prefix());
+}
+
+bool StatusLevel::inRange(const Value &lo, const Value &hi) const
+{
+    Q_ASSERT(lo < hi);
+    return Utility::inRange((int)lo, value(), (int)hi);
 }
 
 void StatusLevel::nullify()
@@ -36,6 +42,11 @@ void StatusLevel::set(const int val)
         mValue = Value(val);
     else
         nullify();
+}
+
+bool StatusLevel::isValid(const StatusLevel aLevel)
+{
+    return aLevel < Invalid;
 }
 
 void StatusLevel::set(const CText &nam)
@@ -120,19 +131,26 @@ StatusLevel::PairList StatusLevel::initializer()
            << Pair(Invalid, "Invalid");
 }
 
-
-
 bool StatusLevel::isWarn() const
 {
     return inRange($Warn, $max);
 }
 
 bool StatusLevel::isError() const
+
 {
+#if defined(__CIRC__WARN_IS_ERROR)
+    return inRange($Warn, $max);
+#endif
     return inRange($Error, $max);
 }
 
 bool StatusLevel::isFault() const
 {
+#if defined(__CIRC__WARN_IS_FAULT)
+    return inRange($Warn, $max);
+#elif defined(__CIRC__ERROR_IS_FAULT)
+    return inRange($Error, $max);
+#endif
     return inRange($Fault, $max);
 }

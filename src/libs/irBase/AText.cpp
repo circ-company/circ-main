@@ -6,6 +6,7 @@
 #include <climits>
 
 #include "ATextList.h"
+#include "TypeFormat.h"
 
 char AText::smHingeChar = ' ';
 
@@ -47,6 +48,17 @@ bool AText::isValid(const Index ix) const
 AText AText::formatted(const QVariantList vars) const
 {
     return formatted(it(), vars);
+}
+
+AText AText::formatted(const QVariant var1, const QVariant var2,
+                       const QVariant var3, const QVariant var4) const
+{
+    QVariantList vars;
+    if (var1.isValid())     vars << var1;
+    if (var2.isValid())     vars << var2;
+    if (var3.isValid())     vars << var3;
+    if (var4.isValid())     vars << var4;
+    return formatted(vars);
 }
 
 AText::List AText::split(const char hinge) const
@@ -148,7 +160,9 @@ void AText::set(const Count k, const char ch)
 
 void AText::set(const QVariant &aVar)
 {
-    it() = AText::format(aVar);
+    Q_UNUSED(aVar);
+    Q_ASSERT(!"Done"); // TODO
+//    it() = AText::format(aVar);
 }
 
 void AText::set(const Modify mod)
@@ -205,6 +219,47 @@ void AText::removeEach(const AText &atx)
     foreach(const char ch, atx)
         removeEach(ch);
 }
+
+/*static*/ AText AText::formatDecimal(const QVariant aVar)
+{
+    AText result;
+    const QMetaType cQMT = aVar.metaType();
+
+
+    return result;
+}
+
+/*static*/ AText AText::formatHeximal(const QVariant aVar)
+{
+
+}
+
+/*static*/ AText AText::format(const AText aFormat, const QVariantList vars)
+{
+    AText result = aFormat;
+    for (Index ix = 1; ix < Index(vars.count()); ++ix)
+    {
+        AText tPctNum = QString("%") + QString::number(ix, 10);
+        if (result.contains(tPctNum))
+            result.replace(tPctNum.toQBAV(),
+                           AText(AText("<")
+                                 + TypeFormat(vars.at(ix))
+                                 + AText(">")
+                                 + AText(QString::number(ix, 10))));
+    }
+    return result;
+}
+
+AText AText::format(const AText aFormat, const QVariant var1, const QVariant var2, const QVariant var3, const QVariant var4)
+{
+    QVariantList vars;
+    if (var1.isValid())     vars << var1;
+    if (var2.isValid())     vars << var2;
+    if (var3.isValid())     vars << var3;
+    if (var4.isValid())     vars << var4;
+    return format(aFormat, vars);
+}
+
 
 bool AText::isValidFirst(const char ch) const
 {

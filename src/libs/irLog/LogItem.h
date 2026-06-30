@@ -54,8 +54,8 @@ public: // non-const
                 const QVariant aExpVar, const char *aExpText,
                 const QVariant aActVar, const char *aActText);
     void * malloc(const Count nBytes, const AText &aArg);
-    void newobj(QObject * pObj, const CText &aObj, const AText &aArg,
-                QObject * pPar, const CText &aPar);
+    void newobj(QObject * pNewObj, const CText &aObjName, const AText &aObjType,
+                QObject * pParent, const CText &aParentType);
 
 public: // pointers
     const ArgumentInfoList arguments() const;

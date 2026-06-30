@@ -47,6 +47,7 @@ inline CText Utility::enumName(const ENUM eval)
 template<typename T>
 inline bool Utility::inRange(const T &loT, const T &valT, const T &hiT)
 {
+    Q_ASSERT(loT < hiT);
     return loT <= valT && valT < hiT;
 }
 

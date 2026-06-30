@@ -9,10 +9,12 @@ include(../../useBase.pri)
 
 SOURCES += \
     QQCoreApplication.cpp \
+    QQMetaType.cpp \
     irqCore.cpp
 
 HEADERS += \
     QQCoreApplication.h \
+    QQMetaType.h \
     irqCore_global.h \
     irqCore.h
 

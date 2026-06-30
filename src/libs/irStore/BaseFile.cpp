@@ -38,6 +38,11 @@ BaseFile::BaseFile(const FSText &aFName,
                   + "." + fileInfo().suffix());
 }
 
+BaseFile::~BaseFile()
+{
+    close();
+}
+
 void BaseFile::set(const FileInfo &aFI)
 {
     FNENTER();
@@ -62,16 +67,23 @@ bool BaseFile::open(const QIODeviceBase::OpenMode aMode)
     close();
     QFile * pFile = new QFile(fileInfo().filePath(), this);
     NEWOBJ(pFile, QFile, this);
-    if (pFile->isOpen() && pFile->openMode() == aMode)
+    if (aMode)
     {
-        mOpenMode = aMode;
+        set(aMode);
+    }
+    QIODeviceBase::OpenMode tOpenMode = mode();
+    const bool cOK = pFile->open(tOpenMode);
+    WEXPECT2(Log::True, pFile->open(tOpenMode));
+    WEXPECT2(Log::True, pFile->openMode() == tOpenMode);
+    if (cOK && pFile->isOpen() && pFile->openMode() == tOpenMode)
+    {
+        mOpenMode = tOpenMode;
         mpFile = pFile;
         return true;
     }
     else
     {
-        WEXPECT2(Log::True, pFile->open(aMode));
-        WEXPECT2(Log::True, pFile->openMode() == aMode);
+        error(pFile->errorString());
         return false;
     }
 }
@@ -80,14 +92,15 @@ void BaseFile::close()
 {
     FNENTER();
     Q_ASSERT(!"Finished"); // TODO
-
+    // clear error
+    // emit closed()
     FNRTNVOID();
 }
 
 bool BaseFile::read()
 {
     FNENTER();
-    Q_ASSERT(!"Finished"); // TODO
+
     return false;
 }
 
@@ -98,6 +111,7 @@ bool BaseFile::write()
 
     return false;
 }
+
 
 
 

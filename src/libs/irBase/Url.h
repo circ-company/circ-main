@@ -38,7 +38,6 @@ public: // types
     };
 
 public: // ctors
-    Url();
     Url(const QString &url, QUrl::ParsingMode mode=QUrl::TolerantMode);
     Url & operator = (const QString &url);
 
@@ -61,6 +60,7 @@ public: // const
     Count pathCount() const;
     QString toString(const bool encoded=false) const;
     QDir pathDir() const;
+    QString localFllePath() const;
     QFileInfo localFlleInfo() const;
     QDir localDir() const;
     bool contains(const AText &queryName) const;
@@ -98,9 +98,6 @@ public: // static
     QStringList list(const QString delimtedUrls, const QChar hinge=QChar(';'));
 
 private:
-    Url * it();
-
-private:
     Type mType=Type::$null;
     QUrl mUrl;
     QUrlQuery mQuery;
@@ -119,7 +116,16 @@ private:
     WORD mPort;
     AText mPath;
     ATextList mPathList;
+
+public: // QMetaType
+    Url() = default;
+    ~Url() = default;
+    Url(const Url &) = default;
+    Url &operator=(const Url &) = default;
+    const Url & it() const { return *this; }
 };
+
+Q_DECLARE_METATYPE(Url);
 
 inline AText Url::string() const { return mString; }
 inline CText Url::scheme() const { return mScheme; }
@@ -129,11 +135,11 @@ inline bool Url::fileType() const { return inRangeType(Type::$File, Type::$Dir);
 inline bool Url::dirType() const { return inRangeType(Type::$Dir, Type::$SQL); }
 inline bool Url::sqlType() const { return inRangeType(Type::$SQL, Type::$max); }
 inline Url::Type Url::type() const { return mType; }
-inline Url * Url::it() { return this; }
 inline AText Url::username() const  { return mUsername; }
 inline AText Url::password() const  { return mPassword; }
 inline AText Url::path() const  { return mPath; }
 inline Count Url::pathCount() const  { return mPathList.count(); }
+inline QString Url::localFllePath() const { return localFlleInfo().filePath(); }
 inline QFileInfo Url::localFlleInfo() const  { return mLocalFileInfo; }
 
 

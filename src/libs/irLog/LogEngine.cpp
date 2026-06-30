@@ -9,6 +9,11 @@
 
 LogEngine::LogEngine() : QObject{nullptr} {;}
 
+void LogEngine::initialize()
+{
+    (void)StatusLevel::instance();
+}
+
 void LogEngine::capture()
 {
     qSetMessagePattern(messagePattern());
@@ -34,9 +39,10 @@ void LogEngine::enqueue(LogItem li)
     const StatusLevel cLevel = li.level();
     switch (cType)
     {
+    case Type::MessageOnly:                             break;
+    case Type::Malloc:      Q_FALLTHROUGH();
     case Type::Assert:      Q_FALLTHROUGH();
     case Type::Expect:      Q_FALLTHROUGH();
-    case Type::MessageOnly:                             break;
     case Type::Formatted:   li.set(li.formatted());     break; // new message
     default:        //        /* leave alone */           break; // TODO more?
         qWarning() << Q_FUNC_INFO << "Unhandled Type:"
@@ -88,7 +94,7 @@ void LogEngine::sendTroll(const LogItem &li)
 {
     const StatusLevel cLevel = li.level();
     const int cLevelValue = cLevel.value();
-    const CText cLevelName = cLevel.name();
+    const QString cLevelString = cLevel.string(12);
     const LogMsgType cLMT = LogMsgType::from(cLevel);
     const char cLmtChar = cLMT.prefix();
     const AText cMsgAtx = li.message();
@@ -97,23 +103,23 @@ void LogEngine::sendTroll(const LogItem &li)
     const QString cNstStr = cNST.timeString();
     QString tText = QString("%1 %2(%5): [%3] %4\n")
                         .arg(cNstStr)                       // %1
-                        .arg(cLevelName(), -12, cLmtChar)   // %2
+                        .arg(cLevelString, 12, cLmtChar)   // %2
                         .arg(cMsgAtx(),                     // %3
                              cCtxAtx())                     // %4
                         .arg(cLevelValue, 2);               // %5
     writeTroll(cLMT, tText);
 }
 
-void LogEngine::writeTroll(const LogMsgType lmt, const AText atx)
+void LogEngine::writeTroll(const LogMsgType lmt, const QString msg)
 {
     switch (lmt.qmt())
     {
-    case QtInfoMsg:         qInfo() << atx();       break;
-    case QtDebugMsg:        qDebug() << atx();      break;
-    case QtWarningMsg:      qWarning() << atx();    break;
-    default:
+    case QtInfoMsg:         qInfo() << msg;       break;
+    case QtDebugMsg:        qDebug() << msg;      break;
+    default:                Q_FALLTHROUGH();
+    case QtWarningMsg:      qWarning() << msg;    break;
     case QtFatalMsg:        Q_FALLTHROUGH(); // let LogEngine::enqueue() fault
-    case QtCriticalMsg:     qCritical() << atx();   break;
+    case QtCriticalMsg:     qCritical() << msg;   break;
     }
 }
 

@@ -15,9 +15,12 @@ AText LogItem::formatted() const
     AText result;
     switch (type())
     {
-    default:
-    case Log::MessageOnly:      result = message();                     break;
+    case Type::Malloc:          Q_FALLTHROUGH();
+    case Type::Assert:          Q_FALLTHROUGH();
+    case Type::Expect:          Q_FALLTHROUGH();
     case Log::Formatted:        result = formatValues();                break;
+    default:                    Q_FALLTHROUGH();
+    case Log::MessageOnly:      result = message();                     break;
     }
     return result;
 }
@@ -46,51 +49,51 @@ void LogItem::assertIs(const Log::Operator aOp, const bool aIs, const char *aExp
 void LogItem::expect(const Log::Operator aOp,
                      const QVariant aActVar, const char *aActText)
 {
-    set(AText::formatted("Expected %1; Actual %2 is %3",
-                         QVariantList() << Log::opName(aOp)
-                                        << aActText << aActVar));
+    set(AText::format("Expected %1; Actual %2 is %3",
+                         Log::opName(aOp), aActText, aActVar));
 }
 
 void LogItem::expect(const Log::Operator aOp,
                      const QVariant aExpVar, const char *aExpText,
                      const QVariant aActVar, const char *aActText)
 {
-    set(AText::formatted("Expected %1 is %2 to %3 Actual %4 is %5",
+    set(AText::format("Expected %1 is %2 to %3 Actual %4 is %5",
                          QVariantList() << aActText << aActVar
                                         << Log::opName(aOp)
                                         << aExpText << aExpVar));
 }
 
-void LogItem::newobj(QObject *pObj, const CText &aObj, const AText &aArg,
-                     QObject *pPar, const CText &aPar)
+void LogItem::newobj(QObject *pNewObj, const CText &aObjName, const AText &aObjType,
+                     QObject *pParent, const CText &aParentType)
 {
-    Q_ASSERT(Log::Malloc == type()); Q_UNUSED(aArg); Q_UNUSED(pPar);
-    if (nullptr == pObj)
+    Q_ASSERT(Log::Malloc == type()); //Q_UNUSED(aPar); Q_UNUSED(pPar);
+    QMetaType tQmtObject = QMetaType::fromName(aObjName);
+    const QMetaType cQmtParent = pParent->metaObject()->metaType();
+
+    if (nullptr == pNewObj)
     {
-        level(StatusLevel::MAlloc);
-        set("Memory Allocation Failure for <%1 %2(%3)> parent<%4(%5)>");
-        set(1, ArgumentInfo(aObj, QMetaType::fromName(aObj)));
-        set(2, ArgumentInfo(QMetaType::fromName(aObj).name()));
-        set(3, ArgumentInfo("QMetaType::id()", QVariant(QMetaType::fromName(aObj).id())));
-        set(4, ArgumentInfo(QMetaType::fromName(aPar).name()));
-        set(5, ArgumentInfo("QMetaType::id()", QVariant(QMetaType::fromName(aPar).id())));
+        if (level().isNull()) level(StatusLevel::MAlloc);
+        set("FAIL: Memory Allocation for <%1 %2(%3)> parent<%4(%5)>");
+        set(6, ArgumentInfo(aObjName, (qptrdiff)(nullptr)));
     }
     else
     {
         level(StatusLevel::Info);
-        set("Memory Allocation for <%1 %2(%3)> parent<%4(%5)>");
-        set(1, ArgumentInfo(aObj, QMetaType::fromName(aObj)));
-        set(2, ArgumentInfo(pObj->metaObject()->metaType().name()));
-        set(3, ArgumentInfo("QMetaType::id()", QVariant(pObj->metaObject()->metaType().id())));
-        set(4, ArgumentInfo(QMetaType::fromName(aPar).name()));
-        set(5, ArgumentInfo("QMetaType::id()", QVariant(QMetaType::fromName(aPar).id())));
-
+        tQmtObject = pNewObj->metaObject()->metaType();
+        set("OK: Memory Allocation for <%1 %2(%3) at &6> parent<%4(%5)>");
+        set(6, ArgumentInfo("NewObj Ptr", (qptrdiff)(pNewObj)));
     }
+    set(1, ArgumentInfo("NewObj Name", aObjName));
+    set(2, ArgumentInfo("Object MetaName", tQmtObject.name()));
+    set(3, ArgumentInfo("Object MetaId()", tQmtObject.id()));
+    set(4, ArgumentInfo("Parent MetaName", cQmtParent.name()));
+    set(5, ArgumentInfo("Parent MetaId()", cQmtParent.id()));
 }
 
 AText LogItem::formatValues() const
 {
-    return AText::formatted(AText(argument(0).value().toString()),
-                            arguments().values());
+    AText tArgFmt = AText(argument(0).value().toString());
+    if (tArgFmt.isEmpty()) tArgFmt = message();
+    return AText::format(tArgFmt, arguments().values());
 }
 

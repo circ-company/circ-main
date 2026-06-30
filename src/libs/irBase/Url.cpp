@@ -4,7 +4,6 @@
 #include <QDir>
 #include <QVariant>
 
-Url::Url() : mType(Type::$null) {;}
 Url::Url(const QString &url, QUrl::ParsingMode mode) : mType(Type::$null) { set(url, mode); }
 
 bool Url::isNull() const

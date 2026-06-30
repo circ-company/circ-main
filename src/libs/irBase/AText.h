@@ -41,6 +41,9 @@ public: // const
     List split(const char hinge) const;
     List split(const AText &hinge) const;
     AText formatted(const QVariantList vars) const;
+    AText formatted(const QVariant var1, const QVariant var2=QVariant(),
+                    const QVariant var3=QVariant(),
+                    const QVariant var4=QVariant()) const;
     AText formattedList(const QVariantList vars) const;
     AText modified(const Modify mod) const;
     Pair keyValue(const char ch) const;
@@ -85,9 +88,14 @@ public: // pointers
 
 public: // static
     static char hinge();
-    static void hinge(const char ch);
-    static AText formatted(const AText aFormat, const QVariantList vars);
-    static AText format(const QVariant aVar);
+    static void hinge(const char aChar);
+    static AText formatDecimal(const QVariant aVar);
+    static AText formatHeximal(const QVariant aVar);
+    static AText format(const AText aFormat, const QVariantList vars);
+    static AText format(const AText aFormat, const QVariant var1,
+                        const QVariant var2=QVariant(),
+                        const QVariant var3=QVariant(),
+                        const QVariant var4=QVariant());
 
 protected: // virtual const
     virtual bool isValidFirst(const char ch) const;
@@ -122,5 +130,5 @@ inline AText AText::operator +=(const char ch) { return append(ch); }
 inline AText AText::it() const { return *this; }
 inline AText &AText::it() { return *this; }
 inline char AText::hinge() { return smHingeChar; }
-inline void AText::hinge(const char ch) { smHingeChar = ch; }
+inline void AText::hinge(const char aChar) { smHingeChar = aChar; }
 

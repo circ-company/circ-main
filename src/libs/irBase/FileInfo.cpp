@@ -38,7 +38,14 @@ QVariant FileInfo::toVariant() const
 QString FileInfo::toString(const StringOptions aOptions) const
 {
     QString result;
-    // TODO
+    if (aOptions.testFlag(CompleteBaseName))
+        result.append(" " + completeBaseName() + " ");
+    if (aOptions.testFlag(Readable))
+        result.append(" " + QString(isReadable()
+                                 ? "Readable"
+                                 : (aOptions.testFlag(Negatives)
+                                        ? "NOT Readable"
+                                        : "")) + " ");
     return result;
 }
 
