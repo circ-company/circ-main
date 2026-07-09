@@ -1,3 +1,3 @@
 #include "irBase.h"
 
-irBase::irBase() {}
+//irBase::irBase() {}

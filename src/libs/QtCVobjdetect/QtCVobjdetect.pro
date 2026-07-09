@@ -8,6 +8,7 @@ DEFINES += QTCVOBJDETECT_LIBRARY
 include(../libs.pri)
 include(../../useBase.pri)
 include(../../useLog.pri)
+include(../../useMatGeo.pri)
 include(../../useTypes.pri)
 include(../../useStore.pri)
 include(../../useQXml.pri)
@@ -16,11 +17,11 @@ SOURCES += \
     QtCVobjdetect.cpp \
     cvODCatalog.cpp \
     cvODCatalogEntry.cpp \
-    cvODClass.cpp \
+    cvODObjectClass.cpp \
     cvODResource.cpp \
     cvODResourceBase.cpp \
     cvODResourceCascade.cpp \
-    cvODType.cpp \
+    cvODResourceType.cpp \
     cvObjDetect.cpp \
 
 HEADERS += \
@@ -28,11 +29,11 @@ HEADERS += \
     QtCVobjdetect.h \
     cvODCatalog.h \
     cvODCatalogEntry.h \
-    cvODClass.h \
+    cvODObjectClass.h \
     cvODResource.h \
     cvODResourceBase.h \
     cvODResourceCascade.h \
-    cvODType.h \
+    cvODResourceType.h \
     cvObjDetect.h \
 
 

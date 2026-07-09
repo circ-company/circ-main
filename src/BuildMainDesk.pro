@@ -28,11 +28,11 @@ irqNetwork.depends      = irBase    irLog
 irqCore.depends         = irBase    irLog
 irStore.depends         = irBase    irLog
 irTypes.depends         = irBase    irLog                               irqCore     irqNetwork
-irqXml.depends          = irBase    irLog                   irTypes                             irStore
+irqXml.depends          = irBase    irLog       irMatGeo    irTypes                             irStore
 irqGui.depends          = irBase    irLog                   irTypes
 irqWidgets.depends      = irBase    irLog       irMatGeo    irTypes
 irImage.depends         = irBase ## TBD
-QtCVobjdetect.depends   = irBase    irLog                   irTypes                             irStore     irqXml  QtCVcore
+QtCVobjdetect.depends   = irBase    irLog       irMatGeo    irTypes                             irStore     irqXml  QtCVcore
 MainDesktop.depends     = irBase    irLog       irMatGeo    irTypes     irqCore     irqNetwork  irStore     irqXml  QtCVcore \
                             irqGui      irqWidgets      irImage         QtCVobjdetect
 

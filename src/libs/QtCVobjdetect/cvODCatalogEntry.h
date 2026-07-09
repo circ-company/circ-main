@@ -1,5 +1,4 @@
 #pragma once
-#include "QtCVobjdetect.h"
 
 #include <QSharedDataPointer>
 #include <DataProperty.h>
@@ -8,25 +7,21 @@
 #include <QFileInfo>
 
 #include <CText.h>
-#include <Key.h>
+#include <Id.h>
 #include <List.h>
-#include <MillisecondTime.h>
+#include <Size.h>
 #include <Url.h>
 
-#include "cvODClass.h"
-#include "cvODType.h"
+#include "cvODObjectClass.h"
+#include "cvODResourceType.h"
 
 #define CVODCATALOGENTRY_DATAPROPS(TND) \
-    TND(Url, EntryUrl, Url()) \
-    TND(Milliseconds, TimeStamp, 0) \
+    TND(Id, EntryId, Id()) \
     TND(int, Class, 0) \
     TND(int, Type, 0) \
     TND(bool, IsDefault, false) \
-    TND(AText, Name, AText()) \
-    TND(Key, EntryKey, Key()) \
+    TND(Size, CellSize, Size()) \
     TND(Url, ResourceUrl, Url()) \
-    TND(QFileInfo, ResourceFileInfo, QFileInfo()) \
-    TND(QDomElement, ResourceRootDE, QDomElement()) \
 
 
 class cvODCatalogEntryData : public QSharedData
@@ -47,6 +42,6 @@ public: // types
     typedef ListT<cvODCatalogEntry> List;
 
 public: // const
-    cvODType odType() const;
-    cvODClass odClass() const;
+    cvODResourceType odType() const;
+    cvODObjectClass odClass() const;
 };

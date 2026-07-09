@@ -3,14 +3,16 @@
 void CppTypeFormat::registerCpp()
 {
     registerFunction(QMetaType::Void, &formatVoid);
+    registerFunction(QMetaType::Nullptr, &formatVoid);
+    registerFunction(QMetaType::VoidStar, &formatVoid);
+    registerFunction(QMetaType::QObjectStar, &formatVoid);
     registerFunction(QMetaType::Bool, &formatBool);
     registerFunction(QMetaType::Int, &formatSigned);
     registerFunction(QMetaType::UInt, &formatUnsigned);
     registerFunction(QMetaType::Char, &formatChar);
-    registerFunction(QMetaType::Char16, &formatUChar);
-    registerFunction(QMetaType::QChar, &formatUChar);
-    registerFunction(QMetaType::QByteArray, &formatString);
-    registerFunction(QMetaType::QString, &formatString);
+    registerFunction(QMetaType::Float, &formatFloat);
+    registerFunction(QMetaType::Float16, &formatFloat);
+
 }
 
 AText CppTypeFormat::formatVoid(const QVariant &aVar)
@@ -47,16 +49,36 @@ AText CppTypeFormat::formatChar(const QVariant &aVar)
 
 AText CppTypeFormat::formatUChar(const QVariant &aVar)
 {
-    const QChar cQChar = aVar.toChar();
-    const AText cAtxChar((char)cQChar.cell());
-    return AText(QString("char:%1(%2,%3 0x%4)")
+    const AText cAtxChar((char)aVar.toChar().cell());
+    return AText(QString("char:%1(%2 0x%3)")
                      .arg(cAtxChar())
-                     .arg(cQChar.row(), 3, u'0')
-                     .arg(cQChar.cell(), 3, u'0')
-                     .arg(QString::number(aVar.toUInt(), 16), 4, u'0'));
+                     .arg(aVar.toUInt(), 3, u'0')
+                     .arg(QString::number(aVar.toUInt(), 16), 2, u'0'));
 }
 
-AText CppTypeFormat::formatString(const QVariant &aVar)
+AText CppTypeFormat::formatFloat(const QVariant &aVar)
 {
-    return AText(aVar.toString());
+    AText result;
+    const qreal cFloat = aVar.toDouble();
+    const signed cLog10 = log10(cFloat);
+    if (qIsNaN(cFloat))
+    {
+        result.set("float:NAN");
+    }
+    else if (qIsInf(cFloat))
+    {
+        result.set("float:INF");
+    }
+    else if (-10 < cLog10 && cLog10 < +10)
+    {
+        QString cStrFloat = QString::number(cFloat, 'f', 6);
+        result.set(cStrFloat);
+    }
+    else
+    {
+        QString cStrFloat = QString::number(cFloat, 'e', 6);
+        result.set(cStrFloat);
+    }
+    return result;
 }
+

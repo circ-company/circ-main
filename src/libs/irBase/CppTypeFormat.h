@@ -12,5 +12,5 @@ public:
     static AText formatUnsigned(const QVariant &aVar);
     static AText formatChar(const QVariant &aVar);
     static AText formatUChar(const QVariant &aVar);
-    static AText formatString(const QVariant &aVar);
+    static AText formatFloat(const QVariant &aVar);
 };

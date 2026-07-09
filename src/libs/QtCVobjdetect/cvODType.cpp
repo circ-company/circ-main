@@ -1,3 +1,0 @@
-#include "cvODType.h"
-
-DEFINE_ENUMERATION(cvODType, CVODTYPE_ENUM);

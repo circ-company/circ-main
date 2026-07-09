@@ -1,6 +1,9 @@
 #include "TypeFormat.h"
 
+#include "BaseTypeFormat.h"
 #include "CppTypeFormat.h"
+#include "QCoreTypeFormat.h"
+#include "QGuiTypeFormat.h"
 
 QMap<int, TypeFormat::FormatFunctionPtr> TypeFormat::smTypeIdFuncPtrMap;
 
@@ -34,6 +37,9 @@ void TypeFormat::registerFunction(const IntList aTypeIds, FormatFunctionPtr pFFn
 
 void TypeFormat::populate()
 {
+    BaseTypeFormat::registerBase();
     CppTypeFormat::registerCpp();
+    QCoreTypeFormat::registerQCore();
+    QGuiTypeFormat::registerQGui();
 }
 

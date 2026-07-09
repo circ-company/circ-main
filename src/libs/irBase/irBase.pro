@@ -1,4 +1,4 @@
-QT -= gui
+QT *= gui
 QT *= core
 QT *= network
 QT *= testlib
@@ -13,6 +13,8 @@ SOURCES += \
     ATextList.cpp \
     ArgumentInfo.cpp \
     ArgumentInfoList.cpp \
+    BaseExe.cpp \
+    BaseTypeFormat.cpp \
     CText.cpp \
     CTextList.cpp \
     CharType.cpp \
@@ -32,9 +34,12 @@ SOURCES += \
     KeySeg.cpp \
     KeySegList.cpp \
     KeyVarMap.cpp \
+    MetaType.cpp \
     MillisecondTime.cpp \
     NanosecondTime.cpp \
     Null.cpp \
+    QCoreTypeFormat.cpp \
+    QGuiTypeFormat.cpp \
     Status.cpp \
     StatusLevel.cpp \
     StructTM.cpp \
@@ -57,6 +62,8 @@ HEADERS += \
     ATextList.h \
     ArgumentInfo.h \
     ArgumentInfoList.h \
+    BaseExe.h \
+    BaseTypeFormat.h \
     CText.h \
     CTextList.h \
     CharType.h \
@@ -80,10 +87,13 @@ HEADERS += \
     KeySegList.h \
     KeyVarMap.h \
     List.h \
+    MetaType.h \
     MillisecondTime.h \
     Named.h \
     NanosecondTime.h \
     Null.h \
+    QCoreTypeFormat.h \
+    QGuiTypeFormat.h \
     Status.h \
     StatusLevel.h \
     StructTM.h \

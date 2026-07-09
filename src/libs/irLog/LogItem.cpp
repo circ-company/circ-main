@@ -1,6 +1,7 @@
 #include "LogItem.h"
 
 #include <CodeContext.h>
+#include <TypeFormat.h>
 
 LogItem::LogItem(const Type type, const StatusLevel &lvl, const CodeContext &ctx)
     : mUid(Uid::VerGTimeseqNode6)
@@ -32,7 +33,7 @@ void LogItem::clear()
     mLevel.nullify();
     mContext.clear();
     mMessage.clear();
-    mValues.clear();
+    mArgInfoList.clear();
 }
 
 void LogItem::set(const Index ix, const ArgumentInfo &cv)
@@ -88,6 +89,18 @@ void LogItem::newobj(QObject *pNewObj, const CText &aObjName, const AText &aObjT
     set(3, ArgumentInfo("Object MetaId()", tQmtObject.id()));
     set(4, ArgumentInfo("Parent MetaName", cQmtParent.name()));
     set(5, ArgumentInfo("Parent MetaId()", cQmtParent.id()));
+}
+
+void LogItem::dumpVar()
+{
+    QString tFmtStr = message();
+    ArgumentInfo tAI = argument();
+    CText tName = tAI.name();
+    QVariant tVar = tAI.value();
+    QMetaType tQMT = tAI.metaType();
+    AText tMsg = QString(tFmtStr).arg(tQMT.name()).arg(tQMT.id())
+                     .arg(tName()).arg(TypeFormat(tVar)());
+    set(tMsg);
 }
 
 AText LogItem::formatValues() const

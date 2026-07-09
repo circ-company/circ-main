@@ -35,7 +35,7 @@ inline bool TriBool::cheap() const { return ! value(); }
 inline bool TriBool::invalid() const { return ! valid(); }
 inline bool TriBool::isTrue() const { return value() && valid(); }
 inline bool TriBool::isFalse() const { return cheap() && valid(); }
-inline bool TriBool::isNull() const { return value() && invalid(); }
+inline bool TriBool::isNull() const { return cheap() && invalid(); }
 inline TriBool::operator bool() const { return isTrue(); }
 inline void TriBool::set(const bool is) { mValue = is, mValid = true; }
 inline void TriBool::reset() { mValue = false, mValid = true; }

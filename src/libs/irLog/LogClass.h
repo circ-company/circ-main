@@ -21,6 +21,7 @@ public: // types
         Assert,
         Expect,
         Malloc,
+        Dump,
         Troll,
         $maxType
     };

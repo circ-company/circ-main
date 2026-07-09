@@ -6,6 +6,8 @@
 #include <climits>
 
 #include "ATextList.h"
+#include "MetaType.h"
+#include "TriBool.h"
 #include "TypeFormat.h"
 
 char AText::smHingeChar = ' ';
@@ -223,15 +225,38 @@ void AText::removeEach(const AText &atx)
 /*static*/ AText AText::formatDecimal(const QVariant aVar)
 {
     AText result;
-    const QMetaType cQMT = aVar.metaType();
-
-
-    return result;
+    const MetaType cMT = aVar.metaType();
+    const TriBool cSign = cMT.isSigned();
+    signed long long tSInt = 0;
+    unsigned long long tUInt = 0;
+    Index tStartIx = 0;
+    QString tNumString;
+    if (cSign.isTrue())
+    {
+        tSInt = aVar.toLongLong();
+        tNumString = QString::number(tSInt);
+        tStartIx = (tSInt < 0) ? 1 : 0;
+    }
+    else if (cSign.isFalse())
+    {
+        tUInt = aVar.toULongLong();
+        tNumString = QString::number(tUInt);
+    }
+    else
+    {
+        ; // non integral, return nothing
+    }
+    if (tNumString.length() > 3)
+        for (Index ix = tNumString.length(); ix > tStartIx; ix -= 3)
+            tNumString.insert(ix, ",");
+    return result = tNumString;
 }
 
 /*static*/ AText AText::formatHeximal(const QVariant aVar)
 {
+    AText result;
 
+    return result;
 }
 
 /*static*/ AText AText::format(const AText aFormat, const QVariantList vars)

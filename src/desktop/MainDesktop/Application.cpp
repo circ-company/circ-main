@@ -43,7 +43,15 @@ void Application::initialize()
     else
         mMainDir.setPath("../EFPin");
 
-    const Url cCatUrl(QUrl::fromLocalFile("../Detectors/Detectors.xml").toString());
+    const int cTypeIdAText = QMetaType::fromName("AText").id();
+    qDebug() << Q_FUNC_INFO << cTypeIdAText;
+    DUMPVAR(AText::metaType().name());
+    DUMPVAR(AText::metaType().id());
+    QDir tDir = QDir::currentPath();
+    tDir.cd("../Detectors");
+    DUMPVAR(tDir.absoluteFilePath("Detectors.xml"));
+    const Url cCatUrl(QUrl::fromLocalFile("../Detectors/Detectors.xml").toString(), Url::File);
+
     mpCatalog = new cvODCatalog(cCatUrl, this);
     NEWOBJ(mpCatalog, cvODCatalog, this);
 

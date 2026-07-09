@@ -46,6 +46,8 @@ void TextFile::set(const QIODeviceBase::OpenMode aMode)
 
 bool TextFile::open(const QIODeviceBase::OpenMode aMode)
 {
+    FNENTER();
+    FNARG(aMode);
     QIODeviceBase::OpenMode tOpenMode = aMode;
     if (QIODevice::NotOpen != tOpenMode)
         tOpenMode |= QIODevice::Text;
@@ -54,8 +56,10 @@ bool TextFile::open(const QIODeviceBase::OpenMode aMode)
 
 bool TextFile::read()
 {
+    FNENTER();
     bool result = BaseFile::read();
     if (result)
         mText.set(mBytes);
+    FNRETURN(result);
     return result;
 }

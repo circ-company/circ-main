@@ -40,7 +40,7 @@ private: // non-const
 
 private:
     FileInfo mFileInfo;
-    TextFile * mpFile;
+    TextFile * mpFile=nullptr;
     XmlElement mRootElement;
     KeyMapT<XmlElement> mKeyElementMap;
 

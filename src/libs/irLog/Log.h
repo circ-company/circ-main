@@ -30,6 +30,11 @@
             { LOGITEM(Log::Malloc, StatusLevel::MAlloc, CODECONTEXT()); \
               li.newobj(ptr, #ptr, #obj, par, #par); LOG->enqueue(li); }
 
+#define DUMPVAR(var)   { LOGITEM(Log::Dump, StatusLevel::DumpVar, CODECONTEXT()); \
+                            li.set("Dump %1(%2) %3 is %4"); \
+                            ArgumentInfo ai(#var, QVariant::fromValue(var)); \
+                            li.set(ai); li.dumpVar(); LOG->enqueue(li); }
+
 #define PROGMSG(msg)        MESSAGELI(StatusLevel::Progress, msg);
 
 #define WEXPECT2(op, act) EXPECT2LI(op, StatusLevel::WExpect, act);
@@ -44,7 +49,7 @@
 #define SASSERT(bval)       ASSERTLI(Log::True, StatusLevel::System, bval);
 
 #define STATUS(sts) LOGITEM(Log::MessageOnly, sts.level(), CODECONTEXT()); \
-            li.set(sts.toString()); LOG->enqueue(li);
+                            li.set(sts.message()); LOG->enqueue(li);
 
 #define TDETAIL4(fmt, v1, v2, v3, v4)                       \
         FORMATLI(StatusLevel::TDetail,                      \

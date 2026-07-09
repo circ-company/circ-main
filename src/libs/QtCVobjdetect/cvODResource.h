@@ -7,8 +7,8 @@
 #include <DataProperty.h>
 #include <KeySeg.h>
 
-#include "cvODClass.h"
-#include "cvODType.h"
+#include "cvODObjectClass.h"
+#include "cvODResourceType.h"
 
 #define CVODRESOURCE_DATAPROPS(TND) \
     TND(int, Type, 0) \
@@ -32,6 +32,6 @@ class QTCVOBJDETECT_EXPORT cvODResource
     DECLARE_PARENT_DATAPROPS(CVODRESOURCE_DATAPROPS)
     DECLARE_DATAPROPS(cvODResource, cvODResourceData)
 public:
-    cvODType type() const;
-    cvODClass klass() const;
+    cvODResourceType type() const;
+    cvODObjectClass klass() const;
 };

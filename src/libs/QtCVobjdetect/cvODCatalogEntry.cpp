@@ -3,14 +3,15 @@
 DEFINE_DATAPROPS(cvODCatalogEntry, cvODCatalogEntryData)
 
 void cvODCatalogEntry::ctor() {;}
+
 void cvODCatalogEntry::dtor() {;}
 
-cvODType cvODCatalogEntry::odType() const
+cvODResourceType cvODCatalogEntry::odType() const
 {
-    return cvODType(Type());
+    return cvODResourceType(Type());
 }
 
-cvODClass cvODCatalogEntry::odClass() const
+cvODObjectClass cvODCatalogEntry::odClass() const
 {
-    return cvODClass(Class());
+    return cvODObjectClass(Class());
 }

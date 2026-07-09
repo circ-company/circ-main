@@ -1,7 +1,7 @@
 #pragma once
 
-#include "cvODClass.h"
-#include "cvODType.h"
+#include "cvODObjectClass.h"
+#include "cvODResourceType.h"
 
 class cvODResourceBase
 {
@@ -9,9 +9,9 @@ public:
     cvODResourceBase();
 
 protected:
-    cvODResourceBase(const cvODType odType, const cvODClass odClass);
+    cvODResourceBase(const cvODResourceType odType, const cvODObjectClass odClass);
 
 private:
-    cvODType mType = cvODType::$nullType;
-    cvODClass mClass = cvODClass::$nullClass;
+    cvODResourceType mType = cvODResourceType::$nullType;
+    cvODObjectClass mClass = cvODObjectClass::$nullClass;
 };

@@ -56,6 +56,7 @@ public: // non-const
     void * malloc(const Count nBytes, const AText &aArg);
     void newobj(QObject * pNewObj, const CText &aObjName, const AText &aObjType,
                 QObject * pParent, const CText &aParentType);
+    void dumpVar();
 
 public: // pointers
     const ArgumentInfoList arguments() const;
@@ -73,8 +74,8 @@ private:
     CodeContext mContext;
     AText mMessage;
     Log::Operator mOperator=Log::$nullOperator;
-    ArgumentInfo mValue;
-    ArgumentInfoList mValues;
+    ArgumentInfo mArgInfo;
+    ArgumentInfoList mArgInfoList;
 
 public: // QMetaType
     LogItem() = default;
@@ -92,13 +93,14 @@ inline StatusLevel LogItem::level() const { return mLevel; }
 inline LogItem::Type LogItem::type() const { return mType; }
 inline CodeContext LogItem::context() const { return mContext; }
 inline AText LogItem::message() const { return mMessage; }
+inline ArgumentInfo LogItem::argument() const { return mArgInfo; }
 inline Count LogItem::count() const { return arguments().count(); }
 inline ArgumentInfo LogItem::argument(const Index ix) const { return arguments().at(ix); }
 inline void LogItem::level(const StatusLevel aLevel) { mLevel = aLevel; }
 inline void LogItem::set(const AText &msg) { mMessage = msg; }
 inline void LogItem::set(const Log::Operator op) { mOperator = op; }
-inline void LogItem::set(const ArgumentInfo &ai) { mValue = ai; }
-inline const ArgumentInfoList LogItem::arguments() const { return mValues; }
-inline ArgumentInfoList &LogItem::arguments() { return mValues; }
+inline void LogItem::set(const ArgumentInfo &ai) { mArgInfo = ai; }
+inline const ArgumentInfoList LogItem::arguments() const { return mArgInfoList; }
+inline ArgumentInfoList &LogItem::arguments() { return mArgInfoList; }
 inline const LogItem &LogItem::it() const { return *this; }
 inline LogItem &LogItem::it() { return *this; }

@@ -41,8 +41,7 @@ class Id
     DECLARE_DATAPROPS(Id, IdData);
 
 public: // our ctors
-    Id(const bool nilUid); // else maxUid
-    Id(const Uid::Version ver);
+    Id(const bool nilUid); // Null/Invalid
     Id(const Uid &u);
     Id(const Uid &u, const IdNo i);
     Id(const Uid &u, const Key &k);
@@ -54,6 +53,8 @@ public: // our ctors
 
 public: // const
     bool isNull() const;
+    bool isNil() const;
+    bool isValid() const;
     QString toString() const;
 
 public: // non-const
@@ -70,10 +71,12 @@ private:
 
 extern QDebug operator << (QDebug debug, const Id &ident);
 
+inline bool Id::isNull() const { return uid().isNull(); }
+inline bool Id::isNil() const { return uid().isNil(); }
+inline bool Id::isValid() const { return ! isNil(); }
 inline void Id::uid(const bool nilUid) { uid(Uid(nilUid)); }
-inline void Id::set(const Uid &u, const IdNo i) { uid(u), idno(i); }
-inline void Id::set(const Uid &u, const Key &k) { uid(u), key(k); }
-inline void Id::set(const Uid &u, const QString &n) { uid(u), name(n); }
-inline void Id::set(const Uid &u, const IdNo i, const Key &k, const QString &n)
-    { uid(u), idno(i), key(k), name(n); }
+
+
+
+
 

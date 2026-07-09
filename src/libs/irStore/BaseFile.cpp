@@ -91,24 +91,39 @@ bool BaseFile::open(const QIODeviceBase::OpenMode aMode)
 void BaseFile::close()
 {
     FNENTER();
-    Q_ASSERT(!"Finished"); // TODO
-    // clear error
-    // emit closed()
+    clearError();
+    mCurrentMode = QIODevice::NotOpen;
+    if (mpFile)
+    {
+        mpFile->close();
+        mpFile->deleteLater();
+        mpFile = nullptr;
+    }
+    FNEMIT(closed);
+    emit closed(fileInfo());
     FNRTNVOID();
 }
 
 bool BaseFile::read()
 {
+    TriBool result;
     FNENTER();
-
-    return false;
+    DUMPVAR(fileInfo());
+    DUMPVAR(fileMode());
+    if (isOpen())
+        if (file()->isReadable())
+        {
+            mBytes = file()->readAll();
+            result = mBytes.length() == file()->size();
+        }
+    FNRETURN(result);
+    return result;
 }
 
 bool BaseFile::write()
 {
     FNENTER();
     Q_ASSERT(!"Finished"); // TODO
-
     return false;
 }
 

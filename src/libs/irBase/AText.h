@@ -106,6 +106,7 @@ private:
     static char smHingeChar;
 
 public: // QMetaType
+    static  QMetaType metaType() { return QMetaType::fromName("AText"); }
     AText() = default;
     ~AText() = default;
     AText(const AText &) = default;

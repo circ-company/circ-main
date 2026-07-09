@@ -15,14 +15,20 @@ protected: // ctors
     explicit ExeObject(const Type aType, const CText aName);
 
 public slots:
+    virtual void initialize() {;}
 
 signals:
+    void initialized();
 
 public: // const
 
 public: // non-const
 
 public: // pointers
+
+public: // static
+    static void registerTypes();
+
 
 private:
     const Type cmType=$null;

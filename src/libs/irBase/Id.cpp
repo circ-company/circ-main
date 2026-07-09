@@ -9,8 +9,6 @@ DEFINE_DATAPROPS(Id, IdData);
 QWORD Id::smCtorSeq = 0;
 
 Id::Id(const bool nilUid) : data(new IdData) { uid(nilUid); ctor(); }
-Id::Id(const Uid::Version ver) : data(new IdData) { uid(ver); ctor(); }
-Id::Id(const Uid &u) : data(new IdData) { uid(u); ctor(); }
 Id::Id(const Uid &u, const IdNo i)  : data(new IdData) { set(u, i); ctor(); }
 Id::Id(const Uid &u, const Key &k) : data(new IdData) { set(u, k); ctor(); }
 Id::Id(const Uid &u, const QString &n) : data(new IdData) { set(u, n); ctor(); }
@@ -19,13 +17,16 @@ Id::Id(const Key &k) : data(new IdData) { key(k); ctor(); set(Uid::VerTextSha); 
 Id::Id(const QString &n) : data(new IdData) { name(n); ctor(); }
 Id::Id(const Uid &u, const IdNo i, const Key &k, const QString &n)
     : data(new IdData) { uid(u); idno(i); key(k); name(n); ctor(); }
-void Id::ctor(void) { ctorEms(MillisecondTime::current()); ctorSeq(++smCtorSeq); }
+
+void Id::ctor(void)
+{
+    ctorEms(MillisecondTime::current());
+    if (0 == smCtorSeq) ctorEms(ctorEms() + 1);
+    ctorSeq(++smCtorSeq);
+}
 void Id::dtor(void) {;}
 
-bool Id::isNull() const
-{
-    return uid().isNull();
-}
+
 
 QString Id::toString() const
 {
@@ -65,3 +66,12 @@ QDebug operator << (QDebug debug, const Id &ident)
     return debug;
 }
 
+
+void Id::set(const Uid &u, const IdNo i) { uid(u), idno(i); }
+
+void Id::set(const Uid &u, const Key &k) { uid(u), key(k); }
+
+void Id::set(const Uid &u, const QString &n) { uid(u), name(n); }
+
+void Id::set(const Uid &u, const IdNo i, const Key &k, const QString &n)
+{ uid(u), idno(i), key(k), name(n); }

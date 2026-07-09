@@ -13,8 +13,8 @@
     NV(ArUcoMarker,)   \
     NV($maxType,)
 
-class QTCVOBJDETECT_EXPORT cvODType : public Enumeration
+class QTCVOBJDETECT_EXPORT cvODResourceType : public Enumeration
 {
-    DECLARE_ENUMERATION(cvODType, CVODTYPE_ENUM)
+    DECLARE_ENUMERATION(cvODResourceType, CVODTYPE_ENUM)
 };
 

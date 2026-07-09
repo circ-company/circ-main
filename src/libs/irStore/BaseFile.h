@@ -45,6 +45,7 @@ public: // const
     FileInfo fileInfo() const;
     QString error() const;
     QIODevice::OpenMode mode() const;
+    QIODevice::OpenMode fileMode() const;
     bool exists() const;
     bool isOpen() const;
     bool isClosed() const;
@@ -71,6 +72,7 @@ public: // pointers
 protected:
     FileInfo mFileInfo;
     QIODevice::OpenMode mOpenMode=QIODevice::NotOpen;
+    QIODevice::OpenMode mCurrentMode=QIODevice::NotOpen;
     QFile * mpFile=nullptr;
     QString mErrorMessage;
     QByteArray mBytes;
@@ -80,7 +82,8 @@ protected:
 inline bool BaseFile::isNull() const { return mFileInfo.null(); }
 inline FileInfo BaseFile::fileInfo() const { return isNull() ? FileInfo() : mFileInfo; }
 inline QString BaseFile::error() const { return mErrorMessage; }
-inline QIODevice::OpenMode BaseFile::mode() const { return isOpen() ? mpFile->openMode() : mOpenMode; }
+inline QIODevice::OpenMode BaseFile::mode() const { return mOpenMode; }
+inline QIODevice::OpenMode BaseFile::fileMode() const { return mCurrentMode; }
 inline bool BaseFile::exists() const { return fileInfo().exists(); }
 inline bool BaseFile::isOpen() const { return mpFile ? mpFile->isOpen() : false; }
 inline bool BaseFile::isClosed() const  { return ! isOpen(); }

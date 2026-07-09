@@ -6,7 +6,7 @@
 #include <TextFile.h>
 #include <Log.h>
 
-XmlDocument::XmlDocument(const FileInfo &aFI) { set(aFI); }
+XmlDocument::XmlDocument(const FileInfo &aFI) : mpFile(nullptr) { set(aFI); }
 
 bool XmlDocument::isOpen() const
 {
@@ -20,9 +20,11 @@ bool XmlDocument::set(const FileInfo &aFI)
 {
     FNENTER();
     FNARG(aFI);
+    close();
     TriBool result;
-    mFileInfo.setFile(aFI.filePath());
-    result = mFileInfo.exists() && mFileInfo.isReadable();
+    result = aFI.exists();
+    if (result)
+        mFileInfo.setFile(aFI.filePath());
     FNRETURN(result);
     return result;
 }
@@ -31,6 +33,7 @@ Status XmlDocument::open(const QIODeviceBase::OpenMode aMode)
 {
     FNENTER();
     FNARG(aMode);
+    DUMPVAR(mFileInfo);
     Status status;
     close();
     if ( ! mFileInfo.isReadable())
@@ -47,7 +50,7 @@ Status XmlDocument::open(const QIODeviceBase::OpenMode aMode)
                    mFileInfo.filePath());
     }
     NEWOBJ(pTextFile, TextFile,  (QObject *)qApp);
-    if (status.notError())
+    if (status.notError() && pTextFile)
     {
         if ( ! pTextFile->open())
             status.set(StatusLevel::Error, "Open file %1 failed: %2",
@@ -68,6 +71,7 @@ void XmlDocument::close()
         mpFile->deleteLater();
         mpFile = nullptr;
     }
+    mFileInfo.clear();
 }
 
 Status XmlDocument::read()

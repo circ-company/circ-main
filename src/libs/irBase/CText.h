@@ -3,6 +3,7 @@
 
 #include "AText.h"
 
+#include <QImage>
 #include <QList>
 
 /*! class CText Code Text
@@ -20,9 +21,10 @@ public: // ctors
     CText(const QByteArray &ba);
     CText(const QByteArray &ba, const QChar repl);
     CText(const QString &s);
-//    CText(const unsigned u, const BYTE base=10);
+    CText(const QImage::Format &aQIF);
 
-//    virtual void set(const char * pch);
+public: // non-const
+    void set(const QImage::Format &aQIF);
 
 public: // static
     static char hinge();

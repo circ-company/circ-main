@@ -23,8 +23,8 @@ public: // c'tor
 
 public slots:
     void clear();
-    void set(const Url &url);
-    void set(const QString &url);
+    void set(const Url &aUrl);
+    void set(const QString &aUrlString);
 
 signals:
     void urlSet(const Url &url);
@@ -34,7 +34,7 @@ signals:
 public: // const
     Url url() const;
     FileInfo fileInfo() const;
-    EntryList list(const cvODClass cls, const cvODType type);
+    EntryList list(const cvODObjectClass cls, const cvODResourceType type);
 
 public: // non-const
     Status read();
