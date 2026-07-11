@@ -18,13 +18,13 @@ public: // types
 
 public: // c'tor
     explicit cvODCatalog(QObject *parent = nullptr);
-    explicit cvODCatalog(const QString &url, QObject *parent = nullptr);
     explicit cvODCatalog(const Url &url, QObject *parent = nullptr);
+    explicit cvODCatalog(const FileInfo &aFI, QObject *parent = nullptr);
 
 public slots:
     void clear();
     void set(const Url &aUrl);
-    void set(const QString &aUrlString);
+    void set(const QFileInfo &aFI);
 
 signals:
     void urlSet(const Url &url);

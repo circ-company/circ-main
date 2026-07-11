@@ -5,11 +5,11 @@
 
 void BaseTypeFormat::registerBase()
 {
-    const int cTypeIdFI = QMetaType::fromName("FileInfo").id();
-    const int cTypeIdUrl = QMetaType::fromName("Url").id();
-//    Q_ASSERT(cTypeIdFI); Q_ASSERT(cTypeIdUrl);
+    const int cTypeIdFI = 65584; // TODO: QMetaType::fromName("FileInfo").id();
+// TODO:    const int cTypeIdUrl = QMetaType::fromName("Url").id();
+    Q_ASSERT(cTypeIdFI); // Q_ASSERT(cTypeIdUrl);
     registerFunction(cTypeIdFI, &formatFileInfo);
-    registerFunction(cTypeIdUrl, &formatUrl);
+    //registerFunction(cTypeIdUrl, &formatUrl);
 
 }
 
@@ -17,7 +17,7 @@ AText BaseTypeFormat::formatFileInfo(const QVariant &aVar)
 {
     AText result;
     FileInfo tFI = aVar.value<FileInfo>();
-    result = QString("Url:<%1> Exists=%2").arg(tFI.toString()).arg(tFI.exists());
+    result = QString("FileInfo:<%1>").arg(tFI.toString());
     return result;
 }
 

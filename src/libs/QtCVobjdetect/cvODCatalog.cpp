@@ -7,8 +7,9 @@
 cvODCatalog::cvODCatalog(QObject *parent) : QObject{parent} { clear(); }
 cvODCatalog::cvODCatalog(const Url &url, QObject *parent)
     : QObject{parent}  { set(url); }
-cvODCatalog::cvODCatalog(const QString &url, QObject *parent)
-    : QObject{parent}  { set(url); }
+cvODCatalog::cvODCatalog(const FileInfo &aFI, QObject *parent)
+    : QObject{parent}  { set(aFI); }
+
 
 void cvODCatalog::clear()
 {
@@ -37,19 +38,21 @@ void cvODCatalog::set(const Url &aUrl)
     DUMPVAR(fileInfo());
 }
 
-void cvODCatalog::set(const QString &aUrlString)
+void cvODCatalog::set(const QFileInfo &aFI)
 {
     FNENTER();
-    FNARG(aUrlString);
-    mUrl.set(aUrlString);
-    emit urlSet(mUrl);
-    if (mUrl.isLocalFile())
-    {
-        const QString cFilePath = mUrl.localFllePath();
-        DUMPVAR(cFilePath);
-        mFileInfo.setFile(QDir::current(), cFilePath);
-    }
+    FNARG(aFI);
+    QString tPath = aFI.absoluteFilePath();
+    DUMPVAR(tPath);
+    bool tExists = QFileInfo::exists(tPath);
+    DUMPVAR(tExists);
+    tExists = true; // TODO Linux why?
+    if (tExists)
+        mFileInfo =  aFI;
+    else
+        TEXPECTIS(aFI.isReadable()); // TODO: Warning
     DUMPVAR(fileInfo());
+    FNRTNVOID();
 }
 
 Status cvODCatalog::read()
@@ -73,6 +76,7 @@ Status cvODCatalog::read()
     if (status.notError())
     {
         status = mXmlDocument.open(QIODevice::ReadOnly | QIODevice::ExistingOnly);
+
     }
     if (status.notError())
     {

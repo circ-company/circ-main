@@ -9,5 +9,6 @@ public:
     static AText formatQChar(const QVariant &aVar);
     static AText formatString(const QVariant &aVar);
     static AText formatHexData(const QVariant &aVar);
+    static AText formatFileInfo(const QVariant &aVar);
 
 };

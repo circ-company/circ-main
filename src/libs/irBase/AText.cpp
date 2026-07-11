@@ -262,7 +262,7 @@ void AText::removeEach(const AText &atx)
 /*static*/ AText AText::format(const AText aFormat, const QVariantList vars)
 {
     AText result = aFormat;
-    for (Index ix = 1; ix < Index(vars.count()); ++ix)
+    for (Index ix = 1; ix < Index(vars.count() - 1); ++ix)
     {
         AText tPctNum = QString("%") + QString::number(ix, 10);
         if (result.contains(tPctNum))

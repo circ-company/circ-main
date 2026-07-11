@@ -40,6 +40,12 @@ QString FileInfo::toString(const StringOptions aOptions) const
     QString result;
     if (aOptions.testFlag(CompleteBaseName))
         result.append(" " + completeBaseName() + " ");
+    if (aOptions.testFlag(NullFull))
+        result.append(" " + QString(full()
+                                        ? "Full"
+                                        : (aOptions.testFlag(Negatives)
+                                               ? "NULL"
+                                               : "")) + " ");
     if (aOptions.testFlag(Readable))
         result.append(" " + QString(isReadable()
                                  ? "Readable"

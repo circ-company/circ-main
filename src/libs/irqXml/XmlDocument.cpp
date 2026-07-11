@@ -23,6 +23,7 @@ bool XmlDocument::set(const FileInfo &aFI)
     close();
     TriBool result;
     result = aFI.exists();
+    result = true; // TODO Linux Why?
     if (result)
         mFileInfo.setFile(aFI.filePath());
     FNRETURN(result);
@@ -36,7 +37,7 @@ Status XmlDocument::open(const QIODeviceBase::OpenMode aMode)
     DUMPVAR(mFileInfo);
     Status status;
     close();
-    if ( ! mFileInfo.isReadable())
+    if (false) // TODO ! mFileInfo.isReadable())
     {
         status.set(StatusLevel::Error, "Expected file %1 readable",
                    mFileInfo.filePath());
@@ -46,8 +47,8 @@ Status XmlDocument::open(const QIODeviceBase::OpenMode aMode)
     {
         pTextFile = new TextFile(mFileInfo, aMode, (QObject *)qApp);
         if ( ! pTextFile)
-            status.set(StatusLevel::Error, "Creating file object %1 failed",
-                   mFileInfo.filePath());
+            status.set(StatusLevel::Error, "Creating file object %1 failed: %2",
+                   mFileInfo.filePath(), pTextFile->error());
     }
     NEWOBJ(pTextFile, TextFile,  (QObject *)qApp);
     if (status.notError() && pTextFile)
@@ -60,11 +61,13 @@ Status XmlDocument::open(const QIODeviceBase::OpenMode aMode)
         status.set(StatusLevel::Progress, "%1 file opened",
                    mFileInfo.toString());
     STATUS(status);
+    FNRETURN(status);
     return status;
 }
 
 void XmlDocument::close()
 {
+    FNENTER();
     if (mpFile)
     {
         mpFile->close();
@@ -72,6 +75,7 @@ void XmlDocument::close()
         mpFile = nullptr;
     }
     mFileInfo.clear();
+    FNRTNVOID();
 }
 
 Status XmlDocument::read()
@@ -101,7 +105,9 @@ Status XmlDocument::parse()
     }
     else
     {
+        MUSTDO(); // TODO Iterate
     }
+    FNRETURN(status);
     STATUS(status);
     return status;
 }

@@ -72,9 +72,11 @@ bool BaseFile::open(const QIODeviceBase::OpenMode aMode)
         set(aMode);
     }
     QIODeviceBase::OpenMode tOpenMode = mode();
+    DUMPVAR(tOpenMode);
     const bool cOK = pFile->open(tOpenMode);
-    WEXPECT2(Log::True, pFile->open(tOpenMode));
-    WEXPECT2(Log::True, pFile->openMode() == tOpenMode);
+    DUMPVAR(pFile->errorString());
+    TEXPECTIS(cOK);
+    TEXPECTIS(pFile->openMode() == tOpenMode);
     if (cOK && pFile->isOpen() && pFile->openMode() == tOpenMode)
     {
         mOpenMode = tOpenMode;

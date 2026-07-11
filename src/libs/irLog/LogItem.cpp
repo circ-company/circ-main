@@ -50,8 +50,11 @@ void LogItem::assertIs(const Log::Operator aOp, const bool aIs, const char *aExp
 void LogItem::expect(const Log::Operator aOp,
                      const QVariant aActVar, const char *aActText)
 {
-    set(AText::format("Expected %1; Actual %2 is %3",
-                         Log::opName(aOp), aActText, aActVar));
+    set(1, ArgumentInfo("Text", aActText));
+    set(2, ArgumentInfo("Value", aActVar));
+    set(AText::format("Expected %1; Actual %1 is %2",
+                         aActText, aActVar));
+    // TODO fix wierdness
 }
 
 void LogItem::expect(const Log::Operator aOp,

@@ -43,16 +43,14 @@ void Application::initialize()
     else
         mMainDir.setPath("../EFPin");
 
-    const int cTypeIdAText = QMetaType::fromName("AText").id();
-    qDebug() << Q_FUNC_INFO << cTypeIdAText;
-    DUMPVAR(AText::metaType().name());
-    DUMPVAR(AText::metaType().id());
     QDir tDir = QDir::currentPath();
     tDir.cd("../Detectors");
     DUMPVAR(tDir.absoluteFilePath("Detectors.xml"));
+    const QFileInfo cCatFI(tDir, "Detectors/Detectors.xml");
     const Url cCatUrl(QUrl::fromLocalFile("../Detectors/Detectors.xml").toString(), Url::File);
+    DUMPVAR(cCatFI);
 
-    mpCatalog = new cvODCatalog(cCatUrl, this);
+    mpCatalog = new cvODCatalog(cCatFI, this);
     NEWOBJ(mpCatalog, cvODCatalog, this);
 
     TRACE2("MainDirPath=%1 Exists=%2", mMainDir.path(), mMainDir.exists());

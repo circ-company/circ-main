@@ -29,11 +29,13 @@ void LogFunction::emitArgument(const int aEmitLine, const ArgumentInfo &arg)
 void LogFunction::returnVoid()
 {
     mReturnArg.clear();
+    closeOut();
 }
 
 void LogFunction::returnValue(const ArgumentInfo &arg)
 {
     mReturnArg = arg;
+    closeOut();
 }
 
 void LogFunction::closeOut()

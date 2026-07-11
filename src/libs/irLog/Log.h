@@ -37,8 +37,13 @@
 
 #define PROGMSG(msg)        MESSAGELI(StatusLevel::Progress, msg);
 
-#define WEXPECT2(op, act) EXPECT2LI(op, StatusLevel::WExpect, act);
-#define WEXPECT4(op, exp, act) EXPECT4LI(op, StatusLevel::WExpect, exp, act);
+#define TEXPECTIS(act)      EXPECT2LI(Log::Is, StatusLevel::TExpect, act);
+#define TEXPECTNOT(act)     EXPECT2LI(Log::Not, StatusLevel::TExpect, act);
+#define WEXPECTIS(act)      EXPECT2LI(Log::Is, StatusLevel::WExpect, act);
+#define WEXPECTNOT(act)     EXPECT2LI(Log::Not, StatusLevel::WExpect, act);
+
+#define WEXPECT(op, exp, act) EXPECT4LI(op, StatusLevel::WExpect, exp, act);
+#define WEXPECTEQ(exp, act) EXPECT4LI(Log::Equal, StatusLevel::WExpect, exp, act);
 
 #define TASSERT(bval)       ASSERTLI(Log::True, StatusLevel::TAssert, bval);
 #define WASSERT(bval)       ASSERTLI(Log::True, StatusLevel::WAssert, bval);

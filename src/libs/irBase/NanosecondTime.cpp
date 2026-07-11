@@ -1,5 +1,7 @@
 #include "NanosecondTime.h"
 
+#include <QTimeZone>
+
 #include <chrono>
 #include <ctime>
 #include <time.h>
@@ -47,9 +49,13 @@ QString NanosecondTime::toString(const QString &format) const
 
 QString NanosecondTime::nanoString() const
 {
+    QTimeZone tQTZ(QTimeZone::LocalTime);
     const Nanoseconds cNanos  = value() % 1000LL;
     const Nanoseconds cMicros = (value() / 1000LL) % 1000LL;
-    return QString(" %1 %2").arg(cMicros, 3, 10, u'0').arg(cNanos, 3, 10, u'0');
+    return QString("%3 %1 %2")
+        .arg(cMicros, 3, 10, u'0')
+        .arg(cNanos, 3, 10, u'0')
+        .arg(tQTZ.abbreviation(QDateTime::currentDateTime()));
 }
 
 QString NanosecondTime::timeString() const
