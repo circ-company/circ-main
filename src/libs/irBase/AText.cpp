@@ -17,7 +17,7 @@ AText::AText(const char *pch, const QChar repl) { set(pch, repl); }
 AText::AText(const char ch) { set(ch); }
 AText::AText(const QByteArray &ba) { set(ba); }
 AText::AText(const QByteArray &ba, const QChar repl) { set(ba, repl); }
-AText::AText(const QString &s) { set(s); }
+AText::AText(const QString &aString) { set(aString); }
 AText::AText(const Count k, const char ch) { set(k, ch); }
 AText::AText(const QVariant &aVar) { set(aVar); }
 
@@ -255,7 +255,7 @@ void AText::removeEach(const AText &atx)
 /*static*/ AText AText::formatHeximal(const QVariant aVar)
 {
     AText result;
-
+    Q_UNUSED(aVar); // TODO AText::formatHeximal()
     return result;
 }
 

@@ -33,12 +33,6 @@ void LogItem::clear()
     mLevel.nullify();
     mContext.clear();
     mMessage.clear();
-    mArgInfoList.clear();
-}
-
-void LogItem::set(const Index ix, const ArgumentInfo &cv)
-{
-    arguments().set(ix, cv);
 }
 
 void LogItem::assertIs(const Log::Operator aOp, const bool aIs, const char *aExpression)
@@ -50,11 +44,6 @@ void LogItem::assertIs(const Log::Operator aOp, const bool aIs, const char *aExp
 void LogItem::expect(const Log::Operator aOp,
                      const QVariant aActVar, const char *aActText)
 {
-    set(1, ArgumentInfo("Text", aActText));
-    set(2, ArgumentInfo("Value", aActVar));
-    set(AText::format("Expected %1; Actual %1 is %2",
-                         aActText, aActVar));
-    // TODO fix wierdness
 }
 
 void LogItem::expect(const Log::Operator aOp,
@@ -78,38 +67,28 @@ void LogItem::newobj(QObject *pNewObj, const CText &aObjName, const AText &aObjT
     {
         if (level().isNull()) level(StatusLevel::MAlloc);
         set("FAIL: Memory Allocation for <%1 %2(%3)> parent<%4(%5)>");
-        set(6, ArgumentInfo(aObjName, (qptrdiff)(nullptr)));
     }
     else
     {
         level(StatusLevel::Info);
         tQmtObject = pNewObj->metaObject()->metaType();
         set("OK: Memory Allocation for <%1 %2(%3) at &6> parent<%4(%5)>");
-        set(6, ArgumentInfo("NewObj Ptr", (qptrdiff)(pNewObj)));
     }
-    set(1, ArgumentInfo("NewObj Name", aObjName));
-    set(2, ArgumentInfo("Object MetaName", tQmtObject.name()));
-    set(3, ArgumentInfo("Object MetaId()", tQmtObject.id()));
-    set(4, ArgumentInfo("Parent MetaName", cQmtParent.name()));
-    set(5, ArgumentInfo("Parent MetaId()", cQmtParent.id()));
 }
 
-void LogItem::dumpVar()
+void LogItem::dumpVar(const QVariant aVar, const char * aText)
 {
-    QString tFmtStr = message();
-    ArgumentInfo tAI = argument();
-    CText tName = tAI.name();
-    QVariant tVar = tAI.value();
-    QMetaType tQMT = tAI.metaType();
-    AText tMsg = QString(tFmtStr).arg(tQMT.name()).arg(tQMT.id())
-                     .arg(tName()).arg(TypeFormat(tVar)());
-    set(tMsg);
+    const QMetaType cQMT = aVar.metaType();
+    const AText cMsg = QString("Dump %1(%2): `%3` is <%4>")
+                             .arg(cQMT.name()).arg(cQMT.id())
+                             .arg(aText, aVar.toString());
+    set(cMsg);
 }
 
 AText LogItem::formatValues() const
 {
-    AText tArgFmt = AText(argument(0).value().toString());
-    if (tArgFmt.isEmpty()) tArgFmt = message();
-    return AText::format(tArgFmt, arguments().values());
+    AText result;
+    // TODO LogItem::formatValues()
+    return result;
 }
 

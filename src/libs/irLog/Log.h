@@ -3,37 +3,31 @@
 #include <QVariant>
 
 #include <CodeContext.h>
-#include <ArgumentInfo.h>
-#include <ArgumentInfoList.h>
 #include <StatusLevel.h>
 
 #include "LogEngine.h"
 #include "LogMacros.h"
 
 #define FNENTER() LogFunction logFunction(CODECONTEXT());
-#define FNARG(arg) QVariant qv=QVariant::fromValue(arg); \
-            logFunction.addArgument(ArgumentInfo(#arg, #arg, qv));
-#define FNARG2(arg1, arg2) \
-            QVariant qv1=QVariant::fromValue(arg1); \
-            QVariant qv2=QVariant::fromValue(arg2); \
-            logFunction.addArgument(ArgumentInfo(#arg1, #arg1, qv1)); \
-            logFunction.addArgument(ArgumentInfo(#arg2, #arg2, qv2));
-#define FNARGD(arg, def) QVariant qv=QVariant::fromValue(arg); \
-            logFunction.add(ArgumentInfo(#arg, #arg, qv, #def, def));
-#define FNEMIT(sig) logFunction.emitSignal(__LINE__, #sig);
-#define FNEMITARG(ln, arg) logFunction.emitArgument(ln, \
-            ArgumentInfo(#arg, #arg, QVariant::fromValue(arg)));
+#define FNARG(arg) logFunction.addArgument(arg, #arg);
+#define FNARGT(arg, T) QVariant qv; qv.setValue<T>(arg); \
+            logFunction.addArgument(qv, #arg);
+#define FNEMIT(sig) logFunction.emitSignal(#sig);
+#define FNEMITARG(sig, arg) logFunction.emitArgument(#sig, arg, #arg);
 #define FNRTNVOID() logFunction.returnVoid();
-#define FNRETURN(rvar)  QVariant qvrvar=QVariant::fromValue(rvar); \
-            logFunction.returnValue(ArgumentInfo(#rvar, #rvar, qvrvar))
-#define NEWOBJ(ptr, obj, par) \
-            { LOGITEM(Log::Malloc, StatusLevel::MAlloc, CODECONTEXT()); \
-              li.newobj(ptr, #ptr, #obj, par, #par); LOG->enqueue(li); }
+#define FNRETURN(rvar) logFunction.returnValue(rvar, #rvar);
 
-#define DUMPVAR(var)   { LOGITEM(Log::Dump, StatusLevel::DumpVar, CODECONTEXT()); \
-                            li.set("Dump %1(%2) %3 is %4"); \
-                            ArgumentInfo ai(#var, QVariant::fromValue(var)); \
-                            li.set(ai); li.dumpVar(); LOG->enqueue(li); }
+#define NEWOBJ(ptr, obj, par) \
+          { LOGITEM(Log::Malloc, StatusLevel::MAlloc, CODECONTEXT()); \
+            li.newobj(ptr, #ptr, #obj, par, #par); LOG->enqueue(li); }
+
+#define DUMPVAR(var)   \
+          { LOGITEM(Log::Dump, StatusLevel::DumpVar, CODECONTEXT()); \
+            li.dumpVar(var, #var); LOG->enqueue(li); }
+#define DUMPVART(var, T)   \
+          { LOGITEM(Log::Dump, StatusLevel::DumpVar, CODECONTEXT()); \
+            QVariant qv; qv.setValue<T>(var); \
+            li.dumpVar(qv, #var); LOG->enqueue(li); }
 
 #define PROGMSG(msg)        MESSAGELI(StatusLevel::Progress, msg);
 
@@ -55,20 +49,3 @@
 
 #define STATUS(sts) LOGITEM(Log::MessageOnly, sts.level(), CODECONTEXT()); \
                             li.set(sts.message()); LOG->enqueue(li);
-
-#define TDETAIL4(fmt, v1, v2, v3, v4)                       \
-        FORMATLI(StatusLevel::TDetail,                      \
-            ArgumentInfo(#fmt,QVariant(AText(fmt))),        \
-            ArgumentInfo(#v1, QVariant::fromValue(v1)),     \
-            ArgumentInfo(#v2, QVariant::fromValue(v2)),     \
-            ArgumentInfo(#v3, QVariant::fromValue(v3)),     \
-            ArgumentInfo(#v4, QVariant::fromValue(v4)));    \
-
-#define TRACE2(fmt, v1, v2)                                 \
-        FORMATLI(StatusLevel::TraceMsg,                     \
-            ArgumentInfo(#fmt,QVariant(AText(fmt))),        \
-            ArgumentInfo(#v1, QVariant::fromValue(v1)),     \
-            ArgumentInfo(#v2, QVariant::fromValue(v2)),     \
-            ArgumentInfo(), ArgumentInfo());                \
-
-

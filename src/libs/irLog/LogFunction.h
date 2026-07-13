@@ -1,7 +1,5 @@
 #pragma once
 
-#include <ArgumentInfo.h>
-#include <ArgumentInfoList.h>
 #include <CodeContext.h>
 #include <CText.h>
 #include <StatusLevel.h>
@@ -9,30 +7,21 @@
 class LogFunction
 {
 public: // types
-    struct EmitArgs
-    {
-        int FileLine;
-        CText EmitName;
-        ArgumentInfoList EmitArgs;
-    };
 
 public: // ctors
     LogFunction(const CodeContext ctx);
 
 public: // non-const
-    void addArgument(const ArgumentInfo &arg);
-    int emitSignal(const int aLineAbove, const CText &sigName);
-    void emitArgument(const int aEmitLine, const ArgumentInfo &arg);
+    void addArgument(const QVariant &aArgVal , const AText &aArgText);
+    void emitSignal(const CText &aSigText);
+    void emitArgument(const CText &aSigText, const QVariant &aArgVal,
+                      const AText &aArgText);
     void returnVoid();
-    void returnValue(const ArgumentInfo &arg);
+    void returnValue(const QVariant &aArgVal , const AText &aArgText);
 
 private:
-    void closeOut();
 
 private:
     CodeContext cmContext;
-    ArgumentInfoList mArgList;
-    QMap<int, EmitArgs> mEmitLineArgsMap;
-    ArgumentInfo mReturnArg;
 };
 

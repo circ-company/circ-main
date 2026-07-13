@@ -46,14 +46,13 @@ void Application::initialize()
     QDir tDir = QDir::currentPath();
     tDir.cd("../Detectors");
     DUMPVAR(tDir.absoluteFilePath("Detectors.xml"));
-    const QFileInfo cCatFI(tDir, "Detectors/Detectors.xml");
+    const FileInfo cCatFI(tDir, "Detectors/Detectors.xml");
     const Url cCatUrl(QUrl::fromLocalFile("../Detectors/Detectors.xml").toString(), Url::File);
     DUMPVAR(cCatFI);
 
     mpCatalog = new cvODCatalog(cCatFI, this);
     NEWOBJ(mpCatalog, cvODCatalog, this);
 
-    TRACE2("MainDirPath=%1 Exists=%2", mMainDir.path(), mMainDir.exists());
     if (mMainDir.exists())
     {
         NameFilters mNF;
@@ -92,7 +91,6 @@ void Application::processFile()
     if (mFileList.isEmpty()) return;                                    /*/===\*/
     const FileInfo cFI = mFileList.takeFirst();
     QImage tImage(cFI.filePath());
-    TRACE2("FileName=%1 ImageSize=%2", cFI.filePath(), tImage.size());
     mainWindow()->setWindowTitle(cFI.toString(FileInfo::CompleteBaseName)
                                  + (tImage.isNull() ? " NULL" : ""));
     if ( ! tImage.isNull())

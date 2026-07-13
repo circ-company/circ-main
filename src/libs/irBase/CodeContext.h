@@ -42,8 +42,9 @@ private:
     FunctionInfo mFuncInfo;
     FileInfo mFileInfo;
 
-
 public: // QMetaType
+    const CodeContext & it() const { return *this; }
+    CodeContext & it() { return *this; }
     CodeContext() = default;
     ~CodeContext() = default;
     CodeContext(const CodeContext &) = default;

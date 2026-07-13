@@ -97,6 +97,9 @@ public: // const
     bool isWarn() const;
     bool isError() const;
     bool isFault() const;
+    bool notWarn() const;
+    bool notError() const;
+    bool notFault() const;
     bool inRange(const Value &lo, const Value &hi) const;
     bool equal(const StatusLevel &other) const;
     bool less(const StatusLevel &other) const;
@@ -143,6 +146,9 @@ inline bool StatusLevel::info() const { return inRange($Info, $Warn); }
 inline bool StatusLevel::warn() const { return inRange($Warn,  $Error); }
 inline bool StatusLevel::error() const { return inRange($Error, $Fault); }
 inline bool StatusLevel::fault() const { return inRange($Fault, $max); }
+inline bool StatusLevel::notWarn() const { return ! isWarn(); }
+inline bool StatusLevel::notError() const { return ! isError(); }
+inline bool StatusLevel::notFault() const { return ! isFault(); }
 inline bool StatusLevel::equal(const StatusLevel &other) const { return value() == other.value(); }
 inline bool StatusLevel::less(const StatusLevel &other) const { return value() < other.value(); }
 inline bool StatusLevel::operator ==(const StatusLevel &other) { return equal(other); }

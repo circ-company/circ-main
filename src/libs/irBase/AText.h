@@ -31,7 +31,7 @@ public: // ctors
     AText(const char ch);
     AText(const QByteArray &ba);
     AText(const QByteArray &ba, const QChar repl);
-    AText(const QString &s);
+    AText(const QString &aString);
     AText(const Count k, const char ch=' ');
     AText(const QVariant &aVar);
 
@@ -63,7 +63,7 @@ public: // non-const
     void set(const char * pch);
     void set(const QByteArray &ba);
     void set(const char *pch, const QChar repl);
-    void set(const QString &s);
+    void set(const QString &aString);
     void set(const QByteArrayList &ba);
     void set(const QStringList &s);
     void set(const Count k, const char ch=' ');
@@ -125,7 +125,7 @@ inline QByteArrayView AText::toQBAV() const { return QByteArrayView(it()); }
 inline bool AText::operator ==(const AText &rhs) const { return equals(rhs); }
 inline bool AText::operator <(const AText &rhs) const { return less(rhs); }
 inline void AText::set(const QByteArray &ba) { set(ba.constData()); }
-inline void AText::set(const QString &s)  { set(s.toLocal8Bit()); }
+inline void AText::set(const QString &aString)  { set(aString.toLocal8Bit()); }
 inline AText AText::operator +=(const AText &more) { return append(more); }
 inline AText AText::operator +=(const char ch) { return append(ch); }
 inline AText AText::it() const { return *this; }

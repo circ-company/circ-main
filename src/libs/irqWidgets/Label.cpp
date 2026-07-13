@@ -44,14 +44,13 @@ void Label::set(const Size displaySize, const QImage &img)
     FNENTER()
     FNARG(displaySize)
     const Size cOrigSize = img.size();
-    TRACE2("Image Size=%1 Format=%2", img.size(), img.format());
+    DUMPVAR(cOrigSize);
+    DUMPVAR(img.format());
     const Aspect cOriginalAspect = cOrigSize.aspect();
     const Size cAspectSize(displaySize, cOriginalAspect);
     const SCRect cCenteredRect(cAspectSize);
     const QRect cPaintRect(cCenteredRect.toQRect());
     const qreal cScaleF = cAspectSize.scaleToF(size());
-    TDETAIL4("AspectSize=%1 CenteredRect=%2 cPaintRect=%3 ScaleF=%4",
-             cAspectSize, cCenteredRect, cPaintRect, cScaleF);
     resize(displaySize);
     QPixmap tPixmap(displaySize);
     QPainter tPainter;

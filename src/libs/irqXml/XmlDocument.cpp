@@ -26,40 +26,42 @@ bool XmlDocument::set(const FileInfo &aFI)
     result = true; // TODO Linux Why?
     if (result)
         mFileInfo.setFile(aFI.filePath());
-    FNRETURN(result);
+    FNRETURN((bool)result);
     return result;
 }
 
 Status XmlDocument::open(const QIODeviceBase::OpenMode aMode)
 {
     FNENTER();
-    FNARG(aMode);
+    FNARGT(aMode, int);
     DUMPVAR(mFileInfo);
     Status status;
     close();
     if (false) // TODO ! mFileInfo.isReadable())
     {
-        status.set(StatusLevel::Error, "Expected file %1 readable",
-                   mFileInfo.filePath());
+        status.set(StatusLevel::Error,
+            AText::format("Expected file %1 readable",mFileInfo.filePath()));
     }
     TextFile * pTextFile=nullptr;
-    if (status.notError())
+    if (status.level().notError())
     {
         pTextFile = new TextFile(mFileInfo, aMode, (QObject *)qApp);
         if ( ! pTextFile)
-            status.set(StatusLevel::Error, "Creating file object %1 failed: %2",
-                   mFileInfo.filePath(), pTextFile->error());
+            status.set(StatusLevel::Error,
+                       AText::format("Creating file object %1 failed: %2",
+                   mFileInfo.filePath(), pTextFile->error()));
     }
     NEWOBJ(pTextFile, TextFile,  (QObject *)qApp);
-    if (status.notError() && pTextFile)
+    if (status.level().notError() && pTextFile)
     {
         if ( ! pTextFile->open())
-            status.set(StatusLevel::Error, "Open file %1 failed: %2",
-                       mFileInfo.filePath(), pTextFile->error());
+            status.set(StatusLevel::Error,
+                       AText::format("Open file %1 failed: %2",
+                            mFileInfo.filePath(), pTextFile->error()));
     }
-    if (status.notError())
-        status.set(StatusLevel::Progress, "%1 file opened",
-                   mFileInfo.toString());
+    if (status.level().notError())
+        status.set(StatusLevel::Progress,
+                   AText::format("%1 file opened", mFileInfo.toString()));
     STATUS(status);
     FNRETURN(status);
     return status;
@@ -85,8 +87,9 @@ Status XmlDocument::read()
     Q_CHECK_PTR(mpFile);
     if ( ! mpFile->read())
     {
-        status.set(StatusLevel::Error, "Error reading %1: %2",
-                   mFileInfo.toString(), mpFile->error());
+        status.set(StatusLevel::Error,
+                   AText::format("Error reading %1: %2",
+                        mFileInfo.toString(), mpFile->error()));
     }
     STATUS(status);
     return status;
@@ -100,8 +103,9 @@ Status XmlDocument::parse()
     mRootElement = documentElement();
     if (rootElement().isNull())
     {
-        status.set(StatusLevel::Error, "XML File %1 is empty",
-                   mFileInfo.toString());
+        status.set(StatusLevel::Error,
+                   AText::format("XML File %1 is empty",
+                        mFileInfo.toString()));
     }
     else
     {
@@ -115,7 +119,8 @@ Status XmlDocument::parse()
 bool XmlDocument::parse(const XmlElement &aParentXE, const Key &aParentKey)
 {
     FNENTER();
-    FNARG2(aParentXE.tagName(), aParentKey());
+    FNARG(aParentXE.tagName());
+    FNARG(aParentKey());
     bool more = true;
     if (aParentXE.isNull())
     {

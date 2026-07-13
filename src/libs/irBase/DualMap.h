@@ -6,7 +6,8 @@
 
 #include <Types.h>
 
-template <typename A, typename B> class DualMap
+template <typename A, typename B>
+class DualMap
 {
 public: // types
     typedef QPair<A, B> AB;

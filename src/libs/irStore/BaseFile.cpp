@@ -15,7 +15,7 @@ BaseFile::BaseFile(QObject *parent)
 }
 
 BaseFile::BaseFile(const FileInfo &aFI,
-                   const QIODeviceBase::OpenMode mode,
+                   const Mode mode,
                    QObject *parent)
     : QObject(parent)
     , mFileInfo(aFI)
@@ -27,7 +27,7 @@ BaseFile::BaseFile(const FileInfo &aFI,
 }
 
 BaseFile::BaseFile(const FSText &aFName,
-                   const QIODeviceBase::OpenMode mode,
+                   const Mode mode,
                    QObject *parent)
     : QObject(parent)
     , mFileInfo(aFName)
@@ -49,9 +49,8 @@ void BaseFile::set(const FileInfo &aFI)
     FNARG(aFI);
     mFileInfo = aFI;
     emit infoSet(mFileInfo, mFileInfo.exists());
-    const int el = FNEMIT(infoSet);
-    FNEMITARG(el, mFileInfo);
-    FNEMITARG(el, mFileInfo.exists());
+    FNEMITARG(infoSet, mFileInfo);
+    FNEMITARG(infoSet, mFileInfo.exists());
     FNRTNVOID();
 }
 
@@ -60,19 +59,16 @@ void BaseFile::set(const FSText &aFileName)
     set(FileInfo(aFileName));
 }
 
-bool BaseFile::open(const QIODeviceBase::OpenMode aMode)
+bool BaseFile::open(const Mode aMode)
 {
     FNENTER();
-    FNARG(aMode);
+    FNARGT(aMode, int);
     close();
     QFile * pFile = new QFile(fileInfo().filePath(), this);
     NEWOBJ(pFile, QFile, this);
-    if (aMode)
-    {
-        set(aMode);
-    }
-    QIODeviceBase::OpenMode tOpenMode = mode();
-    DUMPVAR(tOpenMode);
+    if (aMode) set(aMode);
+    Mode tOpenMode = mode();
+    DUMPVART(tOpenMode, int);
     const bool cOK = pFile->open(tOpenMode);
     DUMPVAR(pFile->errorString());
     TEXPECTIS(cOK);
@@ -111,14 +107,14 @@ bool BaseFile::read()
     TriBool result;
     FNENTER();
     DUMPVAR(fileInfo());
-    DUMPVAR(fileMode());
+    DUMPVART(fileMode(), int);
     if (isOpen())
         if (file()->isReadable())
         {
             mBytes = file()->readAll();
             result = mBytes.length() == file()->size();
         }
-    FNRETURN(result);
+    FNRETURN(bool(result));
     return result;
 }
 

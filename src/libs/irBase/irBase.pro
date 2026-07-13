@@ -11,8 +11,6 @@ include(../libs.pri)
 SOURCES += \
     AText.cpp \
     ATextList.cpp \
-    ArgumentInfo.cpp \
-    ArgumentInfoList.cpp \
     BaseExe.cpp \
     BaseTypeFormat.cpp \
     CText.cpp \
@@ -60,8 +58,6 @@ HEADERS += \
     ../../version.h \
     AText.h \
     ATextList.h \
-    ArgumentInfo.h \
-    ArgumentInfoList.h \
     BaseExe.h \
     BaseTypeFormat.h \
     CText.h \

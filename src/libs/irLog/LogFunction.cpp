@@ -7,59 +7,32 @@
 LogFunction::LogFunction(const CodeContext ctx)
     : cmContext(ctx)
 {
+    LogItem tLI(Log::Function, StatusLevel::FuncEnter, ctx);
+    tLI.set("Entering " + ctx.toDebugString(false));
+    LOG->enqueue(tLI);
 }
 
-void LogFunction::addArgument(const ArgumentInfo &arg)
+void LogFunction::addArgument(const QVariant &aArgVal, const AText &aArgText)
 {
-    mArgList.append(arg);
+
 }
 
-int LogFunction::emitSignal(const int aLineAbove, const CText &aSigName)
+void LogFunction::emitSignal(const CText &aSigText)
 {
-    EmitArgs tEA = { aLineAbove - 1, aSigName, ArgumentInfoList() };
-    mEmitLineArgsMap.insert(tEA.FileLine, tEA);
-    return tEA.FileLine;
+
 }
 
-void LogFunction::emitArgument(const int aEmitLine, const ArgumentInfo &arg)
+void LogFunction::emitArgument(const CText &aSigText, const QVariant &aArgVal, const AText &aArgText)
 {
-    mEmitLineArgsMap[aEmitLine].EmitArgs.append(arg);
+
 }
 
 void LogFunction::returnVoid()
 {
-    mReturnArg.clear();
-    closeOut();
+
 }
 
-void LogFunction::returnValue(const ArgumentInfo &arg)
+void LogFunction::returnValue(const QVariant &aArgVal, const AText &aArgText)
 {
-    mReturnArg = arg;
-    closeOut();
-}
 
-void LogFunction::closeOut()
-{
-    LogItem liEnter(Log::Function, StatusLevel::FuncEnter, cmContext);
-    LOG->enqueue(liEnter);
-    foreach (const ArgumentInfo cAI, mArgList)
-    {
-        LogItem liArg(Log::Function, StatusLevel::FuncArg, cmContext);
-        liArg.set(cAI);
-        LOG->enqueue(liArg);
-    }
-    foreach (const EmitArgs cEA, mEmitLineArgsMap.values())
-    {
-        LogItem liEmit(Log::Function, StatusLevel::FuncEmit,
-                       CodeContext(cmContext.qfiText(),
-                                   cmContext.fileName(),
-                                   cEA.FileLine));
-        LOG->enqueue(liEmit);
-    }
-    if ( ! mReturnArg.isNull())
-    {
-        LogItem liReturn(Log::Function, StatusLevel::FuncLeave, cmContext);
-        liReturn.set(mReturnArg);
-        LOG->enqueue(liReturn);
-    }
 }

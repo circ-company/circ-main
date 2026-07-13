@@ -27,9 +27,3 @@
         li.expect(op, exp, #exp, act, #act); \
         LOG->enqueue(li); }
 
-#define FORMATLI(sev, atxfmt, ai1, ai2, ai3, ai4)       \
-    { LOGITEM(Log::Formatted, sev, CODECONTEXT());      \
-    li.set(0, atxfmt), li.set(1, ai1), li.set(2, ai2),  \
-    li.set(3, ai3), li.set(4, ai4);                     \
-    LOG->enqueue(li); }                                 \
-

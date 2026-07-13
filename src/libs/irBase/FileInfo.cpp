@@ -30,14 +30,26 @@ FSText FileInfo::dirLast() const
     return mDirNames.constLast();
 }
 
+QFileInfo FileInfo::toQFileInfo() const
+{
+    return *(QFileInfo *)&(it());
+}
+
 QVariant FileInfo::toVariant() const
 {
-    return isNull() ? QVariant() : QVariant(it());
+    QVariant result;
+    if (full()) result.setValue<QFileInfo>(toQFileInfo());
+    return result;
 }
 
 QString FileInfo::toString(const StringOptions aOptions) const
 {
     QString result;
+    if (null())
+    {
+        result = "{NULL}";
+        return result;                                          /*/=====\*/
+    }
     if (aOptions.testFlag(CompleteBaseName))
         result.append(" " + completeBaseName() + " ");
     if (aOptions.testFlag(NullFull))

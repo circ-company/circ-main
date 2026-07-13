@@ -16,14 +16,15 @@ class BaseFile : public QObject
 {
     Q_OBJECT
 public: // types
+    typedef QIODeviceBase::OpenMode Mode;
 
 public: // ctors
     BaseFile(QObject * parent=nullptr);
     BaseFile(const FileInfo &aFI,
-             const QIODevice::OpenMode mMode=QIODevice::NotOpen,
+             const Mode mMode=QIODevice::NotOpen,
              QObject * parent=nullptr);
     BaseFile(const FSText &aFName,
-             const QIODevice::OpenMode mMode=QIODevice::NotOpen,
+             const Mode mMode=QIODevice::NotOpen,
              QObject * parent=nullptr);
     ~BaseFile();
 
@@ -34,8 +35,8 @@ public slots:
 
 signals:
     void infoSet(const FileInfo &fi, const bool exists);
-    void modeSet(const FileInfo &fi, const QIODevice::OpenMode mode);
-    void opened(const FileInfo &fi, const QIODevice::OpenMode mode);
+    void modeSet(const FileInfo &fi, const Mode mode);
+    void opened(const FileInfo &fi, const Mode mode);
     void closed(const FileInfo &fi);
     void dataRead(const FileInfo &fi, const Count byteCount, const Index seekIndex);
     void dataWritten(const FileInfo &fi, const Count byteCount, const Index seekIndex);
@@ -44,8 +45,8 @@ public: // const
     bool isNull() const;
     FileInfo fileInfo() const;
     QString error() const;
-    QIODevice::OpenMode mode() const;
-    QIODevice::OpenMode fileMode() const;
+    Mode mode() const;
+    Mode fileMode() const;
     bool exists() const;
     bool isOpen() const;
     bool isClosed() const;
@@ -57,8 +58,8 @@ public: // const
 
 public: // non-const
     virtual void set(const QByteArray &bytes);
-    virtual void set(const QIODevice::OpenMode aMode) = 0;
-    virtual bool open(const QIODevice::OpenMode aMode=QIODevice::NotOpen);
+    virtual void set(const Mode aMode) = 0;
+    virtual bool open(const Mode aMode=QIODevice::NotOpen);
     virtual bool read();
     bool write();
     void error(const QString aMsg);
@@ -71,8 +72,8 @@ public: // pointers
 
 protected:
     FileInfo mFileInfo;
-    QIODevice::OpenMode mOpenMode=QIODevice::NotOpen;
-    QIODevice::OpenMode mCurrentMode=QIODevice::NotOpen;
+    Mode mOpenMode=QIODevice::NotOpen;
+    Mode mCurrentMode=QIODevice::NotOpen;
     QFile * mpFile=nullptr;
     QString mErrorMessage;
     QByteArray mBytes;
@@ -82,8 +83,8 @@ protected:
 inline bool BaseFile::isNull() const { return mFileInfo.null(); }
 inline FileInfo BaseFile::fileInfo() const { return isNull() ? FileInfo() : mFileInfo; }
 inline QString BaseFile::error() const { return mErrorMessage; }
-inline QIODevice::OpenMode BaseFile::mode() const { return mOpenMode; }
-inline QIODevice::OpenMode BaseFile::fileMode() const { return mCurrentMode; }
+inline BaseFile::Mode BaseFile::mode() const { return mOpenMode; }
+inline BaseFile::Mode BaseFile::fileMode() const { return mCurrentMode; }
 inline bool BaseFile::exists() const { return fileInfo().exists(); }
 inline bool BaseFile::isOpen() const { return mpFile ? mpFile->isOpen() : false; }
 inline bool BaseFile::isClosed() const  { return ! isOpen(); }

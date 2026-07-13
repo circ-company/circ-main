@@ -66,8 +66,10 @@ public: // const
     FSText dirFirst(const qsizetype k) const;
     FSText dirFirst(const qsizetype k, const char ch) const;
     FSText dirLast() const;
+    QFileInfo toQFileInfo() const;
     QString toString(const StringOptions aOptions=StringOptions(BasicFilePath | Status)) const;
     QVariant toVariant() const;
+    operator QVariant () const;
 
 public: // non-const
     void clear();
@@ -87,6 +89,8 @@ public: // QMetaType
     FileInfo &operator=(const FileInfo &) = default;
 };
 
+
 Q_DECLARE_OPERATORS_FOR_FLAGS(FileInfo::StringOptions);
 Q_DECLARE_METATYPE(FileInfo);
 
+inline FileInfo::operator QVariant() const { return toVariant(); }

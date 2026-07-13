@@ -23,11 +23,11 @@ public: // const
     bool isEmpty(void) const { return mNameTDMap.isEmpty(); }
     int size(void) const { return mNameTDMap.size(); }
     bool contains(const T & t) const { return mNameTDMap.contains(t); }
-    bool contains(const CText &name) const { return mNameTDMap.contains(name.toLower()); }
+    bool contains(const CText &name) const { return mNameTDMap.contains(name); }
     CText name(const T & t) const { return mNameTDMap.a(t); }
     T value(const CText &name) const { return mNameTDMap.b(name); }
     T value(const T &t) const { return mNameTDMap.a(t); }
-    void insert(const T & t, const CText &name) { mNameTDMap.insert(name.toLower(), t); }
+    void insert(const T & t, const CText &name) { mNameTDMap.insert(name, t); }
     T first(const T & t1) const { (void)t1; return isEmpty() ? T() : mNameTDMap.constBegin().key(); }
     CTextList names(void) const { return mNameTDMap.aList(); }
     TList values() const { return mNameTDMap.bList(); }

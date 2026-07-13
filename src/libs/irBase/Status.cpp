@@ -15,23 +15,3 @@ void Status::set(const StatusLevel aLevel, const AText &aMsg)
     level(aLevel), message(aMsg);
 }
 
-void Status::set(const StatusLevel aLevel, const AText &aFmt,
-                 const QVariantList &aVars)
-{
-    const AText cText = AText::format(aFmt, aVars);
-    set(aLevel, cText);
-}
-
-void Status::set(const StatusLevel aLevel, const AText &aFmt,
-                 const QVariant &aVar1, const QVariant &aVar2,
-                 const QVariant &aVar3, const QVariant &aVar4)
-{
-    QVariantList tQVL;
-    tQVL << aVar1;
-    if (aVar2.isValid())    tQVL << aVar2;
-    if (aVar3.isValid())    tQVL << aVar3;
-    if (aVar2.isValid())    tQVL << aVar4;
-    set(aLevel, aFmt, tQVL);
-}
-
-
