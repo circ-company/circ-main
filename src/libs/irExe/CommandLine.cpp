@@ -1,3 +1,8 @@
 #include "CommandLine.h"
 
-CommandLine::CommandLine() {}
+
+CommandLine::CommandLine(ExeSupport *pExe)
+    : mpExeSupport(pExe)
+{
+
+}

@@ -54,7 +54,6 @@ public: // const
     Count count() const;
     Index seekIndex() const;
     QByteArray bytes() const;
-    AText text() const;
 
 public: // non-const
     virtual void set(const QByteArray &bytes);
@@ -77,7 +76,6 @@ protected:
     QFile * mpFile=nullptr;
     QString mErrorMessage;
     QByteArray mBytes;
-    AText mText;
 };
 
 inline bool BaseFile::isNull() const { return mFileInfo.null(); }

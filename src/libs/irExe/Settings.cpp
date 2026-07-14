@@ -1,3 +1,7 @@
 #include "Settings.h"
 
-Settings::Settings() {}
+Settings::Settings(ExeSupport *pExe)
+    : mpExeSupport(pExe)
+{
+
+}

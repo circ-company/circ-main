@@ -11,8 +11,11 @@ SOURCES += \
     Action.cpp \
     ActionManager.cpp \
     CommandLine.cpp \
-    ExeObject.cpp \
+    Configuration.cpp \
+    ExeSupport.cpp \
     ObjectHelper.cpp \
+    Option.cpp \
+    Options.cpp \
     Settings.cpp \
     irExe.cpp
 
@@ -20,8 +23,11 @@ HEADERS += \
     Action.h \
     ActionManager.h \
     CommandLine.h \
-    ExeObject.h \
+    Configuration.h \
+    ExeSupport.h \
     ObjectHelper.h \
+    Option.h \
+    Options.h \
     Settings.h \
     irExe_global.h \
     irExe.h

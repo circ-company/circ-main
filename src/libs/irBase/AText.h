@@ -2,6 +2,7 @@
 
 #include <QtLogging>
 #include <QByteArray>
+#include <QByteArrayView>
 #include <QList>
 #include <QMetaType>
 #include <QString>
@@ -51,6 +52,7 @@ public: // const
     QString toString() const;
     operator QString() const;
     QString operator () () const;
+    QByteArray toQBA() const;
     QByteArrayView toQBAV() const;
     bool equals(const AText &rhs) const;
     bool like(const AText &rhs, const Modify mod) const;
@@ -120,7 +122,7 @@ Q_DECLARE_METATYPE(AText);
 inline QString AText::toString() const { return QString(constData()); }
 inline AText::operator QString () const { return toString(); }
 inline QString AText::operator () () const { return toString(); }
-
+inline QByteArray AText::toQBA() const { return QByteArray(it()); }
 inline QByteArrayView AText::toQBAV() const { return QByteArrayView(it()); }
 inline bool AText::operator ==(const AText &rhs) const { return equals(rhs); }
 inline bool AText::operator <(const AText &rhs) const { return less(rhs); }

@@ -81,6 +81,7 @@ HEADERS += \
     KeyMap.h \
     KeySeg.h \
     KeySegList.h \
+    KeySegMap.h \
     KeyVarMap.h \
     List.h \
     MetaType.h \

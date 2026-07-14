@@ -11,6 +11,7 @@ include(../../useTypes.pri)
 SOURCES += \
     BaseFile.cpp \
     DataFile.cpp \
+    JsonFile.cpp \
     NameFilters.cpp \
     TextFile.cpp \
     irStore.cpp
@@ -18,6 +19,7 @@ SOURCES += \
 HEADERS += \
     BaseFile.h \
     DataFile.h \
+    JsonFile.h \
     NameFilters.h \
     TextFile.h \
     irStore_global.h \

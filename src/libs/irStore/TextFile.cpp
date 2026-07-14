@@ -4,7 +4,8 @@
 
 #include <Log.h>
 
-TextFile::TextFile()
+TextFile::TextFile(QObject *parent)
+    : BaseFile(parent)
 {
     setObjectName("TextFile:Null");
 }
@@ -62,4 +63,10 @@ bool TextFile::read()
         mText.set(mBytes);
     FNRETURN(result);
     return result;
+}
+
+AText TextFile::data()
+{
+    mText = AText(BaseFile::bytes());
+    return mText;
 }
