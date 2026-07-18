@@ -233,6 +233,11 @@ void VersionInfo::set(const quint8 maj, const quint16 min,
     setWindows();
 }
 
+void VersionInfo::appname(const QString &app)
+{
+    data->d_appname = app;
+}
+
 void VersionInfo::company(const QString &co)
 {
     data->d_company = co;

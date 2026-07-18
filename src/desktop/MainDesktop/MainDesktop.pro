@@ -3,20 +3,21 @@ QT *= gui
 QT *= widgets
 QT *= xml
 
-include("../desktop.pri")
-include("../../useBase.pri")
-include("../../useMatGeo.pri")
-include("../../useCVCore.pri")
-include("../../useCVobjdetect.pri")
-include("../../useQNetwork.pri")
-include("../../useQCore.pri")
-include("../../useTypes.pri")
-include("../../useLog.pri")
-include("../../useQGui.pri")
-include("../../useQWidgets.pri")
-include("../../useStore.pri")
-include("../../useImage.pri")
+include(../desktop.pri)
+include(../../useBase.pri)
+include(../../useLog.pri)
+include(../../useMatGeo.pri)
+include(../../useQNetwork.pri)
+include(../../useQCore.pri)
+include(../../useStore.pri)
+include(../../useTypes.pri)
+include(../../useExe.pri)
 include(../../useQXml.pri)
+include(../../useQGui.pri)
+include(../../useQWidgets.pri)
+include(../../useImage.pri)
+include(../../useCVCore.pri)
+include(../../useCVobjdetect.pri)
 include(../../QtCVobjdetect.pri)
 
 SOURCES += \
@@ -25,8 +26,10 @@ SOURCES += \
     MainWindow.cpp
 
 HEADERS += \
+    ../../version.h \
     Application.h \
-    MainWindow.h
+    MainWindow.h \
+    version.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

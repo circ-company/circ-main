@@ -3,6 +3,11 @@
 TriBool::TriBool() : mValue(false), mValid(false) {;}
 TriBool::TriBool(const bool is) : mValue(is), mValid(true) {;}
 
+void TriBool::expect(const bool is)
+{
+    if ( ! is) reset();
+}
+
 bool TriBool::andEqual(const TriBool &other)
 {
     if (valid() && other.valid())

@@ -68,6 +68,7 @@ public: // non-const
              const quint16 bch, const quint16 bld, const char * bnm,
              const char * app, const char * org,
              const char * proddesc);
+    void appname(const QString &app);
     void company(const QString &co);
     void copyright(const QString &co);
     void legal(const QString &leg);

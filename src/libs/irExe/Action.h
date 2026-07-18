@@ -20,7 +20,7 @@ public: // non-const
 
 public: // pointer
     Id & id();
-    Id & id() const;
+    const Id id() const;
 
 public: // static
     static QString ampify(const Key &key);
@@ -31,3 +31,6 @@ private:
     Id mId;
     QAction * mpAction=nullptr;
 };
+
+inline Id &Action::id() { return mId; }
+inline const Id Action::id() const { return mId; }

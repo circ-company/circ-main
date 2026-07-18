@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QList>
 #include <QMetaType>
 
 #include <KeySegMap.h>
@@ -9,15 +10,19 @@ class ExeSupport;
 
 class Options
 {
-
 public: // types
+    typedef QList<QCommandLineOption> List;
 
 public: // ctors
     Options(ExeSupport * pExe);
 
 public: // const
+    bool contains(const KeySeg &aName);
+    List optionList() const;
 
 public: // non-const
+    bool add(const Option &aOpt, const bool aOverride=false);
+    bool remove(const KeySeg &aName);
 
 public: // pointers
     ExeSupport * exe();
@@ -41,6 +46,7 @@ public: // QMetaType
 
 Q_DECLARE_METATYPE(Options);
 
+inline bool Options::contains(const KeySeg &aName) { return mNameOptionMap.contains(aName); }
 inline ExeSupport *Options::exe() { Q_CHECK_PTR(mpExeSupport);  return mpExeSupport; }
 
 

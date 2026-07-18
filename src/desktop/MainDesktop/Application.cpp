@@ -13,6 +13,7 @@
 
 Application::Application(int &argc, char **argv)
     : QQApplication(argc, argv)
+    , mExeSupport("MainDesktop", this)
 {
     LOG->initialize();
     FNENTER()

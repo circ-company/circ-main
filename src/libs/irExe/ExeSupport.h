@@ -4,9 +4,10 @@
 
 class KeySeg;
 
-
+#include <VersionInfo.h>
 class CommandLine;
 class Configuration;
+class Option;
 class Options;
 class Settings;
 
@@ -14,14 +15,14 @@ class ExeSupport : public QObject
 {
     Q_OBJECT
 public:
-    explicit ExeSupport(QObject *parent = nullptr);
+    explicit ExeSupport(const QString &aAppName, QObject *parent = nullptr);
 
 public slots:
-    void addOption(const KeySeg &aSeg);
-
 
 signals:
 
+public: // const
+    VersionInfo ver() const;
 
 public: // pointers
     CommandLine * cmdl();
@@ -29,15 +30,15 @@ public: // pointers
     Options * opts();
     Settings * stgs();
 
-
-
 private:
     CommandLine * mpCommandLine=nullptr;
     Configuration * mpConfiguration=nullptr;
     Options * mpOptions=nullptr;
     Settings * mpSettings=nullptr;
+    VersionInfo mVersionInfo;
 };
 
+inline VersionInfo ExeSupport::ver() const { return mVersionInfo; }
 inline CommandLine *ExeSupport::cmdl() { return mpCommandLine; }
 inline Configuration *ExeSupport::cfg() { return mpConfiguration; }
 inline Options *ExeSupport::opts() { return mpOptions; }

@@ -7,6 +7,7 @@
 #include <QImage>
 #include <QTimer>
 
+#include <ExeSupport.h>
 #include <FileInfo.h>
 #include <FileInfoList.h>
 class cvODCatalog;
@@ -43,6 +44,7 @@ public: // pointers
     QDir mainDir(); // arg[1]
 
 private:
+    ExeSupport mExeSupport;
     MainWindow * mpMainWindow=nullptr;
     cvODCatalog * mpCatalog=nullptr;
     QDir mMainDir; // arg[1]

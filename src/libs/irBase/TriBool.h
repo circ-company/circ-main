@@ -18,6 +18,7 @@ public: // const
 
 public: // non-const
     void set(const bool is=true);
+    void expect(const bool is);
     void reset();
     void nullify();
     void invalidate();
