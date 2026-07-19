@@ -39,7 +39,8 @@ void LogEngine::enqueue(LogItem li)
     const StatusLevel cLevel = li.level();
     switch (cType)
     {
-    case Type::Dump:
+    case Type::Dump:        Q_FALLTHROUGH();
+    case Type::Function:    Q_FALLTHROUGH();
     case Type::MessageOnly:                             break;
     case Type::Malloc:      Q_FALLTHROUGH();
     case Type::Assert:      Q_FALLTHROUGH();

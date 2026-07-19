@@ -2,8 +2,6 @@
 
 #include <QString>
 
-//#include "Types.h"
-
 ATextList::ATextList(const AText::List &other) : AText::List(other) {;}
 ATextList::ATextList(const QByteArrayList &other) { set(other); }
 ATextList::ATextList(const QStringList &other) { set(other); }
@@ -92,7 +90,7 @@ ATextList ATextList::toList(const PairList atxlpr, const char assign)
     ATextList result;
     foreach (const AText::Pair cAtxp, atxlpr)
     {
-        const AText cAtx = cAtxp.first + assign + cAtxp.second;
+        const AText cAtx = cAtxp.first + AText(assign) + cAtxp.second;
         result << cAtx;
     }
     return result;
@@ -108,7 +106,7 @@ ATextList ATextList::toList(const PairMMap atxlMm, const char assign)
         mmit.next();
         const AText cKey = mmit.key();
         const AText cVal = mmit.value();
-        const AText cAtx = cKey + assign + cVal;
+        const AText cAtx = cKey + AText(assign) + cVal;
         result << cAtx;
     }
     return result;
