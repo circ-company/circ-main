@@ -5,7 +5,6 @@
 #include <QRandomGenerator>
 
 #include "KeySeg.h"
-#include "NanosecondTime.h"
 #include "XText.h"
 
 //DWORD smMacAddress24 = 0;
@@ -136,47 +135,6 @@ OWORD Uid::oword() const
 Uid::Version Uid::ver() const
 {
     return Version(segment(SegmentC) >> 12);
-}
-
-Nanoseconds Uid::nsecs() const
-{
-    Nanoseconds result = -1;
-    DWORD tLow = 0, tMid = 0, tHi = 0;
-    switch (ver())
-    {
-    case Uid::VerGTimeseqNode1:
-        tLow = segment(SegmentA);
-        tMid = segment(SegmentB);
-        tHi  = segment(SegmentC);
-        result += tHi  << (segmentBitLength(SegmentA) + segmentBitLength(SegmentB));
-        result += tMid <<  segmentBitLength(SegmentA);
-        result += tLow;
-        result *= 100;
-        result += NanosecondTime::gregorianOffset();
-        break;
-
-    case Uid::VerGTimeseqNode6:
-        tLow = segment(SegmentC);
-        tMid = segment(SegmentB);
-        tHi  = segment(SegmentA);
-        result += tHi  << (segmentBitLength(SegmentB) + segmentBitLength(SegmentC));
-        result += tMid <<  segmentBitLength(SegmentC);
-        result += tLow;
-        result *= 100;
-        result += NanosecondTime::gregorianOffset();
-        break;
-
-    case Uid::VerUTimeseqRandom:
-        tHi  = segment(SegmentA);
-        tLow = segment(SegmentB);
-        result = ((tHi << 16) + tLow) * NanosecondTime::nanoFactor();
-        break;
-
-    default:
-        // no time info in these versions
-        break;
-    }
-    return result;
 }
 #endif
 

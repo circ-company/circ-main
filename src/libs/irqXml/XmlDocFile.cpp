@@ -1,4 +1,4 @@
-#include "XmlDocument.h"
+#include "XmlDocFile.h"
 
 #include <QCoreApplication>
 
@@ -6,9 +6,9 @@
 #include <TextFile.h>
 #include <Log.h>
 
-XmlDocument::XmlDocument(const FileInfo &aFI) : mpFile(nullptr) { set(aFI); }
+XmlDocFile::XmlDocFile(const FileInfo &aFI) : mpFile(nullptr) { set(aFI); }
 
-bool XmlDocument::isOpen() const
+bool XmlDocFile::isOpen() const
 {
     bool result = false;
     if (mpFile && mpFile->isOpen())
@@ -16,7 +16,7 @@ bool XmlDocument::isOpen() const
     return result;
 }
 
-bool XmlDocument::set(const FileInfo &aFI)
+bool XmlDocFile::set(const FileInfo &aFI)
 {
     FNENTER();
     FNARG(aFI);
@@ -30,7 +30,7 @@ bool XmlDocument::set(const FileInfo &aFI)
     return result;
 }
 
-Status XmlDocument::open(const QIODeviceBase::OpenMode aMode)
+Status XmlDocFile::open(const QIODeviceBase::OpenMode aMode)
 {
     FNENTER();
     FNARGT(aMode, int);
@@ -67,7 +67,7 @@ Status XmlDocument::open(const QIODeviceBase::OpenMode aMode)
     return status;
 }
 
-void XmlDocument::close()
+void XmlDocFile::close()
 {
     FNENTER();
     if (mpFile)
@@ -80,7 +80,7 @@ void XmlDocument::close()
     FNRTNVOID();
 }
 
-Status XmlDocument::read()
+Status XmlDocFile::read()
 {
     FNENTER();
     Status status;
@@ -95,7 +95,7 @@ Status XmlDocument::read()
     return status;
 }
 
-Status XmlDocument::parse()
+Status XmlDocFile::parse()
 {
     FNENTER();
     Status status;
@@ -116,7 +116,7 @@ Status XmlDocument::parse()
     return status;
 }
 
-bool XmlDocument::parse(const XmlElement &aParentXE, const Key &aParentKey)
+bool XmlDocFile::parse(const XmlElement &aParentXE, const Key &aParentKey)
 {
     FNENTER();
     FNARG(aParentXE.tagName());

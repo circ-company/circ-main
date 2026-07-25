@@ -255,7 +255,7 @@ void AText::removeEach(const AText &atx)
 /*static*/ AText AText::formatHeximal(const QVariant aVar)
 {
     AText result;
-    Q_UNUSED(aVar); // TODO AText::formatHeximal()
+    result = QString::number(aVar.toUInt());
     return result;
 }
 

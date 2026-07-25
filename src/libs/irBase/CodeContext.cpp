@@ -3,10 +3,11 @@
 #include <QtDebug>
 #include <QDir>
 
-#include "NanosecondTime.h"
+#include "MillisecondTime.h"
 
 CodeContext::CodeContext(const QString &qfi, const FSText &file, const int line)
-    : mQFIText(qfi)
+    : mEpochMS(MillisecondTime::current())
+    , mQFIText(qfi)
     , mFileName(file)
     , mFileLine(line)
     , mFuncInfo(mQFIText)
@@ -23,20 +24,19 @@ FSText CodeContext::baseFileName() const
     return result;
 }
 
-AText CodeContext::toString(const bool withTime) const
+AText CodeContext::toString() const
 {
     AText result('{');
     result.append(QString("%1(%2) %3")
                        .arg(baseFileName()())
                        .arg(fileLine(), 4, 10, u'0')
                        .arg(qfiText()()));
-    if (withTime) result += " " + NSTime().timeString();
     return result + AText('}');
 }
 
 void CodeContext::clear()
 {
-    mEpochNS = 0;
+    mEpochMS = 0;
     mQFIText.clear();
     mFileName.clear();
     mFileLine = 0;
@@ -46,10 +46,9 @@ void CodeContext::clear()
 
 QString CodeContext::toDebugString(const bool timeFirst) const
 {
-    const NanosecondTime cNST(mEpochNS);
     return timeFirst
-      ? QString("{@%1 %2(%3) %4 in %5}")
-              .arg(cNST.timeString())
+      ? QString("{@%1: {%2(%3) %4 in %5}")
+              .arg(MillisecondTime(mEpochMS).timeString(true))
               .arg(mFileInfo.completeBaseName())
               .arg(mFileLine, 4, 10, u'0')
               .arg(mQFIText())
@@ -58,7 +57,7 @@ QString CodeContext::toDebugString(const bool timeFirst) const
                 .arg(mFileInfo.completeBaseName())
                 .arg(mFileLine, 4, 10, u'0')
                 .arg(mQFIText())
-                .arg(NanosecondTime(mEpochNS).timeString())
+                .arg(MillisecondTime(mEpochMS).timeString(true))
                 .arg(mFileInfo.dir().path());
 }
 
@@ -66,7 +65,7 @@ QStringList CodeContext::toDebugStrings() const
 {
     QStringList result;
     result << QString("{==Code Context:           %1")
-                  .arg(NanosecondTime(mEpochNS).timeString());
+                  .arg(MillisecondTime(mEpochMS).timeString(true));
     result << QString("---File:                   %1.%2(%3)")
                   .arg(mFileInfo.completeBaseName())
                   .arg(mFileInfo.completeSuffix())

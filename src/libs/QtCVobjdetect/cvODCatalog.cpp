@@ -38,7 +38,6 @@ Status cvODCatalog::read()
     if (status.level().notError())
     {
         status = mXmlDocument.open(QIODevice::ReadOnly | QIODevice::ExistingOnly);
-
     }
     if (status.level().notError())
     {

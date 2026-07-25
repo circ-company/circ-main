@@ -4,7 +4,6 @@
 #include "FSText.h"
 #include "FileInfo.h"
 #include "FunctionInfo.h"
-#include "NanosecondTime.h"
 #include "Types.h"
 
 class CodeContext
@@ -14,19 +13,16 @@ public: // ctors
 
 public: // const
     bool isNull() const;
-    Nanoseconds epochNS() const;
-    NanosecondTime NSTime() const;
     CText qfiText() const;
     FSText baseFileName() const;
     FSText fileName() const;
     int fileLine() const;
     FunctionInfo funcInfo() const;
     FileInfo fileInfo() const;
-    AText toString(const bool withTime=true) const;
+    AText toString() const;
 
 public: // non-const
     void clear();
-    void epochNS(const Nanoseconds aENS);
 
 public: // pointers
 
@@ -35,7 +31,7 @@ public: // debug
     QStringList toDebugStrings() const;
 
 private:
-    Nanoseconds mEpochNS=0;
+    Milliseconds mEpochMS=0;
     CText mQFIText;
     FSText mFileName;
     int mFileLine=0;
@@ -51,15 +47,11 @@ public: // QMetaType
     CodeContext &operator=(const CodeContext &) = default;
 };
 
-inline bool CodeContext::isNull() const { return 0 == epochNS(); }
-inline Nanoseconds CodeContext::epochNS() const { return mEpochNS; }
-inline NanosecondTime CodeContext::NSTime() const { return NanosecondTime(epochNS()); }
 inline CText CodeContext::qfiText() const { return mQFIText; }
 inline FSText CodeContext::fileName() const { return mFileName; }
 inline int CodeContext::fileLine() const { return mFileLine; }
 inline FunctionInfo CodeContext::funcInfo() const { return mFuncInfo; }
 inline FileInfo CodeContext::fileInfo() const { return mFileInfo; }
-inline void CodeContext::epochNS(const Nanoseconds aENS) { mEpochNS = aENS; }
 
 Q_DECLARE_METATYPE(CodeContext);
 

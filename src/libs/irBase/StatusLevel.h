@@ -5,7 +5,6 @@
 #include "CText.h"
 #include "Named.h"
 
-
 class StatusLevel
 {
 public: // types

@@ -12,14 +12,16 @@ include(../../useStore.pri)
 
 SOURCES += \
     ValueElement.cpp \
-    XmlDocument.cpp \
+    XmlDocFile.cpp \
+    XmlDocObject.cpp \
     XmlElement.cpp \
     XmlElementList.cpp \
     irqXml.cpp
 
 HEADERS += \
     ValueElement.h \
-    XmlDocument.h \
+    XmlDocFile.h \
+    XmlDocObject.h \
     XmlElement.h \
     XmlElementList.h \
     irqXml_global.h \

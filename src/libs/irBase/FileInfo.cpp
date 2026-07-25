@@ -1,11 +1,11 @@
 #include "FileInfo.h"
 
 FileInfo::FileInfo(const QFileInfo &other)
-    : QFileInfo(other), Null(false) { setDirs(); }
+    : QFileInfo(other), Null(false) { setup(); }
 FileInfo::FileInfo(const FSText &filePathName)
-    : QFileInfo(filePathName), Null(false) { setDirs(); }
+    : QFileInfo(filePathName), Null(false) { setup(); }
 FileInfo::FileInfo(const QDir &dir, const QString &fileName)
-    : QFileInfo(dir, fileName), Null(false) { setDirs(); }
+    : QFileInfo(dir, fileName), Null(false) { setup(); }
 
 bool FileInfo::exists() const
 {
@@ -67,15 +67,67 @@ QString FileInfo::toString(const StringOptions aOptions) const
     return result;
 }
 
+QStringList FileInfo::toStringList(const StringOptions aOptions) const
+{
+    Q_UNUSED(aOptions); // TODO use aOptions
+    QStringList result;
+    if (null())
+    {
+        result << QString("{FileInfo: <null>}");
+        return result;
+    }
+    result << QString("{FileInfo:               %1").arg(toString(FileName));
+    result << QString("---AbsolutePath:         %1").arg(toString(AbsolutePath));
+    result << QString("---Creation:             %1").arg(fileTime(QFileDevice::FileBirthTime).toString("DyyyyMMdd-Thhmmsszzz"));
+    result << QString("---Modified:             %1").arg(fileTime(QFileDevice::FileModificationTime).toString("DyyyyMMdd-Thhmmsszzz"));
+    result << QString("---MetaData:             %1").arg(fileTime(QFileDevice::FileMetadataChangeTime).toString("DyyyyMMdd-Thhmmsszzz"));
+    result << QString("---Accessed:             %1").arg(fileTime(QFileDevice::FileAccessTime).toString("DyyyyMMdd-Thhmmsszzz"));
+    result << QString("---Attributes:           %1").arg(attributeFlags());
+    result << QString("---Status:               %1}").arg(statusFlags());
+    return result;
+}
+
 void FileInfo::clear()
 {
     QFileInfo::setFile("");
     Null::nullify();
 }
 
-void FileInfo::setDirs()
+QString FileInfo::attributeFlags() const
+{
+    QStringList results;
+    if (mOptions.testFlag(Exists))          results << "Exists";
+    if (mOptions.testFlag(Readable))        results << "Readable";
+    if (mOptions.testFlag(Writable))        results << "Writable";
+    if (mOptions.testFlag(Executable))      results << "Executable";
+    return results.join(' ');
+}
+
+QString FileInfo::statusFlags() const
+{
+    QStringList results;
+    if (null())                             results << "Null";
+    if (mOptions.testFlag(Dir))             results << "Dir";
+    if (mOptions.testFlag(File))            results << "File";
+    if (mOptions.testFlag(Hidden))          results << "Hidden";
+    if (mOptions.testFlag(Root))            results << "Root";
+    if (mOptions.testFlag(Absolute))        results << "Absolute";
+    return results.join(' ');
+}
+
+void FileInfo::setup()
 {
     FSText tDirNameText = dir().path();
     mDirNames = tDirNameText.split('/');
+    if (exists())           mOptions.setFlag(Exists);
+    if (isReadable())       mOptions.setFlag(Readable);
+    if (isWritable())       mOptions.setFlag(Writable);
+    if (isExecutable())     mOptions.setFlag(Executable);
+    if (isFile())           mOptions.setFlag(File);
+    if (isDir())            mOptions.setFlag(Dir);
+    if (isHidden())         mOptions.setFlag(Hidden);
+    if (isRoot())           mOptions.setFlag(Root);
+    if (isAbsolute())       mOptions.setFlag(Absolute);
+
 }
 

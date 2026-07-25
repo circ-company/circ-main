@@ -3,7 +3,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS +=              \
-    desktop/irView \
     libs/irBase         \
     libs/irLog          \
     libs/irMatGeo       \

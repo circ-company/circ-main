@@ -6,7 +6,7 @@
 #include <KeyMap.h>
 #include <Status.h>
 #include <Url.h>
-#include <XmlDocument.h>
+#include <XmlDocFile.h>
 
 #include "cvODCatalogEntry.h"
 
@@ -36,7 +36,7 @@ public: // non-const
 
 private:
     FileInfo mFileInfo;
-    XmlDocument mXmlDocument;
+    XmlDocFile mXmlDocument;
     KeyMapT<cvODCatalogEntry> mEntryMap;
 };
 

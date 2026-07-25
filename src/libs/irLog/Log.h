@@ -28,6 +28,10 @@
           { LOGITEM(Log::Dump, StatusLevel::DumpVar, CODECONTEXT()); \
             QVariant qv; qv.setValue<T>(var); \
             li.dumpVar(qv, #var); LOG->enqueue(li); }
+#define DUMPQSL(qsl)   \
+          { LOGITEM(Log::Dump, StatusLevel::DumpVar, CODECONTEXT()); \
+            foreach(const QString cQS, qsl) \
+{ li.set(AText(cQS)); LOG->enqueue(li); } }
 
 #define PROGMSG(msg)        MESSAGELI(StatusLevel::Progress, msg);
 

@@ -47,9 +47,10 @@ void Application::initialize()
     QDir tDir = QDir::currentPath();
     tDir.cd("../Detectors");
     DUMPVAR(tDir.absoluteFilePath("Detectors.xml"));
-    const FileInfo cCatFI(tDir, "Detectors/Detectors.xml");
-    const Url cCatUrl(QUrl::fromLocalFile("../Detectors/Detectors.xml").toString(), Url::File);
-    DUMPVAR(cCatFI);
+    const FileInfo cCatFI(tDir, "Detectors.xml");
+//    const Url cCatUrl(QUrl::fromLocalFile("../Detectors/Detectors.xml").toString(), Url::File);
+    DUMPVAR(cCatFI.toString());
+    DUMPQSL(cCatFI.toStringList());
 
     mpCatalog = new cvODCatalog(cCatFI, this);
     NEWOBJ(mpCatalog, cvODCatalog, this);

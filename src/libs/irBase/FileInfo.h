@@ -7,6 +7,7 @@
 #include <QDir>
 #include <QMetaType>
 #include <QString>
+#include <QStringList>
 #include <QVariant>
 
 #include "FSText.h"
@@ -68,17 +69,26 @@ public: // const
     FSText dirLast() const;
     QFileInfo toQFileInfo() const;
     QString toString(const StringOptions aOptions=StringOptions(BasicFilePath | Status)) const;
+    QStringList toStringList(const StringOptions aOptions=StringOptions(0)) const;
     QVariant toVariant() const;
     operator QVariant () const;
 
 public: // non-const
     void clear();
 
+private: // const
+    QString attributeFlags() const;
+    QString statusFlags() const;
+
 private: // non-const
-    void setDirs();
+    void setup();
+
+private: // static
+    static QString stringOption(const StringOption aOpt);
 
 private:
     FSTextList mDirNames;
+    StringOptions mOptions;
 
 public: // QMetaType
     FileInfo & it() { return *this; }

@@ -1,16 +1,13 @@
 #include "RandomGenerator.h"
 
+#include <QDateTime>
 #include <QTimer>
-
-#include "NanosecondTime.h"
 
 RandomGenerator::RandomGenerator(QObject *parent)
     : QObject{parent}
 {
     setObjectName("RandomGenerator");
-    const NanosecondTime cNsecTime(Nanoseconds(0));
-    const Nanoseconds cNsecNow = cNsecTime.value();
-    const DWORD cSeed = DWORD(cNsecNow);
+    const DWORD cSeed = DWORD(QDateTime::currentMSecsSinceEpoch());
     initialize(cSeed);
 }
 

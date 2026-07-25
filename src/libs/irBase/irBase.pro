@@ -34,7 +34,6 @@ SOURCES += \
     KeyVarMap.cpp \
     MetaType.cpp \
     MillisecondTime.cpp \
-    NanosecondTime.cpp \
     Null.cpp \
     QCoreTypeFormat.cpp \
     QGuiTypeFormat.cpp \
@@ -87,7 +86,6 @@ HEADERS += \
     MetaType.h \
     MillisecondTime.h \
     Named.h \
-    NanosecondTime.h \
     Null.h \
     QCoreTypeFormat.h \
     QGuiTypeFormat.h \

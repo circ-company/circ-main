@@ -6,6 +6,7 @@
 #include "ATextList.h"
 #include "Key.h"
 #include "KeyList.h"
+#include "UText.h"
 
 template <typename T>
 class KeyMapT : public QMap<Key, T>
@@ -35,6 +36,7 @@ private:
 typedef KeyMapT<QVariant> KeyMap;
 typedef KeyMapT<IdNo> KeyIdNoMap;
 typedef KeyMapT<AText> KeyTextMap;
+typedef KeyMapT<UText> KeyUTextMap;
 
 
 

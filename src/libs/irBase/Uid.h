@@ -136,7 +136,6 @@ public: // const
 #endif
     Version ver() const;
     Milliseconds msecs() const;
-    Nanoseconds nsecs() const;
     DWORD address() const;
 
 public: // non-const

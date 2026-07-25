@@ -3,7 +3,6 @@
 #include <QTextStream>
 
 #include <ATextList.h>
-#include <NanosecondTime.h>
 
 #include "LogMsgType.h"
 
@@ -100,11 +99,9 @@ void LogEngine::sendTroll(const LogItem &li)
     const LogMsgType cLMT = LogMsgType::from(cLevel);
     const char cLmtChar = cLMT.prefix();
     const AText cMsgAtx = li.message();
-    const AText cCtxAtx = li.context().toString(false);
-    const NanosecondTime cNST = li.context().NSTime();
-    const QString cNstStr = cNST.timeString();
-    QString tText = QString("%1 %2(%5): [%3] %4\n")
-                        .arg(cNstStr)                       // %1
+    const AText cCtxAtx = li.context().toString();
+    QString tText = QString("%2(%5): [%3] %4\n")
+                        .arg(0)                       // %1
                         .arg(cLevelString, 12, cLmtChar)   // %2
                         .arg(cMsgAtx(),                     // %3
                              cCtxAtx())                     // %4
