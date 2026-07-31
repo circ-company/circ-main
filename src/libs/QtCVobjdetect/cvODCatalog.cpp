@@ -16,8 +16,36 @@ void cvODCatalog::clear()
     mFileInfo.clear();
 }
 
+void cvODCatalog::read()
+{
+    FNENTER();
+    XmlDocObject tXDO(fileInfo(), this);
+    mFileMap = tXDO.map();
 
+}
 
+void cvODCatalog::injest()
+{
+    FNENTER();
+    mFileMap.enterGroup("ODCatalog");
+    const KeyList cTypeList = mFileMap.levelKeys(1);
+    foreach (const Key cTypeKey, cTypeList)
+        injest(cTypeKey.last());
+    mFileMap.clearGroup();
+    MUSTDO(); // TODO: cvODCatalog::injest()
+}
+
+void cvODCatalog::injest(const KeySeg aType)
+{
+    FNENTER();
+    mFileMap.enterGroup(aType);
+
+    mFileMap.leaveGroup();
+    MUSTDO(); // TODO: cvODCatalog::injest()
+
+}
+
+#if 0
 Status cvODCatalog::read()
 {
     FNENTER()
@@ -70,7 +98,7 @@ Status cvODCatalog::parse()
     STATUS(status);
     return status;
 }
-
+#endif
 cvODCatalog::EntryList cvODCatalog::list(const cvODObjectClass cls, const cvODResourceType type)
 {
     //MUSTDO();

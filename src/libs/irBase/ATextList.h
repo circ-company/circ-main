@@ -27,6 +27,7 @@ public: // ctors
 public: // const
     AText join(const AText atx) const;
     PairList splitPairs(const char ch) const;
+    QStringList toStringList() const;
 
 public: // non-const
     void set(const QByteArrayList &other);
@@ -35,8 +36,6 @@ public: // non-const
     void prependEach(const AText &atx);
 
 public: // pointers
-    ATextList it() const;
-    ATextList & it();
 
 public: // static
     static ATextList hexDump(const QByteArray &ba);
@@ -48,6 +47,8 @@ private: // static
     static AText hexDumpPartLine(const Index ix, const QByteArray &ba);
 
 public: // QMetaType
+    ATextList it() const;
+    ATextList & it();
     ATextList() = default;
     ~ATextList() = default;
     ATextList(const ATextList &) = default;

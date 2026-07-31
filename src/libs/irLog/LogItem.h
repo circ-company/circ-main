@@ -30,6 +30,7 @@ public: // const
     AText message() const;
     AText formatted() const;
     LogMsgType logMessageType() const;
+    bool isFault() const;
 
 public: // non-const
     void clear();
@@ -81,6 +82,8 @@ inline StatusLevel LogItem::level() const { return mLevel; }
 inline LogItem::Type LogItem::type() const { return mType; }
 inline CodeContext LogItem::context() const { return mContext; }
 inline AText LogItem::message() const { return mMessage; }
+
+inline bool LogItem::isFault() const { return level().isFault(); }
 inline void LogItem::level(const StatusLevel aLevel) { mLevel = aLevel; }
 inline void LogItem::set(const AText &msg) { mMessage = msg; }
 inline void LogItem::set(const Log::Operator op) { mOperator = op; }

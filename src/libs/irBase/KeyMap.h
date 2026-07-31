@@ -6,6 +6,8 @@
 #include "ATextList.h"
 #include "Key.h"
 #include "KeyList.h"
+#include "KeySegList.h"
+#include "List.h"
 #include "UText.h"
 
 template <typename T>
@@ -15,19 +17,25 @@ public: // ctors
     KeyMapT() {;}
 
 public: // const
-    KeyList allkeys() const { return QMap<Key, T>::keys(); }
-    KeyList keys(const Key &starts) const;
+    KeyList allkeys() const;
+    KeyList groupKeys(const Key &aGroupKey) const;
+    KeyMapT<T> extract(const Key &aGroupKey) const;
+    KeyList levelKeys(const Count &aLevels) const;
     Key currentGroup() const { return mCurrentGroup; }
     bool containsGroup(const Key &key) const;
 
 public: // non-const
-    bool enterGroup(const Key &key);
-    bool leaveGroup(const Key &key);
+    void enterGroup(const KeySeg &seg) { mCurrentGroup.append(seg); }
+    void leaveGroup() { mCurrentGroup.removeLast(); }
     void clearGroup() { mCurrentGroup.clear(); }
     bool set(const Key &key, const T &t, const bool override=false);
     void import(const ATextList &atxl, const char sep='=', const bool override=false);
 
 public: // pointers
+
+public: // debug
+    QStringList toDebugStrings();
+
 
 private:
     Key mCurrentGroup;
@@ -41,17 +49,48 @@ typedef KeyMapT<UText> KeyUTextMap;
 
 
 template<typename T>
-inline KeyList KeyMapT<T>::keys(const Key &starts) const
+inline KeyList KeyMapT<T>::allkeys() const
+{
+    return QMap<Key, T>::keys();
+}
+
+template<typename T>
+inline KeyList KeyMapT<T>::groupKeys(const Key &aGroupKey) const
 {
     KeyList result;
     const KeyList cAllKeys = KeyMapT<T>::keys();
     foreach (const Key cKey, cAllKeys)
-        if (cKey.startsWith(starts))
+        if (cKey.startsWith(aGroupKey))
             result << cKey;
     return result;
 }
 
+template<typename T>
+inline KeyMapT<T> KeyMapT<T>::extract(const Key &aGroupKey) const
+{
+    KeyMapT<T> result;
+    const KeyList cGroupKeys = KeyMapT<T>::groupKeys(aGroupKey);
+    foreach (const Key cKey, cGroupKeys)
+    {
+        const T cValue = KeyMapT<T>::value(cKey);
+        result.insert(cKey, cValue);
+    }
+    return result;
+}
 
+template<typename T>
+inline KeyList KeyMapT<T>::levelKeys(const Count &aLevels) const
+{
+    KeyList result;
+    const KeyList cAllKeys = KeyMapT<T>::keys();
+    foreach (const Key cKey, cAllKeys)
+    {
+        const KeySegList cStart(cKey.constFirst(aLevels));
+        if ( ! result.contains(cStart))
+            result << cStart;
+    }
+    return result;
+}
 
 template<typename T>
 inline bool KeyMapT<T>::containsGroup(const Key &key) const
@@ -83,5 +122,15 @@ inline bool KeyMapT<T>::set(const Key &key, const T &t, const bool override)
     {
         return false;
     }
+}
 
+template<typename T>
+inline QStringList KeyMapT<T>::toDebugStrings()
+{
+    QStringList result;
+    const KeyList cKeyList = allkeys();
+    foreach (const Key cKey, cKeyList)
+        result << QString("%1 = %2").arg(cKey, -32)
+                      .arg(KeyMapT<T>::value(cKey)());
+    return result;
 }

@@ -6,7 +6,7 @@
 #include <KeyMap.h>
 #include <Status.h>
 #include <Url.h>
-#include <XmlDocFile.h>
+#include <XmlDocObject.h>
 
 #include "cvODCatalogEntry.h"
 
@@ -22,6 +22,8 @@ public: // c'tor
 
 public slots:
     void clear();
+    void read();
+    void injest();
 
 signals:
 
@@ -31,12 +33,14 @@ public: // const
 
 public: // non-const
     void set(const FileInfo aFI);
-    Status read();
-    Status parse();
+    void injest(const KeySeg aType);
+
+
+private: // non-const
 
 private:
     FileInfo mFileInfo;
-    XmlDocFile mXmlDocument;
+    KeyTextMap mFileMap;
     KeyMapT<cvODCatalogEntry> mEntryMap;
 };
 

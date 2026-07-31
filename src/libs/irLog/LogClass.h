@@ -3,6 +3,7 @@
 #include <QObject>
 
 #include <QtDebug>
+#include <QVariant>
 
 #include <StatusLevel.h>
 
@@ -33,7 +34,6 @@ public: // types
         False,
         Is,
         Not,
-        Invert,
         Equal,
         NotEqual,
         Less,
@@ -48,6 +48,8 @@ public: // types
 
 
 public: // static
+    static bool evaluate(const Operator aOp, const QVariant &aVar);
+    static bool evaluate(const Operator aOp, const QVariant &aExp, const QVariant &aAct);
     static QtMsgType qtMsgType(const StatusLevel sl);
     static CText qtMsgName(const QtMsgType qmt);
     static CText opName(const Operator aOp);

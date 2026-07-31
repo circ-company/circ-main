@@ -22,7 +22,7 @@ public: // const
 
 public: // non-const
     void set(const qsizetype ix, const T &t);
-    ListT<T> operator <<(const T &t);
+    void operator <<(const T &t);
 };
 
 template<typename T>
@@ -103,7 +103,7 @@ inline void ListT<T>::set(const qsizetype ix, const T &t)
 }
 
 template<typename T>
-inline ListT<T> ListT<T>::operator <<(const T &t)
+inline void ListT<T>::operator <<(const T &t)
 {
     ListT<T>::append(t);
 }

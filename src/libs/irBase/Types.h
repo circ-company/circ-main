@@ -29,6 +29,7 @@ typedef qint128         SOWORD;
 typedef quintptr        NWORD;
 typedef qptrdiff        SNWORD;
 typedef signed          INT;
+typedef signed          SINT;
 typedef unsigned        UINT;
 typedef double          FLOAT;
 

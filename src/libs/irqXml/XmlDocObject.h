@@ -6,8 +6,8 @@
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
-#include <QList>
 #include <QPair>
+#include <QQueue>
 #include <QString>
 
 #include <FileInfo.h>
@@ -28,14 +28,16 @@ public: // ctor
     XmlDocObject(const FileInfo &aFileInfo, QObject *parent=nullptr);
     XmlDocObject(const FSText &aFilePathName, QObject *parent=nullptr);
     XmlDocObject(const QDir &aDir, const QString &aFileName, QObject *parent=nullptr);
+    void ctor();
 
 public slots:
     void clear();
     void set(const FileInfo &aFileInfo);
-    void set(const FSText &aFilePathName, QObject *parent=nullptr);
-    void set(const QDir &aDir, const QString &aFileName, QObject *parent=nullptr);
-    void read(const FileInfo &aFileInfo);
-    void read();
+    void set(const FSText &aFilePathName);
+    void set(const QDir &aDir, const QString &aFileName);
+    bool read(const FileInfo &aFileInfo);
+    bool read();
+    void finish();
 
 signals:
     void cleared();
@@ -50,7 +52,7 @@ signals:
     void rootRead(const QDomElement &rootDE);
     void deRead(const Key &key, const QDomElement &de);
     void mapRead(const KeyTextMap &map);
-
+    void finished();
 
 public: // const
     bool isError() const;
@@ -58,6 +60,7 @@ public: // const
     FileInfo fileInfo() const;
     bool exists() const;
     KeyTextMap map() const;
+    KeyTextMap map(const Key &aGroupKey) const;
 
 public: // non-const
 
@@ -65,9 +68,13 @@ public: // pointers
     const XmlDocObject * it() const { return this; }
     XmlDocObject * it() { return this; }
 
+public: // debug
+    QStringList toDebugStrings();
+
 private slots:
     void startParse();
     void parseNext();
+    void parseAttributes(const QDomNamedNodeMap &aDNNMap);
 
 private:
     Status mStatus;
@@ -75,7 +82,16 @@ private:
     QByteArray mBytes;
     QDomDocument mDocument;
     QDomElement mRootElement;
-    QList<KeyElement> mPendingKeyElements;
+    QQueue<KeyElement> mPendingKeyElements;
+    Key mCurrentGroupKey;
     KeyTextMap mKeyMap;
 };
+
+inline bool XmlDocObject::isError() const { return status().level().isError(); }
+inline Status XmlDocObject::status() const { return mStatus; }
+inline FileInfo XmlDocObject::fileInfo() const { return mFileInfo; }
+inline KeyTextMap XmlDocObject::map() const { return mKeyMap; }
+
+
+
 

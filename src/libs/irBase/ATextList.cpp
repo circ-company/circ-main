@@ -28,6 +28,14 @@ AText ATextList::join(const AText atx) const
     return result;
 }
 
+QStringList ATextList::toStringList() const
+{
+    QStringList result;
+    foreach (const AText cText, it())
+        result << cText();
+    return result;
+}
+
 ATextList::PairList ATextList::splitPairs(const char ch) const
 {
     ATextList::PairList result;

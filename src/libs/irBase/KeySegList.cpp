@@ -1,16 +1,14 @@
 #include "KeySegList.h"
 
+KeySegList::KeySegList() { set(); }
+KeySegList::KeySegList(const char *pch) { set(pch); }
+KeySegList::KeySegList(const AText &at) { set(at); }
+KeySegList::KeySegList(const QString &s) { set(s); }
+KeySegList::KeySegList(const ListT<KeySeg> &other) { set(other); }
+
 QString KeySegList::toString() const
 {
-#if 1
     return toString(QString(hinge()));
-#else
-    QString result;
-    KeySegList tCopy = it();
-    if ( ! tCopy.isEmpty())     result = tCopy.takeFirst();
-    while ( ! tCopy.isEmpty())  result += hinge() + tCopy.takeFirst();
-    return result;
-#endif
 }
 
 QString KeySegList::toString(const QString &separator) const
@@ -40,4 +38,11 @@ void KeySegList::set(const AText &at)
     clear();
     foreach (const AText cAT, at.split(hinge()))
         append(KeySeg(cAT));
+}
+
+void KeySegList::set(const ListT<KeySeg> &other)
+{
+    clear();
+    foreach (const KeySeg cSeg, other)
+        append(cSeg);
 }

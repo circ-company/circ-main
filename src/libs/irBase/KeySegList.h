@@ -10,10 +10,11 @@
 class  KeySegList : public ListT<KeySeg>
 {
 public:
-    KeySegList() { set(); }
-    KeySegList(const char * pch) { set(pch); }
-    KeySegList(const AText &at) { set(at); }
-    KeySegList(const QString &s) { set(s); }
+    KeySegList();
+    KeySegList(const char * pch);
+    KeySegList(const AText &at);
+    KeySegList(const QString &s);
+    KeySegList(const ListT<KeySeg> &other);
 
 public: // const
     bool isNull() const;
@@ -31,7 +32,7 @@ public: // non-const
     void set(const char * pch);
     void set(const AText &at);
     void set(const QString &s);
-
+    void set(const ListT<KeySeg> &other);
 
 public: // pointers
     KeySegList it() const;

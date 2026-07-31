@@ -54,7 +54,7 @@ void LogEngine::enqueue(LogItem li)
     mUidItemMap.insert(cUid, li);
     mLevelUidMMap.insert(cLevel, cUid);
     if ( ! mCaptured && mTrollEnabled) sendTroll(li);
-    if (cLevel.isFault())
+    if (li.isFault())
         Q_ASSERT_X(!"LOG FAULT", li.context().toString(), li.message());
 }
 

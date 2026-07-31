@@ -68,7 +68,8 @@ public: // const
     FSText dirFirst(const qsizetype k, const char ch) const;
     FSText dirLast() const;
     QFileInfo toQFileInfo() const;
-    QString toString(const StringOptions aOptions=StringOptions(BasicFilePath | Status)) const;
+    QString toString(const StringOptions aOptions
+                     =StringOptions(BasicFilePath | Status)) const;
     QStringList toStringList(const StringOptions aOptions=StringOptions(0)) const;
     QVariant toVariant() const;
     operator QVariant () const;

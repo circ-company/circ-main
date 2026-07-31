@@ -43,9 +43,12 @@
 #define WEXPECT(op, exp, act) EXPECT4LI(op, StatusLevel::WExpect, exp, act);
 #define WEXPECTEQ(exp, act) EXPECT4LI(Log::Equal, StatusLevel::WExpect, exp, act);
 
+#define EXPECTIS(act)       ASSERTLI(Log::True, StatusLevel::Expect, act);
+#define EXPECTNOT(act)      ASSERTLI(Log::False, StatusLevel::Expect, act);
 #define TASSERT(bval)       ASSERTLI(Log::True, StatusLevel::TAssert, bval);
 #define WASSERT(bval)       ASSERTLI(Log::True, StatusLevel::WAssert, bval);
 #define MUSTDO()            ASSERTLI(Log::False, StatusLevel::MustDo, true);
+#define WASSERT(bval)       ASSERTLI(Log::True, StatusLevel::WAssert, bval);
 #define ASSERT(bval)        ASSERTLI(Log::True, StatusLevel::Assert, bval);
 #define PASSERT(bval)       ASSERTLI(Log::True, StatusLevel::Process, bval);
 #define MASSERT(bval)       ASSERTLI(Log::True, StatusLevel::MAlloc, bval);

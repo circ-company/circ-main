@@ -116,7 +116,12 @@ QString MillisecondTime::toString(const QString & format) const
 
 QString MillisecondTime::timeString(const bool msec) const
 {
-    return toString(QString("hh:mm:ss%1").arg(msec ? ".zzz" : ""));
+    return toString(msec ? "hh:mm:ss.zzz" : "hh:mm:ss");
+}
+
+QString MillisecondTime::dtString(const bool msec) const
+{
+    return toString(msec ? "DyyyyMMdd-Thhmmsszzz" : "DyyyyMMdd-Thhmmss");
 }
 
 QString MillisecondTime::baseString(const QString & format)

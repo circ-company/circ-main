@@ -37,6 +37,7 @@ SOURCES += \
     Null.cpp \
     QCoreTypeFormat.cpp \
     QGuiTypeFormat.cpp \
+    Sign.cpp \
     Status.cpp \
     StatusLevel.cpp \
     StructTM.cpp \
@@ -89,6 +90,7 @@ HEADERS += \
     Null.h \
     QCoreTypeFormat.h \
     QGuiTypeFormat.h \
+    Sign.h \
     Status.h \
     StatusLevel.h \
     StructTM.h \

@@ -7,6 +7,7 @@
 
 #include <Log.h>
 #include <NameFilters.h>
+#include <XmlDocObject.h>
 #include <cvODCatalog.h>
 
 #include "MainWindow.h"
@@ -52,8 +53,16 @@ void Application::initialize()
     DUMPVAR(cCatFI.toString());
     DUMPQSL(cCatFI.toStringList());
 
-    mpCatalog = new cvODCatalog(cCatFI, this);
-    NEWOBJ(mpCatalog, cvODCatalog, this);
+    XmlDocObject tXDO(cCatFI, this);
+    tXDO.read();
+    if ( ! tXDO.isError())
+    {
+        DUMPQSL(tXDO.toDebugStrings());
+        mpCatalog = new cvODCatalog(this);
+        NEWOBJ(mpCatalog, cvODCatalog, this);
+        mpCatalog->injest();
+    }
+
 
     if (mMainDir.exists())
     {
@@ -72,8 +81,6 @@ void Application::initialize()
 void Application::setup()
 {
     FNENTER();
-    catalog()->read();
-    catalog()->parse();
 }
 
 void Application::start()

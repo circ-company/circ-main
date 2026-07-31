@@ -37,13 +37,20 @@ void LogItem::clear()
 
 void LogItem::assertIs(const Log::Operator aOp, const bool aIs, const char *aExpression)
 {
-    Q_ASSERT(!"TODO"); // TODO LogItem::assertIs()
-    Q_UNUSED(aOp); Q_UNUSED(aIs); Q_UNUSED(aExpression);
+    qDebug() << Q_FUNC_INFO << aExpression << aIs << level().name();
+    if (Log::evaluate(aOp, aIs))
+    {
+        mLevel = StatusLevel::TOK;
+        return;
+    }
 }
 
 void LogItem::expect(const Log::Operator aOp,
                      const QVariant aActVar, const char *aActText)
 {
+    set(AText::format("Expected %1 is %2 for %3",
+                      aActText, aActVar, aOp));
+    Log::evaluate(aOp, aActVar);
 }
 
 void LogItem::expect(const Log::Operator aOp,
@@ -54,6 +61,7 @@ void LogItem::expect(const Log::Operator aOp,
                          QVariantList() << aActText << aActVar
                                         << Log::opName(aOp)
                                         << aExpText << aExpVar));
+    Log::evaluate(aOp, aExpVar, aActVar);
 }
 
 void LogItem::newobj(QObject *pNewObj, const CText &aObjName, const AText &aObjType,

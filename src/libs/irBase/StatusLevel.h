@@ -26,7 +26,7 @@ public: // types
         Level24,
         DumpObj,            // 25
         TDetail = 31,       // 31
-        Level32,
+        TOK,
         TraceMsg,           // 33
         Level34,
         TProgress,          // 35

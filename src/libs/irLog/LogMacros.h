@@ -15,15 +15,15 @@
 #define ASSERTLI(op, sev, bval) \
 {   LOGITEM(Log::Assert, sev, CODECONTEXT()); \
     li.assertIs(op, bval, #bval); \
-    LOG->enqueue(li); }
+    LOG->enqueue(li); if(li.isFault()) Q_ASSERT(false); }
 
 #define EXPECT2LI(op, sev, act) \
 {   LOGITEM(Log::Expect, sev, CODECONTEXT()); \
         li.expect(op, act, #act); \
-        LOG->enqueue(li); }
+        LOG->enqueue(li);  if(li.isFault()) Q_ASSERT(false); }
 
 #define EXPECT4LI(op, sev, exp, act) \
 {   LOGITEM(Log::Expect, sev, CODECONTEXT()); \
         li.expect(op, exp, #exp, act, #act); \
-        LOG->enqueue(li); }
+        LOG->enqueue(li);  if(li.isFault()) Q_ASSERT(false); }
 

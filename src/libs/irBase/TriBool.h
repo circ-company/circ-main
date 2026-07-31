@@ -3,6 +3,16 @@
 class TriBool
 {
 public: // ctors
+    enum State
+    {
+        $null       = 0,
+        Invalid     = 11,
+        Null        = 12,
+        False       = 21,
+        True        = 22,
+    };
+
+public: // ctors
     TriBool();
     TriBool(const bool is);
 
@@ -14,12 +24,16 @@ public: // const
     bool isTrue() const;
     bool isFalse() const;
     bool isNull() const;
+    bool isInvalid() const;
+    State state() const;
     operator bool () const;
 
 public: // non-const
     void set(const bool is=true);
     void expect(const bool is);
     void reset();
+    void truify();
+    void falsify();
     void nullify();
     void invalidate();
     bool andEqual(const TriBool &other);
@@ -36,11 +50,14 @@ inline bool TriBool::cheap() const { return ! value(); }
 inline bool TriBool::invalid() const { return ! valid(); }
 inline bool TriBool::isTrue() const { return value() && valid(); }
 inline bool TriBool::isFalse() const { return cheap() && valid(); }
-inline bool TriBool::isNull() const { return cheap() && invalid(); }
+inline bool TriBool::isNull() const { return value() && invalid(); }
+inline bool TriBool::isInvalid() const { return cheap() && invalid(); }
 inline TriBool::operator bool() const { return isTrue(); }
 inline void TriBool::set(const bool is) { mValue = is, mValid = true; }
-inline void TriBool::reset() { mValue = false, mValid = true; }
-inline void TriBool::nullify() { reset(); }
+inline void TriBool::reset() { set(false); }
+inline void TriBool::truify() { set(true); }
+inline void TriBool::falsify() { reset(); }
+inline void TriBool::nullify() { mValue = true, mValid = false; }
 inline void TriBool::invalidate() { mValue = false, mValid = false; }
 inline bool TriBool::operator &=(const TriBool &other) { return andEqual(other); }
 

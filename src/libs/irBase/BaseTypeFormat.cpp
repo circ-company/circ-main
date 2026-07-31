@@ -5,11 +5,11 @@
 
 void BaseTypeFormat::registerBase()
 {
-    const int cTypeIdFI = 65584; // TODO: QMetaType::fromName("FileInfo").id();
-// TODO:    const int cTypeIdUrl = QMetaType::fromName("Url").id();
-    Q_ASSERT(cTypeIdFI); // Q_ASSERT(cTypeIdUrl);
+    const int cTypeIdFI = qRegisterMetaType<FileInfo>();
+    const int cTypeIdUrl = qRegisterMetaType<Url>();
+    Q_ASSERT(cTypeIdFI);  Q_ASSERT(cTypeIdUrl);
     registerFunction(cTypeIdFI, &formatFileInfo);
-    //registerFunction(cTypeIdUrl, &formatUrl);
+    registerFunction(cTypeIdUrl, &formatUrl);
 
 }
 
