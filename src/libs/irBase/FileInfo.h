@@ -3,7 +3,6 @@
 #include <QFileInfo>
 #include "Null.h"
 
-
 #include <QDir>
 #include <QMetaType>
 #include <QString>

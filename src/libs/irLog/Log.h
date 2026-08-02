@@ -9,17 +9,16 @@
 #include "LogMacros.h"
 
 #define FNENTER() LogFunction logFunction(CODECONTEXT());
-#define FNARG(arg) logFunction.addArgument(arg, #arg);
-#define FNARGT(arg, T) QVariant qv; qv.setValue<T>(arg); \
-            logFunction.addArgument(qv, #arg);
+#define FNARG(arg, T) { /* QVariant qv; qv.setValue<T>(arg);*/ \
+            logFunction.addArgument(arg, #arg, #T); }
 #define FNEMIT(sig) logFunction.emitSignal(#sig);
-#define FNEMITARG(sig, arg) logFunction.emitArgument(#sig, arg, #arg);
+#define FNEMITARG(sig, arg, T) // logFunction.emitArgument(sig, arg, #arg. #T);
 #define FNRTNVOID() logFunction.returnVoid();
-#define FNRETURN(rvar) logFunction.returnValue(rvar, #rvar);
+#define FNRETURN(rvar, T) logFunction.returnValue(rvar, #rvar. #T);
 
 #define NEWOBJ(ptr, obj, par) \
           { LOGITEM(Log::Malloc, StatusLevel::MAlloc, CODECONTEXT()); \
-            li.newobj(ptr, #ptr, #obj, par, #par); LOG->enqueue(li); }
+            li.newobj(ptr, #obj, par); LOG->enqueue(li); }
 
 #define DUMPVAR(var)   \
           { LOGITEM(Log::Dump, StatusLevel::DumpVar, CODECONTEXT()); \
@@ -31,7 +30,7 @@
 #define DUMPQSL(qsl)   \
           { LOGITEM(Log::Dump, StatusLevel::DumpVar, CODECONTEXT()); \
             foreach(const QString cQS, qsl) \
-{ li.set(AText(cQS)); LOG->enqueue(li); } }
+                { li.set(QVariant(AText(cQS))); LOG->enqueue(li); } }
 
 #define PROGMSG(msg)        MESSAGELI(StatusLevel::Progress, msg);
 

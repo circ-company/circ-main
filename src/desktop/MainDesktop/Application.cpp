@@ -19,6 +19,8 @@ Application::Application(int &argc, char **argv)
     LOG->initialize();
     FNENTER()
     setObjectName("Application:MainDesk");
+
+    FNRTNVOID();
 }
 
 void Application::run()
@@ -34,6 +36,7 @@ void Application::run()
     connect(mainWindow(), &MainWindow::readied,  this, &Application::start);
     FNEMIT(running);
     emit running();
+    FNRTNVOID();
 }
 
 void Application::initialize()
@@ -63,7 +66,6 @@ void Application::initialize()
         mpCatalog->injest();
     }
 
-
     if (mMainDir.exists())
     {
         NameFilters mNF;
@@ -73,24 +75,29 @@ void Application::initialize()
                             | QDir::NoDotAndDotDot
                             | QDir::Readable);
         mFileList = mainDir().entryInfoList();
+        FNEMIT(initialized);
         emit initialized();
     }
     setup();
+    FNRTNVOID();
 }
 
 void Application::setup()
 {
     FNENTER();
+
+    FNRTNVOID();
 }
 
 void Application::start()
 {
     FNENTER()
-
     QQApplication::start();
     if ( ! mFileList.isEmpty())
         QTimer::singleShot(50, this, &Application::processFile);
+    FNEMIT(started);
     emit started();
+    FNRTNVOID();
 }
 
 void Application::processFile()
@@ -105,10 +112,13 @@ void Application::processFile()
     if ( ! tImage.isNull())
     {
         mainWindow()->mainLabel()->set(mainWindow()->mainLabel()->size(), tImage);
+        FNEMIT(processedFile(cFI,tImage));
         emit processedFile(cFI, tImage);
     }
     if (mFileList.isEmpty())
         QTimer::singleShot(5000, this, &QCoreApplication::quit);
     else
         QTimer::singleShot(5000, this, &Application::processFile);
+
+    FNRTNVOID();
 }

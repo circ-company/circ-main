@@ -10,11 +10,13 @@ QQMainWindow::QQMainWindow(const Contents cf, QQApplication *qqapp)
 {
     FNENTER();
     setObjectName("QQMainWindow:" + app()->applicationName());
+    FNRTNVOID();
 }
 
 void QQMainWindow::run()
 {
     FNENTER();
+    FNRTNVOID();
 }
 
 void QQMainWindow::initialize()
@@ -25,6 +27,7 @@ void QQMainWindow::initialize()
     if (cmContents & TextDocument)  mpMainDoc = new QQTextDocument(mpMainWidget);
     if (cmContents & ImageLabel)  mpMainLabel = new Label(mpMainWidget);
     // TODO LogStderr req grid unless alone
+    FNRTNVOID();
 }
 
 void QQMainWindow::setup()
@@ -58,9 +61,12 @@ void QQMainWindow::setup()
     }
     Q_CHECK_PTR(mpMainWidget);
     setCentralWidget(mpMainWidget);
+    FNRTNVOID();
 }
 
 void QQMainWindow::ready()
 {
     FNENTER();
+    FNRTNVOID();
 }
+

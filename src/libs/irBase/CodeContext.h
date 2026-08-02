@@ -15,6 +15,7 @@ public: // const
     bool isNull() const;
     CText qfiText() const;
     FSText baseFileName() const;
+    FSText lineTime() const;
     FSText fileName() const;
     int fileLine() const;
     FunctionInfo funcInfo() const;
@@ -47,6 +48,7 @@ public: // QMetaType
     CodeContext &operator=(const CodeContext &) = default;
 };
 
+inline bool CodeContext::isNull() const { return 0 == mEpochMS; }
 inline CText CodeContext::qfiText() const { return mQFIText; }
 inline FSText CodeContext::fileName() const { return mFileName; }
 inline int CodeContext::fileLine() const { return mFileLine; }

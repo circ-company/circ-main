@@ -6,11 +6,14 @@
 
 #include "LogMsgType.h"
 
-LogEngine::LogEngine() : QObject{nullptr} {;}
+LogEngine::LogEngine()
+    : QObject{nullptr}
+{
+    (void)StatusLevel::instance();
+}
 
 void LogEngine::initialize()
 {
-    (void)StatusLevel::instance();
 }
 
 void LogEngine::capture()
@@ -33,24 +36,9 @@ void LogEngine::release()
 
 void LogEngine::enqueue(LogItem li)
 {
-    const Type cType = li.type();
+//    const Type cType = li.type();
     const Uid cUid = li.uid();
     const StatusLevel cLevel = li.level();
-    switch (cType)
-    {
-    case Type::Dump:        Q_FALLTHROUGH();
-    case Type::Function:    Q_FALLTHROUGH();
-    case Type::MessageOnly:                             break;
-    case Type::Malloc:      Q_FALLTHROUGH();
-    case Type::Assert:      Q_FALLTHROUGH();
-    case Type::Expect:      Q_FALLTHROUGH();
-    case Type::Formatted:   li.set(li.formatted());     break; // new message
-    default:        //        /* leave alone */           break; // TODO more?
-        qWarning() << Q_FUNC_INFO << "Unhandled Type:"
-                   << cType << cLevel.name();
-        break;
-    }
-
     mUidItemMap.insert(cUid, li);
     mLevelUidMMap.insert(cLevel, cUid);
     if ( ! mCaptured && mTrollEnabled) sendTroll(li);
@@ -93,19 +81,19 @@ LogItem LogEngine::takeQueue()
 
 void LogEngine::sendTroll(const LogItem &li)
 {
+    MillisecondTime tMST(li.ems());
     const StatusLevel cLevel = li.level();
     const int cLevelValue = cLevel.value();
     const QString cLevelString = cLevel.string(12);
     const LogMsgType cLMT = LogMsgType::from(cLevel);
     const char cLmtChar = cLMT.prefix();
-    const AText cMsgAtx = li.message();
+    const AText cMsgAtx = li.formatted();
     const AText cCtxAtx = li.context().toString();
-    QString tText = QString("%2(%5): [%3] %4\n")
-                        .arg(0)                       // %1
-                        .arg(cLevelString, 12, cLmtChar)   // %2
-                        .arg(cMsgAtx(),                     // %3
-                             cCtxAtx())                     // %4
-                        .arg(cLevelValue, 2);               // %5
+    QString tText = QString("%1 %2(%3): [%4] %5\n")
+                        .arg(tMST.timeString(true))         // %1
+                        .arg(cLevelString, 12, cLmtChar)    // %2
+                        .arg(cLevelValue)                   // %3
+                        .arg(cMsgAtx(), cCtxAtx());         // %4, %5
     writeTroll(cLMT, tText);
 }
 

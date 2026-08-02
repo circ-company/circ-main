@@ -32,8 +32,8 @@ void Label::set(const QImage &img)
 
 void Label::set(const Size sz, const QColor &clr)
 {
-    FNENTER()
-    FNARG(sz)
+    FNENTER();
+    FNARG(sz, Size);
     QPixmap tPixmap(sz);
     tPixmap.fill(clr);
     set(tPixmap);
@@ -41,8 +41,8 @@ void Label::set(const Size sz, const QColor &clr)
 
 void Label::set(const Size displaySize, const QImage &img)
 {
-    FNENTER()
-    FNARG(displaySize)
+    FNENTER();
+    FNARG(displaySize, Size);
     const Size cOrigSize = img.size();
     DUMPVAR(cOrigSize);
     DUMPVAR(img.format());

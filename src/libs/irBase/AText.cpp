@@ -49,7 +49,7 @@ bool AText::isValid(const Index ix) const
 
 AText AText::formatted(const QVariantList vars) const
 {
-    return formatted(it(), vars);
+    return formattedList(vars);
 }
 
 AText AText::formatted(const QVariant var1, const QVariant var2,
@@ -77,17 +77,15 @@ AText::List AText::split(const AText &hinge) const
 
 AText AText::formattedList(const QVariantList vars) const
 {
-    return QString("%1 %2 %3 %4 %5 %6 %7 %8 %9")
-        .arg(saveVarListString(vars, 0))
-        .arg(saveVarListString(vars, 1))
-        .arg(saveVarListString(vars, 2))
-        .arg(saveVarListString(vars, 3))
-        .arg(saveVarListString(vars, 4))
-        .arg(saveVarListString(vars, 5))
-        .arg(saveVarListString(vars, 6))
-        .arg(saveVarListString(vars, 7))
-        .arg(saveVarListString(vars, 9))
-        .arg(saveVarListString(vars, 9));
+    QString result = toString();
+    const Index cVarCount = vars.count();
+    for (Index ix = 0; ix < cVarCount; ++ix)
+    {
+        const QString cPctString = "%" + QString::number(ix + 1);
+        const QString cValue = vars[ix].toString();
+        result.replace(cPctString, cValue);
+    }
+    return AText(result);
 }
 
 AText AText::modified(const Modify mod) const
@@ -222,7 +220,8 @@ void AText::removeEach(const AText &atx)
         removeEach(ch);
 }
 
-/*static*/ AText AText::formatDecimal(const QVariant aVar)
+/*static*/
+AText AText::formatDecimal(const QVariant aVar)
 {
     AText result;
     const MetaType cMT = aVar.metaType();
@@ -252,11 +251,11 @@ void AText::removeEach(const AText &atx)
     return result = tNumString;
 }
 
-/*static*/ AText AText::formatHeximal(const QVariant aVar)
+/*static*/
+AText AText::formatHeximal(const QVariant aVar)
 {
-    AText result;
-    result = QString::number(aVar.toUInt());
-    return result;
+    AText result = QString::number(aVar.toUInt(), 16);
+    return AText("<0x") + result + AText(">");
 }
 
 /*static*/ AText AText::format(const AText aFormat, const QVariantList vars)
@@ -298,6 +297,7 @@ bool AText::isValidChar(const char ch) const
 
 QString AText::saveVarListString(const QVariantList &vars, const Index ix)
 {
+    qDebug() << Q_FUNC_INFO << vars.count() << ix;
     return (ix >= 0 && ix < vars.count()) ? vars.at(ix).toString() : QString();
 }
 
