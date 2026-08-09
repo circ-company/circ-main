@@ -4,19 +4,18 @@
 
 void QCoreTypeFormat::registerQCore()
 {
-    const int cTypeIdQFileInfo = 65583; // QMetaType::fromName("QFileInfo").id();
-    qDebug() << Q_FUNC_INFO << cTypeIdQFileInfo;
+    const int cTypeIdQFileInfo = QMetaType::fromName("QFileInfo").id();
+//    qDebug() << Q_FUNC_INFO << cTypeIdQFileInfo;
     Q_ASSERT(cTypeIdQFileInfo);
 
     registerFunction(QMetaType::QChar, &formatQChar);
     registerFunction(QMetaType::Char16, &formatQChar);
-    registerFunction(QMetaType::Char32, &formatQChar);
+//    registerFunction(QMetaType::Char32, &formatQChar);
     registerFunction(QMetaType::QByteArray, &formatString);
     registerFunction(QMetaType::QString, &formatString);
     registerFunction(QMetaType::QBitArray, &formatHexData);
     registerFunction(QMetaType::QByteArray, &formatHexData);
-    registerFunction(cTypeIdQFileInfo, &formatFileInfo);
-
+    registerFunction(cTypeIdQFileInfo, &formatQFileInfo);
     // TODO howto: QMetaType::Char32
 }
 
@@ -47,7 +46,7 @@ AText QCoreTypeFormat::formatHexData(const QVariant &aVar)
     return result;
 }
 
-AText QCoreTypeFormat::formatFileInfo(const QVariant &aVar)
+AText QCoreTypeFormat::formatQFileInfo(const QVariant &aVar)
 {
     const QFileInfo cFI = aVar.value<QFileInfo>();
     AText result = QString("QFileInfo:%1 exists=%2 read=%3 write=%4 modified=%5")

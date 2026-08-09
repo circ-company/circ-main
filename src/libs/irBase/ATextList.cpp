@@ -28,6 +28,14 @@ AText ATextList::join(const AText atx) const
     return result;
 }
 
+ATextList ATextList::simplified() const
+{
+    ATextList result;
+    foreach (const AText cAT, it())
+        result << cAT.simplified();
+    return result;
+}
+
 QStringList ATextList::toStringList() const
 {
     QStringList result;

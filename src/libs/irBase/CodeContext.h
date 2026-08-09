@@ -13,6 +13,7 @@ public: // ctors
 
 public: // const
     bool isNull() const;
+    bool isSameFunction(const CodeContext &other) const;
     CText qfiText() const;
     FSText baseFileName() const;
     FSText lineTime() const;

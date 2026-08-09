@@ -64,6 +64,13 @@ QString FileInfo::toString(const StringOptions aOptions) const
                                  : (aOptions.testFlag(Negatives)
                                         ? "NOT Readable"
                                         : "")) + " ");
+    if (aOptions.testFlag(ElipsesPath))
+    {
+        if (mDirNames.count() > 2)
+            result = dirFirst(1) + FSText("/.../") + dirLast();
+        else
+            result = mDirNames.join('/');
+    }
     return result;
 }
 

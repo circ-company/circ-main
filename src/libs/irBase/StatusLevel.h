@@ -23,7 +23,7 @@ public: // types
         DumpHex = 21,       // 21
         Level22,
         DumpVar,            // 23
-        Level24,
+        DumpAll,            // 24
         DumpObj,            // 25
         TDetail = 31,       // 31
         TOK,

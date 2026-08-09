@@ -2,9 +2,9 @@
 
 #include <QApplication>
 
+#include <QList>
 
 #include <FileInfo.h>
-#include <List.h>
 #include <Types.h>
 #include <UText.h>
 #include <UTextList.h>

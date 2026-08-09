@@ -41,7 +41,9 @@ public: // non-const
     void message(const AText &aMsg);
     void note(const AText &aMsg);
     void set(const StatusLevel aLevel, const AText &aMsg);
-    void set(const StatusLevel aLevel, QFile * pFile);
+    void set(QFile * pFile,
+             const StatusLevel aErrLevel=StatusLevel::Error,
+             const StatusLevel aOkLevel=StatusLevel::Info);
 
 public: // pointers
 

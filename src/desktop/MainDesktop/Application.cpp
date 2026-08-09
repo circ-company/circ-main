@@ -63,7 +63,7 @@ void Application::initialize()
         DUMPQSL(tXDO.toDebugStrings());
         mpCatalog = new cvODCatalog(this);
         NEWOBJ(mpCatalog, cvODCatalog, this);
-        mpCatalog->injest();
+//        mpCatalog->injest();
     }
 
     if (mMainDir.exists())

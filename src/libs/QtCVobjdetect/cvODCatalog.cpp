@@ -21,7 +21,6 @@ void cvODCatalog::read()
     FNENTER();
     XmlDocObject tXDO(fileInfo(), this);
     mFileMap = tXDO.map();
-
 }
 
 void cvODCatalog::injest()
@@ -32,7 +31,6 @@ void cvODCatalog::injest()
     foreach (const Key cTypeKey, cTypeList)
         injest(cTypeKey.last());
     mFileMap.clearGroup();
-    MUSTDO(); // TODO: cvODCatalog::injest()
 }
 
 void cvODCatalog::injest(const KeySeg aType)
@@ -42,7 +40,6 @@ void cvODCatalog::injest(const KeySeg aType)
 
     mFileMap.leaveGroup();
     MUSTDO(); // TODO: cvODCatalog::injest()
-
 }
 
 #if 0

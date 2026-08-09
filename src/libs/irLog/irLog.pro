@@ -15,6 +15,7 @@ SOURCES += \
     LogOutput.cpp \
 #    OutputInterface.cpp \
  #   OutputPlugin.cpp \
+    LogOutputInterface.cpp \
     irLog.cpp
 
 HEADERS += \
@@ -28,6 +29,7 @@ HEADERS += \
     LogOutput.h \
   #  OutputInterface.h \
    # OutputPlugin.h \
+    LogOutputInterface.h \
     irLog_global.h \
     irLog.h
 

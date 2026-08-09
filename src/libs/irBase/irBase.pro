@@ -17,6 +17,7 @@ SOURCES += \
     CTextList.cpp \
     CharType.cpp \
     CodeContext.cpp \
+    CodeUid.cpp \
     CppTypeFormat.cpp \
     DirInfo.cpp \
     Enumeration.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
     KeyList.cpp \
     KeySeg.cpp \
     KeySegList.cpp \
+    KeyTextMap.cpp \
     KeyVarMap.cpp \
     MetaType.cpp \
     MillisecondTime.cpp \
@@ -64,6 +66,7 @@ HEADERS += \
     CTextList.h \
     CharType.h \
     CodeContext.h \
+    CodeUid.h \
     CppTypeFormat.h \
     DirInfo.h \
     DualMap.h \
@@ -82,8 +85,8 @@ HEADERS += \
     KeySeg.h \
     KeySegList.h \
     KeySegMap.h \
+    KeyTextMap.h \
     KeyVarMap.h \
-    List.h \
     MetaType.h \
     MillisecondTime.h \
     Named.h \

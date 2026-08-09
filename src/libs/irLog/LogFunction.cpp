@@ -1,6 +1,7 @@
 #include "LogFunction.h"
 
 #include "Log.h"
+#include "LogEngine.h"
 #include "LogItem.h"
 #include "LogMacros.h"
 
@@ -49,9 +50,9 @@ void LogFunction::emitArgument(const CText &aSigText, const QVariant &aArgVal,
 
 void LogFunction::returnVoid()
 {
-    LogItem tLI(Log::Function, StatusLevel::FuncLeave);
+    LogItem tLI(Log::Function, StatusLevel::FuncLeave, cmContext);
     tLI.set(AText("Return: void from %1"));
-    tLI.set(QVariant(cmContext.toDebugString()));
+    tLI.set(QVariant(cmContext.funcInfo().completeBaseName()));
     LOG->enqueue(tLI);
 }
 
@@ -65,7 +66,7 @@ void LogFunction::returnValue(const QVariant &aArgVal,
     tLI.set(aArgVal);
     tLI.set(QVariant(cQMT.name()));
     tLI.set(QVariant(cQMT.id()));
-    tLI.set(QVariant(AText(cmContext.toDebugString(false))));
+    tLI.set(QVariant(AText(cmContext.funcInfo().completeBaseName())));
     LOG->enqueue(tLI);
 }
 

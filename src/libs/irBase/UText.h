@@ -2,14 +2,13 @@
 
 #include <QString>
 
+#include <QList>
 #include <QMetaType>
-
-#include "List.h"
 
 class UText : public QString
 {
 public: // types
-    typedef ListT<UText> List;
+    typedef QList<UText> List;
 
 public: // ctors
     UText(const char * pch);

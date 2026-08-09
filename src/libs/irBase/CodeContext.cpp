@@ -15,6 +15,11 @@ CodeContext::CodeContext(const QString &qfi, const FSText &file, const int line)
 {
 }
 
+bool CodeContext::isSameFunction(const CodeContext &other) const
+{
+    return fileName() == other.fileName() && qfiText() == other.qfiText();
+}
+
 FSText CodeContext::baseFileName() const
 {
     FSText result;

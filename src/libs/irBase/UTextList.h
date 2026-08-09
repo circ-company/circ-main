@@ -4,12 +4,15 @@
 
 #include <QMetaType>
 
+#include "Types.h"
+
 class UTextList : public UText::List
 {
 public: // ctors
     UTextList(const QStringList &qsl);
 
 public: // const
+    bool isValidIndex(const Index ix) const;
 
 public: // non-const
     void set(const QStringList &qsl);

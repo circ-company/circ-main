@@ -2,17 +2,17 @@
 
 #include "AText.h"
 
+#include <QList>
 #include <QMetaType>
 #include <QVariant>
 
-#include "List.h"
 #include "Types.h"
 
 class TypeFormat : public AText
 {
 public:
     typedef AText (*FormatFunctionPtr)(const QVariant &aVar);
-    typedef ListT<QMetaType> MetaTypeList;
+    typedef QList<QMetaType> MetaTypeList;
 
 public:
     TypeFormat(const QVariant aVar);

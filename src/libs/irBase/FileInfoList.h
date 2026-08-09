@@ -1,9 +1,9 @@
 #pragma once
 
 #include "FileInfo.h"
-#include "List.h"
+#include <QList>
 
-class FileInfoList : public ListT<FileInfo>
+class FileInfoList : public QList<FileInfo>
 {
 public:
     FileInfoList();

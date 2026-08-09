@@ -120,7 +120,7 @@ Status XmlDocFile::parse()
         MUSTDO(); // TODO Iterate
     }
     logFunction.returnValue(status, "status", "Status");
-//    FNRETURN(status, Status);
+    FNRTNVALUE(status, Status);
     STATUS(status);
     return status;
 }
@@ -137,7 +137,7 @@ bool XmlDocFile::parse(const XmlElement &aParentXE, const Key &aParentKey)
     }
     else
     {
-        Key tKey = aParentKey + aParentXE.tagName();
+        Key tKey = aParentKey + KeySeg(aParentXE.tagName());
         for (XmlElement tXE = aParentXE.firstChildElement();
              ! tXE.isNull();
              tXE = tXE.nextSiblingElement())
@@ -148,6 +148,6 @@ bool XmlDocFile::parse(const XmlElement &aParentXE, const Key &aParentKey)
         }
     }
     logFunction.returnValue(more, "more", "bool");
-//    FNRETURN(more, bool);
+    FNRTNVALUE(more, bool);
     return more;
 }

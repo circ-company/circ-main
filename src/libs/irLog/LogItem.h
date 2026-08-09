@@ -39,6 +39,7 @@ public: // const
     QVariantList vars() const;
     AText formatted() const;
     LogMsgType logMessageType() const;
+    bool isList() const;
     bool isFault() const;
 
 public: // non-const
@@ -60,6 +61,7 @@ public: // non-const
     void * malloc(const Count nBytes, const AText &aArg);
     void newobj(QObject * pNewObj, const CText &aObjName, QObject * pParent);
     void dumpVar(const QVariant aVar, const char *aText);
+    void dumpAll(const QVariant aVar, const char *aText);
 
 public: // pointers
 

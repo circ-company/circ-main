@@ -24,11 +24,18 @@ AText LogItem::formatted() const
 {
 //    qDebug() << Q_FUNC_INFO << mFormat;
     AText result;
-    if (varCount())
+    if (varCount() && ! isList())
         result = mFormat.formatted(vars());
     else
         result = mFormat;
     return result;
+}
+
+bool LogItem::isList() const
+{
+    return (1 == varCount())
+               ? QMetaType::fromName("ATextList") == var(0).metaType()
+               : false;
 }
 
 void LogItem::clear()
@@ -51,12 +58,9 @@ void LogItem::set(const AText &aText)
 
 void LogItem::assertIs(const Log::Operator aOp, const bool aIs, const char *aExpression)
 {
-    qDebug() << Q_FUNC_INFO << aExpression << aIs << level().name();
+//    qDebug() << Q_FUNC_INFO << aExpression << aIs << level().name();
     if (Log::evaluate(aOp, aIs))
-    {
         mLevel = StatusLevel::TOK;
-        return;
-    }
 }
 
 void LogItem::expect(const Log::Operator aOp,
@@ -67,7 +71,8 @@ void LogItem::expect(const Log::Operator aOp,
     set(aActVar);
     set(QVariant(int(aOp)));
     set(aOp);
-    Log::evaluate(aOp, aActVar);
+    if (Log::evaluate(aOp, aActVar))
+        mLevel = StatusLevel::TOK;
 }
 
 void LogItem::expect(const Log::Operator aOp,
@@ -81,7 +86,8 @@ void LogItem::expect(const Log::Operator aOp,
     set(AText(aExpText));
     set(aExpVar);
     set(aOp);
-    Log::evaluate(aOp, aActVar);
+    if (Log::evaluate(aOp, aExpVar, aActVar))
+        mLevel = StatusLevel::TOK;
 }
 
 void LogItem::newobj(QObject *pNewObj, const CText &aObjName, QObject *pParent)
@@ -111,6 +117,17 @@ void LogItem::dumpVar(const QVariant aVar, const char * aText)
 {
     const QMetaType cQMT = aVar.metaType();
     const AText cFmt = QString("Dump %1(%2): `%3` is <%4>");
+    set(cFmt);
+    set(AText(cQMT.name()));
+    set(QVariant(int(cQMT.id())));
+    set(AText(aText));
+    set(aVar);
+}
+
+void LogItem::dumpAll(const QVariant aVar, const char *aText)
+{
+    const QMetaType cQMT = aVar.metaType();
+    const AText cFmt = QString("Dump %1(%2): `%3");
     set(cFmt);
     set(AText(cQMT.name()));
     set(QVariant(int(cQMT.id())));

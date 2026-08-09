@@ -49,8 +49,8 @@ void BaseFile::set(const FileInfo &aFI)
     FNARG(aFI.toVariant(), QFileInfo);
     mFileInfo = aFI;
     emit infoSet(mFileInfo, mFileInfo.exists());
-    FNEMITARG("infoSet", mFileInfo.toQFileInfo(), QFileInfo);
-    FNEMITARG(infoSet, mFileInfo.exists(), bool);
+    FNEMITARG("infoSet", mFileInfo, "FileInfo");
+    FNEMITARG("infoSet", mFileInfo.exists(), "bool");
     FNRTNVOID();
 }
 
@@ -97,7 +97,7 @@ void BaseFile::close()
         mpFile->deleteLater();
         mpFile = nullptr;
     }
-    FNEMITARG(closed, fileInfo(), "FileInfo");
+    FNEMITARG("closed", fileInfo(), "FileInfo");
     emit closed(fileInfo());
     FNRTNVOID();
 }

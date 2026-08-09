@@ -4,7 +4,7 @@ KeySegList::KeySegList() { set(); }
 KeySegList::KeySegList(const char *pch) { set(pch); }
 KeySegList::KeySegList(const AText &at) { set(at); }
 KeySegList::KeySegList(const QString &s) { set(s); }
-KeySegList::KeySegList(const ListT<KeySeg> &other) { set(other); }
+KeySegList::KeySegList(const QList<KeySeg> &other) { set(other); }
 
 QString KeySegList::toString() const
 {
@@ -33,6 +33,13 @@ KeySeg KeySegList::toSeg() const
     return KeySeg(toString().remove(QChar(hinge()), Qt::CaseInsensitive));
 }
 
+KeySegList KeySegList::add(const KeySeg &aSeg) const
+{
+    KeySegList result = it();
+    result.append(aSeg);
+    return result;
+}
+
 void KeySegList::set(const AText &at)
 {
     clear();
@@ -40,7 +47,7 @@ void KeySegList::set(const AText &at)
         append(KeySeg(cAT));
 }
 
-void KeySegList::set(const ListT<KeySeg> &other)
+void KeySegList::set(const QList<KeySeg> &other)
 {
     clear();
     foreach (const KeySeg cSeg, other)

@@ -11,6 +11,7 @@ include(../../useStore.pri)
 
 
 SOURCES += \
+    DocParseResult.cpp \
     ValueElement.cpp \
     XmlDocFile.cpp \
     XmlDocObject.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
     irqXml.cpp
 
 HEADERS += \
+    DocParseResult.h \
     ValueElement.h \
     XmlDocFile.h \
     XmlDocObject.h \

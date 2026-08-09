@@ -261,15 +261,14 @@ AText AText::formatHeximal(const QVariant aVar)
 /*static*/ AText AText::format(const AText aFormat, const QVariantList vars)
 {
     AText result = aFormat;
-    for (Index ix = 1; ix < Index(vars.count() - 1); ++ix)
+    for (Index ix = 0; ix < Index(vars.count()); ++ix)
     {
-        AText tPctNum = QString("%") + QString::number(ix, 10);
+        AText tPctNum = QString("%") + QString::number(1 + ix, 10);
         if (result.contains(tPctNum))
             result.replace(tPctNum.toQBAV(),
-                           AText(AText("<")
-                                 + TypeFormat(vars.at(ix))
-                                 + AText(">")
-                                 + AText(QString::number(ix, 10))));
+                           AText(QString("<%1>%2")
+                                .arg(TypeFormat(vars.at(ix))())
+                                .arg(1 + ix)).toQBAV());
     }
     return result;
 }
