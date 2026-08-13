@@ -2,7 +2,6 @@
 
 #include <QDomDocument>
 
-//#include <QDomElement>
 #include <QIODevice>
 
 #include <QMetaType>

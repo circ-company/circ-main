@@ -30,9 +30,10 @@
 #define DUMPQSL(qsl) { foreach(const QString cSt, qsl) qInfo() << cSt; }
 #define DUMPQBAL(qbal) { foreach(const QByteArray cBA, qbal) qInfo() << cBA; }
 
-#define INFOMSG(msg)        MESSAGELI(StatusLevel::Info, msg);
 #define TRACEMSG(msg)       MESSAGELI(StatusLevel::Trace, msg);
+#define INFOMSG(msg)        MESSAGELI(StatusLevel::Info, msg);
 #define PROGMSG(msg)        MESSAGELI(StatusLevel::Progress, msg);
+#define WARNMSG(msg)        MESSAGELI(StatusLevel::Warning, msg);
 
 #define TEXPECTIS(act)      EXPECT2LI(Log::Is, StatusLevel::TExpect, act);
 #define TEXPECTNOT(act)     EXPECT2LI(Log::Not, StatusLevel::TExpect, act);
@@ -41,6 +42,7 @@
 
 #define WEXPECT(op, exp, act) EXPECT4LI(op, StatusLevel::WExpect, exp, act);
 #define WEXPECTEQ(exp, act) EXPECT4LI(Log::Equal, StatusLevel::WExpect, exp, act);
+#define WEXPECTNE(exp, act) EXPECT4LI(Log::NotEqual, StatusLevel::WExpect, exp, act);
 
 #define EXPECTIS(act)       ASSERTLI(Log::True, StatusLevel::Expect, act);
 #define EXPECTNOT(act)      ASSERTLI(Log::False, StatusLevel::Expect, act);

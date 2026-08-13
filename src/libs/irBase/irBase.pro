@@ -32,7 +32,6 @@ SOURCES += \
     KeyList.cpp \
     KeySeg.cpp \
     KeySegList.cpp \
-    KeyTextMap.cpp \
     KeyVarMap.cpp \
     MetaType.cpp \
     MillisecondTime.cpp \
@@ -85,7 +84,6 @@ HEADERS += \
     KeySeg.h \
     KeySegList.h \
     KeySegMap.h \
-    KeyTextMap.h \
     KeyVarMap.h \
     MetaType.h \
     MillisecondTime.h \

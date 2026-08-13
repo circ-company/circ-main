@@ -46,6 +46,7 @@ private:
 };
 
 typedef KeyMapT<QVariant> KeyMap;
+typedef KeyMapT<AText> KeyTextMap;
 typedef KeyMapT<IdNo> KeyIdNoMap;
 typedef KeyMapT<UText> KeyUTextMap;
 

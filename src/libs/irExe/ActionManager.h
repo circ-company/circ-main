@@ -23,6 +23,7 @@ signals:
 
 public: // const
     Key::List keys() const;
+    Action * action(const Key &aKey);
 
 public: // non-const
     Uid attachParent(const Uid childUid);

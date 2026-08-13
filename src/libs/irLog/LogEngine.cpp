@@ -18,10 +18,12 @@ void LogEngine::initialize()
 
 void LogEngine::capture()
 {
+#if 0
     qSetMessagePattern(messagePattern());
     mpOldHandler = qInstallMessageHandler(&messageHandler);
     mCaptured = mpOldHandler;
     emit captured();
+#endif
 }
 
 void LogEngine::release()
@@ -127,6 +129,7 @@ void LogEngine::writeTroll(const LogMsgType lmt, const QString msg)
 
 /* --------------------- static public --------------------- */
 
+#if 0
 KeyTextMap LogEngine::parse(const QString s)
 {
     KeyTextMap result;
@@ -179,3 +182,5 @@ const QStringList LogEngine::scmMessageFields = QStringList()
                                      << "ThreadName"
                                      << "Type"
                                      << "Backtrace";
+#endif
+

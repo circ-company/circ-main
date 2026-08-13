@@ -54,7 +54,7 @@ signals:
     void docRead(const QDomDocument &doc);
     void rootRead(const QDomElement &rootDE);
     void deRead(const Key &key, const QDomElement &de);
-    void mapRead(const KeyTextMap &map);
+//    void mapRead(const KeyTextMap &map);
     void parsedElement(const QDomElement &de);
     void parseFinished();
     void finished();

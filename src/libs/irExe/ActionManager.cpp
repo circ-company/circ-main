@@ -1,5 +1,7 @@
 #include "ActionManager.h"
 
+#include <Log.h>
+
 #include "Action.h"
 
 ActionManager::ActionManager(QCoreApplication *parent)
@@ -16,6 +18,14 @@ Action *ActionManager::add(const Key &key)
     return pAct;
 }
 
+Action *ActionManager::action(const Key &aKey)
+{
+    Action * result = nullptr;
+    if (mKeyActionMap.contains(aKey))
+        result = mKeyActionMap.value(aKey);
+    MASSERT(result);
+    return result;
+}
 
 Uid ActionManager::attachParent(const Uid childUid)
 {

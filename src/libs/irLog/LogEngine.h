@@ -6,6 +6,7 @@
 #include <QQueue>
 #include <QStringList>
 
+//#include <KeyTextMap.h>
 #include <StatusLevel.h>
 #include <Uid.h>
 
@@ -44,12 +45,12 @@ public: // non-const
     void writeTroll(const LogMsgType lmt, const QString msg);
 
 public: // static
-    static KeyTextMap parse(const QString s);
-    static QString messagePattern();
+//    static KeyTextMap parse(const QString s);
+  //  static QString messagePattern();
 
 private: // static
     static void messageHandler(QtMsgType qmt, const QMessageLogContext &ctx, const QString &s);
-    static const QStringList scmMessageFields;
+    //static const QStringList scmMessageFields;
 
 private:
     bool mCaptured=false;

@@ -1,96 +1,85 @@
 #include "Application.h"
 
+#include <QAction>
 #include <QFileSystemModel>
+#include <QKeySequence>
 #include <QTimer>
 #include <QVariant>
 #include <QWidget>
 
+#include <Action.h>
+#include <ActionManager.h>
 #include <Log.h>
 #include <NameFilters.h>
 
 #include "irViewMainWindow.h"
 
 Application::Application(int &argc, char **argv)
-    : QQApplication(argc, argv)
-    , mExeSupport("MainDesktop", this)
+    : QApplication(argc, argv)
+    , mpMainWindow(new irViewMainWindow)
 {
     LOG->initialize();
-    FNENTER()
-    setObjectName("Application:MainDesk");
+    setObjectName("Application:irView");
 }
 
 void Application::run()
 {
-    FNENTER()
+    FNENTER();
     PROGMSG("Running Application:" + mainWindow()->objectName());
-    QQApplication::run();
     mainWindow()->show();
-/*
-    connect(this, &Application::running, mainWindow(), &MainWindow::run);
-    connect(mainWindow(), &MainWindow::running, this, &Application::initialize);
-    connect(this, &Application::initialized, mainWindow(), &MainWindow::initialize);
-    connect(mainWindow(), &MainWindow::initialized, mainWindow(), &MainWindow::setup);
-    connect(mainWindow(), &MainWindow::setuped, mainWindow(), &MainWindow::ready);
-    connect(mainWindow(), &MainWindow::readied,  this, &Application::start);
-*/
-   FNEMIT(running);
+    connect(this, &Application::running, mainWindow(), &irViewMainWindow::run);
+    connect(mainWindow(), &irViewMainWindow::running, this, &Application::initialize);
+    connect(this, &Application::initialized, mainWindow(), &irViewMainWindow::initialize);
+    connect(mainWindow(), &irViewMainWindow::initialized, this, &Application::setup);
+    connect(this, &Application::setuped, mainWindow(), &irViewMainWindow::setup);
+    connect(mainWindow(), &irViewMainWindow::setuped, this, &Application::start);
+    connect(this, &Application::started, mainWindow(), &irViewMainWindow::start);
+    FNEMIT(running);
     emit running();
+    FNRTNVOID();
 }
 
 void Application::initialize()
 {
     FNENTER();
-    QQApplication::initialize();
-    if (argList().count() > 1)
-        mMainDir.setPath(argAt(1));
-    else
-        mMainDir.setPath("../EFPin");
 
-    if (mMainDir.exists())
-    {
-        NameFilters mNF;
-        mNF.setExtensions("JPG PNG");
-        mainDir().setNameFilters(mNF.filterList());
-        mainDir().setFilter(QDir::Files
-                            | QDir::NoDotAndDotDot
-                            | QDir::Readable);
-        mFileList = mainDir().entryInfoList();
-        emit initialized();
-    }
-    setup();
+    initActions();
+
+    FNEMIT(initialized);
+    emit initialized();
+    FNRTNVOID();
 }
 
 void Application::setup()
 {
     FNENTER();
 
+
+    FNEMIT(setuped);
+    emit setuped();
     FNRTNVOID();
 }
 
 void Application::start()
 {
-    FNENTER()
+    FNENTER();
 
-    QQApplication::start();
-    if ( ! mFileList.isEmpty())
-        QTimer::singleShot(50, this, &Application::processFile);
-    emit started();
     FNEMIT(started);
+    emit started();
     FNRTNVOID();
 }
 
-void Application::processFile()
+void Application::initActions()
 {
-    FNENTER()
-    QQApplication::processFile();
-    if (mFileList.isEmpty()) return;                                    /*/===\*/
-    const FileInfo cFI = mFileList.takeFirst();
-    QImage tImage(cFI.filePath());
-    mainWindow()->setWindowTitle(cFI.toString(FileInfo::CompleteBaseName)
-                                 + (tImage.isNull() ? " NULL" : ""));
-    if (mFileList.isEmpty())
-        QTimer::singleShot(5000, this, &QCoreApplication::quit);
-    else
-        QTimer::singleShot(5000, this, &Application::processFile);
-    FNRTNVOID();
+    Action * pFileOpen = ACTMGR->add("File/&OpenFile");
+    Action * pFileDir = ACTMGR->add("File/Open&Dir");
+    Action * pFileClose = ACTMGR->add("File/&Close");
+    Action * pFileExit = ACTMGR->add("File/E&xit");
+    MASSERT(pFileOpen); MASSERT(pFileDir);
+    MASSERT(pFileClose); MASSERT(pFileExit);
+    pFileOpen->qaction()->setShortcut(QKeySequence::Open);
+    pFileDir->qaction()->setShortcut(QKeySequence("Alt+D"));
+    pFileClose->qaction()->setShortcut(QKeySequence("Alt+D"));
+    pFileExit->qaction()->setShortcut(QKeySequence("Alt+D"));
 }
+

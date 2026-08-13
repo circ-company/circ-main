@@ -5,6 +5,7 @@
 #include <AText.h>
 #include <Id.h>
 #include <Key.h>
+#include <Log.h>
 
 class Action
 {
@@ -21,9 +22,10 @@ public: // non-const
 public: // pointer
     Id & id();
     const Id id() const;
+    QAction * qaction();
 
 public: // static
-    static QString ampify(const Key &key);
+    static QString unampify(const Key &key);
 
 protected:
 
@@ -34,3 +36,4 @@ private:
 
 inline Id &Action::id() { return mId; }
 inline const Id Action::id() const { return mId; }
+inline QAction *Action::qaction() { MASSERT(mpAction); return mpAction; }
