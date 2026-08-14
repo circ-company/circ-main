@@ -21,6 +21,14 @@ Action *ActionManager::add(const Key &aKey)
     return result;
 }
 
+Action *ActionManager::action(const Key &aKey)
+{
+    Action * result = nullptr;
+    if (mKeyActionMap.contains(aKey))
+        result = mKeyActionMap.value(aKey);
+    MASSERT(result);
+    return result;
+}
 
 
 Action *ActionManager::action(const Key &aKey) const
