@@ -6,7 +6,12 @@
 #include <TextFile.h>
 #include <Log.h>
 
-XmlDocFile::XmlDocFile(const FileInfo &aFI) : mpFile(nullptr) { set(aFI); }
+XmlDocFile::XmlDocFile(const FileInfo &aFI)
+    : mpFile(nullptr)
+{
+    set(aFI);
+    Q_ASSERT(qRegisterMetaType<Status>());
+}
 
 bool XmlDocFile::isOpen() const
 {
@@ -19,21 +24,23 @@ bool XmlDocFile::isOpen() const
 bool XmlDocFile::set(const FileInfo &aFI)
 {
     FNENTER();
-    FNARG(aFI);
-    close();
+    logFunction.addArgument(aFI.toVariant(), "aFI", "QFileInfo");
+//    FNARG(aFI.toQFileInfo(), QFileInfo);
     TriBool result;
+    close();
     result = aFI.exists();
     result = true; // TODO Linux Why?
     if (result)
         mFileInfo.setFile(aFI.filePath());
-    FNRETURN((bool)result);
+    logFunction.returnValue((bool)result, "result", "bool");
+//    FNRETURN((bool)result, bool);
     return result;
 }
 
 Status XmlDocFile::open(const QIODeviceBase::OpenMode aMode)
 {
     FNENTER();
-    FNARGT(aMode, int);
+    FNARG(int(aMode), int);
     DUMPVAR(mFileInfo);
     Status status;
     close();
@@ -63,7 +70,8 @@ Status XmlDocFile::open(const QIODeviceBase::OpenMode aMode)
         status.set(StatusLevel::Progress,
                    AText::format("%1 file opened", mFileInfo.toString()));
     STATUS(status);
-    FNRETURN(status);
+    logFunction.returnValue(status, "status", "Status");
+//    FNRETURN(status, Status);
     return status;
 }
 
@@ -111,7 +119,8 @@ Status XmlDocFile::parse()
     {
         MUSTDO(); // TODO Iterate
     }
-    FNRETURN(status);
+    logFunction.returnValue(status, "status", "Status");
+    FNRTNVALUE(status, Status);
     STATUS(status);
     return status;
 }
@@ -119,8 +128,8 @@ Status XmlDocFile::parse()
 bool XmlDocFile::parse(const XmlElement &aParentXE, const Key &aParentKey)
 {
     FNENTER();
-    FNARG(aParentXE.tagName());
-    FNARG(aParentKey());
+    FNARG(aParentXE.tagName(), QString);
+    FNARG(aParentKey(), Key);
     bool more = true;
     if (aParentXE.isNull())
     {
@@ -128,7 +137,7 @@ bool XmlDocFile::parse(const XmlElement &aParentXE, const Key &aParentKey)
     }
     else
     {
-        Key tKey = aParentKey + aParentXE.tagName();
+        Key tKey = aParentKey + KeySeg(aParentXE.tagName());
         for (XmlElement tXE = aParentXE.firstChildElement();
              ! tXE.isNull();
              tXE = tXE.nextSiblingElement())
@@ -138,6 +147,7 @@ bool XmlDocFile::parse(const XmlElement &aParentXE, const Key &aParentKey)
             parse(tXE, tKey + tSeg);
         }
     }
-    FNRETURN(more);
+    logFunction.returnValue(more, "more", "bool");
+    FNRTNVALUE(more, bool);
     return more;
 }

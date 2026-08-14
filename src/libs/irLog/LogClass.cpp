@@ -32,10 +32,10 @@ bool Log::evaluate(const Operator aOp, const QVariant &aExp, const QVariant &aAc
     {
     case Equal:         result.set(tSign.state() == TriBool::Null);     break;
     case NotEqual:      result.set(tSign.state() != TriBool::Null);     break;
-    case Less:          result.set(tSign.state() == TriBool::False);    break;
-    case LessEqual:     result.set(tSign.state() != TriBool::False);    break;
-    case Greater:       result.set(tSign.state() != TriBool::True);     break;
-    case GreaterEqual:  result.set(tSign.state() != TriBool::True);     break;
+    case Less:          result.set(tSign.state() <  TriBool::False);    break;
+    case LessEqual:     result.set(tSign.state() <= TriBool::False);    break;
+    case Greater:       result.set(tSign.state() >  TriBool::True);     break;
+    case GreaterEqual:  result.set(tSign.state() >= TriBool::True);     break;
     default:                                                            break;
     };
     Q_ASSERT(result.valid());

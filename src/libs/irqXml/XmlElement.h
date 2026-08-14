@@ -2,16 +2,16 @@
 
 #include <QDomElement>
 
+#include <QList>
 #include <QMetaType>
 
 #include <Key.h>
-#include <List.h>
 
 class XmlElement : public QDomElement
 {
 
 public: // types
-    typedef ListT<XmlElement> List;
+    typedef QList<XmlElement> List;
 
 public: // ctors
     XmlElement(const QDomElement &other);

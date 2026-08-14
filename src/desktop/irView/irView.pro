@@ -16,12 +16,12 @@ include(../../useQWidgets.pri)
 include(../../useImage.pri)
 
 SOURCES += \
-    Application.cpp \
+    irViewApplication.cpp \
     main.cpp \
     irViewMainWindow.cpp
 
 HEADERS += \
-    Application.h \
+    irViewApplication.h \
     irViewMainWindow.h
 
 FORMS += \

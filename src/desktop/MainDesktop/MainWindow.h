@@ -2,15 +2,14 @@
 
 #include <QQMainWindow.h>
 
-#include "Application.h"
-
 #define APP (Application)(qApp)
 
 class MainWindow : public QQMainWindow
 {
     Q_OBJECT
+public: // types
 
-public:
+public: // c'tors
     MainWindow(QQApplication *app);
 
 public slots:
@@ -26,7 +25,6 @@ signals:
     void readied();
 
 public: // const
-
 
 public: // non-const
 

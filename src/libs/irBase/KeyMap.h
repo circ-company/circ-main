@@ -2,12 +2,13 @@
 
 #include <QVariant>
 
+#include <QList>
+
 #include "AText.h"
 #include "ATextList.h"
+#include "CText.h"
 #include "Key.h"
 #include "KeyList.h"
-#include "KeySegList.h"
-#include "List.h"
 #include "UText.h"
 
 template <typename T>
@@ -15,8 +16,10 @@ class KeyMapT : public QMap<Key, T>
 {
 public: // ctors
     KeyMapT() {;}
+    KeyMapT(const CText &aName) : mName(aName) {;}
 
 public: // const
+    CText name() { return mName; }
     KeyList allkeys() const;
     KeyList groupKeys(const Key &aGroupKey) const;
     KeyMapT<T> extract(const Key &aGroupKey) const;
@@ -38,12 +41,13 @@ public: // debug
 
 
 private:
+    CText mName;
     Key mCurrentGroup;
 };
 
 typedef KeyMapT<QVariant> KeyMap;
-typedef KeyMapT<IdNo> KeyIdNoMap;
 typedef KeyMapT<AText> KeyTextMap;
+typedef KeyMapT<IdNo> KeyIdNoMap;
 typedef KeyMapT<UText> KeyUTextMap;
 
 
@@ -85,7 +89,7 @@ inline KeyList KeyMapT<T>::levelKeys(const Count &aLevels) const
     const KeyList cAllKeys = KeyMapT<T>::keys();
     foreach (const Key cKey, cAllKeys)
     {
-        const KeySegList cStart(cKey.constFirst(aLevels));
+        const Key cStart = cKey.mid(0, aLevels);
         if ( ! result.contains(cStart))
             result << cStart;
     }

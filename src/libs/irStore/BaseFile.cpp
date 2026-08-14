@@ -46,11 +46,11 @@ BaseFile::~BaseFile()
 void BaseFile::set(const FileInfo &aFI)
 {
     FNENTER();
-    FNARG(aFI);
+    FNARG(aFI.toVariant(), QFileInfo);
     mFileInfo = aFI;
     emit infoSet(mFileInfo, mFileInfo.exists());
-    FNEMITARG(infoSet, mFileInfo);
-    FNEMITARG(infoSet, mFileInfo.exists());
+    FNEMITARG("infoSet", mFileInfo, "FileInfo");
+    FNEMITARG("infoSet", mFileInfo.exists(), "bool");
     FNRTNVOID();
 }
 
@@ -62,7 +62,7 @@ void BaseFile::set(const FSText &aFileName)
 bool BaseFile::open(const Mode aMode)
 {
     FNENTER();
-    FNARGT(aMode, int);
+    FNARG(int(aMode), int);
     close();
     QFile * pFile = new QFile(fileInfo().filePath(), this);
     NEWOBJ(pFile, QFile, this);
@@ -97,7 +97,7 @@ void BaseFile::close()
         mpFile->deleteLater();
         mpFile = nullptr;
     }
-    FNEMIT(closed);
+    FNEMITARG("closed", fileInfo(), "FileInfo");
     emit closed(fileInfo());
     FNRTNVOID();
 }
@@ -114,14 +114,14 @@ bool BaseFile::read()
             mBytes = file()->readAll();
             result = mBytes.length() == file()->size();
         }
-    FNRETURN(bool(result));
+//    FNRETURN(bool(result), bool);
     return result;
 }
 
 bool BaseFile::write()
 {
     FNENTER();
-    Q_ASSERT(!"Finished"); // TODO
+    MUSTDO(); // TODO
     return false;
 }
 

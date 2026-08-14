@@ -6,19 +6,24 @@
 
 #include "LogMsgType.h"
 
-LogEngine::LogEngine() : QObject{nullptr} {;}
-
-void LogEngine::initialize()
+LogEngine::LogEngine()
+    : QObject{nullptr}
 {
     (void)StatusLevel::instance();
 }
 
+void LogEngine::initialize()
+{
+}
+
 void LogEngine::capture()
 {
+#if 0
     qSetMessagePattern(messagePattern());
     mpOldHandler = qInstallMessageHandler(&messageHandler);
     mCaptured = mpOldHandler;
     emit captured();
+#endif
 }
 
 void LogEngine::release()
@@ -33,29 +38,11 @@ void LogEngine::release()
 
 void LogEngine::enqueue(LogItem li)
 {
-    const Type cType = li.type();
     const Uid cUid = li.uid();
     const StatusLevel cLevel = li.level();
-    switch (cType)
-    {
-    case Type::Dump:        Q_FALLTHROUGH();
-    case Type::Function:    Q_FALLTHROUGH();
-    case Type::MessageOnly:                             break;
-    case Type::Malloc:      Q_FALLTHROUGH();
-    case Type::Assert:      Q_FALLTHROUGH();
-    case Type::Expect:      Q_FALLTHROUGH();
-    case Type::Formatted:   li.set(li.formatted());     break; // new message
-    default:        //        /* leave alone */           break; // TODO more?
-        qWarning() << Q_FUNC_INFO << "Unhandled Type:"
-                   << cType << cLevel.name();
-        break;
-    }
-
     mUidItemMap.insert(cUid, li);
     mLevelUidMMap.insert(cLevel, cUid);
     if ( ! mCaptured && mTrollEnabled) sendTroll(li);
-    if (li.isFault())
-        Q_ASSERT_X(!"LOG FAULT", li.context().toString(), li.message());
 }
 
 void LogEngine::dequeue()
@@ -93,20 +80,39 @@ LogItem LogEngine::takeQueue()
 
 void LogEngine::sendTroll(const LogItem &li)
 {
+    static CodeContext stCurrentContext;
+    const CodeContext cThisContext = li.context();
+    MillisecondTime tMST(li.ems());
     const StatusLevel cLevel = li.level();
     const int cLevelValue = cLevel.value();
     const QString cLevelString = cLevel.string(12);
     const LogMsgType cLMT = LogMsgType::from(cLevel);
     const char cLmtChar = cLMT.prefix();
-    const AText cMsgAtx = li.message();
-    const AText cCtxAtx = li.context().toString();
-    QString tText = QString("%2(%5): [%3] %4\n")
-                        .arg(0)                       // %1
-                        .arg(cLevelString, 12, cLmtChar)   // %2
-                        .arg(cMsgAtx(),                     // %3
-                             cCtxAtx())                     // %4
-                        .arg(cLevelValue, 2);               // %5
+    const AText cMsgAtx = li.formatted();
+    if ( ! cThisContext.isNull()
+            && ! stCurrentContext.isSameFunction(li.context()))
+    {
+        QString tContext = QString("%4 %1 [%2 %3]\n")
+            .arg(cThisContext.funcInfo().completeBaseName()()
+                ,cThisContext.baseFileName()()
+                ,cThisContext.fileInfo().toString(FileInfo::ElipsesPath)
+                ,AText(cThisContext.functionLevel(), "-->")());
+        writeTroll(cLMT, tContext);
+        stCurrentContext = cThisContext;
+    }
+    QString tText = QString("%1[%2] %3(%4): [%5]\n")
+                        .arg(tMST.timeString(true))                 // %1
+                        .arg(cThisContext.fileLine(), 4, 10, u'0')  // %2
+                        .arg(cLevelString, 12, cLmtChar)            // %3
+                        .arg(cLevelValue)                           // %4
+                        .arg(cMsgAtx());                            // %5
     writeTroll(cLMT, tText);
+    if (li.isList())
+    {
+        const ATextList cATL = li.var(0).value<ATextList>();
+        foreach (const AText cAT, cATL)
+            writeTroll(cLMT, cAT);
+    }
 }
 
 void LogEngine::writeTroll(const LogMsgType lmt, const QString msg)
@@ -117,13 +123,14 @@ void LogEngine::writeTroll(const LogMsgType lmt, const QString msg)
     case QtDebugMsg:        qDebug() << msg;      break;
     default:                Q_FALLTHROUGH();
     case QtWarningMsg:      qWarning() << msg;    break;
-    case QtFatalMsg:        Q_FALLTHROUGH(); // let LogEngine::enqueue() fault
+    case QtFatalMsg:        Q_FALLTHROUGH(); // let LogEngine::enqueue'r fault
     case QtCriticalMsg:     qCritical() << msg;   break;
     }
 }
 
 /* --------------------- static public --------------------- */
 
+#if 0
 KeyTextMap LogEngine::parse(const QString s)
 {
     KeyTextMap result;
@@ -176,3 +183,5 @@ const QStringList LogEngine::scmMessageFields = QStringList()
                                      << "ThreadName"
                                      << "Type"
                                      << "Backtrace";
+#endif
+

@@ -29,3 +29,14 @@ QWORD Key::hash64() const
     }
     return tUnion.qw;
 }
+
+Key Key::operator +(const KeySeg &aSeg) const
+{
+    return Key(it() + aSeg);
+}
+
+Key operator+(const Key &aKey, KeySeg &aSeg)
+{
+    return aKey.add(aSeg);
+}
+

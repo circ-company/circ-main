@@ -5,15 +5,22 @@
 
 #include "MillisecondTime.h"
 
+Count CodeContext::smLevel = 0;
+
 CodeContext::CodeContext(const QString &qfi, const FSText &file, const int line)
     : mEpochMS(MillisecondTime::current())
     , mQFIText(qfi)
     , mFileName(file)
     , mFileLine(line)
+    , mFunctionLevel(functionLevel())
     , mFuncInfo(mQFIText)
     , mFileInfo(mFileName)
 {
-//    qInfo() << Q_FUNC_INFO << qfi << file << line << mFuncInfo.toDebugString() << mFileInfo;
+}
+
+bool CodeContext::isSameFunction(const CodeContext &other) const
+{
+    return fileName() == other.fileName() && qfiText() == other.qfiText();
 }
 
 FSText CodeContext::baseFileName() const
@@ -24,14 +31,29 @@ FSText CodeContext::baseFileName() const
     return result;
 }
 
+FSText CodeContext::lineTime() const
+{
+    FSText result;
+    result.append(QString("%1 %2")
+              .arg(fileLine())
+                      .arg(MillisecondTime(mEpochMS).timeString(true)));
+    return result;
+}
+
 AText CodeContext::toString() const
 {
-    AText result('{');
-    result.append(QString("%1(%2) %3")
-                       .arg(baseFileName()())
-                       .arg(fileLine(), 4, 10, u'0')
-                       .arg(qfiText()()));
-    return result + AText('}');
+    AText result;
+    if ( ! isNull())
+        result.append(AText(QString("{%1(%2) %3}")
+            .arg(baseFileName()()
+                , fileLine() ? QString::number(fileLine()) : QString()
+                , qfiText()())));
+    return result;
+}
+
+Count CodeContext::functionLevel()
+{
+    return smLevel;
 }
 
 void CodeContext::clear()
@@ -44,21 +66,28 @@ void CodeContext::clear()
     mFileInfo.clear();
 }
 
+Count CodeContext::increaseLevel()
+{
+    if (smLevel < 10) ++smLevel;
+    return smLevel;
+}
+
+Count CodeContext::decreaseLevel()
+{
+    if (smLevel) --smLevel;
+    return smLevel;
+}
+
 QString CodeContext::toDebugString(const bool timeFirst) const
 {
-    return timeFirst
-      ? QString("{@%1: {%2(%3) %4 in %5}")
-              .arg(MillisecondTime(mEpochMS).timeString(true))
-              .arg(mFileInfo.completeBaseName())
-              .arg(mFileLine, 4, 10, u'0')
-              .arg(mQFIText())
-              .arg(mFileInfo.dir().path())
-      : QString("{%1(%2) %3 @%4 in %5}")
-                .arg(mFileInfo.completeBaseName())
-                .arg(mFileLine, 4, 10, u'0')
-                .arg(mQFIText())
-                .arg(MillisecondTime(mEpochMS).timeString(true))
-                .arg(mFileInfo.dir().path());
+    return QString(timeFirst
+                  ? "{@%1: {%2(%3) %4 in %5}"
+                  : "{%2(%3) %4 @%1 in %5}")
+              .arg(MillisecondTime(mEpochMS).timeString(true)   // %1
+                   , mFileInfo.completeBaseName())              // %2
+              .arg(mFileLine, 4, 10, u'0')                      // %3
+              .arg(mQFIText()                                   // %4
+                   , mFileInfo.dir().path());                   // %5
 }
 
 QStringList CodeContext::toDebugStrings() const
@@ -67,8 +96,8 @@ QStringList CodeContext::toDebugStrings() const
     result << QString("{==Code Context:           %1")
                   .arg(MillisecondTime(mEpochMS).timeString(true));
     result << QString("---File:                   %1.%2(%3)")
-                  .arg(mFileInfo.completeBaseName())
-                  .arg(mFileInfo.completeSuffix())
+                  .arg(mFileInfo.completeBaseName()
+                       , mFileInfo.completeSuffix())
                   .arg(mFileLine);
     result << QString("---Directory:              %1")
                   .arg(mFileInfo.dirLast()());

@@ -5,10 +5,10 @@
 
 #include <QDomElement>
 #include <QFileInfo>
+#include <QList>
 
 #include <CText.h>
 #include <Id.h>
-#include <List.h>
 #include <Size.h>
 #include <Url.h>
 
@@ -39,7 +39,7 @@ class QTCVOBJDETECT_EXPORT cvODCatalogEntry
     DECLARE_PARENT_DATAPROPS(CVODCATALOGENTRY_DATAPROPS)
     DECLARE_DATAPROPS(cvODCatalogEntry, cvODCatalogEntryData)
 public: // types
-    typedef ListT<cvODCatalogEntry> List;
+    typedef QList<cvODCatalogEntry> List;
 
 public: // const
     cvODResourceType odType() const;

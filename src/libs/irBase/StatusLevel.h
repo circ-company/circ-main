@@ -23,7 +23,7 @@ public: // types
         DumpHex = 21,       // 21
         Level22,
         DumpVar,            // 23
-        Level24,
+        DumpAll,            // 24
         DumpObj,            // 25
         TDetail = 31,       // 31
         TOK,
@@ -48,7 +48,7 @@ public: // types
 
         $Warn = 50,         // 50-Begin Warn
         Warning,            // 51
-        Level52,
+        WhatDo,             // 52
         WPrefer,            // 53
         Level54,
         WExpect,            // 55

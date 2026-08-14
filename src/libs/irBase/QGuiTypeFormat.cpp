@@ -2,6 +2,16 @@
 
 #include <QImage>
 
+static QString qiFormatName(const QImage::Format qif)
+{
+    QString result = QString("Unknown: %1").arg(int(qif));
+    switch (qif)
+    {
+
+    };
+    return result;
+}
+
 void QGuiTypeFormat::registerQGui()
 {
     registerFunction(QMetaType::QBitArray, &formatImage);
@@ -14,6 +24,6 @@ AText QGuiTypeFormat::formatImage(const QVariant &aVar)
     return QString("Image: size(W%1,H%2) format(%3 #%4)")
         .arg(tImage.width())
         .arg(tImage.height())
-        .arg(tImage.width())
+        .arg(qiFormatName(tImage.format()))
         .arg(tImage.format());
 }

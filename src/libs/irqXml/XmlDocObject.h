@@ -21,7 +21,7 @@ class XmlDocObject : public QObject
 {
     Q_OBJECT
 public: // types
-    typedef QPair<Key, QDomElement> KeyElement;
+//    typedef QPair<Key, QDomElement> KeyElement;
 
 public: // ctor
     explicit XmlDocObject(QObject *parent=nullptr);
@@ -37,6 +37,7 @@ public slots:
     void set(const QDir &aDir, const QString &aFileName);
     bool read(const FileInfo &aFileInfo);
     bool read();
+    bool setDocument();
     void finish();
 
 signals:
@@ -48,10 +49,14 @@ signals:
     void fileSet(const FileInfo &fileInfo);
     void fileRead(const FileInfo &fileInfo);
     void dataRead(const QByteArray &bytes);
+    void docSetError(const QString &docResult);
+    void docSet(const QByteArray &doc);
     void docRead(const QDomDocument &doc);
     void rootRead(const QDomElement &rootDE);
     void deRead(const Key &key, const QDomElement &de);
-    void mapRead(const KeyTextMap &map);
+//    void mapRead(const KeyTextMap &map);
+    void parsedElement(const QDomElement &de);
+    void parseFinished();
     void finished();
 
 public: // const
@@ -72,9 +77,12 @@ public: // debug
     QStringList toDebugStrings();
 
 private slots:
-    void startParse();
-    void parseNext();
-    void parseAttributes(const QDomNamedNodeMap &aDNNMap);
+    void startRoot();
+    void parse(const Key &aKey, const QDomElement &aDE);
+//    void parseNext();
+//    void parseAttributes(const QDomNamedNodeMap &aDNNMap,
+  //                       const bool aTrace=false);
+    void insert(const Key &aKey, const QString &aValue);
 
 private:
     Status mStatus;
@@ -82,8 +90,8 @@ private:
     QByteArray mBytes;
     QDomDocument mDocument;
     QDomElement mRootElement;
-    QQueue<KeyElement> mPendingKeyElements;
-    Key mCurrentGroupKey;
+//    QQueue<KeyElement> mPendingKeyElements;
+//    Key mCurrentGroupKey;
     KeyTextMap mKeyMap;
 };
 

@@ -27,7 +27,11 @@ public: // ctors
 public: // const
     AText join(const AText atx) const;
     PairList splitPairs(const char ch) const;
+    ATextList simplified() const;
     QStringList toStringList() const;
+    operator QStringList () const;
+    QStringList operator() () const;
+
 
 public: // non-const
     void set(const QByteArrayList &other);
@@ -47,15 +51,18 @@ private: // static
     static AText hexDumpPartLine(const Index ix, const QByteArray &ba);
 
 public: // QMetaType
-    ATextList it() const;
-    ATextList & it();
+    ATextList it() const { return *this; }
+    ATextList & it() { return *this; }
     ATextList() = default;
     ~ATextList() = default;
     ATextList(const ATextList &) = default;
     ATextList &operator=(const ATextList &) = default;
+
 };
 
 Q_DECLARE_METATYPE(ATextList);
 
-inline ATextList ATextList::it() const { return *this; }
-inline ATextList &ATextList::it() { return *this; }
+inline ATextList::operator QStringList() const { return toStringList(); }
+inline QStringList ATextList::operator()() const { return toStringList(); }
+
+

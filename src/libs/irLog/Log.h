@@ -9,17 +9,16 @@
 #include "LogMacros.h"
 
 #define FNENTER() LogFunction logFunction(CODECONTEXT());
-#define FNARG(arg) logFunction.addArgument(arg, #arg);
-#define FNARGT(arg, T) QVariant qv; qv.setValue<T>(arg); \
-            logFunction.addArgument(qv, #arg);
+#define FNARG(arg, T) { /* QVariant qv; qv.setValue<T>(arg);*/ \
+            logFunction.addArgument(arg, #arg, #T); }
 #define FNEMIT(sig) logFunction.emitSignal(#sig);
-#define FNEMITARG(sig, arg) logFunction.emitArgument(#sig, arg, #arg);
+#define FNEMITARG(sig, arg, T) logFunction.emitArgument(sig, arg, #arg, #T);
 #define FNRTNVOID() logFunction.returnVoid();
-#define FNRETURN(rvar) logFunction.returnValue(rvar, #rvar);
+#define FNRTNVALUE(rvar, T) logFunction.returnValue(rvar, #rvar, #T);
 
 #define NEWOBJ(ptr, obj, par) \
           { LOGITEM(Log::Malloc, StatusLevel::MAlloc, CODECONTEXT()); \
-            li.newobj(ptr, #ptr, #obj, par, #par); LOG->enqueue(li); }
+            li.newobj(ptr, #obj, par); LOG->enqueue(li); }
 
 #define DUMPVAR(var)   \
           { LOGITEM(Log::Dump, StatusLevel::DumpVar, CODECONTEXT()); \
@@ -28,25 +27,37 @@
           { LOGITEM(Log::Dump, StatusLevel::DumpVar, CODECONTEXT()); \
             QVariant qv; qv.setValue<T>(var); \
             li.dumpVar(qv, #var); LOG->enqueue(li); }
-#define DUMPQSL(qsl)   \
-          { LOGITEM(Log::Dump, StatusLevel::DumpVar, CODECONTEXT()); \
-            foreach(const QString cQS, qsl) \
-{ li.set(AText(cQS)); LOG->enqueue(li); } }
+#define DUMPQSL(qsl) { foreach(const QString cSt, qsl) qInfo() << cSt; }
+#define DUMPQBAL(qbal) { foreach(const QByteArray cBA, qbal) qInfo() << cBA; }
 
+#define CONNECT(sobj, sig, robj, slt) \
+          { LOGITEM(Log::Connect, StatusLevel::Error, CODECONTEXT()); \
+            li.connect(sobj, sig, robj, slt, #sobj, #sig, #robj, #slt); \
+            LOG->enqueue(li); }
+
+#define TRACEMSG(msg)       MESSAGELI(StatusLevel::Trace, msg);
+#define INFOMSG(msg)        MESSAGELI(StatusLevel::Info, msg);
 #define PROGMSG(msg)        MESSAGELI(StatusLevel::Progress, msg);
+#define WARNMSG(msg)        MESSAGELI(StatusLevel::Warning, msg);
 
 #define TEXPECTIS(act)      EXPECT2LI(Log::Is, StatusLevel::TExpect, act);
 #define TEXPECTNOT(act)     EXPECT2LI(Log::Not, StatusLevel::TExpect, act);
+
 #define WEXPECTIS(act)      EXPECT2LI(Log::Is, StatusLevel::WExpect, act);
 #define WEXPECTNOT(act)     EXPECT2LI(Log::Not, StatusLevel::WExpect, act);
-
 #define WEXPECT(op, exp, act) EXPECT4LI(op, StatusLevel::WExpect, exp, act);
 #define WEXPECTEQ(exp, act) EXPECT4LI(Log::Equal, StatusLevel::WExpect, exp, act);
+#define WEXPECTNE(exp, act) EXPECT4LI(Log::NotEqual, StatusLevel::WExpect, exp, act);
 
 #define EXPECTIS(act)       ASSERTLI(Log::True, StatusLevel::Expect, act);
 #define EXPECTNOT(act)      ASSERTLI(Log::False, StatusLevel::Expect, act);
+
+#define WCKPOINTER(ptr)     ASSERTLI(Log::True, StatusLevel::WAssert, ptr);
+#define CKPOINTER(ptr)      ASSERTLI(Log::True, StatusLevel::MAlloc, ptr);
+
 #define TASSERT(bval)       ASSERTLI(Log::True, StatusLevel::TAssert, bval);
 #define WASSERT(bval)       ASSERTLI(Log::True, StatusLevel::WAssert, bval);
+#define WHATDO()            ASSERTLI(Log::False, StatusLevel::WhatDo, true);
 #define MUSTDO()            ASSERTLI(Log::False, StatusLevel::MustDo, true);
 #define WASSERT(bval)       ASSERTLI(Log::True, StatusLevel::WAssert, bval);
 #define ASSERT(bval)        ASSERTLI(Log::True, StatusLevel::Assert, bval);
@@ -55,4 +66,4 @@
 #define SASSERT(bval)       ASSERTLI(Log::True, StatusLevel::System, bval);
 
 #define STATUS(sts) LOGITEM(Log::MessageOnly, sts.level(), CODECONTEXT()); \
-                            li.set(sts.message()); LOG->enqueue(li);
+            li.set(sts.message()); LOG->enqueue(li); DUMPQSL(sts.notes());

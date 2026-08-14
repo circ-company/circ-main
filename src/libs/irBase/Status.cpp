@@ -32,15 +32,15 @@ QString Status::toString() const
 {
     return QString("%3%1: %2")
         .arg(level().name()(), 16, level().prefix())
-        .arg(message()())
-        .arg(MillisecondTime(mMessage.first).timeString(true));
+        .arg(message()()
+            , MillisecondTime(mMessage.first).timeString(true));
 }
 
 QStringList Status::toStrings() const
 {
     QStringList result;
     result << toString();
-    result << notes().toStringList();
+    result << notes()();
     return result;
 }
 
@@ -57,22 +57,29 @@ void Status::set(const StatusLevel aLevel, const AText &aMsg)
     level(aLevel), message(aMsg);
 }
 
-void Status::set(const StatusLevel aLevel, QFile *pFile)
+void Status::set(QFile *pFile, const StatusLevel aErrLevel, const StatusLevel aOkLevel)
 {
-    QString tMsg = QString("File Error: %1(%2) in %3")
-                       .arg(pFile->errorString()).arg(pFile->error())
-                       .arg(FileInfo(pFile->fileName())
-                                .toString(FileInfo::ElipsesPath
-                                          | FileInfo::FileName
-                                          | FileInfo::Status
-                                          | FileInfo::Characteristics));
-    set(aLevel, AText(tMsg));
+    Q_ASSERT(pFile);
+    QString tMsg = QString("File %1: %2(%3) in %4")
+        .arg(pFile->error() ? "Error" : "Status"
+            , pFile->error() ? pFile->errorString() : "Success")
+        .arg(pFile->error())
+        .arg(FileInfo(pFile->fileName())
+                 .toString(FileInfo::ElipsesPath
+                            | FileInfo::FileName
+                            | FileInfo::Status
+                            | FileInfo::Characteristics));
+    set(pFile->error() ? aErrLevel : aOkLevel, AText(tMsg));
 }
-
 
 void Status::message(const AText &aMsg)
 {
     mMessage.first = MillisecondTime::current();
     mMessage.second = aMsg;
+}
+
+void Status::note(const AText &aMsg)
+{
+    mNotes.append(TimeText(MillisecondTime::current(), aMsg));
 }
 

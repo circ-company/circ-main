@@ -64,6 +64,13 @@ QString FileInfo::toString(const StringOptions aOptions) const
                                  : (aOptions.testFlag(Negatives)
                                         ? "NOT Readable"
                                         : "")) + " ");
+    if (aOptions.testFlag(ElipsesPath))
+    {
+        if (mDirNames.count() > 2)
+            result = dirFirst(1) + FSText("/.../") + dirLast();
+        else
+            result = mDirNames.join('/');
+    }
     return result;
 }
 
@@ -129,5 +136,10 @@ void FileInfo::setup()
     if (isRoot())           mOptions.setFlag(Root);
     if (isAbsolute())       mOptions.setFlag(Absolute);
 
+}
+
+void FileInfo::set(const QDir aDir)
+{
+    setFile(aDir, fileName());
 }
 

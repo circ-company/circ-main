@@ -34,6 +34,7 @@ public: // ctors
     AText(const QByteArray &ba, const QChar repl);
     AText(const QString &aString);
     AText(const Count k, const char ch=' ');
+    AText(const Count k, const AText aText);
     AText(const QVariant &aVar);
 
 public: // const
@@ -49,6 +50,7 @@ public: // const
     AText modified(const Modify mod) const;
     Pair keyValue(const char ch) const;
     AText sub(const IndexList ixs) const;
+    virtual AText simplified() const;
     QString toString() const;
     operator QString() const;
     QString operator () () const;
@@ -119,6 +121,7 @@ extern AText operator + (const AText &lhs, const AText &rhs);
 
 Q_DECLARE_METATYPE(AText);
 
+inline AText AText::simplified() const { return AText(QByteArray::simplified()); }
 inline QString AText::toString() const { return QString(constData()); }
 inline AText::operator QString () const { return toString(); }
 inline QString AText::operator () () const { return toString(); }

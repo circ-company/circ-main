@@ -5,25 +5,30 @@
 #include <AText.h>
 #include <Id.h>
 #include <Key.h>
+#include <Log.h>
 
 class Action
 {
 protected: // NULL ctor
     explicit Action();
 public: // ctors
-    explicit Action(const AText &key);
+    Action(const AText &key);
 
 public: // const
 
 public: // non-const
-    void set(const AText &key);
+    void set(const AText &aKey, const QString &aName=QString());
 
 public: // pointer
     Id & id();
     const Id id() const;
+    QAction * qaction();
+    QAction * operator () ();
+
+    QString toDebugString() const;
 
 public: // static
-    static QString ampify(const Key &key);
+    static QString unampify(const Key &key);
 
 protected:
 
@@ -34,3 +39,5 @@ private:
 
 inline Id &Action::id() { return mId; }
 inline const Id Action::id() const { return mId; }
+inline QAction *Action::qaction() { MASSERT(mpAction); return mpAction; }
+inline QAction *Action::operator ()() { return qaction(); }

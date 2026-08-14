@@ -3,7 +3,6 @@
 #include <QFileInfo>
 #include "Null.h"
 
-
 #include <QDir>
 #include <QMetaType>
 #include <QString>
@@ -76,6 +75,7 @@ public: // const
 
 public: // non-const
     void clear();
+    void set(const QDir aDir);
 
 private: // const
     QString attributeFlags() const;

@@ -2,20 +2,55 @@
 
 #include <QMainWindow>
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class irViewMainWindow;
-}
-QT_END_NAMESPACE
+#include <QFileDialog>
+#include <QMdiArea>
+#include <QStackedLayout>
+#include <QWidget>
+
+#include <FileInfo.h>
+#include <Label.h>
+#include <Log.h>
+
+class irViewApplication;
 
 class irViewMainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    irViewMainWindow(QWidget *parent = nullptr);
+    irViewMainWindow(irViewApplication * pApp);
     ~irViewMainWindow();
 
+public slots:
+    void run();
+    void initialize();
+    void setup();
+    void start();
+
+signals:
+    void running();
+    void initialized();
+    void setuped();
+    void started();
+
+public: // non-const
+    FileInfo doFileOpenDialog();
+
+public: // pointers
+    irViewApplication * app();
+
 private:
-    Ui::irViewMainWindow *ui;
+    void setupMenus();
+
+private:
+    irViewApplication * mpApplication;
+    QWidget * mpMainWidget=nullptr;
+    QStackedLayout * mpStack=nullptr;
+    bool mMdiMode=false;
+    QMdiArea * mpMdiArea=nullptr;
+    Label * mpMainLabel=nullptr;
+    QFileDialog * mpFileDialog=nullptr;
+    QFileDialog * mpDirDialog=nullptr;
 };
+
+inline irViewApplication *irViewMainWindow::app() { MASSERT(mpApplication); return mpApplication; }

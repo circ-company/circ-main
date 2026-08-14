@@ -19,7 +19,7 @@ TypeFormat::TypeFormat(const QVariant aVar)
     }
     else
     {
-        set(QString("[%1(%2):`%3`]").arg(cQMT.name())
+        set(QString("[Unhandled: %1(%2):`%3`]").arg(cQMT.name())
                 .arg(cQMT.id()).arg(aVar.toString()));
     }
 }

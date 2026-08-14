@@ -52,7 +52,8 @@ bool JsonFile::read()
     bool result = TextFile::read();
     if (result)
         mDocument = QJsonDocument::fromJson((TextFile::data().toQBA()), &mParseError);
-    FNRETURN(result);
+    logFunction.returnValue(result, "result", "bool");
+//    FNRETURN(result, bool);
     return result;
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Key.h"
-#include "List.h"
+#include <QList>
 
 class KeyList : public Key::List
 {
@@ -14,10 +14,9 @@ public: // const
 public: // non-const
 
 public: // pointers
-    KeyList & it();
-    KeyList it() const;
-
+    KeyList & it() { return *this; }
+    KeyList it() const { return *this; }
 };
 
-inline KeyList &KeyList::it() { return *this; }
-inline KeyList KeyList::it() const { return *this; }
+
+

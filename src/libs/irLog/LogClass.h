@@ -24,6 +24,7 @@ public: // types
         Malloc,
         Dump,
         Troll,
+        Connect,
         $maxType
     };
 

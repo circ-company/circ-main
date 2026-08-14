@@ -4,6 +4,7 @@
 #include <LogFunction.h>
 
 #include "LogItem.h"
+#include "LogEngine.h"
 
 #define LOGITEM(typ, lvl, ctx) LogItem li(typ, lvl, ctx)
 
