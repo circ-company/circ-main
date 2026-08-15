@@ -2,10 +2,33 @@
 
 #include <QtDebug>
 
+/*!
+ *  \class SCRect
+ *  \brief A Size-Center based Rectangle.
+ *
+ */
+
 #include "Aspect.h"
 
+/*!
+ * \brief SCRect::SCRect constructs an empty rectangle at the origin.
+ */
 SCRect::SCRect() : mSize(0,0), mCenter(0,0) {;}
+
+/*!
+ * \brief SCRect::SCRect constructs a square at the origin or its center where
+ * \a dim the number of pixels for each side of the square, and
+ * \a centered controls if \c true centered on square or if \c false centered at the origin.
+ *
+ */
 SCRect::SCRect(const int dim, const bool centered) : mSize(dim), mCenter(centered ? size().center() : QPoint(0, 0)) {;}
+/*!
+ * \brief SCRect::SCRect constructs a rectangle with specified size centered on itself or the origin.
+ *
+ * \param sz the size of the rectangle.
+ *
+ * \param centered if true centered on square else centered at the origin.
+ */
 SCRect::SCRect(const Size sz, const bool centered) : mSize(sz), mCenter(centered ? sz.center() : QPoint(0, 0)) {;}
 SCRect::SCRect(const Size sz, const Point cpt) : mSize(sz), mCenter(cpt)  {;}
 SCRect::SCRect(const QRect qrc) : mSize(qrc.size()), mCenter(qrc.center())  {;}

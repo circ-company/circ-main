@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE QDOCINDEX>
+<INDEX url="" title="CIRC-main Libraries Reference Documentation" version="" project="CIRC-main Libraries">
+    <namespace name="" status="active" access="public" module="circ-main libraries">
+        <class name="SCRect" href="screct.html" status="active" access="public" location="SCRect.h" filepath="/home/code/repo/circ-main/src/libs/irMatGeo/SCRect.h" lineno="12" documented="true" module="CIRC-main Libraries" brief="A Size-Center based Rectangle">
+            <function name="SCRect" fullname="SCRect::SCRect" href="screct.html#SCRect" status="active" access="public" location="SCRect.h" filepath="/home/code/repo/circ-main/src/libs/irMatGeo/SCRect.h" lineno="18" documented="true" meta="constructor" brief="SCRect::SCRect constructs an empty rectangle at the origin" signature="SCRect()"/>
+            <function name="SCRect" fullname="SCRect::SCRect" href="screct.html#SCRect-1" status="active" access="public" location="SCRect.h" filepath="/home/code/repo/circ-main/src/libs/irMatGeo/SCRect.h" lineno="20" documented="true" meta="constructor" overload="true" overload-number="1" brief="SCRect::SCRect constructs a rectangle with specified size centered on itself or the origin" signature="SCRect(const Size sz, const bool centered)">
+                <parameter type="const Size" name="sz" default=""/>
+                <parameter type="const bool" name="centered" default="true"/>
+            </function>
+            <function name="SCRect" fullname="SCRect::SCRect" href="screct.html#SCRect-2" status="active" access="public" location="SCRect.h" filepath="/home/code/repo/circ-main/src/libs/irMatGeo/SCRect.h" lineno="19" documented="true" meta="constructor" overload="true" overload-number="2" brief="SCRect::SCRect constructs a square at the origin or its center where dim the number of pixels for each side of the square, and centered controls if true centered on square or if false centered at the origin" signature="SCRect(const int dim, const bool centered)">
+                <parameter type="const int" name="dim" default=""/>
+                <parameter type="const bool" name="centered" default="true"/>
+            </function>
+        </class>
+        <class name="cvqPoint" href="cvqpoint.html" status="active" access="public" location="cvqPoint.h" filepath="/home/code/repo/circ-main/src/libs/QtCVcore/cvqPoint.h" lineno="7" documented="true" module="CIRC-main Libraries" brief="Cv::Point from QPoint"/>
+        <class name="cvqSize" href="cvqsize.html" status="active" access="public" location="cvqSize.h" filepath="/home/code/repo/circ-main/src/libs/QtCVcore/cvqSize.h" lineno="7" documented="true" module="CIRC-main Libraries" brief="Cv::Size from QSize"/>
+        <class name="qcvPoint" href="qcvpoint.html" status="active" access="public" location="qcvPoint.h" filepath="/home/code/repo/circ-main/src/libs/QtCVcore/qcvPoint.h" lineno="7" documented="true" module="CIRC-main Libraries" brief="Cv::Point from QPoint"/>
+        <module name="CIRC-main Libraries" href="circ-main-libraries-module.html" status="internal" seen="false" title=""/>
+    </namespace>
+</INDEX>
