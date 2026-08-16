@@ -38,7 +38,6 @@ bool Log::evaluate(const Operator aOp, const QVariant &aExp, const QVariant &aAc
     case GreaterEqual:  result.set(tSign.state() >= TriBool::True);     break;
     default:                                                            break;
     };
-    Q_ASSERT(result.valid());
     return result;
 }
 

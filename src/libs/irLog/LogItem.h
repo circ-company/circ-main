@@ -46,12 +46,13 @@ public: // const
 public: // non-const
     void clear();
     void level(const StatusLevel aLevel);
-    void set(const Type type);
-    void set(const CodeContext &ctx);
-    void set(const AText &aText);
+    void type(const Type type);
+    void context(const CodeContext &ctx);
+    void format(const AText &aText);
+    void op(const Log::Operator aOp);
     void set(const QVariant aVar);
     void set(const QVariantList aVarList);
-    void set(const Log::Operator op);
+    void pointer(void * aPtr, const char *aExpression);
     void assertIs(const Log::Operator aOp,
                   const bool aIs, const char *aExpression);
     void expect(const Log::Operator aOp, // True or False
@@ -79,8 +80,8 @@ private:
     StatusLevel mLevel;
     CodeContext mContext;
     AText mFormat;
-    QVariantList mVarList;
     Log::Operator mOperator=Log::$nullOperator;
+    QVariantList mVarList;
 
 public: // QMetaType
     const LogItem & it() const { return *this; }
@@ -103,13 +104,14 @@ inline LogItem::Type LogItem::type() const { return mType; }
 inline CodeContext LogItem::context() const { return mContext; }
 inline AText LogItem::message() const { return mFormat; }
 inline Count LogItem::varCount() const { return vars().count(); }
-
 inline QVariantList LogItem::vars() const { return mVarList; }
 inline bool LogItem::isFault() const { return level().isFault(); }
 inline void LogItem::level(const StatusLevel aLevel) { mLevel = aLevel; }
-
+inline void LogItem::type(const Type type) { mType = type; }
+inline void LogItem::context(const CodeContext &ctx) { mContext = ctx; }
+inline void LogItem::format(const AText &aText) { mFormat = aText; }
 inline void LogItem::set(const QVariant aVar) { mVarList.append(aVar); }
 inline void LogItem::set(const QVariantList aVarList) { mVarList = aVarList; }
-inline void LogItem::set(const Log::Operator op) { mOperator = op; }
+inline void LogItem::op(const Log::Operator aOp) { mOperator = aOp; }
 
 

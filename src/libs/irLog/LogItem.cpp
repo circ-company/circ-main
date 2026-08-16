@@ -10,9 +10,7 @@ LogItem::LogItem(const Type type, const StatusLevel &lvl, const CodeContext &ctx
     , mType(type)
     , mLevel(lvl)
     , mContext(ctx)
-    , mOperator(Log::$nullOperator)
-{
-}
+    , mOperator(Log::$nullOperator) {;}
 
 QVariant LogItem::var(const Index ix) const
 {
@@ -23,7 +21,6 @@ QVariant LogItem::var(const Index ix) const
 
 AText LogItem::formatted() const
 {
-//    qDebug() << Q_FUNC_INFO << mFormat;
     AText result;
     if (varCount() && ! isList())
         result = mFormat.formatted(vars());
@@ -46,22 +43,25 @@ void LogItem::clear()
     mLevel.nullify();
     mContext.clear();
     mFormat.clear();
+    mOperator = Log::$nullOperator;
     mVarList.clear();
 }
 
-void LogItem::set(const AText &aText)
+void LogItem::pointer(void *aPtr, const char *aExpression)
 {
-    if (mFormat.isEmpty())
-        mFormat = aText;
-    else
-        set(QVariant(aText));
+    if (Log::evaluate(Log::NotEqual, 0, qptrdiff(aPtr)))
+        level(StatusLevel::TOK);
+    format("Pointer %1 %2 at 0x%3");
+    set(aExpression);
+    set(level().notWarn() ? "OK" : "FAIL");
+    set(QString::number(qptrdiff(aPtr), 16));
 }
 
 void LogItem::assertIs(const Log::Operator aOp, const bool aIs,
                        const char *aExpression)
 {
     if (Log::evaluate(aOp, aIs)) level(StatusLevel::TOK);
-    set(AText("Assertion %1 %2: %3"));
+    format(AText("Assertion %1 %2: %3"));
     set(QVariant(level().notWarn() ? "OK" : "FAIL"));
     set(QVariant(Log::True == aOp ? "true" : "false"));
     set(QVariant(aExpression));
@@ -70,11 +70,11 @@ void LogItem::assertIs(const Log::Operator aOp, const bool aIs,
 void LogItem::expect(const Log::Operator aOp,
                      const QVariant aActVar, const char *aActText)
 {
-    set(AText("Expected %1 is %2 for %3"));
+    format(AText("Expected %1 is %2 for %3"));
     set(AText(aActText));
     set(aActVar);
     set(QVariant(int(aOp)));
-    set(aOp);
+    op(aOp);
     if (Log::evaluate(aOp, aActVar))
         mLevel = StatusLevel::TOK;
 }
@@ -83,13 +83,13 @@ void LogItem::expect(const Log::Operator aOp,
                      const QVariant aExpVar, const char *aExpText,
                      const QVariant aActVar, const char *aActText)
 {
-    set(AText("Expected %1 is %2 to %3 Actual %4 is %5"));
+    format(AText("Expected %1 is %2 to %3 Actual %4 is %5"));
     set(AText(aActText));
     set(aActVar);
     set(QVariant(int(aOp)));
     set(AText(aExpText));
     set(aExpVar);
-    set(aOp);
+    op(aOp);
     if (Log::evaluate(aOp, aExpVar, aActVar))
         mLevel = StatusLevel::TOK;
 }
@@ -105,8 +105,8 @@ bool LogItem::connect(QObject *sender, const QMetaMethod &signal,
     QObject * pReceiver = qobject_cast<QObject*>(receiver);
     result.expect(nullptr != pSender);
     result.expect(nullptr != pReceiver);
-    WEXPECTNE(0, qptrdiff(pSender));
-    WEXPECTNE(0, qptrdiff(pReceiver));
+    CKPOINTER(pSender);
+    CKPOINTER(pReceiver);
     if (result.isInvalid()) // nothing failed yet
     {
         const bool cOK = QObject::connect(pSender, signal,
@@ -114,7 +114,7 @@ bool LogItem::connect(QObject *sender, const QMetaMethod &signal,
         result.expect(cOK);
     }
     if (result.isInvalid()) level(StatusLevel::TOK);
-    set(AText("Connect %1 for %2,%3 to %4,%5"));
+    format(AText("Connect %1 for %2,%3 to %4,%5"));
     set(QVariant(AText(level().isError() ? "FAIL" : "OK")));
     set(QVariant(AText(pchSender)));
     set(QVariant(AText(pchSignal)));
@@ -132,13 +132,13 @@ void LogItem::newobj(QObject *pNewObj, const CText &aObjName, QObject *pParent)
     if (nullptr == pNewObj)
     {
         level(StatusLevel::MAlloc);
-        set(AText("FAIL: Memory Allocation for <%1 %2(%3)> parent<%4(%5)>"));
+        format(AText("FAIL: Memory Allocation for <%1 %2(%3)> parent<%4(%5)>"));
     }
     else
     {
         level(StatusLevel::Info);
         tQmtObject = pNewObj->metaObject()->metaType();
-        set(AText("OK: Memory Allocation for <%1 %2(%3) at &6> parent<%4(%5)>"));
+        format(AText("OK: Memory Allocation for <%1 %2(%3) at &6> parent<%4(%5)>"));
     }
     set(aObjName);
     set(AText(tQmtObject.name()));
@@ -152,7 +152,7 @@ void LogItem::dumpVar(const QVariant aVar, const char * aText)
 {
     const QMetaType cQMT = aVar.metaType();
     const AText cFmt = QString("Dump %1(%2): `%3` is <%4>");
-    set(cFmt);
+    format(cFmt);
     set(AText(cQMT.name()));
     set(QVariant(int(cQMT.id())));
     set(AText(aText));
@@ -163,7 +163,7 @@ void LogItem::dumpAll(const QVariant aVar, const char *aText)
 {
     const QMetaType cQMT = aVar.metaType();
     const AText cFmt = QString("Dump %1(%2): `%3");
-    set(cFmt);
+    format(cFmt);
     set(AText(cQMT.name()));
     set(QVariant(int(cQMT.id())));
     set(AText(aText));

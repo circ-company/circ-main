@@ -121,8 +121,8 @@ void irViewApplication::initActions()
     Action * pFileDir = actmgr().add("File/OpenDir");
     Action * pFileClose = actmgr().add("File/Close");
     Action * pFileExit = actmgr().add("File/Exit");
-    MASSERT(pFileOpen); MASSERT(pFileDir);
-    MASSERT(pFileClose); MASSERT(pFileExit);
+    CKPOINTER(pFileOpen); CKPOINTER(pFileDir);
+    CKPOINTER(pFileClose); CKPOINTER(pFileExit);
     pFileOpen->qaction()->setShortcut(QKeySequence::Open);
     pFileDir->qaction()->setShortcut(QKeySequence("Ctrl+D"));
     pFileClose->qaction()->setShortcut(QKeySequence::Close);
@@ -133,13 +133,13 @@ void irViewApplication::initActions()
 void irViewApplication::connectActions()
 {
     FNENTER();
-    CONNECT(actmgr().action("File/OpenFile")->qaction(),
+    connect(actmgr().action("File/OpenFile")->qaction(),
             &QAction::triggered, this, &irViewApplication::fileOpen);
-    CONNECT(actmgr().action("File/OpenDir")->qaction(),
+    connect(actmgr().action("File/OpenDir")->qaction(),
             &QAction::triggered, this, &irViewApplication::dirOpen);
-    CONNECT(actmgr().action("File/Close")->qaction(),
+    connect(actmgr().action("File/Close")->qaction(),
             &QAction::triggered, this, &irViewApplication::fileClose);
-    CONNECT(actmgr().action("File/Exit")->qaction(),
+    connect(actmgr().action("File/Exit")->qaction(),
             &QAction::triggered, this, &irViewApplication::fileExit);
     FNRTNVOID();
 }
