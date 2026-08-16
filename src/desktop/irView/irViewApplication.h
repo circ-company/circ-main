@@ -48,6 +48,7 @@ private slots:
     void fileOpen();
     void dirOpen();
     void fileClose();
+    void fileExit();
 
 private:
     void initActions();

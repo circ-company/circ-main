@@ -57,11 +57,14 @@ void LogItem::set(const AText &aText)
         set(QVariant(aText));
 }
 
-void LogItem::assertIs(const Log::Operator aOp, const bool aIs, const char *aExpression)
+void LogItem::assertIs(const Log::Operator aOp, const bool aIs,
+                       const char *aExpression)
 {
-//    qDebug() << Q_FUNC_INFO << aExpression << aIs << level().name();
-    if (Log::evaluate(aOp, aIs))
-        mLevel = StatusLevel::TOK;
+    if (Log::evaluate(aOp, aIs)) level(StatusLevel::TOK);
+    set(AText("Assertion %1 %2: %3"));
+    set(QVariant(level().notWarn() ? "OK" : "FAIL"));
+    set(QVariant(Log::True == aOp ? "true" : "false"));
+    set(QVariant(aExpression));
 }
 
 void LogItem::expect(const Log::Operator aOp,
@@ -111,12 +114,14 @@ bool LogItem::connect(QObject *sender, const QMetaMethod &signal,
         result.expect(cOK);
     }
     if (result.isInvalid()) level(StatusLevel::TOK);
-    set(AText("Connect %1 for %2 %3 to %4 %5"));
+    set(AText("Connect %1 for %2,%3 to %4,%5"));
     set(QVariant(AText(level().isError() ? "FAIL" : "OK")));
     set(QVariant(AText(pchSender)));
     set(QVariant(AText(pchSignal)));
     set(QVariant(AText(pchReceiver)));
     set(QVariant(AText(pchMethod)));
+    if ( ! isFault()) result.truify();
+    WASSERT(result);
     return result;
 }
 

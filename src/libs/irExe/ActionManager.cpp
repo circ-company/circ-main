@@ -28,7 +28,8 @@ Action *ActionManager::action(const Key &aKey) const
     Action * result = nullptr;
     if (contains(aKey))
         result = mKeyActionMap.value(aKey);
-    WASSERT(result);
+    ASSERT(result);
+    ASSERT(result->qaction());
     FNRTNVALUE(result ? result->id().name() : "<NULL>", "QString");
     return result;
 }

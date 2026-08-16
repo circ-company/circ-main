@@ -27,6 +27,7 @@ public slots:
     void release();
     void enqueue(LogItem li);
     void dequeue();
+    void flush();
 
 signals:
     void captured();

@@ -50,6 +50,23 @@ void LogEngine::dequeue()
 
 }
 
+void LogEngine::flush()
+{
+    QFile * pFile = new QFile(this);
+    Q_ASSERT(pFile);
+    if (pFile->open(stderr, QIODevice::WriteOnly))
+    {
+        pFile->flush();
+        pFile->close();
+    }
+    if (pFile->open(stdout, QIODevice::WriteOnly))
+    {
+        pFile->flush();
+        pFile->close();
+    }
+    pFile->deleteLater();
+}
+
 bool LogEngine::isEmpty() const
 {
     Q_ASSERT(mUidItemMap.count() == mLevelUidMMap.count());

@@ -107,6 +107,13 @@ void irViewApplication::fileClose()
     FNRTNVOID();
 }
 
+void irViewApplication::fileExit()
+{
+    FNENTER();
+    qApp->quit();
+    FNRTNVOID();
+}
+
 void irViewApplication::initActions()
 {
     FNENTER();
@@ -126,17 +133,14 @@ void irViewApplication::initActions()
 void irViewApplication::connectActions()
 {
     FNENTER();
-    Action * pFileOpen = actmgr().action("File/FileOpen");
-    WCKPOINTER(pFileOpen);
-    if (pFileOpen)
-        connect(pFileOpen->qaction(),
-                &QAction::triggered, this, &irViewApplication::fileOpen);
-    connect(actmgr().action("File/Exit")->qaction(),
-            &QAction::triggered, this, &QApplication::exit);
-    connect(actmgr().action("File/DirOpen")->qaction(),
+    CONNECT(actmgr().action("File/OpenFile")->qaction(),
+            &QAction::triggered, this, &irViewApplication::fileOpen);
+    CONNECT(actmgr().action("File/OpenDir")->qaction(),
             &QAction::triggered, this, &irViewApplication::dirOpen);
-    connect(actmgr().action("File/FileClose")->qaction(),
+    CONNECT(actmgr().action("File/Close")->qaction(),
             &QAction::triggered, this, &irViewApplication::fileClose);
+    CONNECT(actmgr().action("File/Exit")->qaction(),
+            &QAction::triggered, this, &irViewApplication::fileExit);
     FNRTNVOID();
 }
 

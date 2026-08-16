@@ -32,7 +32,8 @@
 
 #define CONNECT(sobj, sig, robj, slt) \
           { LOGITEM(Log::Connect, StatusLevel::Error, CODECONTEXT()); \
-            li.connect(sobj, sig, robj, slt, #sobj, #sig, #robj, #slt); \
+            li.connect(sobj, QMetaMethod::fromSignal(sig), \
+            robj, QMetaMethod::fromSignal(slt), #sobj, #sig, #robj, #slt); \
             LOG->enqueue(li); }
 
 #define TRACEMSG(msg)       MESSAGELI(StatusLevel::Trace, msg);
