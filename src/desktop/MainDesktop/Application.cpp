@@ -10,7 +10,7 @@
 #include <XmlDocObject.h>
 #include <cvODCatalog.h>
 
-#include "MainWindow.h"
+#include "LoyaltyDisplayScreen.h"
 
 Application::Application(int &argc, char **argv)
     : QQApplication(argc, argv)
@@ -28,12 +28,12 @@ void Application::run()
     FNENTER()
     PROGMSG("Running Application:" + mainWindow()->objectName());
     QQApplication::run();
-    connect(this, &Application::running, mainWindow(), &MainWindow::run);
-    connect(mainWindow(), &MainWindow::running, this, &Application::initialize);
-    connect(this, &Application::initialized, mainWindow(), &MainWindow::initialize);
-    connect(mainWindow(), &MainWindow::initialized, mainWindow(), &MainWindow::setup);
-    connect(mainWindow(), &MainWindow::setuped, mainWindow(), &MainWindow::ready);
-    connect(mainWindow(), &MainWindow::readied,  this, &Application::start);
+    connect(this, &Application::running, mainWindow(), &LoyaltyDisplayScreen::run);
+    connect(mainWindow(), &LoyaltyDisplayScreen::running, this, &Application::initialize);
+    connect(this, &Application::initialized, mainWindow(), &LoyaltyDisplayScreen::initialize);
+    connect(mainWindow(), &LoyaltyDisplayScreen::initialized, mainWindow(), &LoyaltyDisplayScreen::setup);
+    connect(mainWindow(), &LoyaltyDisplayScreen::setuped, mainWindow(), &LoyaltyDisplayScreen::ready);
+    connect(mainWindow(), &LoyaltyDisplayScreen::readied,  this, &Application::start);
     FNEMIT(running);
     emit running();
     FNRTNVOID();

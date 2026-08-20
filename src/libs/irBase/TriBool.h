@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QMetaType>
+
 class TriBool
 {
 public: // ctors
@@ -13,7 +15,6 @@ public: // ctors
     };
 
 public: // ctors
-    TriBool();
     TriBool(const bool is);
 
 public: // const
@@ -40,9 +41,19 @@ public: // non-const
     bool operator &= (const TriBool &other);
 
 protected:
-    bool mValue = true;
+    bool mValue = false;
     bool mValid = false;
+
+public: // QMetaType
+    TriBool & it() { return *this; }
+    const TriBool & it() const { return *this; }
+    TriBool() = default;
+    ~TriBool() = default;
+    TriBool(const TriBool &) = default;
+    TriBool &operator=(const TriBool &) = default;
 };
+
+Q_DECLARE_METATYPE(TriBool);
 
 inline bool TriBool::value() const { return mValue; }
 inline bool TriBool::valid() const { return mValid; }

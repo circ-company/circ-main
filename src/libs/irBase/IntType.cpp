@@ -1,10 +1,10 @@
-#include "MetaType.h"
+#include "IntType.h"
 
-MetaType::MetaType() {;}
-MetaType::MetaType(const int aId) : QMetaType(aId) {;}
-MetaType::MetaType(const QMetaType &aOther) : QMetaType(aOther) {;}
+IntType::IntType() {;}
+IntType::IntType(const int aId) : QMetaType(aId) {;}
+IntType::IntType(const QMetaType &aOther) : QMetaType(aOther) {;}
 
-TriBool MetaType::isSigned() const
+TriBool IntType::isSigned() const
 {
     TriBool result;
     /*-*/if (id() == QMetaType::Int)            result.set(true);

@@ -1,5 +1,7 @@
 #include "TypeFormat.h"
 
+#include <QtDebug>
+
 #include "BaseTypeFormat.h"
 #include "CppTypeFormat.h"
 #include "QCoreTypeFormat.h"
@@ -19,8 +21,10 @@ TypeFormat::TypeFormat(const QVariant aVar)
     }
     else
     {
-        set(QString("[Unhandled: %1(%2):`%3`]").arg(cQMT.name())
-                .arg(cQMT.id()).arg(aVar.toString()));
+        qCritical() << QString("==>TypeFormat==>[Unhandled: %1(%2):`%3`]")
+                        .arg(cQMT.name())
+                        .arg(cQMT.id())
+                        .arg(aVar.toString());
     }
 }
 

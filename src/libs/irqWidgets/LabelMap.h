@@ -12,7 +12,7 @@ class Label;
 class LabelMap
 {
 public: // ctors
-    LabelMap(QWidget *labelsParent=nullptr);
+    LabelMap(QWidget *labelsParent);
 
 public: // const
     Label * label(const Key &key) const;

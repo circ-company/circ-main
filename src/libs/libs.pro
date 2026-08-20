@@ -8,6 +8,7 @@ SUBDIRS += \
     irImage \
     irLog \
     irMatGeo \
+    irMsg \
     irTypes \
     irqCore \
     irqGui \

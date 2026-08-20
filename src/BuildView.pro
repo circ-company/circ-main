@@ -26,7 +26,7 @@ irExe.depends           = irBase    irLog                                       
 irqXml.depends          = irBase    irLog       irMatGeo    irTypes                             irStore
 irqGui.depends          = irBase    irLog                   irTypes
 irqWidgets.depends      = irBase    irLog       irMatGeo    irTypes
-irImage.depends         = irBase ## TBD
+irImage.depends         = irBase    irLog
 irView.depends          = irBase    irLog       irMatGeo    irTypes     irqCore       irStore     irqXml   \
                             irqGui      irqWidgets      irImage
 

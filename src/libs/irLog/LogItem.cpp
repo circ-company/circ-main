@@ -51,6 +51,9 @@ void LogItem::pointer(void *aPtr, const char *aExpression)
 {
     if (Log::evaluate(Log::NotEqual, 0, qptrdiff(aPtr)))
         level(StatusLevel::TOK);
+#if 1 // def __LOG_SUPRESS_OK
+    if (level().notWarn()) return;                                /*/=====\*/
+#endif
     format("Pointer %1 %2 at 0x%3");
     set(aExpression);
     set(level().notWarn() ? "OK" : "FAIL");

@@ -4,13 +4,13 @@
 
 #define APP (Application)(qApp)
 
-class MainWindow : public QQMainWindow
+class LoyaltyDisplayScreen : public QQMainWindow
 {
     Q_OBJECT
 public: // types
 
 public: // c'tors
-    MainWindow(QQApplication *app);
+    LoyaltyDisplayScreen(QQApplication *app);
 
 public slots:
     virtual void run() final;

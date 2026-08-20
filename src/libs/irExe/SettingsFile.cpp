@@ -51,7 +51,7 @@ bool SettingsFile::xmlReadFunc(QIODevice &aDevice,
     else
     {
         result.set(false);
-        WARNMSG(cDocResult.toString());
+        WARNING(cDocResult.toString());
     }
     return result;
 }

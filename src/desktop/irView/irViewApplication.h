@@ -9,6 +9,7 @@
 #include <ActionManager.h>
 #include <FileInfo.h>
 #include <FileInfoList.h>
+#include <Image.h>
 #include <LabelMap.h>
 
 class irViewMainWindow;
@@ -24,15 +25,14 @@ public slots:
     void initialize();
     void setup();
     void start();
+    void openImageFile(const FileInfo &aFI);
 
 signals:
     void running();
     void initialized();
     void setuped();
     void started();
-    void fileOpened(const FileInfo &fi);
-    void dirOpened(const FileInfo &fi);
-    void fileClosed(const FileInfo &fi);
+    void imageOpened(const Key aKey, const Image aImage);
 
 public: // const
     QDir currentDir() const;
@@ -41,8 +41,7 @@ public: // non-const
 
 public: // pointers
     irViewMainWindow * mainWindow();
-    const ActionManager & actmgr() const;
-    ActionManager & actmgr();
+    ActionManager * actmgr();
 
 private slots:
     void fileOpen();
@@ -59,10 +58,9 @@ private:
     ActionManager mActionManager;
     FileInfo mCurrentDir;
     FileInfoList mFileList;
-    LabelMap mLabelMap;
+    KeyMapT<Image> mKeyImageMap;
 };
 
 inline QDir irViewApplication::currentDir() const { return mCurrentDir.dir(); }
 inline irViewMainWindow *irViewApplication::mainWindow() { Q_CHECK_PTR(mpMainWindow); return mpMainWindow; }
-inline const ActionManager &irViewApplication::actmgr() const { return mActionManager; }
-inline ActionManager &irViewApplication::actmgr() { return mActionManager; }
+inline ActionManager * irViewApplication::actmgr() { return & mActionManager; }

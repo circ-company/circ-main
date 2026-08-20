@@ -1,22 +1,24 @@
 #include "QCoreTypeFormat.h"
 
 #include <QFileInfo>
+#include <QSize>
 
 void QCoreTypeFormat::registerQCore()
 {
-    const int cTypeIdQFileInfo = QMetaType::fromName("QFileInfo").id();
+    const int cTypeIdQFileInfo = qRegisterMetaType<QFileInfo>();
 //    qDebug() << Q_FUNC_INFO << cTypeIdQFileInfo;
     Q_ASSERT(cTypeIdQFileInfo);
 
     registerFunction(QMetaType::QChar, &formatQChar);
     registerFunction(QMetaType::Char16, &formatQChar);
-//    registerFunction(QMetaType::Char32, &formatQChar);
     registerFunction(QMetaType::QByteArray, &formatString);
     registerFunction(QMetaType::QString, &formatString);
     registerFunction(QMetaType::QBitArray, &formatHexData);
     registerFunction(QMetaType::QByteArray, &formatHexData);
+    registerFunction(QMetaType::QSize, &formatQSize);
     registerFunction(cTypeIdQFileInfo, &formatQFileInfo);
-    // TODO howto: QMetaType::Char32
+//  registerFunction(QMetaType::Char32, &formatQChar);
+//  TODO howto: QMetaType::Char32
 }
 
 AText QCoreTypeFormat::formatQChar(const QVariant &aVar)
@@ -42,8 +44,16 @@ AText QCoreTypeFormat::formatHexData(const QVariant &aVar)
     QByteArray cBytes = aVar.toByteArray();
     QString cHexStr = AText(cBytes.toHex());
     cHexStr.truncate(64);
-    result = QString("bytes(%1):%2").arg(cBytes.length()).arg(cHexStr);
+    result = QString("HEX(%1):<%2>").arg(cBytes.length()).arg(cHexStr);
     return result;
+}
+
+AText QCoreTypeFormat::formatQSize(const QVariant &aVar)
+{
+    const QSize cSize = aVar.toSize();
+    return AText::format("QSize(w%1, h%2)",
+                         TypeFormat(cSize.height()),
+                         TypeFormat(cSize.width()));
 }
 
 AText QCoreTypeFormat::formatQFileInfo(const QVariant &aVar)

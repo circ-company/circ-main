@@ -14,6 +14,7 @@ public:
     KeySegList(const char * pch);
     KeySegList(const AText &at);
     KeySegList(const QString &s);
+    KeySegList(const QWORD aQWord);
     KeySegList(const QList<KeySeg> &other);
 
 public: // const
@@ -34,6 +35,7 @@ public: // non-const
     void set(const char * pch);
     void set(const AText &at);
     void set(const QString &s);
+    void set(const QWORD aQWord);
     void set(const QList<KeySeg> &other);
     void operator += (const KeySeg &aSeg);
 

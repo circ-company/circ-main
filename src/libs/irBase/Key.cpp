@@ -1,6 +1,10 @@
 #include "Key.h"
 
+#include <QList>
+#include <QStringList>
+
 #include "Types.h"
+#include "Uid.h"
 
 bool Key::startsWith(const Key &start) const
 {
@@ -8,6 +12,13 @@ bool Key::startsWith(const Key &start) const
         if ( ! isValidIndex(ix) || at(ix) != start.at(ix))
             return false;
     return true;
+}
+
+QVariant Key::toVariant() const
+{
+    QVariant result;
+    result.setValue<Key>(it());
+    return result;
 }
 
 QWORD Key::hash64() const
@@ -30,13 +41,47 @@ QWORD Key::hash64() const
     return tUnion.qw;
 }
 
-Key Key::operator +(const KeySeg &aSeg) const
+Uid Key::toUid() const
+{
+    Uid result(Uid::VarFromKey);
+    KeySegList tSegments = it();
+    // TODO Use QRandom64
+    DWORD segA = random();
+    WORD  segB = random();
+    WORD  segC = random();
+    WORD  segD = random();
+    QWORD segE = QWORD(random() << 32) | QWORD(random());
+    if (tSegments.notEmpty()) segA = qHash(tSegments.takeFirst());
+    if (tSegments.notEmpty()) segB = qHash(tSegments.takeFirst());
+    if (tSegments.notEmpty()) segC = qHash(tSegments.takeFirst());
+    if (tSegments.notEmpty()) segD = qHash(tSegments.takeFirst());
+    while (tSegments.notEmpty()) segE ^= qHash(tSegments.takeFirst());
+    return Uid(segA, segB, segC, segD, segE);
+}
+
+Key Key::operator + (const KeySeg &aSeg) const
 {
     return Key(it() + aSeg);
 }
 
+// global
 Key operator+(const Key &aKey, KeySeg &aSeg)
 {
     return aKey.add(aSeg);
+}
+
+// static
+Key Key::fromName(const QString aName)
+{
+    Key result;
+    QStringList tStringList = aName.simplified().split(' ');
+    while ( ! tStringList.isEmpty())
+    {
+        const QString cStr = tStringList.takeFirst();
+        const KeySeg cSeg(cStr);
+        if ( ! cSeg.isEmpty())
+            result.add(cSeg);
+    }
+    return result;
 }
 

@@ -6,7 +6,7 @@
 #include <climits>
 
 #include "ATextList.h"
-#include "MetaType.h"
+#include "IntType.h"
 #include "TriBool.h"
 #include "TypeFormat.h"
 
@@ -87,7 +87,7 @@ AText AText::formattedList(const QVariantList vars) const
     for (Index ix = 0; ix < cVarCount; ++ix)
     {
         const QString cPctString = "%" + QString::number(ix + 1);
-        const QString cValue = vars[ix].toString();
+        const QString cValue = TypeFormat(vars[ix]);
         result.replace(cPctString, cValue);
     }
     return AText(result);
@@ -229,7 +229,7 @@ void AText::removeEach(const AText &atx)
 AText AText::formatDecimal(const QVariant aVar)
 {
     AText result;
-    const MetaType cMT = aVar.metaType();
+    const IntType cMT = aVar.metaType();
     const TriBool cSign = cMT.isSigned();
     signed long long tSInt = 0;
     unsigned long long tUInt = 0;
@@ -250,9 +250,9 @@ AText AText::formatDecimal(const QVariant aVar)
     {
         ; // non integral, return nothing
     }
-    if (tNumString.length() > 3)
-        for (Index ix = tNumString.length(); ix > tStartIx; ix -= 3)
-            tNumString.insert(ix, ",");
+//    if (tNumString.length() > 3)
+  //      for (Index ix = tNumString.length(); ix > tStartIx; ix -= 3)
+    //        tNumString.insert(ix, ",");
     return result = tNumString;
 }
 

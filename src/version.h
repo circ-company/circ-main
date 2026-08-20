@@ -1,4 +1,4 @@
-// {Eclipse7}/src/version.h Common version #define's for EIRC development
+// {circ-main}/src/version.h Common version #define's for CIRC s development
 #pragma once
 
 #define VER_MAJOR           6

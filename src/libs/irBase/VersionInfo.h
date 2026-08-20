@@ -30,7 +30,11 @@ public: // types
     };
     Q_DECLARE_FLAGS(StringOptions, StringOption);
     Q_FLAGS(StringOptions);
-
+/*
+    , cmVersion(VER_MAJOR, VER_MINOR, VER_RELEASE,
+                VER_BRANCH, VER_BUILD, VER_BRANCHNAME,
+                VER_APPNAME, VER_ORGNAME, VER_COMMENT)
+*/
 public: // ctors
     VersionInfo(const quint8 maj, const quint16 min, const quint8 rls,
                 const quint16 bch, const quint16 bld, const char * bnm,

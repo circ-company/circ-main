@@ -50,19 +50,19 @@ public: // types
     enum Variant
     {
         $nullVar    = -1,
-        VarNcs      = 0,    // 0b0--+
-        VarNcs1,
+        VarNcs      =  0,    // 0b0--+
+        VarFromKey  =  1,
         VarNcs2,
         VarNcs3,
         VarNcs4,
         VarNcs5,
         VarNcs6,
         VarNcs7,
-        VarDce      = 8,    // 0b10-+
+        VarDce      =  8,    // 0b10-+
         VarDce9,
         VarDce10,
         VarDce11,
-        VarGuid   = 12,   // 0b110+ (Microsoft)
+        VarGuid     = 12,   // 0b110+ (Microsoft)
         VarGuid13,
         $invalidVar = 15
     };
@@ -101,13 +101,14 @@ public: // types
 
 public: // ctors
     Uid(const bool random); // nil or random
-    Uid(const QAnyStringView & s);
+    Uid(const QAnyStringView & s, const Uid aNS=Uid(true));
     Uid(const XText & hex);
     Uid(const Variant var); // NCS or GUID
     Uid(const Version ver, // DCEv1&6
         const QWORD &macOverride=0,
         const QDateTime &tstampOverride=QDateTime());
     Uid(const Version ver, const AText text, const Uid &ns=Uid(false)); // DCEv3&5
+    Uid(const QWORD aHi, const QWORD aLo);
     Uid(const DWORD segA, const WORD segB, const WORD segC,
         const WORD segD, const QWORD segE48,
         const Version ver=VerCustom, const Variant var=VarDce);
@@ -159,6 +160,8 @@ public: // non-const
                         const QDateTime &tstampOverride=QDateTime());
     Uid generateRandomV4();
     Uid generate7(const Type type);
+    Uid generate(const Version aVer, const Uid aNS,
+                 const QByteArrayView aQBAV);
     void nullify();
     void nilify();
     void maxify();

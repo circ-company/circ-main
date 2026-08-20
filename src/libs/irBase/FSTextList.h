@@ -2,12 +2,18 @@
 
 #include "FSText.h"
 
+#include <QByteArrayList>
+#include <QStringList>
+
+#include "ATextList.h"
+
 class FSTextList : public FSText::List
 {
 public: // ctors
     FSTextList();
-    FSTextList(const QByteArrayList &other);
-    FSTextList(const AText::List &other);
+    FSTextList(const QByteArrayList &aQBAL);
+    FSTextList(const QStringList &aQSL);
+    FSTextList(const ATextList &other);
     FSTextList(const QList<FSText> &other);
 
 public: // const

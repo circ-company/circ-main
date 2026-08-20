@@ -11,10 +11,11 @@
 QDateTime smTimestamp;
 
 Uid::Uid(const bool random) { if (random) randomize(); else nilify(); }
+
+Uid::Uid(const QAnyStringView &s, const Uid aNS) {;}
 Uid::Uid(const Variant var) { generate(var); }
 Uid::Uid(const Version ver, const QWORD &macOverride, const QDateTime &tstampOverride)
     { generateTimeMac(ver, macOverride, tstampOverride); }
-
 Uid::Uid(const Version ver, const AText text, const Uid &ns)
 {
     switch(ver)
@@ -24,7 +25,7 @@ Uid::Uid(const Version ver, const AText text, const Uid &ns)
     default:            qWarning() << "Invalid Version";    break;
     };
 }
-
+Uid::Uid(const QWORD aHi, const QWORD aLo) { hi(aHi), lo(aLo); }
 Uid::Uid(const DWORD segA, const WORD segB, const WORD segC, const WORD segD,
          const QWORD segE48, const Version ver, const Variant var)
     { set(segA, segB, segC, segD, segE48, ver, var); }
@@ -250,6 +251,20 @@ Uid Uid::generateRandomV4()
     Uid result; // null
     randomize();
     set(VerRandom);
+    return result;
+}
+
+Uid Uid::generate(const Version aVer, const Uid aNS,
+                  const QByteArrayView aQBAV)
+{
+    Uid result(true);
+    result.set(aVer);
+    switch (aVer)
+    {
+    case VerTextMd5:    result.set(QUuid::createUuidV3(aNS, aQBAV));    break;
+    case VerTextSha:    result.set(QUuid::createUuidV5(aNS, aQBAV));    break;
+    default:            /* leave random */                              break;
+    }
     return result;
 }
 

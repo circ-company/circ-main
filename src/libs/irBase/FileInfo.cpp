@@ -1,5 +1,9 @@
 #include "FileInfo.h"
 
+#include <QDataStream>
+
+#include "TriBool.h"
+
 FileInfo::FileInfo(const QFileInfo &other)
     : QFileInfo(other), Null(false) { setup(); }
 FileInfo::FileInfo(const FSText &filePathName)
@@ -33,6 +37,23 @@ FSText FileInfo::dirLast() const
 QFileInfo FileInfo::toQFileInfo() const
 {
     return *(QFileInfo *)&(it());
+}
+
+Key FileInfo::key() const
+{
+    Key result;
+    const FSText cFileName = fileName();
+    const FSTextList cDirNames(path().split(FSText::hinge()));
+#ifdef QT_WIN
+    if (isAbsolute())
+    {
+        MUSTDO(); // TODO Handle 'C:' to "DriveC"
+    }
+#endif
+    if (isAbsolute()) result.append(KeySeg(FSText::hinge()));
+    foreach (const FSText cFSTx, cDirNames)
+        result.append(KeySeg(cFSTx));
+    return result;
 }
 
 QVariant FileInfo::toVariant() const
@@ -94,6 +115,18 @@ QStringList FileInfo::toStringList(const StringOptions aOptions) const
     return result;
 }
 
+QByteArray FileInfo::toData() const
+{
+    QByteArray result;
+    QDataStream tDS(result);
+    if ( ! isNull())
+    {
+        tDS << toQFileInfo().filePath();
+        tDS << int(mOptions);
+    }
+    return result;
+}
+
 void FileInfo::clear()
 {
     QFileInfo::setFile("");
@@ -136,6 +169,27 @@ void FileInfo::setup()
     if (isRoot())           mOptions.setFlag(Root);
     if (isAbsolute())       mOptions.setFlag(Absolute);
 
+}
+
+FileInfo FileInfo::fromData(const QByteArray aBytes)
+{
+    FileInfo result;
+    if (aBytes.isEmpty())
+    {
+        result.nullify();
+    }
+    else
+    {
+        QDataStream tDS(aBytes);
+        QString tFilePath;
+        int tOptions;
+        tDS >> tFilePath;
+        tDS >> tOptions;
+        result.setFile(tFilePath);
+        result.mOptions = FileInfo::StringOption(tOptions);
+        result.fullify();
+    }
+    return result;
 }
 
 void FileInfo::set(const QDir aDir)

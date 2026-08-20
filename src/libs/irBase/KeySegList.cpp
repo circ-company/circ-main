@@ -4,6 +4,7 @@ KeySegList::KeySegList() { set(); }
 KeySegList::KeySegList(const char *pch) { set(pch); }
 KeySegList::KeySegList(const AText &at) { set(at); }
 KeySegList::KeySegList(const QString &s) { set(s); }
+KeySegList::KeySegList(const QWORD aQWord) { set(aQWord); }
 KeySegList::KeySegList(const QList<KeySeg> &other) { set(other); }
 
 QString KeySegList::toString() const
@@ -45,6 +46,15 @@ void KeySegList::set(const AText &at)
     clear();
     foreach (const AText cAT, at.split(hinge()))
         append(KeySeg(cAT));
+}
+
+void KeySegList::set(const QWORD aQWord)
+{
+    set(QString("%1/%2/%3/%4")
+            .arg(aQWord >> 48, 8, 16, u'0')
+            .arg(aQWord & 0x0000FFFF00000000 >> 32, 8, 16, u'0')
+            .arg(aQWord & 0x00000000FFFF0000 >> 16, 8, 16, u'0')
+            .arg(aQWord & 0x000000000000FFFF, 8, 16, u'0'));
 }
 
 void KeySegList::set(const QList<KeySeg> &other)

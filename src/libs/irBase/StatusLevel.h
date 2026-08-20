@@ -15,7 +15,7 @@ public: // types
         $null = 0,
         $Trace = 10,        // 10-Begin Trace
         FuncArg,            // 11
-        FuncLeave,          // 12
+        FuncReturn,          // 12
         FuncEmit,           // 13
         FuncRes,            // 14
         FuncResEn,          // 15
@@ -59,7 +59,7 @@ public: // types
 
         $Error = 60,        // 60-Begin Error
         Error,              // 61
-        Level62,
+        NeedDo,             // 62
         Expect,             // 63
         Level64,
         Assert,             // 65

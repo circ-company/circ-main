@@ -1,7 +1,8 @@
 #include "irViewApplication.h"
 
 #include <QAction>
-#include <QFileSystemModel>
+#include <QDir>
+//#include <QFileSystemModel>
 #include <QKeySequence>
 #include <QTimer>
 #include <QVariant>
@@ -9,6 +10,7 @@
 
 #include <Action.h>
 #include <ActionManager.h>
+#include <FileInfo.h>
 #include <Log.h>
 #include <NameFilters.h>
 
@@ -20,8 +22,9 @@ irViewApplication::irViewApplication(int &argc, char **argv)
 {
     LOG->initialize();
     setObjectName("Application:irView");
-    QDir tCurrentDir = FileInfo(arguments().first()).dir();
-    if (tCurrentDir.exists("../Input")) tCurrentDir.cd("../Input");
+    const QStringList cArgs = arguments();
+    QDir tCurrentDir = FileInfo(cArgs.first()).dir();
+    tCurrentDir.cd("../Input");
     mCurrentDir.set(tCurrentDir);
 }
 
@@ -47,7 +50,7 @@ void irViewApplication::initialize()
     FNENTER();
 
     initActions();
-    DUMPQSL(actmgr().toDebugStrings());
+    DUMPQSL(actmgr()->toDebugStrings());
 
     FNEMIT(initialized);
     emit initialized();
@@ -74,14 +77,29 @@ void irViewApplication::start()
     FNRTNVOID();
 }
 
+void irViewApplication::openImageFile(const FileInfo &aFI)
+{
+    FNENTER();
+    if (aFI.exists() && aFI.isReadable()
+            && ! mKeyImageMap.contains(aFI.key()))
+    {
+        Image tImage(aFI);
+        if ( ! tImage.isNull())
+        {
+            mKeyImageMap.insert(aFI.key(), tImage);
+            FNEMITARG("imageOpened", tImage.fileKey()(), "QString");
+            FNEMITARG("imageOpened", tImage.toQImage().size(), "QSize");
+            emit imageOpened(tImage.fileKey(), tImage);
+        }
+    }
+    FNRTNVOID();
+}
+
 void irViewApplication::fileOpen()
 {
     FNENTER();
-    FileInfo tFI = mainWindow()->doFileOpenDialog();
-    DUMPVAR(tFI);
+    mainWindow()->doFileOpenDialog();
 
-    FNEMITARG("fileOpened", tFI, "FileInfo");
-    emit fileOpened(tFI);
     FNRTNVOID();
 
 }
@@ -91,8 +109,6 @@ void irViewApplication::dirOpen()
     FNENTER();
     FileInfo tFI;
 
-    FNEMITARG("dirOpened", tFI, "FileInfo");
-    emit dirOpened(tFI);
     FNRTNVOID();
 
 }
@@ -102,8 +118,6 @@ void irViewApplication::fileClose()
     FNENTER();
     FileInfo tFI;
 
-    FNEMITARG("fileClosed", tFI, "FileInfo");
-    emit fileClosed(tFI);
     FNRTNVOID();
 }
 
@@ -117,10 +131,10 @@ void irViewApplication::fileExit()
 void irViewApplication::initActions()
 {
     FNENTER();
-    Action * pFileOpen = actmgr().add("File/OpenFile");
-    Action * pFileDir = actmgr().add("File/OpenDir");
-    Action * pFileClose = actmgr().add("File/Close");
-    Action * pFileExit = actmgr().add("File/Exit");
+    Action * pFileOpen = actmgr()->add("File/OpenFile");
+    Action * pFileDir = actmgr()->add("File/OpenDir");
+    Action * pFileClose = actmgr()->add("File/Close");
+    Action * pFileExit = actmgr()->add("File/Exit");
     CKPOINTER(pFileOpen); CKPOINTER(pFileDir);
     CKPOINTER(pFileClose); CKPOINTER(pFileExit);
     pFileOpen->qaction()->setShortcut(QKeySequence::Open);
@@ -133,14 +147,18 @@ void irViewApplication::initActions()
 void irViewApplication::connectActions()
 {
     FNENTER();
-    connect(actmgr().action("File/OpenFile")->qaction(),
+    connect(actmgr()->action("File/OpenFile")->qaction(),
             &QAction::triggered, this, &irViewApplication::fileOpen);
-    connect(actmgr().action("File/OpenDir")->qaction(),
+    connect(actmgr()->action("File/OpenDir")->qaction(),
             &QAction::triggered, this, &irViewApplication::dirOpen);
-    connect(actmgr().action("File/Close")->qaction(),
+    connect(actmgr()->action("File/Close")->qaction(),
             &QAction::triggered, this, &irViewApplication::fileClose);
-    connect(actmgr().action("File/Exit")->qaction(),
+    connect(actmgr()->action("File/Exit")->qaction(),
             &QAction::triggered, this, &irViewApplication::fileExit);
+    connect(mainWindow(), &irViewMainWindow::imageOpenDialogFile,
+            this, &irViewApplication::openImageFile);
+    connect(this, &irViewApplication::imageOpened,
+            mainWindow(), &irViewMainWindow::viewImage);
     FNRTNVOID();
 }
 

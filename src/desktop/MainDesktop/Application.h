@@ -12,7 +12,7 @@
 #include <FileInfoList.h>
 class cvODCatalog;
 
-class MainWindow;
+class LoyaltyDisplayScreen;
 
 class Application : public QQApplication
 {
@@ -38,14 +38,14 @@ public: // const
 public: // non-const
 
 public: // pointers
-    void mainWindow(MainWindow * pMW);
-    MainWindow * mainWindow();
+    void mainWindow(LoyaltyDisplayScreen * pMW);
+    LoyaltyDisplayScreen * mainWindow();
     cvODCatalog * catalog();
     QDir mainDir(); // arg[1]
 
 private:
     ExeSupport mExeSupport;
-    MainWindow * mpMainWindow=nullptr;
+    LoyaltyDisplayScreen * mpMainWindow=nullptr;
     cvODCatalog * mpCatalog=nullptr;
     QDir mMainDir; // arg[1]
     QDir::Filters mDirFilters = QDir::Files | QDir::NoDotAndDotDot
@@ -53,7 +53,7 @@ private:
     FileInfoList mFileList;
 };
 
-inline MainWindow *Application::mainWindow() { Q_CHECK_PTR(mpMainWindow); return mpMainWindow; }
+inline LoyaltyDisplayScreen *Application::mainWindow() { Q_CHECK_PTR(mpMainWindow); return mpMainWindow; }
 inline cvODCatalog *Application::catalog() {  Q_CHECK_PTR(mpCatalog); return mpCatalog; }
 inline QDir Application::mainDir() { return mMainDir; }
-inline void Application::mainWindow(MainWindow *pMW) { Q_CHECK_PTR(pMW); mpMainWindow = pMW; }
+inline void Application::mainWindow(LoyaltyDisplayScreen *pMW) { Q_CHECK_PTR(pMW); mpMainWindow = pMW; }

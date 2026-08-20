@@ -1,25 +1,25 @@
 #include "LogFunction.h"
 
-#include "Log.h"
 #include "LogEngine.h"
 #include "LogItem.h"
-#include "LogMacros.h"
 
 LogFunction::LogFunction(const CodeContext ctx)
     : cmContext(ctx)
 {
     CodeContext::increaseLevel();
     LogItem tLI(Log::Function, StatusLevel::FuncEnter, cmContext);
-    tLI.set(AText("Entering: %1"));
+    tLI.format(AText("Entering: %1"));
     tLI.set(QVariant(cmContext.funcInfo().completeBaseName()));
     LOG->enqueue(tLI);
 }
 
-void LogFunction::addArgument(const QVariant &aArgVal, const AText &aArgText, const CText &aArgType)
+void LogFunction::addArgument(const QVariant &aArgVal,
+                              const AText &aArgText,
+                              const CText &aArgType)
 {
     const QMetaType cQMT = QMetaType::fromName(aArgType);
     LogItem tLI(Log::Function, StatusLevel::FuncArg, cmContext);
-    tLI.set(AText("Argument: %1=<%2> %3(%4)"));
+    tLI.format(AText("Argument: %1=<%2> %3(%4)"));
     tLI.set(QVariant(aArgText));
     tLI.set(aArgVal);
     tLI.set(QVariant(cQMT.name()));
@@ -30,17 +30,19 @@ void LogFunction::addArgument(const QVariant &aArgVal, const AText &aArgText, co
 void LogFunction::emitSignal(const CText &aSigText)
 {
     LogItem tLI(Log::Function, StatusLevel::FuncEmit, cmContext);
-    tLI.set(AText("Emit: %1"));
+    tLI.format(AText("Emit: %1"));
     tLI.set(QVariant(aSigText));
     LOG->enqueue(tLI);
 }
 
-void LogFunction::emitArgument(const CText &aSigText, const QVariant &aArgVal,
-                               const AText &aArgText, const CText &aArgType)
+void LogFunction::emitArgument(const CText &aSigText,
+                               const QVariant &aArgVal,
+                               const AText &aArgText,
+                               const CText &aArgType)
 {
     const QMetaType cQMT = QMetaType::fromName(aArgType);
     LogItem tLI(Log::Function, StatusLevel::FuncEmit, cmContext);
-    tLI.set(AText("Emit: %1(%2=<%3>) %4(%5)"));
+    tLI.format(AText("Emit: %1(%2=<%3>) %4(%5)"));
     tLI.set(QVariant(aSigText));
     tLI.set(QVariant(aArgText));
     tLI.set(aArgVal);
@@ -51,8 +53,8 @@ void LogFunction::emitArgument(const CText &aSigText, const QVariant &aArgVal,
 
 void LogFunction::returnVoid()
 {
-    LogItem tLI(Log::Function, StatusLevel::FuncLeave, cmContext);
-    tLI.set(AText("Return: void from %1"));
+    LogItem tLI(Log::Function, StatusLevel::FuncReturn, cmContext);
+    tLI.format(AText("Return: void from %1"));
     tLI.set(QVariant(cmContext.funcInfo().completeBaseName()));
     LOG->enqueue(tLI);
     CodeContext::decreaseLevel();
@@ -62,8 +64,8 @@ void LogFunction::returnValue(const QVariant &aArgVal,
                               const char *aArgText, const char *aArgType)
 {
     const QMetaType cQMT = QMetaType::fromName(aArgType);
-    LogItem tLI(Log::Function, StatusLevel::FuncLeave, cmContext);
-    tLI.set(AText("Return: %1=<%2> %3(%4) from %5"));
+    LogItem tLI(Log::Function, StatusLevel::FuncReturn, cmContext);
+    tLI.format(AText("Return: %1=<%2> %3(%4) from %5"));
     tLI.set(QVariant(aArgText));
     tLI.set(aArgVal);
     tLI.set(QVariant(cQMT.name()));

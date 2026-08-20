@@ -5,14 +5,14 @@
 #include <CodeContext.h>
 #include <StatusLevel.h>
 
-#include "LogEngine.h"
+#include "LogClass.h"
 #include "LogMacros.h"
 
 #define FNENTER() LogFunction logFunction(CODECONTEXT());
 #define FNARG(arg, T) { /* QVariant qv; qv.setValue<T>(arg);*/ \
             logFunction.addArgument(arg, #arg, #T); }
 #define FNEMIT(sig) logFunction.emitSignal(#sig);
-#define FNEMITARG(sig, arg, T) logFunction.emitArgument(sig, arg, #arg, #T);
+#define FNEMITARG(sig, arg, T) logFunction.emitArgument(sig, arg, #arg, T);
 #define FNRTNVOID() logFunction.returnVoid();
 #define FNRTNVALUE(rvar, T) logFunction.returnValue(rvar, #rvar, #T);
 
@@ -36,10 +36,19 @@
             robj, QMetaMethod::fromSignal(slt), #sobj, #sig, #robj, #slt); \
             LOG->enqueue(li); }
 
-#define TRACEMSG(msg)       MESSAGELI(StatusLevel::Trace, msg);
-#define INFOMSG(msg)        MESSAGELI(StatusLevel::Info, msg);
-#define PROGMSG(msg)        MESSAGELI(StatusLevel::Progress, msg);
-#define WARNMSG(msg)        MESSAGELI(StatusLevel::Warning, msg);
+#define STARTMSG(msg)       MESSAGELI(StatusLevel::Start, msg);
+#define TRACE(msg)          MESSAGELI(StatusLevel::Trace, msg);
+#define DETAIL(msg)         MESSAGELI(StatusLevel::Detail, msg);
+#define INFO(msg)           MESSAGELI(StatusLevel::Info, msg);
+#define PROGRESS(msg)       MESSAGELI(StatusLevel::Progress, msg);
+#define EXITMSG(msg)        MESSAGELI(StatusLevel::Exit, msg);
+#define WARNING(msg)        MESSAGELI(StatusLevel::Warning, msg);
+#define WHATDO(msg)         MESSAGELI(StatusLevel::WhatDo, msg);
+#define ERRMSG(msg)         MESSAGELI(StatusLevel::Error, msg);
+#define NEEDDO(msg)         MESSAGELI(StatusLevel::NeedDo, msg);
+#define FAULTMSG(msg)       MESSAGELI(StatusLevel::Fault, msg);
+#define MUSTDO(msg)         MESSAGELI(StatusLevel::MustDo, msg);
+
 
 #define TEXPECTIS(act)      EXPECT2LI(Log::Is, StatusLevel::TExpect, act);
 #define TEXPECTNOT(act)     EXPECT2LI(Log::Not, StatusLevel::TExpect, act);
@@ -58,8 +67,6 @@
 
 #define TASSERT(bval)       ASSERTLI(Log::True, StatusLevel::TAssert, bval);
 #define WASSERT(bval)       ASSERTLI(Log::True, StatusLevel::WAssert, bval);
-#define WHATDO()            ASSERTLI(Log::False, StatusLevel::WhatDo, true);
-#define MUSTDO()            ASSERTLI(Log::False, StatusLevel::MustDo, true);
 #define WASSERT(bval)       ASSERTLI(Log::True, StatusLevel::WAssert, bval);
 #define ASSERT(bval)        ASSERTLI(Log::True, StatusLevel::Assert, bval);
 #define PASSERT(bval)       ASSERTLI(Log::True, StatusLevel::Process, bval);

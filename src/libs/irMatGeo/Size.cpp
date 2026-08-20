@@ -8,6 +8,7 @@ Size::Size(const QSize other) : QSize(other) {;}
 Size::Size(const int w, const int h) : QSize(w, h) {;}
 Size::Size(const int dim) : QSize(dim, dim) {;}
 Size::Size(const int dim, const Aspect aspect) { set(dim, aspect); }
+Size::Size(QString aRowColString) { set(aRowColString); }
 Size::Size(const Size &other) : QSize(other) {;}
 Size::Size(const Size outside, const Aspect aspect) { set(outside, aspect); }
 
@@ -141,4 +142,15 @@ Size Size::set(const int w, const int h)
 Size Size::set(const int dim, const Aspect aspect)
 {
     return Size(Size(dim), aspect);
+}
+
+Size Size::set(QString aRowColString)
+{
+    Size result;
+    UINT tRows = 0, tCols = 0;
+    QStringList tRCList = aRowColString.split(',');
+    if (tRCList.count() > 1) tCols = tRCList.at(1).toUInt();
+    if (tRCList.count() > 1) tRows = tRCList.at(1).toUInt();
+    result.set(tCols, tRows ? tRows : tCols);
+    return result;
 }

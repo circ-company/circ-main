@@ -297,7 +297,7 @@ void XmlDocObject::parseAttributes(const QDomNamedNodeMap &aDNNMap,
 #endif
 void XmlDocObject::insert(const Key &aKey, const QString &aValue)
 {
-    INFOMSG(AText::format("Inserting: Key=%1 Value=<%2>",
+    INFO(AText::format("Inserting: Key=%1 Value=<%2>",
             aKey(), aValue));
     mKeyMap.insert(aKey, aValue);
 }

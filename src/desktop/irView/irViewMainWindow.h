@@ -2,13 +2,18 @@
 
 #include <QMainWindow>
 
-#include <QFileDialog>
+//#include <QFileDialog>
 #include <QMdiArea>
-#include <QStackedLayout>
-#include <QWidget>
+//#include <QStackedLayout>
+//#include <QWidget>
+class QMenuBar;
 
 #include <FileInfo.h>
+#include <FileInfoList.h>
+#include <Image.h>
+#include <Key.h>
 #include <Label.h>
+#include <LabelMap.h>
 #include <Log.h>
 
 class irViewApplication;
@@ -26,15 +31,18 @@ public slots:
     void initialize();
     void setup();
     void start();
+    void doFileOpenDialog();
+    void viewImage(const Key aKey, const Image aImage);
 
 signals:
     void running();
     void initialized();
     void setuped();
     void started();
+    void imageOpenDialogFile(const FileInfo &aImageFI);
+    void opened(const FileInfo &aImageFI, const bool aSuccess);
 
 public: // non-const
-    FileInfo doFileOpenDialog();
 
 public: // pointers
     irViewApplication * app();
@@ -43,14 +51,13 @@ private:
     void setupMenus();
 
 private:
-    irViewApplication * mpApplication;
-    QWidget * mpMainWidget=nullptr;
-    QStackedLayout * mpStack=nullptr;
+    irViewApplication * mpApplication=nullptr;
+    QMenuBar * mpMenuBar=nullptr;
     bool mMdiMode=false;
     QMdiArea * mpMdiArea=nullptr;
     Label * mpMainLabel=nullptr;
-    QFileDialog * mpFileDialog=nullptr;
-    QFileDialog * mpDirDialog=nullptr;
+    KeyList mSortOrderKeys;
+    LabelMap mLabelMap;
 };
 
-inline irViewApplication *irViewMainWindow::app() { MASSERT(mpApplication); return mpApplication; }
+inline irViewApplication *irViewMainWindow::app() { CKPOINTER(mpApplication); return mpApplication; }

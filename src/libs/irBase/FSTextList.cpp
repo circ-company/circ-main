@@ -1,8 +1,9 @@
 #include "FSTextList.h"
 
 FSTextList::FSTextList() {;}
-FSTextList::FSTextList(const QByteArrayList &other) { set(other); }
-FSTextList::FSTextList(const AText::List &other) { set(other); }
+FSTextList::FSTextList(const QByteArrayList &aQBAL) { set(aQBAL); }
+FSTextList::FSTextList(const QStringList &aQSL) { set(aQSL); }
+FSTextList::FSTextList(const ATextList &other) { set(other); }
 FSTextList::FSTextList(const QList<FSText> &other) { set(other); }
 
 FSText FSTextList::join(const FSText fstx) const

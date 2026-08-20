@@ -41,7 +41,7 @@ class Id
     DECLARE_DATAPROPS(Id, IdData);
 
 public: // our ctors
-    Id(const bool nilUid); // Null/Invalid
+    Id(const bool nilUid); // else maxUid
     Id(const Uid &u);
     Id(const Uid &u, const IdNo i);
     Id(const Uid &u, const Key &k);

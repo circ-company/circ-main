@@ -10,7 +10,7 @@ include(../../useTypes.pri)
 include(../../useQCore.pri)
 
 SOURCES += \
-        MainWindow.cpp \
+        LoyaltyDisplayScreen.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -19,4 +19,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    MainWindow.h
+    LoyaltyDisplayScreen.h

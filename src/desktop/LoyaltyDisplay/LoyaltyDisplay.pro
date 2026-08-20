@@ -1,0 +1,40 @@
+QT *= core
+QT *= gui
+QT *= widgets
+QT *= statemachine
+
+include(../../version.pri)
+include(../desktop.pri)
+include(../../useBase.pri)
+include(../../useLog.pri)
+include(../../useMatGeo.pri)
+include(../../useTypes.pri)
+include(../../useQCore.pri)
+include(../../useStore.pri)
+include(../../useQXml.pri)
+include(../../useQGui.pri)
+include(../../useQWidgets.pri)
+include(../../useImage.pri)
+
+SOURCES += \
+    BaseLoyaltyDisplayPage.cpp \
+    LoyaltyDisplayBackend.cpp \
+    LoyaltyDisplayScreen.cpp \
+    main.cpp
+
+HEADERS += \
+    BaseLoyaltyDisplayPage.h \
+    LoyaltyDisplayBackend.h \
+    LoyaltyDisplayScreen.h \
+    version.h
+
+TRANSLATIONS += \
+    LoyaltyDisplay_en_US.ts
+
+CONFIG += lrelease
+CONFIG += embed_translations
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target

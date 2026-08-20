@@ -3,6 +3,7 @@
 #include <QFileInfo>
 #include "Null.h"
 
+#include <QByteArray>
 #include <QDir>
 #include <QMetaType>
 #include <QString>
@@ -11,6 +12,7 @@
 
 #include "FSText.h"
 #include "FSTextList.h"
+#include "Key.h"
 
 class FileInfo : public QFileInfo, public Null
 {
@@ -67,9 +69,11 @@ public: // const
     FSText dirFirst(const qsizetype k, const char ch) const;
     FSText dirLast() const;
     QFileInfo toQFileInfo() const;
+    Key key() const;
     QString toString(const StringOptions aOptions
                      =StringOptions(BasicFilePath | Status)) const;
     QStringList toStringList(const StringOptions aOptions=StringOptions(0)) const;
+    QByteArray toData() const;
     QVariant toVariant() const;
     operator QVariant () const;
 
@@ -85,6 +89,7 @@ private: // non-const
     void setup();
 
 private: // static
+    static FileInfo fromData(const QByteArray aBytes);
     static QString stringOption(const StringOption aOpt);
 
 private:
@@ -100,8 +105,7 @@ public: // QMetaType
     FileInfo &operator=(const FileInfo &) = default;
 };
 
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(FileInfo::StringOptions);
 Q_DECLARE_METATYPE(FileInfo);
+Q_DECLARE_OPERATORS_FOR_FLAGS(FileInfo::StringOptions);
 
 inline FileInfo::operator QVariant() const { return toVariant(); }

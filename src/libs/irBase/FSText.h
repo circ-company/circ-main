@@ -13,10 +13,13 @@ public: // types
 public: // ctors
     FSText();
     FSText(const char * pch);
-    FSText(const char * pch, const QChar repl);
+    FSText(const char * pch, const QChar repl, const bool aReplaceSpace=false);
     FSText(const char ch);
     FSText(const QByteArray &ba);
     FSText(const QString &s);
+
+public: // const
+    List split(const char aCh) const;
 
 public: // static
     static char hinge();

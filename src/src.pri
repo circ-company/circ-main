@@ -1,7 +1,6 @@
 # {circ-main}/src/src.pri
 #message(^^^^^^^^/src/src.pri)
 
-include(version.pri)
 include(DESTDIR.pri)
 CONFIG += c++23
 INCLUDEPATH *= .. . $$LIBDIR/..
@@ -13,5 +12,6 @@ QMAKE_CXXFLAGS *= -Werror=return-type
 DEFINES *= __CIRC__WARN_IS_ERROR
 DEFINES *= __CIRC__ERROR_IS_FAULT
 DEFINES *= __MAINDESK__IGNORE_CATALOG_NOTEXIST
+DEFINES *= __LOG_SUPRESS_OK
 
 

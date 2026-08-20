@@ -1,6 +1,6 @@
 # {Eclipse6}/src/BLDCFG.pri
-CONFIG(release, debug|release):BLDCFG = "Rel"
-CONFIG(debug,   debug|release):BLDCFG = "Dbg"
-#message(............/src/BLDCFG.pri = $$BLDCFG)
+CONFIG(release, debug|release|profile):BLDCFG = "Rel"
+CONFIG(debug,   debug|release|profile):BLDCFG = "Dbg"
+CONFIG(profile, debug|release|profile):BLDCFG = "Prf"
 
 

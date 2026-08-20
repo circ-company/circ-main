@@ -101,6 +101,9 @@ void LogEngine::sendTroll(const LogItem &li)
     const CodeContext cThisContext = li.context();
     MillisecondTime tMST(li.ems());
     const StatusLevel cLevel = li.level();
+#ifdef __LOG_SUPRESS_OK
+    if (StatusLevel::TOK == cLevel) return;                     /*/=====\*/
+#endif
     const int cLevelValue = cLevel.value();
     const QString cLevelString = cLevel.string(12);
     const LogMsgType cLMT = LogMsgType::from(cLevel);

@@ -12,9 +12,9 @@ Id::Id(const bool nilUid) : data(new IdData) { uid(nilUid); ctor(); }
 Id::Id(const Uid &u, const IdNo i)  : data(new IdData) { set(u, i); ctor(); }
 Id::Id(const Uid &u, const Key &k) : data(new IdData) { set(u, k); ctor(); }
 Id::Id(const Uid &u, const QString &n) : data(new IdData) { set(u, n); ctor(); }
-Id::Id(const IdNo i) : data(new IdData) { idno(i); ctor(); }
-Id::Id(const Key &k) : data(new IdData) { key(k); ctor(); set(Uid::VerTextSha); }
-Id::Id(const QString &n) : data(new IdData) { name(n); ctor(); }
+Id::Id(const IdNo i) : data(new IdData) { uid(false); idno(i); ctor(); }
+Id::Id(const Key &k) : data(new IdData) { uid(false); key(k); ctor(); set(Uid::VerTextSha); }
+Id::Id(const QString &n) : data(new IdData) { uid(false); name(n); ctor(); }
 Id::Id(const Uid &u, const IdNo i, const Key &k, const QString &n)
     : data(new IdData) { uid(u); idno(i); key(k); name(n); ctor(); }
 
@@ -23,7 +23,47 @@ void Id::ctor(void)
     ctorEms(MillisecondTime::current());
     if (0 == smCtorSeq) ctorEms(ctorEms() + 1);
     ctorSeq(++smCtorSeq);
+    if (uid().isNull() || uid().isNil())
+    {
+        if (idno())
+            uid(Uid(0xA55AA55AA55AA55AUL ^ idno(), idno()));
+        else if ( ! key().isEmpty())
+            uid(key().toUid());
+        else if ( ! name().isEmpty())
+            uid(Uid(Uid::VerTextSha, name()));
+    }
+    if (0UL == idno())
+    {
+        if  ( ! uid().isNull() && ! uid().isNil())
+            idno(uid().hi() ^ uid().lo());
+        else if ( ! key().isNull() && ! key().isEmpty())
+            idno(key().hash64());
+        if ( ! name().isEmpty())
+        {
+            Uid tNameUid(Uid::VerTextSha, name());
+            idno(tNameUid.hi() ^ tNameUid.lo());
+        }
+    }
+    if (key().isEmpty() || key().isNull())
+    {
+        if ( ! name().isEmpty())
+            key(Key::fromName(name()));
+        else if ( ! uid().isNull() && ! uid().isNil())
+            key(uid().toKey());
+        else if (0UL != idno())
+            key(idno());
+    }
+    if (name().isEmpty())
+    {
+        if ( ! key().isEmpty())
+            name(key().toString());
+        else if (idno())
+            name(QString::number(idno(), 10));
+        else if ( !! uid().isNil() && ! uid().isNull())
+            name(uid().toString());
+    }
 }
+
 void Id::dtor(void) {;}
 
 

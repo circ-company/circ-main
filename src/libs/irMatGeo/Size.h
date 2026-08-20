@@ -19,6 +19,7 @@ public: // ctors
     Size(const int w, const int h);
     Size(const int dim);
     Size(const int dim, const Aspect aspect);
+    Size(QString aRowColString);
     Size(const Size &other);
     Size(const Size outside, const Aspect aspect);
 
@@ -56,6 +57,7 @@ public: // non-const
     Size set(const int w, const int h);
     Size set(const int dim);
     Size set(const int dim, const Aspect aspect);
+    Size set(QString aRowColString);
     Size set(const Size other);
     Size set(const Size outside, const Aspect aspect);
     Size unionWith(const Size &rhs);

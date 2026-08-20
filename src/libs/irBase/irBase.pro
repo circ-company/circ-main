@@ -28,12 +28,12 @@ SOURCES += \
     FileInfoList.cpp \
     FunctionInfo.cpp \
     Id.cpp \
+    IntType.cpp \
     Key.cpp \
     KeyList.cpp \
     KeySeg.cpp \
     KeySegList.cpp \
     KeyVarMap.cpp \
-    MetaType.cpp \
     MillisecondTime.cpp \
     Null.cpp \
     QCoreTypeFormat.cpp \
@@ -78,6 +78,7 @@ HEADERS += \
     FileInfoList.h \
     FunctionInfo.h \
     Id.h \
+    IntType.h \
     Key.h \
     KeyList.h \
     KeyMap.h \
@@ -85,7 +86,6 @@ HEADERS += \
     KeySegList.h \
     KeySegMap.h \
     KeyVarMap.h \
-    MetaType.h \
     MillisecondTime.h \
     Named.h \
     Null.h \

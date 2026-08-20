@@ -15,7 +15,8 @@ public: // ctors
 public: // const
 
 public: // non-const
-    void addArgument(const QVariant &aArgVal , const AText &aArgText, const CText &aArgType);
+    void addArgument(const QVariant &aArgVal , const AText &aArgText,
+                     const CText &aArgType);
     void emitSignal(const CText &aSigText);
     void emitArgument(const CText &aSigText, const QVariant &aArgVal,
                       const AText &aArgText, const CText &aArgType);

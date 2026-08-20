@@ -1,14 +1,14 @@
-#include "MainWindow.h"
+#include "LoyaltyDisplayScreen.h"
 
 #include "Log.h"
 
-MainWindow::MainWindow(QQApplication *app)
+LoyaltyDisplayScreen::LoyaltyDisplayScreen(QQApplication *app)
     : QQMainWindow(QQMainWindow::ImageLabel, app)
 {
     setObjectName("MainWindow");
 }
 
-void MainWindow::run()
+void LoyaltyDisplayScreen::run()
 {
     FNENTER();
     QQMainWindow::run();
@@ -20,7 +20,7 @@ void MainWindow::run()
     FNRTNVOID();
 }
 
-void MainWindow::initialize()
+void LoyaltyDisplayScreen::initialize()
 {
     FNENTER();
     QQMainWindow::initialize();
@@ -29,7 +29,7 @@ void MainWindow::initialize()
     FNRTNVOID();
 }
 
-void MainWindow::setup()
+void LoyaltyDisplayScreen::setup()
 {
     FNENTER();
     QQMainWindow::setup();
@@ -39,7 +39,7 @@ void MainWindow::setup()
     FNRTNVOID();
 }
 
-void MainWindow::ready()
+void LoyaltyDisplayScreen::ready()
 {
     FNENTER();
     QQMainWindow::ready();

@@ -22,13 +22,13 @@ include(../../QtCVobjdetect.pri)
 
 SOURCES += \
     Application.cpp \
-    main.cpp \
-    MainWindow.cpp
+    LoyaltyDisplayScreen.cpp \
+    main.cpp
 
 HEADERS += \
     ../../version.h \
     Application.h \
-    MainWindow.h \
+    LoyaltyDisplayScreen.h \
     version.h
 
 # Default rules for deployment.
