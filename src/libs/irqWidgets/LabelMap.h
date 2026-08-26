@@ -8,6 +8,7 @@ class QWidget;
 #include <Types.h>
 class Label;
 
+#include <Size.h>
 
 class LabelMap
 {
@@ -24,6 +25,8 @@ public: // non-const
     Label * add(const Key &key, const BYTE digits);
     Label * add(const Key &key, const QPixmap &pxm);
     Label * add(const Key &key, const QImage &img);
+    Label * newPixmap(const Key &aKey, const Size aSize,
+                     const QColor &aClr);
     void releaseAll();
 
 

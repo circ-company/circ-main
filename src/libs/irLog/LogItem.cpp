@@ -22,18 +22,8 @@ QVariant LogItem::var(const Index ix) const
 AText LogItem::formatted() const
 {
     AText result;
-    if (varCount() && ! isList())
-        result = mFormat.formatted(vars());
-    else
-        result = mFormat;
+    result = mFormat.formatted(vars());
     return result;
-}
-
-bool LogItem::isList() const
-{
-    return (1 == varCount())
-               ? QMetaType::fromName("ATextList") == var(0).metaType()
-               : false;
 }
 
 void LogItem::clear()
@@ -47,9 +37,9 @@ void LogItem::clear()
     mVarList.clear();
 }
 
-void LogItem::addText(const AText aVar)
+void LogItem::text(const AText aVar)
 {
-    mVarList.append(aVar);
+    mVarList.append(aVar());
 }
 
 void LogItem::pointer(void *aPtr, const char *aExpression)

@@ -1,4 +1,4 @@
-/*! @file Button.h declaration of ButtonT template
+/*! @file Button.h declaration of Button touch screen class
  */
 #pragma once
 
@@ -12,17 +12,21 @@
 
 #include "GenerateIconScheme.h"
 
-class ButtonT
+class Button
 {
 public: // ctors
-    ButtonT(const Size aSize, const char * pchSvgColor);
+    Button(const Size aSize, const char * pchSvgColor);
+    Button(const Size aSize, const Color aColor);
 
 public: // const
+    QPixmap flat() const;
     QIcon icon() const;
     QPixmap iconSet() const;
 
 public: // non-const
     void set(const char * pchSvgColor);
+    void set(const Color aColor);
+    void scheme(const GenerateIconScheme aScheme);
     QIcon make(const UText aText);
 
 public: // pointers
@@ -30,11 +34,16 @@ public: // pointers
     GenerateIconScheme & scheme();
 
 private:
-    Color mBaseColor;;
+    Color mBaseColor;
     Size mSize;
     GenerateIconScheme mScheme;
     QPixmap mIconSet;
     QIcon mIcon;
 
 };
+
+
+inline void Button::set(const char *pchSvgColor) { mBaseColor = Color(pchSvgColor); }
+inline void Button::set(const Color aColor) { mBaseColor = aColor; }
+inline void Button::scheme(const GenerateIconScheme aScheme) { mScheme = aScheme; }
 

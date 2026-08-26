@@ -21,7 +21,7 @@
 #define MESSAGELI(sev, msg) \
 { \
     LogItem li(Log::MessageOnly, sev, CODECONTEXT()); \
-    li.addText(AText(msg)); \
+    li.text(AText(msg)); \
     LOG->enqueue(li); \
 } \
 

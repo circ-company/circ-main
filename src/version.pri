@@ -2,9 +2,9 @@
 
 IRVER_MAJOR        = 6
 IRVER_MINOR        = 5
-IRVER_RELEASE      = 2
+IRVER_RELEASE      = 3
 IRVER_BRANCH       = 0
-IRVER_STRING       = "v6.05B"
+IRVER_STRING       = "v6.05C"
 IRVER_COMPANY      = "California Intermountain Research Center"
 IRVER_ORGNAME      = "CIRC"
 IRVER_COPYRIGHT    = "Copyright (c) 1993-2026, Anthony Otto DBA CIRC Company. All rights reserved worldwide. See LEGAL.txt for more information."

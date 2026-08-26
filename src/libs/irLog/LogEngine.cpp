@@ -127,12 +127,6 @@ void LogEngine::sendTroll(const LogItem &li)
                         .arg(cLevelValue)                           // %4
                         .arg(cMsgAtx());                            // %5
     writeTroll(cLMT, tText);
-    if (li.isList())
-    {
-        const ATextList cATL = li.var(0).value<ATextList>();
-        foreach (const AText cAT, cATL)
-            writeTroll(cLMT, cAT);
-    }
 }
 
 void LogEngine::writeTroll(const LogMsgType lmt, const QString msg)

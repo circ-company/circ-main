@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QColor>
+#include <QMetaType>
 #include <QPixelFormat>
 class QRgba;
 class QRgba64;
@@ -39,11 +40,11 @@ public: // types
     };
 
 public: // ctors
-    Color();
+    Color(const Representation aRep);
     Color(const Representation aRep, const DWORD aDW);
     Color(const char * pchNamedColor);
     Color(const Qt::GlobalColor aGlobal);
-    Color(const QColor aColor);
+    Color(const QColor aColor, UINT aOpaPerk=1000);
     Color(const QRgba aQRgba);
     Color(const QRgba64 aQRgba64);
 
@@ -67,17 +68,22 @@ public: // non-const
     void clear();
     void nullify();
     void greyify();
-    void alf2opc();
 
     void set(const char * pchNamedColor);
     void set(const Qt::GlobalColor aGlobal);
-    void set(const QColor aColor);
+    void set(const QColor aColor, UINT aOpaPerk=1000);
     void set(const QRgba aQRgba);
-    void setQRgba64(const QRgba64 aQRgba64);
+    void set(const QRgba64 aQRgba64);
+    void set(const Representation aRep, const DWORD aDW);
+
+    void convertTo(const Representation aRep);
+    void toBiconic();
+
+public: // static
+    static WORD perkWord(const UINT aPerk);
 
 private:
     WORD mOpa=0;
-    WORD mAlf=0;
     WORD mRed=0;
     WORD mGrn=0;
     WORD mBlu=0;
@@ -91,7 +97,18 @@ private:
     WORD mSat=0;
     WORD mVal=0;
     Representation mRepresentation=$none;
+
+public: // QMetaType
+    Color() = default;
+    ~Color() = default;
+    Color(const Color &) = default;
+    Color &operator=(const Color &) = default;
+    Color & it() { return *this; }
+    const Color & it() const { return *this; }
 };
+
+Q_DECLARE_METATYPE(Color);
+
 
 inline Color::Representation Color::representation() const { return mRepresentation; }
 inline bool Color::isNull(const WORD aWord) const { return 0 == aWord; }

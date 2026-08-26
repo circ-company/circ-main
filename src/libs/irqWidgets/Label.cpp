@@ -22,27 +22,40 @@ void Label::set(const QString &s)
 
 void Label::set(const QPixmap &pxm)
 {
-    QLabel::setPixmap(pxm);
+    FNENTER();
+    FNARG(pxm, QPixmap);
+    mPixmap = pxm,
+    mSize = mPixmap.size();
+    QLabel::setPixmap(mPixmap);
+    FNRTNVOID();
 }
 
 void Label::set(const QImage &img)
 {
-    set(mImageSize, img);
+    FNENTER();
+    FNARG(img, QImage);
+    DUMPVAR(mSize);
+    set(mSize, img);
+    FNRTNVOID();
 }
 
 void Label::set(const Size sz, const QColor &clr)
 {
     FNENTER();
     FNARG(sz, Size);
+    FNARG(clr, QColor);
     QPixmap tPixmap(sz);
     tPixmap.fill(clr);
-    set(tPixmap);
+    DUMPVAR(tPixmap);
+    set(mPixmap = tPixmap);
+    FNRTNVOID();
 }
 
 void Label::set(const Size displaySize, const QImage &img)
 {
     FNENTER();
     FNARG(displaySize, Size);
+    FNARG(img, QImage);
     const Size cOrigSize = img.size();
     DUMPVAR(cOrigSize);
     DUMPVAR(img.format());
@@ -58,7 +71,9 @@ void Label::set(const Size displaySize, const QImage &img)
     tPainter.fillRect(SCRect(displaySize).toQRect(), mBackColor);
     tPainter.drawImage(cPaintRect, img.scaled(cAspectSize * cScaleF));
     tPainter.end();
+    DUMPVAR(tPixmap);
     set(tPixmap);
+    FNRTNVOID();
 }
 
 

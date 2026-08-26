@@ -16,6 +16,7 @@ include(../../useQGui.pri)
 include(../../useColor.pri)
 include(../../useQWidgets.pri)
 include(../../useImage.pri)
+include(../../useTouch.pri)
 
 SOURCES += \
     BaseLoyaltyDisplayPage.cpp \

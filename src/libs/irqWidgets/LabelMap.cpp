@@ -44,6 +44,15 @@ Label *LabelMap::add(const Key &key, const QImage &img)
     return add(key, pLabel);
 }
 
+Label *LabelMap::newPixmap(const Key &aKey, const Size aSize,
+                           const QColor &aClr)
+{
+    QPixmap tPxm(aSize);
+    tPxm.fill(aClr);
+    Label * pLabel = new Label(tPxm, mpLabelsParent);
+    return add(aKey, pLabel);
+}
+
 void LabelMap::releaseAll()
 {
     foreach (Label * pLabel, mKeyLabelMap.values())

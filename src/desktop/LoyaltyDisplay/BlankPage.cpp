@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 
+#include <Button.h>
 #include <Color.h>
 #include <Label.h>
 #include <Log.h>
@@ -23,7 +24,7 @@ void BlankPage::setup()
 
     setLayout(gridLayout());
     setupButtonBar();
-
+    show();
     FNRTNVOID();
 }
 
@@ -41,6 +42,7 @@ void BlankPage::paintEvent(QPaintEvent *event)
 
 void BlankPage::setupButtonBar()
 {
+    FNENTER();
     QList<Qt::GlobalColor> tButtonColors;
     tButtonColors << Qt::red << Qt::yellow << Qt::green << Qt::cyan
                   << Qt::blue << Qt::magenta << Qt::lightGray
@@ -52,10 +54,13 @@ void BlankPage::setupButtonBar()
     {
         Color tColor(cQGC);
         Key tColorKey = "Button/" + tColor.name();
-        Label * pLabel = new Label(Size(96, 64), tColor(), this);
-        NEWOBJ(pLabel, "Label", this);
-        labelMap().add(tColorKey, pLabel);
-        CKPOINTER(pLabel->widget());
-        gridLayout()->addWidget(pLabel->widget(), rowIx, colIx++);
+        Button tButton(Size(96, 64), tColor);
+        QLabel * pLabel = new QLabel(tColorKey(), this);
+        NEWOBJ(pLabel, "QLabel", this);
+        pLabel->setPixmap(tButton.flat());
+        gridLayout()->addWidget(pLabel, rowIx, colIx++);
+        DUMPVAR(pLabel->text());
     }
+    show();
+    FNRTNVOID();
 }

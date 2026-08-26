@@ -40,7 +40,6 @@ public: // const
     QVariantList vars() const;
     AText formatted() const;
     LogMsgType logMessageType() const;
-    bool isList() const;
     bool isFault() const;
 
 public: // non-const
@@ -50,7 +49,7 @@ public: // non-const
     void context(const CodeContext &ctx);
     void format(const AText &aText);
     void op(const Log::Operator aOp);
-    void addText(const AText aVar);
+    void text(const AText aVar);
     void set(const QVariant aVar);
     void set(const QVariantList aVarList);
     void pointer(void * aPtr, const char *aExpression);
