@@ -50,6 +50,7 @@ public: // non-const
     void context(const CodeContext &ctx);
     void format(const AText &aText);
     void op(const Log::Operator aOp);
+    void addText(const AText aVar);
     void set(const QVariant aVar);
     void set(const QVariantList aVarList);
     void pointer(void * aPtr, const char *aExpression);

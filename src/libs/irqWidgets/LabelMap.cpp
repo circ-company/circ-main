@@ -1,5 +1,7 @@
 #include "LabelMap.h"
 
+#include <Log.h>
+
 #include "Label.h"
 
 LabelMap::LabelMap(QWidget *labelsParent) : mpLabelsParent(labelsParent) {;}
@@ -9,38 +11,45 @@ Label *LabelMap::label(const Key &key) const
     return mKeyLabelMap.value(key);
 }
 
-Label *LabelMap::add(const Key &key)
+Label *LabelMap::add(const Key &key, Label *pLabel)
 {
-    Label * result = new Label(mpLabelsParent);
+    Label * result = pLabel;
+    CKPOINTER(result);
+    result->setObjectName("Label:" + key());
     mKeyLabelMap.insert(key, result);
     return result;
 }
 
 Label *LabelMap::add(const Key &key, const QString &text)
 {
-    Label * result = new Label(text, mpLabelsParent);
-    mKeyLabelMap.insert(key, result);
-    return result;
+    Label * pLabel = new Label(text, mpLabelsParent);
+    return add(key, pLabel);
 }
 
 Label *LabelMap::add(const Key &key, const BYTE digits)
 {
-    Label * result = new Label(digits, mpLabelsParent);
-    mKeyLabelMap.insert(key, result);
-    return result;
+    Label * pLabel = new Label(digits, mpLabelsParent);
+    return add(key, pLabel);
 }
 
 Label *LabelMap::add(const Key &key, const QPixmap &pxm)
 {
-    Label * result = new Label(pxm, mpLabelsParent);
-    mKeyLabelMap.insert(key, result);
-    return result;
+    Label * pLabel = new Label(pxm, mpLabelsParent);
+    return add(key, pLabel);
 }
 
 Label *LabelMap::add(const Key &key, const QImage &img)
 {
-    Label * result = new Label(img, mpLabelsParent);
-    mKeyLabelMap.insert(key, result);
-    return result;
+    Label * pLabel = new Label(img, mpLabelsParent);
+    return add(key, pLabel);
 }
+
+void LabelMap::releaseAll()
+{
+    foreach (Label * pLabel, mKeyLabelMap.values())
+        if (pLabel)
+            pLabel->deleteLater();
+    mKeyLabelMap.clear();
+}
+
 

@@ -13,17 +13,20 @@ include(../../useQCore.pri)
 include(../../useStore.pri)
 include(../../useQXml.pri)
 include(../../useQGui.pri)
+include(../../useColor.pri)
 include(../../useQWidgets.pri)
 include(../../useImage.pri)
 
 SOURCES += \
     BaseLoyaltyDisplayPage.cpp \
+    BlankPage.cpp \
     LoyaltyDisplayBackend.cpp \
     LoyaltyDisplayScreen.cpp \
     main.cpp
 
 HEADERS += \
     BaseLoyaltyDisplayPage.h \
+    BlankPage.h \
     LoyaltyDisplayBackend.h \
     LoyaltyDisplayScreen.h \
     version.h

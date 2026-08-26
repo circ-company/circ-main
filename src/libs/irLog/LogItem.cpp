@@ -47,6 +47,11 @@ void LogItem::clear()
     mVarList.clear();
 }
 
+void LogItem::addText(const AText aVar)
+{
+    mVarList.append(aVar);
+}
+
 void LogItem::pointer(void *aPtr, const char *aExpression)
 {
     if (Log::evaluate(Log::NotEqual, 0, qptrdiff(aPtr)))

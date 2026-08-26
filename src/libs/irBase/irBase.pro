@@ -125,3 +125,6 @@ DISTFILES += \
     ../../DESTDIR.pri \
     ../../LIBDIR.pri \
     ../../OSBITS.pri \
+    ../../BuildMainDesk.pro \
+    ../../BuildTouchScreen.pro \
+    ../../BuildView.pro \

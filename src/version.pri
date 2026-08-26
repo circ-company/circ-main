@@ -1,5 +1,4 @@
 # {ottoZcode}/src/version.pri
-#message(------------/src/version.pri)
 
 IRVER_MAJOR        = 6
 IRVER_MINOR        = 5

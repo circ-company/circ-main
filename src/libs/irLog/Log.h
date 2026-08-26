@@ -62,11 +62,10 @@
 #define EXPECTIS(act)       ASSERTLI(Log::True, StatusLevel::Expect, act);
 #define EXPECTNOT(act)      ASSERTLI(Log::False, StatusLevel::Expect, act);
 
-#define WCKPOINTER(ptr)     CHECKPTR(StatusLevel::WMalloc, ptr);
-#define CKPOINTER(ptr)      CHECKPTR(StatusLevel::MAlloc, ptr);
+#define WCKPOINTER(ptr)     CHECKPTR(StatusLevel::WNullPtr, ptr);
+#define CKPOINTER(ptr)      CHECKPTR(StatusLevel::NullPtr, ptr);
 
 #define TASSERT(bval)       ASSERTLI(Log::True, StatusLevel::TAssert, bval);
-#define WASSERT(bval)       ASSERTLI(Log::True, StatusLevel::WAssert, bval);
 #define WASSERT(bval)       ASSERTLI(Log::True, StatusLevel::WAssert, bval);
 #define ASSERT(bval)        ASSERTLI(Log::True, StatusLevel::Assert, bval);
 #define PASSERT(bval)       ASSERTLI(Log::True, StatusLevel::Process, bval);

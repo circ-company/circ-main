@@ -31,7 +31,7 @@ irViewApplication::irViewApplication(int &argc, char **argv)
 void irViewApplication::run()
 {
     FNENTER();
-    PROGMSG("Running Application:" + mainWindow()->objectName());
+    PROGRESS("Running Application:" + mainWindow()->objectName());
     mainWindow()->show();
     connect(this, &irViewApplication::running, mainWindow(), &irViewMainWindow::run);
     connect(mainWindow(), &irViewMainWindow::running, this, &irViewApplication::initialize);

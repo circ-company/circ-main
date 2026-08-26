@@ -121,7 +121,6 @@ Q_DECLARE_METATYPE(AText);
 
 extern AText operator + (const AText &lhs, const AText &rhs);
 
-
 inline AText AText::simplified() const { return AText(QByteArray::simplified()); }
 inline QString AText::toString() const { return QString(constData()); }
 inline AText::operator QString () const { return toString(); }

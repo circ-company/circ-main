@@ -35,10 +35,10 @@ AText CppTypeFormat::formatSigned(const QVariant &aVar)
 
 AText CppTypeFormat::formatUnsigned(const QVariant &aVar)
 {
+    const AText cTxt = aVar.toString();
     const AText cDec = AText::formatDecimal(aVar);
     const AText cHex = AText::formatHeximal(aVar);
-    return AText(QString("%1=%2").arg(cDec, cHex));
-//    return AText(QString::number(aVar.toUInt()));
+    return AText(QString("%1=%2 <%3>").arg(cDec, cHex, cTxt));
 }
 
 AText CppTypeFormat::formatChar(const QVariant &aVar)

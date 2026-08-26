@@ -14,6 +14,13 @@ class LoyaltyDisplayBackend;
 class LoyaltyDisplayScreen : public QMainWindow
 {
     Q_OBJECT
+public: // types
+    enum PageType
+    {
+        $null = 0,
+        Blank,
+    };
+    Q_ENUM(PageType);
 
 public: // 'tors
     LoyaltyDisplayScreen(LoyaltyDisplayBackend *parent);
@@ -37,9 +44,11 @@ public: // const
 
 public: // non-const
     void screenSize(const Size aSz);
+    void addPage(BaseLoyaltyDisplayPage * pPage);
 
 public: // static
     static Size baseScreenSize();
+    static KeySeg key(const PageType aType);
 
 public: // pointers
     LoyaltyDisplayBackend * backend();

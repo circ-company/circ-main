@@ -1,3 +1,9 @@
 #include "irBase.h"
 
-//irBase::irBase() {}
+#include <QMetaType>
+
+irBase::irBase()
+    : ExeObject(ExeObject::Library, "irBase")
+{
+
+}

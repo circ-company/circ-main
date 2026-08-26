@@ -22,4 +22,12 @@ SUBDIRS += \
     irqSVG \
     irqState \
     irqWidgets \
-    irqXML
+    irqXml \
+    irStore \
+    QtCVcore \
+    QtCVfacerec \
+    QtCVhighgi \
+    QtCVimgcodecs \
+    QtCVimgproc \
+    QtCVobjdetect \
+    QtCVutils \

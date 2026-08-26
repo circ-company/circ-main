@@ -2,21 +2,26 @@
 
 #include <QWidget>
 
-#include <Key.h>
+#include <QGridLayout>
+
+#include <KeySeg.h>
+#include <LabelMap.h>
 #include <Size.h>
 
-class LoyaltyDisplayScreen;
+#include "LoyaltyDisplayScreen.h"
 
 class BaseLoyaltyDisplayPage : public QWidget
 {
     Q_OBJECT
-protected: // ctors
-    BaseLoyaltyDisplayPage(const Key aKey, LoyaltyDisplayScreen *parent);
 
+protected: // ctors
+    BaseLoyaltyDisplayPage(const LoyaltyDisplayScreen::PageType aType,
+                           LoyaltyDisplayScreen *parent);
+    ~BaseLoyaltyDisplayPage();
 
 public slots:
     virtual void start() {;}
-    virtual void initialize() {;}
+    virtual void initialize();
     virtual void setup() = 0;
     virtual void run() {;}
 
@@ -27,20 +32,25 @@ signals:
     void running();
 
 public: // const
-    Key key() const;
-    Size screenSize() const;
+    virtual LoyaltyDisplayScreen::PageType type() const;
+    KeySeg key() const;
+    virtual Size size() const;
 
 public: // non-const
-    void screenSize(const Size aSz);
 
 public: // pointers
-    LoyaltyDisplayScreen * screen();
+    LoyaltyDisplayScreen * screen() const;
+    QGridLayout * gridLayout();
+    LabelMap & labelMap();
 
 private:
-    const Key cmKey;
     Size mScreenSize;
+    const LoyaltyDisplayScreen::PageType cmType;
+    QGridLayout * mpGridLayout=nullptr;
+    LabelMap mKeyLabelMap;
 
 };
 
-inline Key BaseLoyaltyDisplayPage::key() const { return cmKey; }
-inline Size BaseLoyaltyDisplayPage::screenSize() const  { return mScreenSize; }
+inline LoyaltyDisplayScreen::PageType BaseLoyaltyDisplayPage::type() const { return cmType; }
+inline Size BaseLoyaltyDisplayPage::size() const { return screen()->screenSize(); }
+inline LabelMap &BaseLoyaltyDisplayPage::labelMap() { return mKeyLabelMap; }

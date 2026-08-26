@@ -1,11 +1,14 @@
 #include "LoyaltyDisplayScreen.h"
 
+#include <QMetaEnum>
 #include <QTabWidget>
 #include <QThread>
 
+#include <EnumHelper.h>
 #include <Log.h>
 
 #include "BaseLoyaltyDisplayPage.h"
+#include "BlankPage.h"
 
 LoyaltyDisplayScreen::LoyaltyDisplayScreen(LoyaltyDisplayBackend *parent)
     : QMainWindow(nullptr)
@@ -42,6 +45,7 @@ void LoyaltyDisplayScreen::setup()
 {
     FNENTER();
     screenSize(baseScreenSize());
+    addPage(new BlankPage(this));
 
     CKPOINTER(mpMainWidget);
     setCentralWidget(mpMainWidget);
@@ -76,9 +80,24 @@ void LoyaltyDisplayScreen::screenSize(const Size aSz)
     mpMainWidget->resize(mScreenSize);
     updateGeometry();
     mpMainWidget->updateGeometry();
-    foreach (BaseLoyaltyDisplayPage * pPage, mKeyPageMap.values())
-        pPage->screenSize(mScreenSize);
     FNRTNVOID();
+}
+
+void LoyaltyDisplayScreen::addPage(BaseLoyaltyDisplayPage *pPage)
+{
+    pPage->initialize();
+    pPage->setup();
+    mKeyPageMap.insert(pPage->key(), pPage);
+    mpMainWidget->addTab(pPage, QIcon(), pPage->key()());
+    mpMainWidget->setCurrentWidget(pPage);
+}
+
+KeySeg LoyaltyDisplayScreen::key(const PageType aType)
+{
+    QMetaEnum tMetaEnum = QMetaEnum::fromType<PageType>();
+    const char* pchKey = tMetaEnum.valueToKey(aType);
+    const CText cText(pchKey);
+    return KeySeg(cText);
 }
 
 LoyaltyDisplayBackend *LoyaltyDisplayScreen::backend()

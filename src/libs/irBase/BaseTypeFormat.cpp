@@ -7,7 +7,6 @@ void BaseTypeFormat::registerBase()
 {
     const int cTypeIdFI = qRegisterMetaType<FileInfo>();
     const int cTypeIdUrl = qRegisterMetaType<Url>();
-//    qDebug() << Q_FUNC_INFO << cTypeIdFI << cTypeIdUrl;
     Q_ASSERT(cTypeIdFI);
     Q_ASSERT(cTypeIdUrl);
     registerFunction(cTypeIdFI, &formatFileInfo);

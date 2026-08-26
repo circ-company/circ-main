@@ -19,10 +19,12 @@ public: // const
 
 public: // non-const
     Label * add(const Key &key);
+    Label * add(const Key &key, Label * pLabel);
     Label * add(const Key &key, const QString &text);
     Label * add(const Key &key, const BYTE digits);
     Label * add(const Key &key, const QPixmap &pxm);
     Label * add(const Key &key, const QImage &img);
+    void releaseAll();
 
 
 public: // pointers

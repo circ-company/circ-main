@@ -6,6 +6,8 @@ include(BINDIR.pri)
 include(BLDCFG.pri)
 include(OSBITS.pri)
 include(CVMAJOR.pri)
+include(version.pri)
+#message($$VER_STRING)
 
 OURDEST = $$replace(OURDEST, "{bindir}", $$BINDIR)
 OURDEST = $$replace(OURDEST, "{bldcfg}", $$BLDCFG)
@@ -16,3 +18,4 @@ OURDEST = $$replace(OURDEST, "{ver}", $$VER_STRING)
 
 DESTDIR = $$OURDEST
 QMAKE_RPATHDIR = $$OURDEST
+message($$DESTDIR)

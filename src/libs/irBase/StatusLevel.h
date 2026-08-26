@@ -54,7 +54,7 @@ public: // types
         WExpect,            // 55
         Level56,
         WAssert,            // 57
-        Level58,
+        WNullPtr,
         WMalloc,            // 59
 
         $Error = 60,        // 60-Begin Error
@@ -70,7 +70,7 @@ public: // types
         MustDo,             // 73
         Level74,
         Process,            // 75
-        Level76,
+        NullPtr,
         MAlloc,             // 77
 
         Invalid = 99,       // 99-Invalid

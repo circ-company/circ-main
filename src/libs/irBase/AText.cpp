@@ -87,6 +87,8 @@ AText AText::formattedList(const QVariantList vars) const
     for (Index ix = 0; ix < cVarCount; ++ix)
     {
         const QString cPctString = "%" + QString::number(ix + 1);
+        const QMetaType cQMT = vars[ix].metaType();
+        qDebug() << Q_FUNC_INFO <<cPctString << "=" << cQMT.name() << cQMT.id();
         const QString cValue = TypeFormat(vars[ix]);
         result.replace(cPctString, cValue);
     }
@@ -233,13 +235,13 @@ AText AText::formatDecimal(const QVariant aVar)
     const TriBool cSign = cMT.isSigned();
     signed long long tSInt = 0;
     unsigned long long tUInt = 0;
-    Index tStartIx = 0;
+//    Index tStartIx = 0;
     QString tNumString;
     if (cSign.isTrue())
     {
         tSInt = aVar.toLongLong();
         tNumString = QString::number(tSInt);
-        tStartIx = (tSInt < 0) ? 1 : 0;
+  //      tStartIx = (tSInt < 0) ? 1 : 0;
     }
     else if (cSign.isFalse())
     {

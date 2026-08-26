@@ -4,19 +4,42 @@
 
 #include "LoyaltyDisplayScreen.h"
 
-BaseLoyaltyDisplayPage::BaseLoyaltyDisplayPage(const Key aKey,
-                                    LoyaltyDisplayScreen *parent)
+BaseLoyaltyDisplayPage::BaseLoyaltyDisplayPage(const LoyaltyDisplayScreen::PageType aType,
+                                               LoyaltyDisplayScreen *parent)
     : QWidget{parent}
-    , cmKey(aKey)
+    , cmType(aType)
+    , mKeyLabelMap(this)
 {
     setObjectName("BaseLoyaltyDisplayPage:" + key()());
 }
 
-void BaseLoyaltyDisplayPage::screenSize(const Size aSz)
+BaseLoyaltyDisplayPage::~BaseLoyaltyDisplayPage()
 {
-    resize(aSz);
-    updateGeometry();
-    update();
+    mKeyLabelMap.releaseAll();
 }
 
-LoyaltyDisplayScreen *BaseLoyaltyDisplayPage::screen() { CKPOINTER(parent()); return qobject_cast<LoyaltyDisplayScreen *>(parent()); }
+void BaseLoyaltyDisplayPage::initialize()
+{
+    FNENTER();
+    mpGridLayout = new QGridLayout(this);
+    NEWOBJ(mpGridLayout, "QGridLayout", this);
+    mpGridLayout->setObjectName("BaseLoyaltyDisplayPage:QGridLayout");
+    FNRTNVOID();
+    CKPOINTER(mpGridLayout);
+}
+
+KeySeg BaseLoyaltyDisplayPage::key() const
+{
+    return LoyaltyDisplayScreen::key(cmType);
+}
+
+LoyaltyDisplayScreen * BaseLoyaltyDisplayPage::screen() const
+{
+    CKPOINTER(parent());
+    return qobject_cast<LoyaltyDisplayScreen *>(parent());
+}
+
+QGridLayout * BaseLoyaltyDisplayPage::gridLayout()
+{
+    return qobject_cast<QGridLayout *>(mpGridLayout);
+}

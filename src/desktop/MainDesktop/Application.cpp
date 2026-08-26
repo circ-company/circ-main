@@ -26,7 +26,7 @@ Application::Application(int &argc, char **argv)
 void Application::run()
 {
     FNENTER()
-    PROGMSG("Running Application:" + mainWindow()->objectName());
+    PROGRESS("Running Application:" + mainWindow()->objectName());
     QQApplication::run();
     connect(this, &Application::running, mainWindow(), &LoyaltyDisplayScreen::run);
     connect(mainWindow(), &LoyaltyDisplayScreen::running, this, &Application::initialize);
