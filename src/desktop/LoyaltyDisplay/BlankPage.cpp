@@ -4,14 +4,20 @@
 #include <QPainter>
 #include <QPaintEvent>
 
-#include <Button.h>
+#include <ToolButton.h>
 #include <Color.h>
 #include <Label.h>
 #include <Log.h>
 #include <SCRect.h>
 
+#include "NormalFaceLayoutWidget.h"
+
+
 BlankPage::BlankPage(LoyaltyDisplayScreen *parent)
-    : BaseLoyaltyDisplayPage(LoyaltyDisplayScreen::Blank, parent) {;}
+    : BaseLoyaltyDisplayPage(LoyaltyDisplayScreen::Home, parent)
+{
+    setObjectName("HomePage:BaseLoyaltyDisplayPage");
+}
 
 BlankPage::~BlankPage() {;}
 
@@ -21,11 +27,35 @@ void BlankPage::setup()
     resize(size());
     mPaintModes = Background;
     repaint();
-
-    setLayout(gridLayout());
-    setupButtonBar();
+    for (Index iy = 0; iy < scmGridSize.width(); ++iy)
+    {
+        for (Index ix = 0; ix < scmGridSize.height(); ++ix)
+        {
+            QWidgetItem * pPlaceholder
+                = new NormalFaceLayoutWidget(Point(int(ix), int(iy)),
+                                             parentWidget());
+            grid()->addItem(pPlaceholder, ix, iy,
+                            Qt::AlignCenter);
+        }
+    }
+    setLayout(grid());
     show();
     FNRTNVOID();
+}
+
+void BlankPage::add(const Index aRow, const QImage aImage)
+{
+
+}
+
+KeySeg BlankPage::key() const
+{
+    return KeySeg("Blank");
+}
+
+QString BlankPage::name() const
+{
+    return (tr("Blank", "pagename"));
 }
 
 void BlankPage::paintEvent(QPaintEvent *event)
@@ -40,27 +70,3 @@ void BlankPage::paintEvent(QPaintEvent *event)
     FNRTNVOID();
 }
 
-void BlankPage::setupButtonBar()
-{
-    FNENTER();
-    QList<Qt::GlobalColor> tButtonColors;
-    tButtonColors << Qt::red << Qt::yellow << Qt::green << Qt::cyan
-                  << Qt::blue << Qt::magenta << Qt::lightGray
-                  << Qt::darkRed << Qt::darkGreen
-                  << Qt::darkBlue << Qt::darkMagenta << Qt::darkGray;
-    Index rowIx = 0, colIx = 0;
-    DUMPVAR(gridLayout()->objectName());
-    foreach (const Qt::GlobalColor cQGC, tButtonColors)
-    {
-        Color tColor(cQGC);
-        Key tColorKey = "Button/" + tColor.name();
-        Button tButton(Size(96, 64), tColor);
-        QLabel * pLabel = new QLabel(tColorKey(), this);
-        NEWOBJ(pLabel, "QLabel", this);
-        pLabel->setPixmap(tButton.flat());
-        gridLayout()->addWidget(pLabel, rowIx, colIx++);
-        DUMPVAR(pLabel->text());
-    }
-    show();
-    FNRTNVOID();
-}

@@ -55,6 +55,7 @@ public: // const
     SCRect operator &= (const SCRect other) const;
     operator QRect () const;
 //    operator QRectF () const;
+    QRect operator () () const;
 
 public: // non-const
     void height(const int h);
@@ -100,6 +101,7 @@ inline SCRect SCRect::operator +(const Point offset) const { return added(offset
 inline SCRect SCRect::operator * (const qreal f) const { return scaled(f); }
 inline SCRect SCRect::operator &= (const SCRect other) const { return intersected(other); }
 inline SCRect::operator QRect() const { return toQRect(); }
+inline QRect SCRect::operator ()() const { return toQRect(); }
 //inline SCRect::operator QRectF() const { return toQRect(); }
 inline void SCRect::height(const int h) { mSize.setHeight(h); }
 inline void SCRect::width(const int w) { mSize.setWidth(w); }

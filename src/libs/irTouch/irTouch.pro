@@ -11,15 +11,15 @@ include(../../useTypes.pri)
 include(../../useColor.pri)
 
 SOURCES += \
-    Button.cpp \
     GenerateIcon.cpp \
     GenerateIconScheme.cpp \
+    ToolButton.cpp \
     irTouch.cpp
 
 HEADERS += \
-    Button.h \
     GenerateIcon.h \
     GenerateIconScheme.h \
+    ToolButton.h \
     irTouch_global.h \
     irTouch.h
 

@@ -2,7 +2,7 @@
 
 #include <QMainWindow>
 
-class QTabWidget;
+class QStackedLayout;
 class QThread;
 
 #include <KeyMap.h>
@@ -17,8 +17,20 @@ class LoyaltyDisplayScreen : public QMainWindow
 public: // types
     enum PageType
     {
-        $null = 0,
-        Blank,
+        $null = -1,
+        Home,
+        Capture,
+        Page2,
+        Page3,
+        Page4,
+        Page5,
+        Page6,
+        Page7,
+        Page8,
+        Page9,
+        Finish,
+        System,
+        $Count
     };
     Q_ENUM(PageType);
 
@@ -39,11 +51,11 @@ signals:
     void running();
 
 public: // const
-    bool isRunning() const;
-    Size screenSize() const;
+    const Size screenSize() const;
 
 public: // non-const
     void screenSize(const Size aSz);
+    void setupButtonBar();
     void addPage(BaseLoyaltyDisplayPage * pPage);
 
 public: // static
@@ -56,14 +68,14 @@ public: // pointers
 private:
     LoyaltyDisplayBackend * mpBackend=nullptr;
     QThread * mpBackendThread=nullptr;
-    bool mIsRunning = false;
     Size mScreenSize=baseScreenSize();
-    QTabWidget * mpMainWidget=nullptr;
+    QWidget * mpMainWidget=nullptr;
+    QStackedLayout * mpMainStack=nullptr;
+    QToolBar * mpToolBar=nullptr;
     KeyMapT<BaseLoyaltyDisplayPage *> mKeyPageMap;
 };
 
-inline bool LoyaltyDisplayScreen::isRunning() const { return mIsRunning; }
-inline Size LoyaltyDisplayScreen::screenSize() const { return mScreenSize; }
+inline const Size LoyaltyDisplayScreen::screenSize() const { return mScreenSize; }
 inline Size LoyaltyDisplayScreen::baseScreenSize() { return Size(1280, 800); }
 
 

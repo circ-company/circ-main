@@ -21,15 +21,19 @@ include(../../useTouch.pri)
 SOURCES += \
     BaseLoyaltyDisplayPage.cpp \
     BlankPage.cpp \
+    HomePage.cpp \
     LoyaltyDisplayBackend.cpp \
     LoyaltyDisplayScreen.cpp \
+    NormalFaceLayoutWidget.cpp \
     main.cpp
 
 HEADERS += \
     BaseLoyaltyDisplayPage.h \
     BlankPage.h \
+    HomePage.h \
     LoyaltyDisplayBackend.h \
     LoyaltyDisplayScreen.h \
+    NormalFaceLayoutWidget.h \
     version.h
 
 TRANSLATIONS += \

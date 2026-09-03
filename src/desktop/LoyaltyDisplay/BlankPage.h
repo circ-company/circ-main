@@ -2,7 +2,12 @@
 
 #include <QWidget>
 
+#include <QList>
+
 class QPaintEvent;
+
+#include <Size.h>
+#include <Types.h>
 
 #include "BaseLoyaltyDisplayPage.h"
 
@@ -24,9 +29,10 @@ public:
 
 public slots:
     //virtual void start();
-    //virtual void initialize();
+    //virtual void initialize() final;
     virtual void setup() final;
     //virtual void run();
+    void add(const Index aRow, const QImage aImage);
 
 signals:
     void started();
@@ -37,14 +43,14 @@ signals:
 public: // const
 
 public: // non-const
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    virtual KeySeg key() const final;
+    virtual QString name() const final;
+    virtual void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 public: // pointers
 
 private: // non-const
-    void setupButtonBar();
 
 private:
     PaintModes mPaintModes=$null;
-
 };

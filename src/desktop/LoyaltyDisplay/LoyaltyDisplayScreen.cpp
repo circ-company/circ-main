@@ -1,11 +1,17 @@
 #include "LoyaltyDisplayScreen.h"
 
+#include <QColor>
 #include <QMetaEnum>
-#include <QTabWidget>
+#include <QStackedLayout>
+#include <QToolBar>
 #include <QThread>
+#include <QWidget>
 
+#include <Color.h>
 #include <EnumHelper.h>
+#include <Label.h>
 #include <Log.h>
+#include <ToolButton.h>
 
 #include "BaseLoyaltyDisplayPage.h"
 #include "BlankPage.h"
@@ -34,8 +40,14 @@ void LoyaltyDisplayScreen::start()
 void LoyaltyDisplayScreen::initialize()
 {
     FNENTER();
-    mpMainWidget = new QTabWidget(this);
-    NEWOBJ(mpMainWidget, "QTabWidget", this);
+
+    mpMainWidget = new QWidget(this);
+    NEWOBJ(mpMainWidget, "QWidget", this);
+    mpMainStack = new QStackedLayout();
+    NEWOBJ(mpMainStack, "QStackedLayout", this);
+    mpToolBar = new QToolBar(this);
+    NEWOBJ(mpToolBar, "QToolBar", this);
+
     FNEMIT("initialized");
     emit initialized();
     FNRTNVOID();
@@ -45,10 +57,16 @@ void LoyaltyDisplayScreen::setup()
 {
     FNENTER();
     screenSize(baseScreenSize());
-    addPage(new BlankPage(this));
+    setFixedSize(screenSize());
 
-    CKPOINTER(mpMainWidget);
+    mpToolBar = addToolBar(tr("Main", "toolbar"));
+    CKPOINTER(mpToolBar);
+    setupButtonBar();
+
+    mpMainWidget->setLayout(mpMainStack);
     setCentralWidget(mpMainWidget);
+
+    addPage(new BlankPage(this));
 
     FNEMIT("setupd");
     emit setupd();
@@ -61,8 +79,6 @@ void LoyaltyDisplayScreen::run()
     // TODO Move Backend to it's thread
     NEEDDO("Move Backend to it's thread");
 
-    mIsRunning = true;
-    FNEMIT("running");
     emit running();
     FNRTNVOID();
 }
@@ -88,8 +104,8 @@ void LoyaltyDisplayScreen::addPage(BaseLoyaltyDisplayPage *pPage)
     pPage->initialize();
     pPage->setup();
     mKeyPageMap.insert(pPage->key(), pPage);
-    mpMainWidget->addTab(pPage, QIcon(), pPage->key()());
-    mpMainWidget->setCurrentWidget(pPage);
+    mpMainStack->addWidget(pPage);
+    setCentralWidget(pPage);
 }
 
 KeySeg LoyaltyDisplayScreen::key(const PageType aType)
@@ -105,3 +121,25 @@ LoyaltyDisplayBackend *LoyaltyDisplayScreen::backend()
     CKPOINTER(mpBackend); return mpBackend;
 }
 
+void LoyaltyDisplayScreen::setupButtonBar()
+{
+    FNENTER();
+    QList<Qt::GlobalColor> tButtonColors;
+    tButtonColors << Qt::red << Qt::yellow << Qt::green
+                  << Qt::cyan << Qt::blue << Qt::magenta
+                  << Qt::lightGray << Qt::darkRed << Qt::darkGreen
+                  << Qt::darkBlue << Qt::darkMagenta << Qt::darkGray;
+    DUMPVAR(tButtonColors.count());
+    DUMPVAR(PageType::$Count);
+    EXPECTEQ(tButtonColors.count(), PageType::$Count);
+    for (Index ix = 0; ix < PageType::$Count; ++ix)
+    {
+        QColor tColor = tButtonColors.value(ix);
+        Key tColorKey = "Button/" + tColor.name();
+        UText tText = EnumHelper::name<PageType>(PageType(ix));
+        ToolButton * pButton = new ToolButton(tText, tColor, Size(96, 64), this);
+        mpToolBar->addWidget(pButton);
+    }
+    show();
+    FNRTNVOID();
+}

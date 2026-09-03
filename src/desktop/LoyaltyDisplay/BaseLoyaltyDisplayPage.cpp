@@ -4,18 +4,19 @@
 
 #include "LoyaltyDisplayScreen.h"
 
+const Size BaseLoyaltyDisplayPage::scmGridSize = Size(8, 4);
+
 BaseLoyaltyDisplayPage::BaseLoyaltyDisplayPage(const LoyaltyDisplayScreen::PageType aType,
                                                LoyaltyDisplayScreen *parent)
     : QWidget{parent}
     , cmType(aType)
-    , mKeyLabelMap(this)
 {
-    setObjectName("BaseLoyaltyDisplayPage:" + key()());
+    setObjectName("BaseLoyaltyDisplayPage:" + LoyaltyDisplayScreen::key(cmType)());
+    mRowImageCounts.fill(0, scmGridSize.height());
 }
 
 BaseLoyaltyDisplayPage::~BaseLoyaltyDisplayPage()
 {
-    mKeyLabelMap.releaseAll();
 }
 
 void BaseLoyaltyDisplayPage::initialize()
@@ -39,7 +40,7 @@ LoyaltyDisplayScreen * BaseLoyaltyDisplayPage::screen() const
     return qobject_cast<LoyaltyDisplayScreen *>(parent());
 }
 
-QGridLayout * BaseLoyaltyDisplayPage::gridLayout()
+QGridLayout * BaseLoyaltyDisplayPage::grid()
 {
     return qobject_cast<QGridLayout *>(mpGridLayout);
 }

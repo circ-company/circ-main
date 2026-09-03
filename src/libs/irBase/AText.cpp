@@ -87,8 +87,8 @@ AText AText::formattedList(const QVariantList vars) const
     for (Index ix = 0; ix < cVarCount; ++ix)
     {
         const QString cPctString = "%" + QString::number(ix + 1);
-        const QMetaType cQMT = vars[ix].metaType();
-        qDebug() << Q_FUNC_INFO <<cPctString << "=" << cQMT.name() << cQMT.id();
+//        const QMetaType cQMT = vars[ix].metaType();
+//        qDebug() << Q_FUNC_INFO <<cPctString << "=" << cQMT.name() << cQMT.id();
         const QString cValue = TypeFormat(vars[ix]);
         result.replace(cPctString, cValue);
     }
@@ -169,7 +169,6 @@ void AText::set(const QVariant &aVar)
 {
     Q_UNUSED(aVar);
     Q_ASSERT(!"Done"); // TODO
-//    it() = AText::format(aVar);
 }
 
 void AText::set(const Modify mod)
@@ -227,7 +226,7 @@ void AText::removeEach(const AText &atx)
         removeEach(ch);
 }
 
-/*static*/
+// static
 AText AText::formatDecimal(const QVariant aVar)
 {
     AText result;
@@ -235,13 +234,11 @@ AText AText::formatDecimal(const QVariant aVar)
     const TriBool cSign = cMT.isSigned();
     signed long long tSInt = 0;
     unsigned long long tUInt = 0;
-//    Index tStartIx = 0;
     QString tNumString;
     if (cSign.isTrue())
     {
         tSInt = aVar.toLongLong();
         tNumString = QString::number(tSInt);
-  //      tStartIx = (tSInt < 0) ? 1 : 0;
     }
     else if (cSign.isFalse())
     {
@@ -252,20 +249,18 @@ AText AText::formatDecimal(const QVariant aVar)
     {
         ; // non integral, return nothing
     }
-//    if (tNumString.length() > 3)
-  //      for (Index ix = tNumString.length(); ix > tStartIx; ix -= 3)
-    //        tNumString.insert(ix, ",");
     return result = tNumString;
 }
 
-/*static*/
+// static
 AText AText::formatHeximal(const QVariant aVar)
 {
     AText result = QString::number(aVar.toUInt(), 16);
     return AText("<0x") + result + AText(">");
 }
 
-/*static*/ AText AText::format(const AText aFormat, const QVariantList vars)
+// static
+AText AText::format(const AText aFormat, const QVariantList vars)
 {
     AText result = aFormat;
     for (Index ix = 0; ix < Index(vars.count()); ++ix)
@@ -280,6 +275,7 @@ AText AText::formatHeximal(const QVariant aVar)
     return result;
 }
 
+// static
 AText AText::format(const AText aFormat, const QVariant var1, const QVariant var2, const QVariant var3, const QVariant var4)
 {
     QVariantList vars;
@@ -290,23 +286,28 @@ AText AText::format(const AText aFormat, const QVariant var1, const QVariant var
     return format(aFormat, vars);
 }
 
-
+// static
 bool AText::isValidFirst(const char ch) const
 {
     return isprint(ch);
 }
 
+// static
 bool AText::isValidChar(const char ch) const
 {
     return isprint(ch);
 }
 
+// static
 QString AText::saveVarListString(const QVariantList &vars, const Index ix)
 {
-    qDebug() << Q_FUNC_INFO << vars.count() << ix;
-    return (ix >= 0 && ix < vars.count()) ? vars.at(ix).toString() : QString();
+//    qDebug() << Q_FUNC_INFO << vars.count() << ix;
+    return (ix >= 0 && ix < vars.count())
+           ? vars.at(ix).toString()
+           : QString();
 }
 
+// static
 AText operator + (const AText &lhs, const AText &rhs)
 {
     QString ls(lhs), rs(rhs);

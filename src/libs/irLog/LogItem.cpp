@@ -136,14 +136,14 @@ void LogItem::newobj(QObject *pNewObj, const CText &aObjName, QObject *pParent)
     {
         level(StatusLevel::Info);
         tQmtObject = pNewObj->metaObject()->metaType();
-        format(AText("OK: Memory Allocation for <%1 %2(%3) at &6> parent<%4(%5)>"));
+        format(AText("OK: Memory Allocation for <%1 %2(%3) at %6> parent<%4(%5)>"));
     }
-    set(aObjName);
-    set(AText(tQmtObject.name()));
-    set(QVariant(int(tQmtObject.id())));
-    set(AText(cQmtParent.name()));
-    set(QVariant(int(cQmtParent.id())));
-    if (pNewObj) set(AText::formatHeximal((qptrdiff)pNewObj));
+    text(aObjName);                         // %1
+    text(AText(tQmtObject.name()));         // %2
+    set(QVariant(int(tQmtObject.id())));    // %3
+    text(AText(cQmtParent.name()));         // %4
+    set(QVariant(int(cQmtParent.id())));    // %5
+    if (pNewObj) set(AText::formatHeximal((qptrdiff)pNewObj)); // %6
 }
 
 void LogItem::dumpVar(const QVariant aVar, const char * aText)
@@ -151,9 +151,9 @@ void LogItem::dumpVar(const QVariant aVar, const char * aText)
     const QMetaType cQMT = aVar.metaType();
     const AText cFmt = QString("Dump %1(%2): `%3` is <%4>");
     format(cFmt);
-    set(AText(cQMT.name()));
-    set(QVariant(int(cQMT.id())));
-    set(AText(aText));
+    text(cQMT.name());
+    set(cQMT.id());
+    text(aText);
     set(aVar);
 }
 

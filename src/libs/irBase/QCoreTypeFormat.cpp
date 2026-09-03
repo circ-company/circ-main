@@ -1,6 +1,7 @@
 #include "QCoreTypeFormat.h"
 
 #include <QFileInfo>
+#include <QRect>
 #include <QSize>
 
 void QCoreTypeFormat::registerQCore()
@@ -16,6 +17,7 @@ void QCoreTypeFormat::registerQCore()
     registerFunction(QMetaType::QBitArray, &formatHexData);
     registerFunction(QMetaType::QByteArray, &formatHexData);
     registerFunction(QMetaType::QSize, &formatQSize);
+    registerFunction(QMetaType::QRect, &formatQRect);
     registerFunction(cTypeIdQFileInfo, &formatQFileInfo);
 //  registerFunction(QMetaType::Char32, &formatQChar);
 //  TODO howto: QMetaType::Char32
@@ -44,7 +46,7 @@ AText QCoreTypeFormat::formatHexData(const QVariant &aVar)
     QByteArray cBytes = aVar.toByteArray();
     QString cHexStr = AText(cBytes.toHex());
     cHexStr.truncate(64);
-    result = QString("HEX(%1):<%2>").arg(cBytes.length()).arg(cHexStr);
+    result = QString("HEX[%1]:<%2>").arg(cBytes.length()).arg(cHexStr);
     return result;
 }
 
@@ -54,6 +56,16 @@ AText QCoreTypeFormat::formatQSize(const QVariant &aVar)
     return AText::format("QSize(w%1, h%2)",
                          TypeFormat(cSize.height()),
                          TypeFormat(cSize.width()));
+}
+
+AText QCoreTypeFormat::formatQRect(const QVariant &aVar)
+{
+    const QRect cRect = aVar.toRect();
+    return AText(QString("QRect(l%1, t%2, r%34, b%4)")
+                         .arg(cRect.left())
+                         .arg(cRect.top())
+                         .arg(cRect.right())
+                         .arg(cRect.bottom()));
 }
 
 AText QCoreTypeFormat::formatQFileInfo(const QVariant &aVar)

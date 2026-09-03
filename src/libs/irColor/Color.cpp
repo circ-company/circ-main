@@ -73,6 +73,8 @@ Color Color::lighter(const SWORD aPerk) const
 
 Color Color::inverted() const
 {
+    FNENTER();
+    DUMPVAR(name());
     Color result(representation());
     //WORD tTemp;
     DWORD tDW;
@@ -80,13 +82,13 @@ Color Color::inverted() const
     switch (representation())
     {
     case ORGB:
-        result.mRed = 65536 - mRed;
-        result.mGrn = 65536 - mGrn;
-        result.mBlu = 65536 - mBlu;
+        result.mRed = 65535 - mRed;
+        result.mGrn = 65535 - mGrn;
+        result.mBlu = 65535 - mBlu;
         break;
     case Biconic:
         tDW = DWORD(mHue) + 32768L;
-        if (tDW > 65536L) tDW -= 65536L;
+        if (tDW > 65535L) tDW -= 65535L;
         result.mHue = tDW;
         /* no change in saturation? */
         Q_FALLTHROUGH();
@@ -107,6 +109,7 @@ Color Color::inverted() const
         INFO("No invert for Alpha or Opacity");
         break;
     }
+    FNRTNVALUE(result.name(), "UText");
     return result;
 }
 

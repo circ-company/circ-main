@@ -4,11 +4,14 @@
 
 #include <QGridLayout>
 
+#include <DualMap.h>
 #include <KeySeg.h>
 #include <LabelMap.h>
+#include <Point.h>
 #include <Size.h>
 
 #include "LoyaltyDisplayScreen.h"
+class NormalFaceLayoutWidget;
 
 class BaseLoyaltyDisplayPage : public QWidget
 {
@@ -33,24 +36,27 @@ signals:
 
 public: // const
     virtual LoyaltyDisplayScreen::PageType type() const;
-    KeySeg key() const;
-    virtual Size size() const;
+    virtual KeySeg key() const;
+    virtual QString name() const = 0;
 
 public: // non-const
 
+public: // static
+
 public: // pointers
     LoyaltyDisplayScreen * screen() const;
-    QGridLayout * gridLayout();
+    QGridLayout * grid();
     LabelMap & labelMap();
 
-private:
-    Size mScreenSize;
-    const LoyaltyDisplayScreen::PageType cmType;
-    QGridLayout * mpGridLayout=nullptr;
-    LabelMap mKeyLabelMap;
+protected:
+    static const Size scmGridSize;
 
+private:
+    const LoyaltyDisplayScreen::PageType cmType;
+    const KeySeg cmKeySeg;
+    QGridLayout * mpGridLayout=nullptr;
+    QList<Count> mRowImageCounts;
+    DualMap<Point, NormalFaceLayoutWidget *>mPointItemDMap;
 };
 
 inline LoyaltyDisplayScreen::PageType BaseLoyaltyDisplayPage::type() const { return cmType; }
-inline Size BaseLoyaltyDisplayPage::size() const { return screen()->screenSize(); }
-inline LabelMap &BaseLoyaltyDisplayPage::labelMap() { return mKeyLabelMap; }

@@ -11,10 +11,15 @@ QMap<int, TypeFormat::FormatFunctionPtr> TypeFormat::smTypeIdFuncPtrMap;
 
 TypeFormat::TypeFormat(const QVariant aVar)
 {
+    if (smTypeIdFuncPtrMap.isEmpty()) populate();
+    const QMetaType cMTQString = QMetaType::fromType<QString>();
     const QMetaType cQMT = aVar.metaType();
-    if (smTypeIdFuncPtrMap.isEmpty())
-        populate();
-    if (smTypeIdFuncPtrMap.contains(cQMT.id()))
+    if (aVar.canConvert(cMTQString))
+    {
+        FormatFunctionPtr  pFF = smTypeIdFuncPtrMap.value(cMTQString.id());
+        set((*pFF)(aVar));
+    }
+    else if (smTypeIdFuncPtrMap.contains(cQMT.id()))
     {
         FormatFunctionPtr  pFF = smTypeIdFuncPtrMap.value(cQMT.id());
         set((*pFF)(aVar));

@@ -10,6 +10,7 @@ public:
     static AText formatString(const QVariant &aVar);
     static AText formatHexData(const QVariant &aVar);
     static AText formatQSize(const QVariant &aVar);
+    static AText formatQRect(const QVariant &aVar);
     static AText formatQFileInfo(const QVariant &aVar);
 
 };
