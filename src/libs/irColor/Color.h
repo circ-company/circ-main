@@ -49,6 +49,8 @@ public: // ctors
     Color(const QRgba64 aQRgba64);
 
 public: // const
+    bool isNull() const;
+    bool notNull() const;
     Representation representation() const;
     bool isNull(const Representation aRep) const;
     bool isNull(const WORD aWord) const;
@@ -65,7 +67,8 @@ public: // const
     BYTE blu8() const { return mBlu >> 8; }
 
 public: // non-const
-    void clear();
+    void representation(const Representation aRep);
+    void clear(const Representation aRep=$none);
     void nullify();
     void greyify();
 
@@ -111,8 +114,10 @@ Q_DECLARE_METATYPE(Color);
 
 
 inline Color::Representation Color::representation() const { return mRepresentation; }
+inline bool Color::isNull() const { return representation() == $none; }
+inline bool Color::notNull() const { return ! isNull(); }
 inline bool Color::isNull(const WORD aWord) const { return 0 == aWord; }
 inline bool Color::notNull(const WORD aWord) const { return ! isNull(aWord); }
 inline QColor Color::operator ()() const { return toQColor(); }
-inline void Color::clear() { nullify(); }
 inline Color Color::darker(const SWORD aPerk) const { return lighter( - aPerk); }
+inline void Color::representation(const Representation aRep) { mRepresentation = aRep; }

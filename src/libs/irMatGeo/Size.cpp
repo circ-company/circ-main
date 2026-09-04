@@ -60,9 +60,9 @@ Size Size::expanded(const Size sz) const
     return Size(width() + sz.width(), height() + sz.height());
 }
 
-Size Size::expanded(const unsigned int u) const
+Size Size::expanded(const signed i) const
 {
-    return Size(width() + u, height() + u);
+    return Size(width() + i, height() + i);
 }
 
 Size Size::trimmed(const unsigned int modulo) const

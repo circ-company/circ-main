@@ -1,6 +1,7 @@
 #include "NormalFaceLayoutWidget.h"
 
 #include <QLabel>
+#include <QPainter>
 
 #include <Log.h>
 #include <SCRect.h>
@@ -8,23 +9,20 @@
 const Size NormalFaceLayoutWidget::scmCellSize = Size(128);
 
 
-NormalFaceLayoutWidget::NormalFaceLayoutWidget(const Point aPt,
-                                               QWidget *parentWidget)
+NormalFaceLayoutWidget::NormalFaceLayoutWidget(QWidget *parentWidget)
     : QWidgetItem(parentWidget)
-    , mGridPosition(aPt)
+    , mpLabel(new QLabel(parentWidget))
 {
-    mKey = QString("$Placeholder/x%1/y%2").arg(aPt.col()).arg(aPt.row());
-    mpLabel = new QLabel(parentWidget);
     generate();
 }
 
-NormalFaceLayoutWidget::NormalFaceLayoutWidget(const Key aKey, const QImage aImage,
+NormalFaceLayoutWidget::NormalFaceLayoutWidget(const Key &aKey, const QImage &aImage,
                                                QWidget * parentWidget)
     : QWidgetItem(parentWidget)
+    , mpLabel(new QLabel(parentWidget))
     , mKey(aKey)
-    , mImage(aImage)
 {
-    mpLabel = new QLabel(parentWidget);
+    image(aImage);
     generate();
 }
 
@@ -111,19 +109,43 @@ const Size NormalFaceLayoutWidget::cellSize()
     return scmCellSize;
 }
 
-void NormalFaceLayoutWidget::generate()
+void NormalFaceLayoutWidget::image(const QImage &aImage)
 {
-    QImage tImage = mImage;
-    if (mImage.isNull())
-    {
-        mPixmap = QPixmap(cellSize());
-        mPixmap.fill(QColor::fromString("steelblue"));
-    }
-    else
-    {
-        mPixmap = QPixmap::fromImage(mImage.scaled(cellSize(),
-                                Qt::KeepAspectRatio));
-    }
+    mImage = aImage.convertedTo(QImage::Format_ARGB32);
+    generate();
+}
+
+void NormalFaceLayoutWidget::generate(const Color &aBgColor)
+{
+    FNENTER();
+    FNARG(aBgColor(), "QColor");
+    DUMPVAR(mImage);
     CKPOINTER(mpLabel);
+    // Background
+    if (aBgColor.notNull())
+    {
+        mBgColor = aBgColor;
+    }
+    else if (mBgColor.isNull())
+    {
+        mBgColor.set("steelblue");
+    }
+    mPixmap = QPixmap(cellSize());
+    mPixmap.fill(mBgColor());
+
+    // Image
+    if ( ! mImage.isNull())
+    {
+        SCRect tCellRect(cellSize(), true);
+        SCRect tImageRect = tCellRect.added( -16 );
+        QPixmap tPixmap = QPixmap::fromImage(mImage.scaled(tImageRect.size(),
+                                Qt::KeepAspectRatio));
+        QPainter tPainter(&mPixmap);
+        tPainter.drawPixmap(tImageRect(), tPixmap);
+        tPainter.end();
+    }
+
+    // Label
     mpLabel->setPixmap(mPixmap);
+    FNRTNVOID();
 }

@@ -77,7 +77,7 @@ void LoyaltyDisplayScreen::run()
     FNENTER();
 
     // TODO Move Backend to it's thread
-    NEEDDO("Move Backend to it's thread");
+    WHATDO("Move Backend to it's thread");
 
     emit running();
     FNRTNVOID();

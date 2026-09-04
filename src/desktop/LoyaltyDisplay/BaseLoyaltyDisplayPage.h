@@ -16,6 +16,14 @@ class NormalFaceLayoutWidget;
 class BaseLoyaltyDisplayPage : public QWidget
 {
     Q_OBJECT
+public: // types
+    enum PaintMode
+    {
+        $null = 0,
+        Background,
+    };
+    Q_ENUM(PaintMode);
+    Q_DECLARE_FLAGS(PaintModes, PaintMode);
 
 protected: // ctors
     BaseLoyaltyDisplayPage(const LoyaltyDisplayScreen::PageType aType,
@@ -25,7 +33,7 @@ protected: // ctors
 public slots:
     virtual void start() {;}
     virtual void initialize();
-    virtual void setup() = 0;
+    virtual void setup();
     virtual void run() {;}
 
 signals:
@@ -40,6 +48,7 @@ public: // const
     virtual QString name() const = 0;
 
 public: // non-const
+    virtual void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 public: // static
 
@@ -53,6 +62,7 @@ protected:
 
 private:
     const LoyaltyDisplayScreen::PageType cmType;
+    PaintModes mPaintModes=$null;
     const KeySeg cmKeySeg;
     QGridLayout * mpGridLayout=nullptr;
     QList<Count> mRowImageCounts;

@@ -1,8 +1,12 @@
 #include "BaseLoyaltyDisplayPage.h"
 
+#include <QPainter>
+#include <QPaintEvent>
+
 #include <Log.h>
 
 #include "LoyaltyDisplayScreen.h"
+#include "NormalFaceLayoutWidget.h"
 
 const Size BaseLoyaltyDisplayPage::scmGridSize = Size(8, 4);
 
@@ -29,6 +33,26 @@ void BaseLoyaltyDisplayPage::initialize()
     CKPOINTER(mpGridLayout);
 }
 
+void BaseLoyaltyDisplayPage::setup()
+{
+    FNENTER();
+    resize(size());
+    setLayout(grid());
+    mPaintModes = Background;
+    repaint();
+    update();
+    show();
+    for (Index iy = 0; iy < scmGridSize.width(); ++iy)
+        for (Index ix = 0; ix < scmGridSize.height(); ++ix)
+        {
+            QWidgetItem * pPlaceholder
+                = new NormalFaceLayoutWidget(parentWidget());
+            grid()->addItem(pPlaceholder, ix, iy, Qt::AlignCenter);
+            show();
+        }
+    FNRTNVOID();
+}
+
 KeySeg BaseLoyaltyDisplayPage::key() const
 {
     return LoyaltyDisplayScreen::key(cmType);
@@ -43,4 +67,16 @@ LoyaltyDisplayScreen * BaseLoyaltyDisplayPage::screen() const
 QGridLayout * BaseLoyaltyDisplayPage::grid()
 {
     return qobject_cast<QGridLayout *>(mpGridLayout);
+}
+
+void BaseLoyaltyDisplayPage::paintEvent(QPaintEvent *event)
+{
+    FNENTER();
+    if (mPaintModes & Background)
+    {
+        QPainter tPainter(this);
+        tPainter.fillRect(event->rect(), QColor("papayawhip"));
+        tPainter.end();
+    }
+    FNRTNVOID();
 }

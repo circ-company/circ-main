@@ -37,7 +37,7 @@ public: // const
     bool less(const Size &rhs) const;
     bool isEqualAspect(const Size &rhs) const;
     Size expanded(const Size sz) const;
-    Size expanded(const unsigned u) const;
+    Size expanded(const signed int i) const;
     Size trimmed(const unsigned modulo) const;
     Size scaled(const unsigned u) const;
     Size scaled(const qreal f) const;

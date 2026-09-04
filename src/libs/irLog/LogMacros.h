@@ -23,6 +23,8 @@
     LogItem li(Log::MessageOnly, sev, CODECONTEXT()); \
     li.text(AText(msg)); \
     LOG->enqueue(li); \
+    LOG->flush(); \
+    if(li.isFault()) Q_ASSERT(false); \
 } \
 
 #define ASSERTLI(op, sev, bval) \

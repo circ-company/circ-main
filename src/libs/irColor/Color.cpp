@@ -151,8 +151,8 @@ void Color::greyify()
 
 void Color::set(const char *pchNamedColor)
 {
-    MUSTDO();
-    Q_UNUSED(pchNamedColor);
+    QColor tQC(pchNamedColor);
+    set(tQC);
 }
 
 void Color::set(const Qt::GlobalColor aGlobal)
@@ -210,4 +210,10 @@ void Color::toBiconic()
 WORD Color::perkWord(const UINT aPerk)
 {
     return WORD((qreal(aPerk) / 1000.0) * 65536.0);
+}
+
+void Color::clear(const Representation aRep)
+{
+    nullify();
+    representation(aRep);
 }

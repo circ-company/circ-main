@@ -88,7 +88,7 @@ SCRect SCRect::intersected(const QRect qrc) const
     return SCRect(toQRect().intersected(qrc));
 }
 
-SCRect SCRect::added(const signed int expand) const
+SCRect SCRect::added(const signed expand) const
 {
     return SCRect(size().expanded(expand), center());
 }
