@@ -14,12 +14,14 @@ SOURCES += \
     GenerateIcon.cpp \
     GenerateIconScheme.cpp \
     ToolButton.cpp \
+    TouchGallery.cpp \
     irTouch.cpp
 
 HEADERS += \
     GenerateIcon.h \
     GenerateIconScheme.h \
     ToolButton.h \
+    TouchGallery.h \
     irTouch_global.h \
     irTouch.h
 

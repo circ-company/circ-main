@@ -44,6 +44,8 @@ public: // const
     qreal scaleToF(const Size &rhs) const;
     Size unioned(const Size &rhs) const;
     Size intersected(const Size &rhs) const;
+    QSize toQSize() const;
+    QSize operator () () const;
     bool operator < (const Size &rhs) const;
     Size operator | (const Size &rhs) const;
     Size operator & (const Size &rhs) const;
@@ -75,6 +77,7 @@ inline WORDF Size::widthF() const { return width(); }
 inline WORDF Size::heightF() const { return height(); }
 inline int Size::minDim() const { return qMin(width(), height()); }
 inline int Size::maxDim() const { return qMax(width(), height()); }
+inline QSize Size::operator ()() const { return toQSize(); }
 inline bool Size::operator <(const Size &rhs) const { return less(rhs); }
 inline Size Size::operator |(const Size &rhs) const { return unioned(rhs); }
 inline Size Size::operator &(const Size &rhs) const { return intersected(rhs); }

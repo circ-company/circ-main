@@ -1,30 +1,60 @@
 #include "Point.h"
 
+#include <QPoint>
+
+#include <TriBool.h>
+
 #include "Size.h"
 
 Point::Point(const bool zero) { set(zero ? Point(0,0) : nullPoint()); }
-Point::Point(const QPoint &other) : QPoint(other) {;}
-Point::Point(const int x, const int y) : QPoint(x, y) {;}
-Point::Point(const Size sz, const Index ix) { set(sz, ix); }
+Point::Point(const QPoint &other) : mX(other.x()), mY(other.y())  {;}
+Point::Point(const int aX, const int aY)  : mX(aX), mY(aY)  {;}
+Point::Point(const Size aSize, const Index aIndex) { set(aSize, aIndex); }
 
 bool Point::isNull() const
 {
-    return nullPoint() == it();
+    return equals(nullPoint());
 }
 
-bool Point::isZero() const
+TriBool Point::equals(const Point &rhs) const
 {
-    return QPoint::isNull();
+    TriBool result;
+    if  (valid() && rhs.valid())
+        result.set(x() == rhs.x() && y() == rhs.y());
+    return result;
 }
 
-Point Point::set(const Point pt)
+bool Point::less(const Point &rhs) const
 {
-    return set(pt.x(), pt.y());
+    return (x() < rhs.x()) ? true : (y() < rhs.y());
 }
 
-Point Point::set(const int x, const int y)
+Point Point::added(const Point &rhs) const
 {
-    setX(x), setY(y);
+    return Point(int(x() + rhs.x()), int(y() + rhs.y()));
+}
+
+Point::Sortable Point::sortable() const
+{
+    DWORD result = 0;
+    result |=  DWORD(y()) & 0x0000FFFF;
+    result |= (DWORD(x()) & 0x0000FFFF) << 16;
+    return Sortable(result);
+}
+
+QPoint Point::toQPoint() const
+{
+    return QPoint(x(), y());
+}
+
+Point Point::set(const Point aPt)
+{
+    return set(aPt.x(), aPt.y());
+}
+
+Point Point::set(const Index aX, const Index aY)
+{
+    x(aX), y(aY);
     return it();
 }
 
@@ -50,4 +80,17 @@ Point Point::nullPoint()
 {
     return Point(INT_MIN, INT_MIN);
 }
+
+
+extern Point operator + (const Point lhs, const Point rhs)
+{
+    return Point(int(lhs.x() + rhs.x()),
+                 int(lhs.y() + rhs.y()));
+}
+
+extern Point operator < (const Point lhs, const Point rhs)
+{
+    return lhs.less(rhs);
+}
+
 

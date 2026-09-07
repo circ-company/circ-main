@@ -62,8 +62,8 @@ inline void Rect::left(const Term l) { mLeft = l; }
 inline void Rect::bottom(const Term b) { mBottom = b; }
 inline void Rect::right(const Term r) { mRight = r; }
 inline void Rect::set(const Term t, const Term l, const Term b, const Term r) { top(t), left(l), bottom(b), right(r); }
-inline void Rect::set(const Point tl, const Point br) { top(tl.row()), left(tl.col()), bottom(br.row()), right(br.col()); }
-inline void Rect::set(const Point tl, const Size sz) { top(tl.row()), left(tl.col()), bottom(sz.height() + tl.row()), right(sz.width() + tl.col()); }
+inline void Rect::set(const Point tl, const Point br) { top(tl.y()), left(tl.x()), bottom(br.y()), right(br.x()); }
+inline void Rect::set(const Point tl, const Size sz) { top(tl.y()), left(tl.x()), bottom(sz.height() + tl.y()), right(sz.width() + tl.x()); }
 inline void Rect::set(const SCRect scrc) { set(scrc.size(), scrc.center()); }
 
 Q_DECLARE_METATYPE(Rect);

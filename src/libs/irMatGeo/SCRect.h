@@ -62,6 +62,7 @@ public: // non-const
     void width(const int w);
     void size(const int w, const int h);
     void set(const Size sz);
+    void set(const Point aCenterPoint);
     SCRect trim(const int i);
     SCRect scale(const unsigned u);
     SCRect scale(const qreal f);
@@ -76,7 +77,7 @@ public: // debug
 
 private:
     Size mSize;
-    Point mCenter;
+    Point mCenterPoint;
 };
 
 extern QDebug operator<<(QDebug &stream, const SCRect scr);
@@ -84,17 +85,16 @@ extern QDebug operator<<(QDebug &stream, const SCRect scr);
 inline Size SCRect::size() const { return mSize; }
 inline Count SCRect::area() const { return size().area(); }
 inline QSizeF SCRect::toQSizeF() const { return QSizeF((qreal)width(), (qreal)height()); }
-inline Point SCRect::center() const { return mCenter; }
+inline Point SCRect::center() const { return mCenterPoint; }
 inline int SCRect::x() const { return center().x(); }
 inline int SCRect::y() const { return center().y(); }
 inline int SCRect::height() const { return size().height(); }
 inline int SCRect::width() const { return size().width(); }
 inline int SCRect::min() const { return qMin(width(), height()); }
 inline int SCRect::max() const { return qMax(width(), height()); }
-inline Point SCRect::topLeft() const { return QPoint(left(), top()); }
+inline Point SCRect::topLeft() const { return Point(left(), top()); }
 inline bool SCRect::isEmpty() const { return size().isEmpty(); }
 inline bool SCRect::isNull() const { return size().isNull(); }
-inline QRect SCRect::toQRect() const { return QRect(topLeft(), size()); }
 inline SCRect SCRect::operator * (const unsigned u) const { return scaled(u); }
 inline SCRect SCRect::operator +(const signed int expand) const { return added(expand); }
 inline SCRect SCRect::operator +(const Point offset) const { return added(offset); }
@@ -102,7 +102,6 @@ inline SCRect SCRect::operator * (const qreal f) const { return scaled(f); }
 inline SCRect SCRect::operator &= (const SCRect other) const { return intersected(other); }
 inline SCRect::operator QRect() const { return toQRect(); }
 inline QRect SCRect::operator ()() const { return toQRect(); }
-//inline SCRect::operator QRectF() const { return toQRect(); }
 inline void SCRect::height(const int h) { mSize.setHeight(h); }
 inline void SCRect::width(const int w) { mSize.setWidth(w); }
 inline void SCRect::size(const int w, const int h) { width(w), height(h); }

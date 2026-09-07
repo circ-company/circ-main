@@ -209,7 +209,7 @@ void Color::toBiconic()
 
 WORD Color::perkWord(const UINT aPerk)
 {
-    return WORD((qreal(aPerk) / 1000.0) * 65536.0);
+    return WORD((qreal(aPerk) / 1000.0) * 65535.0);
 }
 
 void Color::clear(const Representation aRep)

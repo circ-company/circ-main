@@ -37,19 +37,18 @@ void BaseLoyaltyDisplayPage::setup()
 {
     FNENTER();
     resize(size());
-    setLayout(grid());
     mPaintModes = Background;
-    repaint();
-    update();
-    show();
     for (Index iy = 0; iy < scmGridSize.width(); ++iy)
         for (Index ix = 0; ix < scmGridSize.height(); ++ix)
         {
             QWidgetItem * pPlaceholder
                 = new NormalFaceLayoutWidget(parentWidget());
             grid()->addItem(pPlaceholder, ix, iy, Qt::AlignCenter);
-            show();
         }
+    repaint();
+    update();
+    show();
+    setLayout(grid());
     FNRTNVOID();
 }
 

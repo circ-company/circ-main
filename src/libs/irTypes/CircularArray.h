@@ -1,7 +1,7 @@
 #pragma once
 
 #include <KeyMap.h>
-#include <List.h>
+#include <QList>
 
 #include "Signum.h"
 
@@ -21,12 +21,12 @@ public: // const
     T at(const qsizetype ix) const; // safe, no assert
     T peekHead() const;
     T peekTail() const;
-    ListT<T> peekHead(const qsizetype k) const;
+    QList<T> peekHead(const qsizetype k) const;
     T peekHead(const qsizetype k, const T tJoin) const;
     T peekHead(const qsizetype k, const char cJoin) const;
-    ListT<T> peekAll() const;
+    QList<T> peekAll() const;
     T joinAll(const char cJoin) const;
-    ListT<T> constTail(const qsizetype k) const;
+    QList<T> constTail(const qsizetype k) const;
     T constTail(const qsizetype k, const T tJoin) const;
 
 public: // non-const
@@ -34,8 +34,8 @@ public: // non-const
     void initialize(const qsizetype capacity);
     void clear();
     T dequeue() const;
-    ListT<T> dequeue(qsizetype k) const;
-    ListT<T> dequeueAll() const;
+    QList<T> dequeue(qsizetype k) const;
+    QList<T> dequeueAll() const;
 
 private:
     qsizetype mHeadIndex=0; // Past where we last put something mod capacity

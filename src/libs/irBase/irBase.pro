@@ -66,6 +66,7 @@ HEADERS += \
     CharType.h \
     CodeContext.h \
     CodeUid.h \
+    Contained.h \
     CppTypeFormat.h \
     DirInfo.h \
     DualMap.h \

@@ -13,6 +13,7 @@ SOURCES += \
 
 HEADERS += \
     CircularArray.h \
+    Loop.h \
     MetaType.h \
     RandomGenerator.h \
     Signum.h \

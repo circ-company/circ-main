@@ -8,9 +8,9 @@ Rect::Rect(const SCRect scrc) { set(scrc); }
 
 void Rect::set(const Size sz, const Point ctr)
 {
-    set(sz.height() - (ctr.row() >> 1),
-        sz.width()  - (ctr.col() >> 1),
-        sz.height() + (ctr.row() >> 1),
-        sz.width()  + (ctr.col() >> 1));
+    set(sz.height() - (ctr.y() >> 1),
+        sz.width()  - (ctr.x() >> 1),
+        sz.height() + (ctr.y() >> 1),
+        sz.width()  + (ctr.x() >> 1));
 }
 

@@ -37,8 +37,8 @@ Point Size::position(const int index) const
     Point result;
     if (isValid() && isValidIndex(index))
     {
-        result.setX(index % width());
-        result.setY(index / width());
+        result.x(index % width());
+        result.y(index / width());
     }
     return result;
 }
@@ -99,6 +99,11 @@ Size Size::intersected(const Size &rhs) const
     const SCRect cOurRect(it());
     const SCRect cRhsRect(rhs);
     return cOurRect.toQRect().intersected(cRhsRect).size();
+}
+
+QSize Size::toQSize() const
+{
+    return QSize(width(), height());
 }
 
 Aspect Size::aspect() const
