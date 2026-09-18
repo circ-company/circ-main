@@ -8,6 +8,11 @@ FileInfo::FileInfo(const QFileInfo &other)
     : QFileInfo(other), Null(false) { setup(); }
 FileInfo::FileInfo(const FSText &filePathName)
     : QFileInfo(filePathName), Null(false) { setup(); }
+
+FileInfo::FileInfo(const Url &aUrl)
+{
+
+}
 FileInfo::FileInfo(const QDir &dir, const QString &fileName)
     : QFileInfo(dir, fileName), Null(false) { setup(); }
 

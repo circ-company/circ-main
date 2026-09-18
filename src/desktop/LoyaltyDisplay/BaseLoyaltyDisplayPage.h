@@ -11,22 +11,16 @@
 #include <Size.h>
 
 #include "LoyaltyDisplayScreen.h"
+class BaseImageSource;
 class NormalFaceLayoutWidget;
 
 class BaseLoyaltyDisplayPage : public QWidget
 {
     Q_OBJECT
 public: // types
-    enum PaintMode
-    {
-        $null = 0,
-        Background,
-    };
-    Q_ENUM(PaintMode);
-    Q_DECLARE_FLAGS(PaintModes, PaintMode);
 
 protected: // ctors
-    BaseLoyaltyDisplayPage(const LoyaltyDisplayScreen::PageType aType,
+    BaseLoyaltyDisplayPage(const EightCC aECC,
                            LoyaltyDisplayScreen *parent);
     ~BaseLoyaltyDisplayPage();
 
@@ -35,6 +29,7 @@ public slots:
     virtual void initialize();
     virtual void setup();
     virtual void run() {;}
+    void add(const Index ix, NormalFaceLayoutWidget * pFaceItem);
 
 signals:
     void started();
@@ -43,12 +38,11 @@ signals:
     void running();
 
 public: // const
-    virtual LoyaltyDisplayScreen::PageType type() const;
-    virtual KeySeg key() const;
-    virtual QString name() const = 0;
+    const EightCC ecc() const;
+    QString name() const;
 
 public: // non-const
-    virtual void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void clearRow(const Index aRow);
 
 public: // static
 
@@ -61,12 +55,11 @@ protected:
     static const Size scmGridSize;
 
 private:
-    const LoyaltyDisplayScreen::PageType cmType;
-    PaintModes mPaintModes=$null;
-    const KeySeg cmKeySeg;
+    const EightCC cmECC;
     QGridLayout * mpGridLayout=nullptr;
     QList<Count> mRowImageCounts;
     DualMap<Point, NormalFaceLayoutWidget *>mPointItemDMap;
 };
 
-inline LoyaltyDisplayScreen::PageType BaseLoyaltyDisplayPage::type() const { return cmType; }
+inline const EightCC BaseLoyaltyDisplayPage::ecc() const { return cmECC; }
+

@@ -2,11 +2,18 @@
 
 #include <QApplication>
 
+#include <QDir>
+#include <QList>
 class QStackedLayout;
 
+#include <KeyMap.h>
+#include <Url.h>
 #include <VersionInfo.h>
+class Key;
 
+class BaseImageSource;
 class LoyaltyDisplayScreen;
+class NormalFaceLayoutWidget;
 
 class LoyaltyDisplayBackend : public QApplication
 {
@@ -20,6 +27,7 @@ public slots:
     void initialize();
     void setup();
     void run();
+    void process(BaseImageSource * pSource);
 
 signals:
     void ctord();
@@ -27,21 +35,27 @@ signals:
     void initialized();
     void setupd();
     void running();
+    void processing(const Key &key);
+    void addFace(const Index ix, NormalFaceLayoutWidget * pFaceItem);
 
 public: // const
 
 public: // non-const
-    bool setConnections();
+    QDir takeDir();
 
 public: // pointers
     void screen(LoyaltyDisplayScreen * pLDS);
     LoyaltyDisplayScreen * screen();
     QStackedLayout * stack();
 
+private: // non-const
+    bool setConnections();
+
 private:
     VersionInfo cmVersion;
-    QStackedLayout * mpStack=nullptr;
     LoyaltyDisplayScreen * mpScreen=nullptr;
+    QList<QDir> mDirArguments;
+    KeyMapT<BaseImageSource *> mArgKeySourceMap;
 };
 
 

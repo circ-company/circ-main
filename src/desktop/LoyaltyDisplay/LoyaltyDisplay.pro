@@ -25,6 +25,7 @@ SOURCES += \
     LoyaltyDisplayBackend.cpp \
     LoyaltyDisplayScreen.cpp \
     NormalFaceLayoutWidget.cpp \
+    ToolButtonGenerator.cpp \
     main.cpp
 
 HEADERS += \
@@ -34,6 +35,7 @@ HEADERS += \
     LoyaltyDisplayBackend.h \
     LoyaltyDisplayScreen.h \
     NormalFaceLayoutWidget.h \
+    ToolButtonGenerator.h \
     version.h
 
 TRANSLATIONS += \

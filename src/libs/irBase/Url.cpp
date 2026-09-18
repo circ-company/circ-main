@@ -8,6 +8,13 @@ Url::Url(const QString &aUrlStr, QUrl::ParsingMode mode)
     : mType(Type::$null) { set(aUrlStr, mode); }
 Url::Url(const QString &aUrlStr, const Type aType)
     : mType(aType) { set(aUrlStr); setType(aType); }
+Url::Url(const QDir &aDir) : mType(Dir) { set(aDir.path()); }
+
+Url &Url::operator =(const QString &aUrlStr)
+{
+    set(aUrlStr);
+    return *this;
+}
 
 bool Url::isNull() const
 {

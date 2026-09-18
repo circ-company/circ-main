@@ -1,7 +1,7 @@
 #include "HomePage.h"
 
 HomePage::HomePage(LoyaltyDisplayScreen *parent)
-    : BaseLoyaltyDisplayPage(LoyaltyDisplayScreen::Home, parent)
+    : BaseLoyaltyDisplayPage(EightCC("Home"), parent)
 {
     setObjectName("HomePage:BaseLoyaltyDisplayPage");
 }

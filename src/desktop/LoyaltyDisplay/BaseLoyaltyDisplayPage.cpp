@@ -5,17 +5,18 @@
 
 #include <Log.h>
 
+#include "FileImageSource.h"
 #include "LoyaltyDisplayScreen.h"
 #include "NormalFaceLayoutWidget.h"
 
 const Size BaseLoyaltyDisplayPage::scmGridSize = Size(8, 4);
 
-BaseLoyaltyDisplayPage::BaseLoyaltyDisplayPage(const LoyaltyDisplayScreen::PageType aType,
-                                               LoyaltyDisplayScreen *parent)
+BaseLoyaltyDisplayPage::BaseLoyaltyDisplayPage(const EightCC aECC,
+                                    LoyaltyDisplayScreen *parent)
     : QWidget{parent}
-    , cmType(aType)
+    , cmECC(aECC)
 {
-    setObjectName("BaseLoyaltyDisplayPage:" + LoyaltyDisplayScreen::key(cmType)());
+    setObjectName("BaseLoyaltyDisplayPage:" + cmECC);
     mRowImageCounts.fill(0, scmGridSize.height());
 }
 
@@ -36,25 +37,58 @@ void BaseLoyaltyDisplayPage::initialize()
 void BaseLoyaltyDisplayPage::setup()
 {
     FNENTER();
+    DUMPVAR(size());
+    DUMPVAR(scmGridSize);
+    DUMPVAR(screen()->faceSize());
     resize(size());
-    mPaintModes = Background;
+    setBackgroundRole(QPalette::ColorRole::Base);
     for (Index iy = 0; iy < scmGridSize.width(); ++iy)
+    {
+        grid()->setColumnMinimumWidth(iy, screen()->faceSize().width());
         for (Index ix = 0; ix < scmGridSize.height(); ++ix)
-        {
-            QWidgetItem * pPlaceholder
-                = new NormalFaceLayoutWidget(parentWidget());
-            grid()->addItem(pPlaceholder, ix, iy, Qt::AlignCenter);
-        }
-    repaint();
-    update();
-    show();
+            grid()->setRowMinimumHeight(ix, screen()->faceSize().height());
+    }
     setLayout(grid());
     FNRTNVOID();
 }
 
-KeySeg BaseLoyaltyDisplayPage::key() const
+void BaseLoyaltyDisplayPage::add(const Index ix,
+                                 NormalFaceLayoutWidget *pFaceItem)
 {
-    return LoyaltyDisplayScreen::key(cmType);
+    FNENTER();
+    FNARG(ix, "Index");
+    CKPOINTER(pFaceItem);
+    FNARG(pFaceItem->key()(), "QString");
+    const Size cLayoutSize = screen()->faceLayout();
+    DUMPVAR(cLayoutSize);
+    const Point cIndexPoint(cLayoutSize, ix);
+    DUMPVAR(cIndexPoint());
+    Point tModuloPoint = cIndexPoint;
+    tModuloPoint %= Size(cLayoutSize);
+    DUMPVAR(tModuloPoint());
+    if (0 == cIndexPoint.col())
+        clearRow(tModuloPoint.y());
+    pFaceItem->point(cIndexPoint);
+    grid()->addItem(pFaceItem, tModuloPoint.row(), tModuloPoint.col());
+    FNRTNVOID();
+}
+
+QString BaseLoyaltyDisplayPage::name() const
+{
+    return screen()->tbGen()->name(ecc());
+}
+
+void BaseLoyaltyDisplayPage::clearRow(const Index aRow)
+{
+    Size tLayoutSize = screen()->faceLayout();
+    Index tRow = aRow % tLayoutSize.height();
+    NormalFaceLayoutWidget * pItem = new NormalFaceLayoutWidget(screen());
+    for (Index ixCol = 0; ixCol < tLayoutSize.width(); ++ixCol)
+    {
+        Point tPoint((int(tRow)), int(ixCol));
+        pItem->point(tPoint);
+        grid()->addItem(pItem, tPoint.row(), tPoint.col());
+    }
 }
 
 LoyaltyDisplayScreen * BaseLoyaltyDisplayPage::screen() const
@@ -65,17 +99,7 @@ LoyaltyDisplayScreen * BaseLoyaltyDisplayPage::screen() const
 
 QGridLayout * BaseLoyaltyDisplayPage::grid()
 {
+    CKPOINTER(mpGridLayout);
     return qobject_cast<QGridLayout *>(mpGridLayout);
 }
 
-void BaseLoyaltyDisplayPage::paintEvent(QPaintEvent *event)
-{
-    FNENTER();
-    if (mPaintModes & Background)
-    {
-        QPainter tPainter(this);
-        tPainter.fillRect(event->rect(), QColor("papayawhip"));
-        tPainter.end();
-    }
-    FNRTNVOID();
-}

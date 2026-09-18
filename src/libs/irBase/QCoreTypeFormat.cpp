@@ -54,8 +54,8 @@ AText QCoreTypeFormat::formatQSize(const QVariant &aVar)
 {
     const QSize cSize = aVar.toSize();
     return AText::format("QSize(w%1, h%2)",
-                         TypeFormat(cSize.height()),
-                         TypeFormat(cSize.width()));
+                         TypeFormat(cSize.width()),
+                         TypeFormat(cSize.height()));
 }
 
 AText QCoreTypeFormat::formatQRect(const QVariant &aVar)

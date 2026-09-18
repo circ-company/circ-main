@@ -6,11 +6,14 @@ include(../libs.pri)
 include(../../useBase.pri)
 include(../../useLog.pri)
 include(../../useTypes.pri)
+include(../../useImage.pri)
 
 
 SOURCES += \
     BaseFile.cpp \
+    BaseImageSource.cpp \
     DataFile.cpp \
+    FileImageSource.cpp \
     JsonFile.cpp \
     NameFilters.cpp \
     TextFile.cpp \
@@ -18,7 +21,9 @@ SOURCES += \
 
 HEADERS += \
     BaseFile.h \
+    BaseImageSource.h \
     DataFile.h \
+    FileImageSource.h \
     JsonFile.h \
     NameFilters.h \
     TextFile.h \

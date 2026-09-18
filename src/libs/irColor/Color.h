@@ -58,8 +58,8 @@ public: // const
     UText name() const;
     QColor toQColor() const;
     QColor operator () () const;
-    Color lighter(const SWORD aPerk) const;
-    Color darker(const SWORD aPerk) const;
+    Color lighterK(const SWORD aPerk) const;
+    Color darkerK(const SWORD aPerk) const;
     Color inverted() const;
     BYTE opa8() const { return mOpa >> 8; }
     BYTE red8() const { return mRed >> 8; }
@@ -78,6 +78,7 @@ public: // non-const
     void set(const QRgba aQRgba);
     void set(const QRgba64 aQRgba64);
     void set(const Representation aRep, const DWORD aDW);
+    void opaF(const qreal aOpaF);
 
     void convertTo(const Representation aRep);
     void toBiconic();
@@ -119,5 +120,5 @@ inline bool Color::notNull() const { return ! isNull(); }
 inline bool Color::isNull(const WORD aWord) const { return 0 == aWord; }
 inline bool Color::notNull(const WORD aWord) const { return ! isNull(aWord); }
 inline QColor Color::operator ()() const { return toQColor(); }
-inline Color Color::darker(const SWORD aPerk) const { return lighter( - aPerk); }
+inline Color Color::darkerK(const SWORD aPerk) const { return lighterK( - aPerk); }
 inline void Color::representation(const Representation aRep) { mRepresentation = aRep; }

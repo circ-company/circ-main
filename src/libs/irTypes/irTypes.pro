@@ -7,12 +7,18 @@ include(../../useBase.pri)
 include(../../useLog.pri)
 
 SOURCES += \
+    Bytes.cpp \
+    EightCC.cpp \
+    FourCC.cpp \
     RandomGenerator.cpp \
     Signum.cpp \
     irTypes.cpp
 
 HEADERS += \
+    Bytes.h \
     CircularArray.h \
+    EightCC.h \
+    FourCC.h \
     Loop.h \
     MetaType.h \
     RandomGenerator.h \

@@ -5,7 +5,7 @@
 #include <QVariant>
 
 #include <FileInfo.h>
-#include <Key.h>
+#include <Id.h>
 
 class Image
 {
@@ -16,6 +16,7 @@ public: // const
     bool isNull() const;
     FileInfo fileInfo() const;
     Key fileKey() const;
+    Id id() const;
     QImage toQImage() const;
     QVariant toVariant() const;
 
@@ -37,9 +38,9 @@ public: // pointers
 public: // debug
 
 private:
+    Id mId;
     QImage mQImage;
     FileInfo mFileInfo;
-    Key mFileKey;
     static QImage::Format smQIFormat;
 
 public: // QMetaType
@@ -56,7 +57,8 @@ Q_DECLARE_METATYPE(Image);
 inline bool Image::isNull() const { return mQImage.isNull() || fileInfo().isNull(); }
 inline QImage Image::toQImage() const { return mQImage; }
 inline FileInfo Image::fileInfo() const { return mFileInfo; }
-inline Key Image::fileKey() const { return mFileKey; }
+inline Key Image::fileKey() const { return mId.key(); }
+inline Id Image::id() const { return mId; }
 inline Image::operator QImage() const { return toQImage(); }
 inline QImage Image::operator ()() const { return toQImage(); }
 

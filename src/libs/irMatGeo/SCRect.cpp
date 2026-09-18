@@ -96,12 +96,12 @@ SCRect SCRect::intersected(const QRect qrc) const
     return SCRect(toQRect().intersected(qrc));
 }
 
-SCRect SCRect::added(const signed expand) const
+SCRect SCRect::expanded(const signed expand) const
 {
     return SCRect(size().expanded(expand), center());
 }
 
-SCRect SCRect::added(const Point offset) const
+SCRect SCRect::moved(const Point offset) const
 {
     return SCRect(size(), center() + offset);
 }

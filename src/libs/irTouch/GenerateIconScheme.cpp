@@ -10,10 +10,10 @@ GenerateIconScheme::GenerateIconScheme() {;}
 GenerateIconScheme::GenerateIconScheme(const Color aBaseColor,
                                        const Color aEdgeColor)
 {
-    BaseColor   = aBaseColor.lighter(250);
-    BorderColor = aBaseColor.darker(250);
-    LightColor  = aEdgeColor.lighter(500);
-    DarkColor   = aEdgeColor.darker(500);
+    BaseColor   = aBaseColor.lighterK(250);
+    BorderColor = aBaseColor.darkerK(250);
+    LightColor  = aEdgeColor.lighterK(500);
+    DarkColor   = aEdgeColor.darkerK(500);
     TextColor   = aBaseColor.inverted();
     SunCorner   = Qt::TopLeftCorner;
     Font        = QFont(QObject::tr("Helvetica","ButtonFont"));

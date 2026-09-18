@@ -141,6 +141,7 @@ public: // const
 
 public: // non-const
     UID & qUnion();
+    void clear();
     void hi(const QWORD qw);
     void lo(const QWORD qw);
     void set(const QUuid other);

@@ -84,6 +84,19 @@ QString Id::toString() const
     return result;
 }
 
+void Id::clear()
+{
+    uid().clear();
+    idno(0LL);
+    key().clear();
+    name().clear();
+    var().clear();
+    parentuid().clear();
+    childuids().clear();
+    ctorEms(0LL);
+    ctorSeq(0LL);
+}
+
 void Id::set(const Uid::Version ver)
 {
     switch (ver)

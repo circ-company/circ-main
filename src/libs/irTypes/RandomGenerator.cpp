@@ -5,22 +5,22 @@
 
 RandomGenerator::RandomGenerator(QObject *parent)
     : QObject{parent}
+    , mGenerator(QRandomGenerator64::securelySeeded())
 {
     setObjectName("RandomGenerator");
-    const DWORD cSeed = DWORD(QDateTime::currentMSecsSinceEpoch());
-    initialize(cSeed);
+    initialize();
 }
 
 RandomGenerator::RandomGenerator(const DWORD seed, QObject *parent)
     : QObject{parent}
+    , mGenerator(seed)
 {
     setObjectName("RandomGenerator");
-    initialize(seed);
+    initialize();
 }
 
-void RandomGenerator::initialize(const DWORD seed)
+void RandomGenerator::initialize()
 {
-    QRandomGenerator64::global()->seed(seed);
     emit initialized();
     QTimer::singleShot(10, &RandomGenerator::loadIntegers);
     QTimer::singleShot(100, &RandomGenerator::loadFloats);
@@ -31,7 +31,7 @@ void RandomGenerator::loadInteger(const Count min)
     Count tLoadCount = qMax(mLoadCount, min);
     mIntegerList.reserve(tLoadCount);
     while (integerCount() < tLoadCount)
-        mIntegerList.append(QRandomGenerator64::global()->generate64());
+        mIntegerList.append(mGenerator.generate64());
     emit loadedInteger(integerCount());
     QTimer::singleShot(20, &RandomGenerator::checkCounts);
 }
@@ -41,7 +41,7 @@ void RandomGenerator::loadFloat(const Count min)
     Count tLoadCount = qMax(mLoadCount, min);
     mFloatList.reserve(tLoadCount);
     while (floatCount() < tLoadCount)
-        mFloatList.append(QRandomGenerator64::global()->generateDouble());
+        mFloatList.append(mGenerator.generateDouble());
     emit loadedFloat(floatCount());
     QTimer::singleShot(20, &RandomGenerator::checkCounts);
 }
@@ -61,13 +61,13 @@ void RandomGenerator::checkCounts()
     if (integerCount() < mLowCount)
     {
         while (integerCount() < mLoadCount)
-            mIntegerList.append(QRandomGenerator64::global()->generate64());
+            mIntegerList.append(mGenerator.generate64());
         emit loadedInteger(integerCount());
     }
     if (floatCount() < mLowCount)
     {
         while (floatCount() < mLoadCount)
-            mFloatList.append(QRandomGenerator64::global()->generateDouble());
+            mFloatList.append(mGenerator.generateDouble());
         emit loadedFloat(floatCount());
     }
 }

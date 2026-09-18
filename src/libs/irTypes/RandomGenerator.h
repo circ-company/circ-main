@@ -16,7 +16,7 @@ public:
     RandomGenerator(const DWORD seed, QObject *parent = nullptr);
 
 public slots:
-    void initialize(const DWORD seed);
+    void initialize();
     void loadInteger(const Count min=0);
     void loadFloat(const Count min=0);
     void loadIntegers();
@@ -54,6 +54,7 @@ private:
     FLOAT takeF();
 
 private:
+    QRandomGenerator64 mGenerator;
     QWordList mIntegerList;
     FloatList mFloatList;
 

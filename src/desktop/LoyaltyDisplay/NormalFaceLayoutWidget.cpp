@@ -2,39 +2,46 @@
 
 #include <QLabel>
 #include <QPainter>
+#include <QPaintEvent>
 
 #include <Log.h>
 #include <SCRect.h>
 
-const Size NormalFaceLayoutWidget::scmCellSize = Size(128);
+#include "LoyaltyDisplayScreen.h"
 
+const Size NormalFaceLayoutWidget::scmCellSize = Size(160);
 
-NormalFaceLayoutWidget::NormalFaceLayoutWidget(QWidget *parentWidget)
-    : QWidgetItem(parentWidget)
-    , mpLabel(new QLabel(parentWidget))
+NormalFaceLayoutWidget::
+        NormalFaceLayoutWidget(LoyaltyDisplayScreen *parent)
+    : QWidgetItem(parent)
+    , mpScreen(parent)
+    , mpLabel(new QLabel(parent))
+    , mBgColor0(Color("skyblue"))
+    , mBgColor1(Color("steelblue"))
 {
-    generate();
 }
 
-NormalFaceLayoutWidget::NormalFaceLayoutWidget(const Key &aKey, const QImage &aImage,
-                                               QWidget * parentWidget)
-    : QWidgetItem(parentWidget)
-    , mpLabel(new QLabel(parentWidget))
+NormalFaceLayoutWidget::
+    NormalFaceLayoutWidget(const Key &aKey,
+                           const QImage &aImage,
+                           LoyaltyDisplayScreen *parent)
+    : QWidgetItem(parent)
+    , mpScreen(parent)
+    , mpLabel(new QLabel(parent))
     , mKey(aKey)
+    , mBgColor0(Color("skyblue"))
+    , mBgColor1(Color("steelblue"))
 {
     image(aImage);
-    generate();
 }
 
 NormalFaceLayoutWidget::~NormalFaceLayoutWidget()
 {
-#if 0
     if (mpLabel)
     {
         mpLabel->deleteLater();
         mpLabel = nullptr;
     }
-#endif
 }
 
 QSize NormalFaceLayoutWidget::sizeHint() const
@@ -109,43 +116,37 @@ const Size NormalFaceLayoutWidget::cellSize()
     return scmCellSize;
 }
 
+LoyaltyDisplayScreen *NormalFaceLayoutWidget::screen()
+{
+    CKPOINTER(mpScreen);
+    return mpScreen;
+}
+
+void NormalFaceLayoutWidget::paintEvent(QPaintEvent *pEvent)
+{
+    FNENTER();
+    CKPOINTER(pEvent);
+    FNARG(pEvent->rect(), "QRect");
+    SCRect tOuterRect(screen()->faceSize());
+    SCRect tBgRect = tOuterRect.expanded(-4);
+    SCRect tBorderRect = tOuterRect.expanded(-8);
+    SCRect tFaceRect = tBorderRect.expanded(-8);
+    EXPECTEQ(Size(128), tFaceRect.size());
+
+    QPainter tPainter(mpLabel);
+    tPainter.fillRect(tOuterRect(), Qt::transparent);
+    tPainter.fillRect(tBgRect(),
+                      (mPoint.index(screen()->faceLayout()) % 2)
+                          ? mBgColor0() : mBgColor1());
+    tPainter.fillRect(tBorderRect(), mBorderColor());
+    tPainter.drawImage(tFaceRect(), mImage.scaled(Size(128)(),
+                    Qt::AspectRatioMode::KeepAspectRatio));
+    tPainter.end();
+    FNRTNVOID();
+}
+
 void NormalFaceLayoutWidget::image(const QImage &aImage)
 {
     mImage = aImage.convertedTo(QImage::Format_ARGB32);
-    generate();
 }
 
-void NormalFaceLayoutWidget::generate(const Color &aBgColor)
-{
-    FNENTER();
-    FNARG(aBgColor(), "QColor");
-    DUMPVAR(mImage);
-    CKPOINTER(mpLabel);
-    // Background
-    if (aBgColor.notNull())
-    {
-        mBgColor = aBgColor;
-    }
-    else if (mBgColor.isNull())
-    {
-        mBgColor.set("steelblue");
-    }
-    mPixmap = QPixmap(cellSize());
-    mPixmap.fill(mBgColor());
-
-    // Image
-    if ( ! mImage.isNull())
-    {
-        SCRect tCellRect(cellSize(), true);
-        SCRect tImageRect = tCellRect.added( -16 );
-        QPixmap tPixmap = QPixmap::fromImage(mImage.scaled(tImageRect.size(),
-                                Qt::KeepAspectRatio));
-        QPainter tPainter(&mPixmap);
-        tPainter.drawPixmap(tImageRect(), tPixmap);
-        tPainter.end();
-    }
-
-    // Label
-    mpLabel->setPixmap(mPixmap);
-    FNRTNVOID();
-}

@@ -4,35 +4,21 @@
 
 class QStackedLayout;
 class QThread;
+class QToolBar;
+class QVBoxLayout;
 
 #include <KeyMap.h>
 #include <Size.h>
 
+#include "ToolButtonGenerator.h"
 class BaseLoyaltyDisplayPage;
 class LoyaltyDisplayBackend;
+class NormalFaceLayoutWidget;
 
 class LoyaltyDisplayScreen : public QMainWindow
 {
     Q_OBJECT
 public: // types
-    enum PageType
-    {
-        $null = -1,
-        Home,
-        Capture,
-        Page2,
-        Page3,
-        Page4,
-        Page5,
-        Page6,
-        Page7,
-        Page8,
-        Page9,
-        Finish,
-        System,
-        $Count
-    };
-    Q_ENUM(PageType);
 
 public: // 'tors
     LoyaltyDisplayScreen(LoyaltyDisplayBackend *parent);
@@ -55,27 +41,38 @@ public: // const
 
 public: // non-const
     void screenSize(const Size aSz);
-    void setupButtonBar();
+    void setupToolGallery();
     void addPage(BaseLoyaltyDisplayPage * pPage);
 
 public: // static
     static Size baseScreenSize();
-    static KeySeg key(const PageType aType);
+    static Size buttonSize();
+    static Size buttonLayout();
+    static Size faceSize();
+    static Size faceLayout();
 
 public: // pointers
     LoyaltyDisplayBackend * backend();
+    QToolBar * toolBar();
+    ToolButtonGenerator * tbGen();
+
+private: // non-const
+    void addButtons();
 
 private:
     LoyaltyDisplayBackend * mpBackend=nullptr;
+    ToolButtonGenerator * mpButtonGenerator=nullptr;
     QThread * mpBackendThread=nullptr;
     Size mScreenSize=baseScreenSize();
-    QWidget * mpMainWidget=nullptr;
-    QStackedLayout * mpMainStack=nullptr;
     QToolBar * mpToolBar=nullptr;
-    KeyMapT<BaseLoyaltyDisplayPage *> mKeyPageMap;
+    QWidget * mpMainWidget=nullptr;
+    QStackedLayout * mpPageStack=nullptr;
+    QMap<EightCC, BaseLoyaltyDisplayPage *> mEccPageMap;
+    KeyMapT<NormalFaceLayoutWidget *> mKeyFaceWidgetMap;
 };
 
 inline const Size LoyaltyDisplayScreen::screenSize() const { return mScreenSize; }
 inline Size LoyaltyDisplayScreen::baseScreenSize() { return Size(1280, 800); }
+
 
 

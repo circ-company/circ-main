@@ -4,10 +4,10 @@
 
 #include <QToolButton>
 
-#include <QColor>
 #include <QIcon>
 #include <QPixmap>
 
+#include <Color.h>
 #include <Size.h>
 #include <Types.h>
 #include <UText.h>
@@ -17,42 +17,42 @@ class ToolButton : public QToolButton
 {
 public: // ctors
     ToolButton(const UText aText,
-               const QColor aColor,
+               const UText aColorName,
                QWidget *parent=nullptr);
     ToolButton(const UText aText,
-               const QColor aColor,
+               const UText aColorName,
                const Size aSize,
                QWidget *parent=nullptr);
 
 public: // const
+    UText text() const;
     QPixmap flat() const;
     QIcon icon() const;
-    QPixmap iconSet() const;
 
 public: // non-const
-    QIcon make();
+    void set(const QIcon::Mode aMode,
+             const QIcon::State mState=QIcon::Off);
+    QIcon makeIcon();
 
 public: // static
-    static Size baseSize();
-    static void baseSize(const Size aSize);
 
 public: // pointers
 
 private: // non-const
-    QPixmap generate(const QIcon::Mode aMode,
-                     const QIcon::State aState);
+    QPixmap generatePixmapFor(const QIcon::Mode aMode,
+                     const QIcon::State aState) const;
 
 private:
+    const Size cmButtonSize;
     UText mText;
-    QColor mBaseColor;
-    Size mSize;
+    Color mBaseColor;
     QPixmap mIconSet;
     QIcon mIcon;
-    static Size smBaseSize;
+    QIcon::State mState=QIcon::State::Off;
+    QIcon::Mode mMode=QIcon::Mode::Disabled;
 };
 
-inline Size ToolButton::baseSize() { return smBaseSize; }
-inline void ToolButton::baseSize(const Size aSize) { smBaseSize = aSize; }
+inline UText ToolButton::text() const { return mText; }
 
 
 

@@ -133,6 +133,11 @@ OWORD Uid::oword() const
     return mUnion.data128[0];
 }
 
+void Uid::clear()
+{
+    hi(0LL), lo(0LL);
+}
+
 Uid::Version Uid::ver() const
 {
     return Version(segment(SegmentC) >> 12);

@@ -51,7 +51,7 @@ QColor Color::toQColor() const
     return QColor(name());
 }
 
-Color Color::lighter(const SWORD aPerk) const
+Color Color::lighterK(const SWORD aPerk) const
 {
     FNENTER();
     FNARG(aPerk, SWORD);
@@ -98,10 +98,10 @@ Color Color::inverted() const
         break;
     case Print:
     case Video:
-        WHATDO("Take care of Print and Video");
+        WANTDO("Take care of Print and Video");
         break;
     case IX:
-        WHATDO("No ColorTable support yet");
+        WANTDO("No ColorTable support yet");
         break;
     case AX:
     case OX:
@@ -115,11 +115,11 @@ Color Color::inverted() const
 
 void Color::nullify()
 {
-    FNENTER();
+//    FNENTER();
     mRepresentation = $none;
     mOpa=mRed=mGrn=mBlu=mCyn=mMag=mYel=mBlk=
         mCRd=mCBu=mHue=mSat=mVal = 0;
-    FNRTNVOID();
+  //  FNRTNVOID();
 }
 
 void Color::greyify()
@@ -182,6 +182,11 @@ void Color::set(const Representation aRep, const DWORD aDW)
 {
     MUSTDO();
     Q_UNUSED(aRep); Q_UNUSED(aDW);
+}
+
+void Color::opaF(const qreal aOpaF)
+{
+    mOpa = WORD(65535 * qBound(0.0, aOpaF, 1.0));
 }
 
 void Color::convertTo(const Representation aRep)

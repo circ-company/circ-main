@@ -43,7 +43,7 @@
 #define PROGRESS(msg)       MESSAGELI(StatusLevel::Progress, msg);
 #define EXITMSG(msg)        MESSAGELI(StatusLevel::Exit, msg);
 #define WARNING(msg)        MESSAGELI(StatusLevel::Warning, msg);
-#define WHATDO(msg)         MESSAGELI(StatusLevel::WhatDo, msg);
+#define WANTDO(msg)         MESSAGELI(StatusLevel::WhatDo, msg);
 #define ERRMSG(msg)         MESSAGELI(StatusLevel::Error, msg);
 #define NEEDDO(msg)         MESSAGELI(StatusLevel::NeedDo, msg);
 #define FAULTMSG(msg)       MESSAGELI(StatusLevel::Fault, msg);
@@ -52,6 +52,7 @@
 
 #define TEXPECTIS(act)      EXPECT2LI(Log::Is, StatusLevel::TExpect, act);
 #define TEXPECTNOT(act)     EXPECT2LI(Log::Not, StatusLevel::TExpect, act);
+#define TEXPECTEQ(exp, act) EXPECT4LI(Log::Equal, StatusLevel::TExpect, exp, act);
 
 #define WEXPECTIS(act)      EXPECT2LI(Log::Is, StatusLevel::WExpect, act);
 #define WEXPECTNOT(act)     EXPECT2LI(Log::Not, StatusLevel::WExpect, act);

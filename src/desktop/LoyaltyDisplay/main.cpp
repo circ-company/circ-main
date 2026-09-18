@@ -16,9 +16,11 @@ int main(int argc, char *argv[])
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
-    for (const QString &locale : uiLanguages) {
+    for (const QString &locale : uiLanguages)
+    {
         const QString baseName = "LoyaltyDisplay_" + QLocale(locale).name();
-        if (translator.load(":/i18n/" + baseName)) {
+        if (translator.load(":/i18n/" + baseName))
+        {
             a.installTranslator(&translator);
             break;
         }
@@ -26,5 +28,5 @@ int main(int argc, char *argv[])
 
     w.show();
     QTimer::singleShot(10, &a, &LoyaltyDisplayBackend::start);
-    return QApplication::exec();
+    return LoyaltyDisplayBackend::exec();
 }

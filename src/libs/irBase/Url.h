@@ -40,7 +40,8 @@ public: // types
 public: // ctors
     Url(const QString &aUrlStr, QUrl::ParsingMode mode=QUrl::TolerantMode);
     Url(const QString &aUrlStr, const Type aType);
-    Url & operator = (const QString &url);
+    Url(const QDir &aDir);
+    Url &operator =(const QString &aUrlStr);
 
 public: // const
     bool isNull() const;
@@ -58,6 +59,7 @@ public: // const
     AText path() const;
     AText path(const Index ix) const;
     Count pathCount() const;
+    ATextList paths() const;
     QString toString(const bool encoded=false) const;
     QDir pathDir() const;
     QString localFllePath() const;
@@ -114,7 +116,7 @@ public: // QMetaType
     Url() = default;
     ~Url() = default;
     Url(const Url &) = default;
-    Url &operator=(const Url &) = default;
+
     const Url & it() const { return *this; }
 };
 
@@ -132,6 +134,7 @@ inline AText Url::username() const  { return mUsername; }
 inline AText Url::password() const  { return mPassword; }
 inline AText Url::path() const  { return mPath; }
 inline Count Url::pathCount() const  { return mPathList.count(); }
+inline ATextList Url::paths() const { return mPathList; }
 inline QString Url::localFllePath() const { return localFlleInfo().filePath(); }
 inline QFileInfo Url::localFlleInfo() const  { return mLocalFileInfo; }
 

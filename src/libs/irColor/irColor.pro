@@ -12,10 +12,12 @@ include(../libs.pri)
 
 SOURCES += \
     Color.cpp \
+    ColorWheel.cpp \
     irColor.cpp
 
 HEADERS += \
     Color.h \
+    ColorWheel.h \
     irColor_global.h \
     irColor.h
 

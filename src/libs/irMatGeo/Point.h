@@ -23,11 +23,13 @@ public: // const
     virtual bool isNull() const;
     virtual bool valid() const;
     bool isZero() const;
+    Index index(const Size aSize);
     TriBool equals(const Point &rhs) const;
     bool less(const Point &rhs) const;
     bool edge(const SCRect &aRect) const;
     bool valid(const SCRect &aRect, const bool aEdgeOk=true) const;
     Point added(const Point &rhs) const;
+    Point multiplied(const Size &rhs) const;
     Point up(const int d=1) const;
     Point nw(const int d=1) const;
     Point no(const int d=1) const;
@@ -43,7 +45,8 @@ public: // const
     int col() const;
     Sortable sortable() const;
     QPoint toQPoint() const;
-    bool operator < (const Point &rhs);
+    Point operator * (const Size &rhs) const;
+    bool operator < (const Point &rhs) const;
     QPoint operator () () const;
     friend Point operator + (const Point lhs, const Point rhs);
     friend Point operator < (const Point lhs, const Point rhs);
@@ -55,6 +58,9 @@ public: // non-const
     void x(const int aX);
     void y(const int aY);
     void nullify();
+    void move(const Point aPt);
+    void modulo(const Size &aSz);
+    Point operator %= (const Size &aSz);
 
 public: // pointers
     Point it() const;
@@ -83,9 +89,11 @@ inline int Point::x() const { return mX; }
 inline int Point::y() const { return mY; }
 inline int Point::row() const { return y(); }
 inline int Point::col() const { return x(); }
-inline bool Point::operator <(const Point &rhs) { return less(rhs); }
+inline Point Point::operator *(const Size &rhs) const { return multiplied(rhs); }
+inline bool Point::operator <(const Point &rhs) const { return less(rhs); }
 inline QPoint Point::operator ()() const { return toQPoint(); }
 inline void Point::x(const int aX) { mX = aX; }
 inline void Point::y(const int aY) { mY = aY; }
+inline Point Point::operator %=(const Size &aSz) { modulo(aSz); return it(); }
 inline Point Point::it() const { return *this; }
 inline Point &Point::it() { return *this; }

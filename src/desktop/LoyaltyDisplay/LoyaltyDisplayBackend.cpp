@@ -6,6 +6,7 @@
 #include <Log.h>
 #include <Size.h>
 
+#include "FileImageSource.h"
 #include "LoyaltyDisplayScreen.h"
 #include "../../version.h"
 #include "version.h"
@@ -46,7 +47,20 @@ void LoyaltyDisplayBackend::start()
     screen()->screenSize(cScreenSize);
 #endif
     ASSERT(setConnections());
-
+    DUMPVAR(arguments().count());
+    QStringList tArgs = arguments();
+    tArgs.removeFirst(); // take off exe filepath
+    foreach (const QString cArg, tArgs)
+    {
+        DUMPVAR(cArg);
+        const Url cUrl(cArg);
+        const FileInfo cFI(cUrl.localFlleInfo());
+        const QDir cDir = cFI.dir();
+        DUMPVAR(cDir.isReadable());
+        if (cDir.isReadable())
+            mDirArguments.append(cArg);
+    }
+    DUMPVAR(mDirArguments.count());
     FNEMIT("started");
     emit started();
     FNRTNVOID();
@@ -74,9 +88,59 @@ void LoyaltyDisplayBackend::run()
 {
     FNENTER();
 
+    QDir tDir = takeDir();
+    while (tDir != QDir())
+    {
+        PROGRESS("Processing Dir: " + tDir.path());
+        FileImageSource * pSource = new FileImageSource(tDir, this);
+        process(pSource);
+        pSource->deleteLater();
+        tDir = takeDir();
+    }
+
     FNEMIT("running");
     emit running();
     FNRTNVOID();
+}
+
+void LoyaltyDisplayBackend::process(BaseImageSource *pSource)
+{
+    FNENTER();
+    CKPOINTER(pSource);
+    FNARG(pSource->key()(), "QString");
+
+    pSource->initialize(BaseImageSource::Loop);
+    FNEMIT("processing");
+    FNEMITARG("processing", pSource->key()(), "QString");
+    emit processing(pSource->key());
+
+    pSource->run(1000);
+
+    FNRTNVOID();
+}
+
+QDir LoyaltyDisplayBackend::takeDir()
+{
+    FNENTER();
+    QDir result;
+    qDebug() << mDirArguments;
+    if ( ! mDirArguments.isEmpty())
+        result = mDirArguments.takeFirst();
+    DUMPVAR(result.isReadable());
+    FNRTNVALUE(result.path(), "QString");
+    return result;
+}
+
+void LoyaltyDisplayBackend::screen(LoyaltyDisplayScreen *pLDS)
+{
+    CKPOINTER(pLDS);
+    mpScreen = pLDS;
+}
+
+LoyaltyDisplayScreen *LoyaltyDisplayBackend::screen()
+{
+    CKPOINTER(mpScreen);
+    return mpScreen;
 }
 
 bool LoyaltyDisplayBackend::setConnections()
@@ -101,7 +165,3 @@ bool LoyaltyDisplayBackend::setConnections()
     FNRTNVALUE(result.isTrue(), "bool");
     return result;
 }
-
-void LoyaltyDisplayBackend::screen(LoyaltyDisplayScreen *pLDS) { CKPOINTER(pLDS); mpScreen = pLDS; }
-LoyaltyDisplayScreen *LoyaltyDisplayBackend::screen() { Q_ASSERT(mpScreen); return mpScreen; }
-QStackedLayout *LoyaltyDisplayBackend::stack() { CKPOINTER(mpStack); return mpStack; }

@@ -48,6 +48,11 @@ bool Size::less(const Size &rhs) const
     return area() < rhs.area();
 }
 
+Size Size::multiplied(const Size &rhs) const
+{
+    return Size(width() * rhs.width(), height() * rhs.height());
+}
+
 bool Size::isEqualAspect(const Size &rhs) const
 {
     const Aspect cLt(it());
@@ -118,6 +123,11 @@ Size Size::set(const Size outside, const Aspect aspect)
     const int cHeight = aspect.height(outside);
     result.set(cWidth, cHeight);
     return set(result);
+}
+
+Size Size::expand(const signed int i)
+{
+    return it() = expanded(i);
 }
 
 Size Size::unionWith(const Size &rhs)

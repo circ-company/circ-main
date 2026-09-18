@@ -23,8 +23,8 @@ QVariant Image::toVariant() const
 
 void Image::clear()
 {
+    mId.clear();
     mQImage = QImage();
-    mFileInfo.nullify();
 }
 
 bool Image::set(const FileInfo &aFI)
@@ -39,7 +39,7 @@ bool Image::set(const FileInfo &aFI)
             if ( ! tImage.isNull())
             {
                 mFileInfo = aFI;
-                mFileKey = mFileInfo.key();
+                mId.key(mFileInfo.key());
                 mQImage = tImage;
                 result = true;
             }

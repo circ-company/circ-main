@@ -35,7 +35,8 @@ irqNetwork.depends      = irBase    irLog
 irTypes.depends         = irBase    irLog                           \
             irqCore     irqNetwork
 irColor.depends         = irBase    irLog   irMatGeo    irTypes
-irStore.depends         = irBase    irLog
+irStore.depends         = irBase    irLog   \
+                        irqNetwork
 irMsg.depends           = irBase    irLog
 irExe.depends           = irBase    irLog                                                       irStore
 irqXml.depends          = irBase    irLog   irMatGeo    irTypes                             irStore

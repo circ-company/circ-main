@@ -7,44 +7,32 @@
 #include <Log.h>
 #include <SCRect.h>
 
-Size ToolButton::smBaseSize(96, 64);
 
-ToolButton::ToolButton(const UText aText, const QColor aColor, QWidget *parent)
+ToolButton::ToolButton(const UText aText, const UText aColorName,
+                       QWidget *parent)
     : QToolButton(parent)
+    , cmButtonSize(baseSize())
     , mText(aText)
-    , mBaseColor(aColor)
-    , mSize(baseSize())
+    , mBaseColor(aColorName)
 {
-    setFixedSize(mSize);
-    setIconSize(mSize);
-    setIcon(make());
-}
-
-ToolButton::ToolButton(const UText aText,
-                       const QColor aColor,
-                       const Size aSize,
-                       QWidget * parent)
-    : QToolButton(parent)
-    , mText(aText)
-    , mBaseColor(aColor)
-    , mSize(aSize)
-{
-    setFixedSize(mSize);
-    setIconSize(mSize);
-    setIcon(make());
+    setText(aText);
+    setFixedSize(cmButtonSize);
+    setToolButtonStyle(Qt::ToolButtonTextOnly);
 }
 
 QPixmap ToolButton::flat() const
 {
-    QPixmap result(mSize);
-    result.fill(mBaseColor);
+    FNENTER();
+    QPixmap result = generatePixmapFor(QIcon::Disabled, QIcon::On);
+    FNRTNVALUE(result, "QPixmap");
     return result;
 }
 
-QIcon ToolButton::make()
+QIcon ToolButton::makeIcon()
 {
+    FNENTER();
     QIcon result;
-    QPixmap tPxm0 = generate(QIcon::Normal, QIcon::Off);
+    QPixmap tPxm0 = generatePixmapFor(QIcon::Normal,     QIcon::Off);
     result.addPixmap(tPxm0, QIcon::Normal,      QIcon::Off);
     result.addPixmap(tPxm0, QIcon::Active,      QIcon::Off);
     result.addPixmap(tPxm0, QIcon::Disabled,    QIcon::Off);
@@ -53,34 +41,33 @@ QIcon ToolButton::make()
     result.addPixmap(tPxm0, QIcon::Active,      QIcon::On);
     result.addPixmap(tPxm0, QIcon::Disabled,    QIcon::On);
     result.addPixmap(tPxm0, QIcon::Selected,    QIcon::On);
+    FNRTNVALUE(result, "QIcon");
     return mIcon = result;
 }
 
-QPixmap ToolButton::generate(const QIcon::Mode aMode, const QIcon::State aState)
+QPixmap ToolButton::generatePixmapFor(const QIcon::Mode aMode,
+                             const QIcon::State aState) const
 {
-    QPixmap result(mSize);
-    const QColor cButtonColor = mBaseColor;
-    const QColor cTextColor(Qt::black);
+    FNENTER();
+    FNARG(aMode, "QIcon::Mode");
+    FNARG(aState, "QIcon::State");
+    QPixmap result(cmButtonSize);
+    const Color cButtonColor = mBaseColor.darkerK(200);
+    const Color cTextColor(Qt::black);
     const SCRect cOuterRect(result.rect());
+    result.fill(cButtonColor());
+#if 0
+
+9286
     const SCRect cTextRect = cOuterRect.scaled(0.75);
-    result.fill(cButtonColor);
-#if 1
     QPainter tPainter(&result);
-    tPainter.fillRect(cOuterRect(), cButtonColor);
+    tPainter.fillRect(cOuterRect(), cButtonColor());
     tPainter.setFont(QFont("typewriter", 12));
-    tPainter.setPen(QPen(cTextColor));
+    tPainter.setPen(QPen(cTextColor()));
     tPainter.drawText(cTextRect(), mText);
     tPainter.end();
 #endif
+    WANTDO(); Q_UNUSED(aMode); Q_UNUSED(aState);
+    FNRTNVALUE(result, "QPixmap");
     return result;
 }
-
-#if 0
-void ToolButton::paintEvent(QPaintEvent *event)
-{
-    QRect tFullRect = event->rect();
-    QPainter tPainter(this);
-    tPainter.fillRect(tFullRect, mBaseColor());
-    tPainter.end();
-}
-#endif

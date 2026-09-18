@@ -46,8 +46,8 @@ public: // const
     SCRect trimmed(const int i) const;
     SCRect intersected(const SCRect other) const;
     SCRect intersected(const QRect qrc) const;
-    SCRect added(const signed expand) const;
-    SCRect added(const Point offset) const;
+    SCRect expanded(const signed expand) const;
+    SCRect moved(const Point offset) const;
     SCRect operator * (const unsigned u) const;
     SCRect operator * (const qreal f) const;
     SCRect operator + (const signed expand) const;
@@ -96,8 +96,8 @@ inline Point SCRect::topLeft() const { return Point(left(), top()); }
 inline bool SCRect::isEmpty() const { return size().isEmpty(); }
 inline bool SCRect::isNull() const { return size().isNull(); }
 inline SCRect SCRect::operator * (const unsigned u) const { return scaled(u); }
-inline SCRect SCRect::operator +(const signed int expand) const { return added(expand); }
-inline SCRect SCRect::operator +(const Point offset) const { return added(offset); }
+inline SCRect SCRect::operator +(const signed int expand) const { return expanded(expand); }
+inline SCRect SCRect::operator +(const Point offset) const { return moved(offset); }
 inline SCRect SCRect::operator * (const qreal f) const { return scaled(f); }
 inline SCRect SCRect::operator &= (const SCRect other) const { return intersected(other); }
 inline SCRect::operator QRect() const { return toQRect(); }

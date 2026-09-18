@@ -13,15 +13,15 @@ include(../../useColor.pri)
 SOURCES += \
     GenerateIcon.cpp \
     GenerateIconScheme.cpp \
+    ToolAction.cpp \
     ToolButton.cpp \
-    TouchGallery.cpp \
     irTouch.cpp
 
 HEADERS += \
     GenerateIcon.h \
     GenerateIconScheme.h \
+    ToolAction.h \
     ToolButton.h \
-    TouchGallery.h \
     irTouch_global.h \
     irTouch.h
 

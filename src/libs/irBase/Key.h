@@ -7,6 +7,7 @@
 class QVariant;
 
 #include <Types.h>
+#include <Url.h>
 class Uid;
 
 class Key : public KeySegList
@@ -22,6 +23,7 @@ public: // ctors
     Key(const QList<KeySeg> &other) : KeySegList(other) {;}
     Key(const QString &s) : KeySegList(s) {;}
     Key(const QWORD &aQWord) : KeySegList(aQWord) {;}
+    Key(const Url &aUrl) { set(aUrl); }
 
 public: // const
     bool startsWith(const Key &start) const;
@@ -31,6 +33,9 @@ public: // const
     Uid toUid() const;
     Key operator + (const KeySeg &aSeg) const;
     friend Key operator+(const Key &aKey, KeySeg &aSeg);
+
+public: // non-const
+    void set(const Url &aUrl, const bool aPathOnly=true);
 
 public: // static
     static Key fromName(const QString aName);

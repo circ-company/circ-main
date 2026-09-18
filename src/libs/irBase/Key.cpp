@@ -70,6 +70,19 @@ Key operator+(const Key &aKey, KeySeg &aSeg)
     return aKey.add(aSeg);
 }
 
+void Key::set(const Url &aUrl, const bool aPathOnly)
+{
+    clear();
+    if ( ! aPathOnly)
+    {
+        //   TODO("scheme, host, &c");
+        Q_ASSERT(!"scheme, host, &c");
+    }
+    const QStringList cPathParts = aUrl.paths();
+    foreach (const QString cPart, cPathParts)
+        append(KeySeg(cPart));
+}
+
 // static
 Key Key::fromName(const QString aName)
 {

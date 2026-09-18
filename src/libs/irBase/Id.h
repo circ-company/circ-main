@@ -58,6 +58,7 @@ public: // const
     QString toString() const;
 
 public: // non-const
+    void clear();
     void uid(const bool nilUid); // else maxUid
     void set(const Uid::Version ver);
     void set(const Uid &u, const IdNo i);

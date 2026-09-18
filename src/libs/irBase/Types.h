@@ -6,36 +6,36 @@
 #include <QString>
 #include <QUuid>
 
-typedef quint8                  BYTE;
-typedef quint16                 WORD;
-typedef float                   WORDF;
-typedef quint32                 DWORD;
-typedef double                  DWORDF;
-typedef quint64                 QWORD;
+typedef quint8          BYTE;
+typedef quint16         WORD;
+typedef float           WORDF;
+typedef quint32         DWORD;
+typedef double          DWORDF;
+typedef quint64         QWORD;
 #ifndef Q_CC_MSVC
-typedef quint128                OWORD; // octo
-//typedef unsigned _BitInt(256)   SEWORD; // sedecim
+typedef quint128        OWORD; // octo
+//#define SEWORD          unsigned _BitInt(256)
 #endif
-typedef QUuid::Id128Bytes       UID;
 
 typedef qint16          SWORD;
 typedef qint32          SDWORD;
 typedef qint64          SQWORD;
 #ifndef Q_CC_MSVC
 typedef qint128         SOWORD;
-//typedef _BitInt(256)    SSEWORD; // sedecim signed
+//#define SSEWORD         signed _BitInt(256)
 #endif
 
-typedef quintptr        NWORD;
+typedef quintptr        NWORD;  // N=Native
 typedef qptrdiff        SNWORD;
 typedef signed          INT;
 typedef signed          SINT;
 typedef unsigned        UINT;
 typedef double          FLOAT;
 
+typedef QUuid::Id128Bytes UID;
 typedef QWORD           Milliseconds;
-typedef qsizetype       Index;
-typedef size_t          Count;
+typedef qsizetype       Index;  // signed
+typedef size_t          Count;  // unsigned
 typedef size_t          Seed;
 typedef Count           Seq;
 typedef QWORD           IdNo;

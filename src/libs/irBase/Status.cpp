@@ -64,7 +64,7 @@ void Status::set(QFile *pFile, const StatusLevel aErrLevel, const StatusLevel aO
         .arg(pFile->error() ? "Error" : "Status"
             , pFile->error() ? pFile->errorString() : "Success")
         .arg(pFile->error())
-        .arg(FileInfo(pFile->fileName())
+        .arg(FileInfo(FSText(pFile->fileName()))
                  .toString(FileInfo::ElipsesPath
                             | FileInfo::FileName
                             | FileInfo::Status
@@ -73,6 +73,7 @@ void Status::set(QFile *pFile, const StatusLevel aErrLevel, const StatusLevel aO
 }
 
 void Status::message(const AText &aMsg)
+
 {
     mMessage.first = MillisecondTime::current();
     mMessage.second = aMsg;

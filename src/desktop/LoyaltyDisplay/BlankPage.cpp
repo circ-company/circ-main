@@ -8,8 +8,10 @@
 #include <Log.h>
 #include <SCRect.h>
 
+#include "NormalFaceLayoutWidget.h"
+
 BlankPage::BlankPage(LoyaltyDisplayScreen *parent)
-    : BaseLoyaltyDisplayPage(LoyaltyDisplayScreen::Home, parent)
+    : BaseLoyaltyDisplayPage(EightCC("Home"), parent)
 {
     setObjectName("HomePage:BaseLoyaltyDisplayPage");
 }
@@ -22,6 +24,15 @@ void BlankPage::setup()
     BaseLoyaltyDisplayPage::setup();
 
     // do stuff here
+    for (Index iy = 0; iy < scmGridSize.width(); ++iy)
+    {
+        for (Index ix = 0; ix < scmGridSize.height(); ++ix)
+        {
+            QWidgetItem * pPlaceholder
+                = new NormalFaceLayoutWidget(screen());
+            grid()->addItem(pPlaceholder, ix, iy, Qt::AlignCenter);
+        }
+    }
 
     show();
     FNEMIT("setupd");

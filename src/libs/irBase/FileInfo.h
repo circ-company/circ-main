@@ -13,6 +13,7 @@
 #include "FSText.h"
 #include "FSTextList.h"
 #include "Key.h"
+#include "Url.h"
 
 class FileInfo : public QFileInfo, public Null
 {
@@ -61,6 +62,7 @@ public: // types
 public: // ctors
     FileInfo(const QFileInfo &other);
     FileInfo(const FSText &filePathName);
+    FileInfo(const Url &aUrl);
     FileInfo(const QDir &dir, const QString &fileName);
 
 public: // const

@@ -35,6 +35,7 @@ public: // const
     int index(const Point pt) const;
     Point position(const int index) const;
     bool less(const Size &rhs) const;
+    Size multiplied(const Size &rhs) const;
     bool isEqualAspect(const Size &rhs) const;
     Size expanded(const Size sz) const;
     Size expanded(const signed int i) const;
@@ -52,6 +53,7 @@ public: // const
     Size operator & (const unsigned modulo) const;
     Size operator * (const unsigned u) const;
     Size operator * (const qreal f) const;
+    Size operator * (const Size rhs) const;
     Size operator + (const unsigned u) const;
 
 public: // non-const
@@ -62,8 +64,10 @@ public: // non-const
     Size set(QString aRowColString);
     Size set(const Size other);
     Size set(const Size outside, const Aspect aspect);
+    Size expand(const signed i);
     Size unionWith(const Size &rhs);
     Size intersectedWith(const Size &rhs);
+    Size operator += (const signed i);
     Size operator |= (const Size &rhs);
     Size operator &= (const Size &rhs);
     Size operator = (const Size &rhs);
@@ -84,10 +88,12 @@ inline Size Size::operator &(const Size &rhs) const { return intersected(rhs); }
 inline Size Size::operator *(const unsigned int u) const { return scaled(u); }
 inline Size Size::operator &(const unsigned int modulo) const { return trimmed(modulo); }
 inline Size Size::operator *(const qreal f) const { return scaled(f); }
+inline Size Size::operator * (const Size rhs) const { return multiplied(rhs); }
 inline Size Size::operator +(const unsigned int u) const { return expanded(u); }
 inline Size Size::set(const bool null) { it() = Size(null); return it(); }
 inline Size Size::set(const int dim) { it() = Size(dim); return it(); }
 inline Size Size::set(const Size other) { it() = Size(other); return it(); }
+inline Size Size::operator +=(const signed int i) { return expand(i); }
 inline Size Size::operator |=(const Size &rhs) { return unionWith(rhs); }
 inline Size Size::operator &=(const Size &rhs) { return intersectedWith(rhs); }
 inline Size Size::it() const  { return *this; }

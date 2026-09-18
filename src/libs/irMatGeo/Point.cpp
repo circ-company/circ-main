@@ -16,6 +16,14 @@ bool Point::isNull() const
     return equals(nullPoint());
 }
 
+Index Point::index(const Size aSize)
+{
+    Index result = 0;
+    result += y() * aSize.width();
+    result += x();
+    return result;
+}
+
 TriBool Point::equals(const Point &rhs) const
 {
     TriBool result;
@@ -32,6 +40,11 @@ bool Point::less(const Point &rhs) const
 Point Point::added(const Point &rhs) const
 {
     return Point(int(x() + rhs.x()), int(y() + rhs.y()));
+}
+
+Point Point::multiplied(const Size &rhs) const
+{
+    return Point(x() * rhs.width(), y() * rhs.height());
 }
 
 Point::Sortable Point::sortable() const
@@ -69,6 +82,16 @@ Point Point::set(const Size sz, const Index ix)
         result = Point(cX, cY);
     }
     return it() = result;
+}
+
+void Point::move(const Point aPt)
+{
+    x(x() + aPt.x()), y(y() + aPt.y());
+}
+
+void Point::modulo(const Size &aSz)
+{
+    x(x() % aSz.width()), y(y() % aSz.height());
 }
 
 void Point::nullify()
