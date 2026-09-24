@@ -123,10 +123,14 @@ bool LogItem::connect(QObject *sender, const QMetaMethod &signal,
     return result;
 }
 
-void LogItem::newobj(QObject *pNewObj, const CText &aObjName, QObject *pParent)
+void LogItem::newobj(QObject *pNewObj,
+                     const CText &aObjName,
+                     QObject *pParent)
 {
     QMetaType tQmtObject = QMetaType::fromName(aObjName);
-    const QMetaType cQmtParent = pParent->metaObject()->metaType();
+    QMetaType tQmtParent;
+    if (pParent)
+        tQmtParent= pParent->metaObject()->metaType();
     if (nullptr == pNewObj)
     {
         level(StatusLevel::MAlloc);
@@ -141,8 +145,8 @@ void LogItem::newobj(QObject *pNewObj, const CText &aObjName, QObject *pParent)
     text(aObjName);                         // %1
     text(AText(tQmtObject.name()));         // %2
     set(QVariant(int(tQmtObject.id())));    // %3
-    text(AText(cQmtParent.name()));         // %4
-    set(QVariant(int(cQmtParent.id())));    // %5
+    text(AText(tQmtParent.name()));         // %4
+    set(QVariant(int(tQmtParent.id())));    // %5
     if (pNewObj) set(AText::formatHeximal((qptrdiff)pNewObj)); // %6
 }
 

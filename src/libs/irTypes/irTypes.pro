@@ -12,6 +12,7 @@ SOURCES += \
     FourCC.cpp \
     RandomGenerator.cpp \
     Signum.cpp \
+    StdRandom.cpp \
     irTypes.cpp
 
 HEADERS += \
@@ -23,6 +24,7 @@ HEADERS += \
     MetaType.h \
     RandomGenerator.h \
     Signum.h \
+    StdRandom.h \
     irTypes_global.h \
     irTypes.h
 

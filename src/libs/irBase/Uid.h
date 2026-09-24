@@ -18,8 +18,8 @@ class Uid : public QUuid
 /*
  * UUID:    01234567-89AB-CDEF-0123-456789ABCDEF
  *          00000000 0011 1111 1111 222222222233
- * Hex Nix: 01234567 89AB CDEF 0123 456789ABCDEF
  * Dec Nix: 01234567 8901 2345 6789 012345678901
+ * Hex Nix: 01234567 89AB CDEF 0123 456789ABCDEF
  *                   Ver--^    ^--Var
  *          ^^^^^^^^--SegmentA
  *                   ^^^^--SegmentB
@@ -80,23 +80,31 @@ public: // types
         VerCustom           = 8, // 60,60
         VerCustom5,         // 9    32,16,12,12,48
         VerCustom4,         // 10   32,16,24,48
-        VerCustom3a32,      // 11   32,40,48
         VerCustom3b48,      // 12   48,24,48
-        VerCustom2a40,      // 13   32,80
-        VerCustom2b60,      // 14   48,72
-        VerCustom2c72,      // 15   72,48
+        VerCustom3b88,      // 13   16,16,24,64
+        VerCustom2a32,      // 14   32,80
+        VerCustom2b48,      // 15   48,72
+        VerCustom2c72,      // 16   72,48
         $invalidVer         = QUuid::VerUnknown     // -1
     };
-    enum Class              // for VerCustom (8)
+
+    enum Class : WORD       // for VerCustom3b88 (8)
     {
-        $nullClass = 0,
-        ClassA,
+        $nullClass  = 0x0000,
+        ClassA      = 0x0001,
+        StoreId     = 0x0002,
     };
-    enum Type
+
+    enum Type : WORD
     {
-        $nullType = 0,
-        Log,
+        $nullType   = 0x0000,
+        Log         = 0x0001,
+        FrameId     = 0x0001,   // Class StoreId
+        FaceId      = 0x0002,
+        PersonId    = 0x0011,
+        AnonymousId = 0x0012,
     };
+
     typedef QList<Uid> List;
 
 public: // ctors
@@ -108,6 +116,7 @@ public: // ctors
         const QWORD &macOverride=0,
         const QDateTime &tstampOverride=QDateTime());
     Uid(const Version ver, const AText text, const Uid &ns=Uid(false)); // DCEv3&5
+    Uid(const Class aClass, const Type aType);
     Uid(const QWORD aHi, const QWORD aLo);
     Uid(const DWORD segA, const WORD segB, const WORD segC,
         const WORD segD, const QWORD segE48,
@@ -147,6 +156,9 @@ public: // non-const
     void set(const QUuid other);
     void set(const Variant var);
     void set(const Version ver);
+    void set(const Class aClass, const Type aType);
+    void set(const Class aClass, const Type aType, const WORD aWord,
+             const DWORD aDword24,  const QWORD aQword48);
     void set(const Index bitOffset, const Count bitCount, const QWORD qw);
     void set(const Segment seg, const QWORD qw);
     void set(const DWORD segA, const WORD segB, const WORD segC,

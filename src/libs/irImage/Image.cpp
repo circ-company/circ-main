@@ -5,7 +5,7 @@
 
 QImage::Format Image::smQIFormat = QImage::Format_Invalid;
 
-Image::Image(const FileInfo &aFI)
+Image::Image(const QFileInfo &aFI)
 {
     qRegisterMetaType(QMetaType::fromName("Image"));
     set(aFI);
@@ -16,7 +16,7 @@ QVariant Image::toVariant() const
     QVariant result;
     QByteArray tBytes;
     QDataStream tDS(tBytes);
-    tDS << mFileInfo.toData();
+//    tDS << mFileInfo.toData();
     result.setValue(tBytes);
     return result;
 }
@@ -27,10 +27,10 @@ void Image::clear()
     mQImage = QImage();
 }
 
-bool Image::set(const FileInfo &aFI)
+bool Image::set(const QFileInfo &aFI)
 {
     bool result = false;
-    if ( ! aFI.isNull() && aFI.exists() && aFI.isReadable())
+    if ( /*! aFI.isNull() &&*/ aFI.exists() && aFI.isReadable())
     {
         QImage tImage(aFI.filePath());
         if ( ! tImage.isNull())
@@ -39,7 +39,7 @@ bool Image::set(const FileInfo &aFI)
             if ( ! tImage.isNull())
             {
                 mFileInfo = aFI;
-                mId.key(mFileInfo.key());
+                mId.key(mFileInfo.filePath());
                 mQImage = tImage;
                 result = true;
             }
@@ -55,6 +55,15 @@ QString Image::openFileFilters()
     // TODO ImageIOFormats class, etc.
     QString result;
     result = "JPEG Images (*.jpg);;PNG Images (*.png);;Images (*.jpg *.png)";
+    return result;
+}
+
+QStringList Image::dirEntryFilters()
+{
+    // TODO ImageIOFormats class, etc.
+    QStringList result;
+    result << "*.jpg";
+    result << "*.png";
     return result;
 }
 

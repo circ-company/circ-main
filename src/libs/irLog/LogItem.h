@@ -65,7 +65,8 @@ public: // non-const
                  const char *pchSender, const char *pchSignal,
                  const char *pchReceiver, const char *pchMethod);
     void * malloc(const Count nBytes, const AText &aArg);
-    void newobj(QObject * pNewObj, const CText &aObjName, QObject * pParent);
+    void newobj(QObject * pNewObj, const CText &aObjName,
+                QObject * pParent);
     void dumpVar(const QVariant aVar, const char *aText);
     void dumpAll(const QVariant aVar, const char *aText);
 

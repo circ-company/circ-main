@@ -3,7 +3,6 @@
 #include <QObject>
 
 #include <QQueue>
-class QTimer;
 
 #include <Id.h>
 #include <Types.h>
@@ -23,14 +22,14 @@ public: // types
     Q_DECLARE_FLAGS(Options, Option);
 
 public: // ctors
-//    explicit BaseImageSource(QObject *parent = nullptr);
     BaseImageSource(const Url aUrl, QObject *parent=nullptr);
 
 public slots:
     void initialize(const Options aOptions);
-    void run(const Milliseconds aSampleMsec);
-    void stop();
+    void run();
     void dequeue();
+    virtual void checkSource();
+    virtual void sourceFinished();
 
 protected slots:
     void enqueue(const Image &aImage);
@@ -42,11 +41,12 @@ signals:
     void stopped();
     void enqueued(const Id aId, const Image &aImage);
     void dequeued(const Id aId, const Image &aImage);
-    void taken(const Id aId, const Image &aImage);
     void loaded(const Count n);
     void looped(const Count n);
     void queueCount(const Count n);
     void empty();
+    void checked();
+    void checkFinished();
 
 public: // const
     bool isEmpty() const;
@@ -56,18 +56,14 @@ public: // const
 public: // non-const
     Image take();
 
-protected:
-    virtual void timerEvent(QTimerEvent *event);
-
-private: // non-const
-    virtual void handleEmpty();
+protected: // non-const
     virtual void readSource() = 0;
 
 protected:
     Options mOptions;
     Url mUrl;
-    Milliseconds mSampleMsec=0;
-    Qt::TimerId mTimerId=Qt::TimerId::Invalid;
     QQueue<Image> mReadyQueue;
     QQueue<Image> mUsedQueue;
 };
+
+inline Count BaseImageSource::count() const { return mReadyQueue.count(); }

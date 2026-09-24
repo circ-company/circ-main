@@ -9,15 +9,17 @@
 
 #include <Color.h>
 #include <EnumHelper.h>
+#include <Image.h>
 #include <Label.h>
 #include <Log.h>
 #include <ToolButton.h>
 
+#include "BaseImageSource.h"
 #include "BaseLoyaltyDisplayPage.h"
 #include "BlankPage.h"
-#include "LoyaltyDisplayBackend.h"
+#include "LoyaltyDisplayApplication.h"
 
-LoyaltyDisplayScreen::LoyaltyDisplayScreen(LoyaltyDisplayBackend *parent)
+LoyaltyDisplayScreen::LoyaltyDisplayScreen(LoyaltyDisplayApplication *parent)
     : QMainWindow(nullptr)
     , mpBackend(parent)
 {
@@ -69,10 +71,10 @@ void LoyaltyDisplayScreen::setup()
     NEWOBJ(mpToolBar, "QToolBar", this);
     addButtons();
 
-    mpMainWidget->setLayout(mpPageStack);
-    setCentralWidget(mpMainWidget);
+//    mpMainWidget->setLayout(mpPageStack);
+  //  setCentralWidget(mpMainWidget);
 
-    addPage(new BlankPage(this)); // dummy page, Type=$null
+    //addPage(new BlankPage(this)); // dummy page, Type=$null
 
 
     FNEMIT("setupd");
@@ -109,13 +111,28 @@ void LoyaltyDisplayScreen::screenSize(const Size aSz)
 
 void LoyaltyDisplayScreen::addPage(BaseLoyaltyDisplayPage *pPage)
 {
+    MUSTDO("Not Now");
+    FNENTER();
+    FNARG(pPage->ecc().aText()(), "QString");
     pPage->start();
     pPage->initialize();
     pPage->setup();
-    ASSERT(connect(backend(), &LoyaltyDisplayBackend::addFace,
-                   pPage, &BaseLoyaltyDisplayPage::add));
+    mActivePage = pPage->ecc();
+    ASSERT(connect(app(), &LoyaltyDisplayApplication::newKey,
+                   pPage, &BaseLoyaltyDisplayPage::startKey));
+    ASSERT(connect(app(), &LoyaltyDisplayApplication::showImage,
+                   pPage, &BaseLoyaltyDisplayPage::showImage));
+    ASSERT(connect(pPage, &BaseLoyaltyDisplayPage::imageShown,
+                   app(), &LoyaltyDisplayApplication::showNext));
+    foreach (BaseImageSource * pSource, app()->sourceList())
+    {
+        ASSERT(connect(app(), &LoyaltyDisplayApplication::showingImage,
+                       pSource, &BaseImageSource::checkSource));
+    }
     mEccPageMap.insert(pPage->ecc(), pPage);
     mpPageStack->addWidget(pPage);
+    mpPageStack->setCurrentWidget(pPage);
+    FNRTNVOID();
 }
 
 Size LoyaltyDisplayScreen::buttonSize()
@@ -139,9 +156,10 @@ Size LoyaltyDisplayScreen::faceLayout()
 
 }
 
-LoyaltyDisplayBackend *LoyaltyDisplayScreen::backend()
+LoyaltyDisplayApplication *LoyaltyDisplayScreen::app()
 {
-    CKPOINTER(mpBackend); return mpBackend;
+    CKPOINTER(mpBackend);
+    return mpBackend;
 }
 
 void LoyaltyDisplayScreen::addButtons()
@@ -160,3 +178,12 @@ ToolButtonGenerator *LoyaltyDisplayScreen::tbGen()
     CKPOINTER(mpButtonGenerator);
     return mpButtonGenerator;
 }
+
+BaseLoyaltyDisplayPage * LoyaltyDisplayScreen::page()
+{
+    BaseLoyaltyDisplayPage * result = nullptr;
+    result = mEccPageMap.value(mActivePage);
+    CKPOINTER(result);
+    return result;
+}
+

@@ -6,6 +6,8 @@
 #include "Types.h"
 #include "Uid.h"
 
+
+
 bool Key::startsWith(const Key &start) const
 {
     for (Index ix = 0; ix < start.count(); ++ix)
@@ -68,6 +70,18 @@ Key Key::operator + (const KeySeg &aSeg) const
 Key operator+(const Key &aKey, KeySeg &aSeg)
 {
     return aKey.add(aSeg);
+}
+
+void Key::set(const QDir &aDir)
+{
+#ifdef QT_WIN
+    MUSTDO("Handle drive letter");
+#endif
+    const QString cDirs = aDir.absolutePath();
+    const QStringList cDirNames = cDirs.split('/');
+    clear();
+    foreach (const QString cName, cDirNames)
+        add(KeySeg(cName));
 }
 
 void Key::set(const Url &aUrl, const bool aPathOnly)

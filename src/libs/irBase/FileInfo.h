@@ -82,6 +82,7 @@ public: // const
 public: // non-const
     void clear();
     void set(const QDir aDir);
+    void set(const Url aUrl);
 
 private: // const
     QString attributeFlags() const;

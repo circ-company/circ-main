@@ -6,11 +6,11 @@
 #include <QTranslator>
 
 #include "LoyaltyDisplayScreen.h"
-#include "LoyaltyDisplayBackend.h"
+#include "LoyaltyDisplayApplication.h"
 
 int main(int argc, char *argv[])
 {
-    LoyaltyDisplayBackend a(argc, argv);
+    LoyaltyDisplayApplication a(argc, argv);
     LoyaltyDisplayScreen w(&a);
     a.screen(&w);
 
@@ -27,6 +27,6 @@ int main(int argc, char *argv[])
     }
 
     w.show();
-    QTimer::singleShot(10, &a, &LoyaltyDisplayBackend::start);
-    return LoyaltyDisplayBackend::exec();
+    QTimer::singleShot(10, &a, &LoyaltyDisplayApplication::start);
+    return LoyaltyDisplayApplication::exec();
 }

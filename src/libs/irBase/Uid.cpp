@@ -12,7 +12,6 @@ QDateTime smTimestamp;
 
 Uid::Uid(const bool random) { if (random) randomize(); else nilify(); }
 
-Uid::Uid(const QAnyStringView &s, const Uid aNS) {;}
 Uid::Uid(const Variant var) { generate(var); }
 Uid::Uid(const Version ver, const QWORD &macOverride, const QDateTime &tstampOverride)
     { generateTimeMac(ver, macOverride, tstampOverride); }
@@ -172,6 +171,26 @@ void Uid::set(const Version ver)
     mUnion.data[6] |= ((BYTE)ver) << 4;
 }
 
+void Uid::set(const Class aClass, const Type aType)
+{
+    generateFullRandom();
+    set(VerCustom3b88);
+    set(SegmentA, (aClass << 8) | aType);
+}
+
+void Uid::set(const Class aClass, const Type aType, const WORD aWord,
+              const DWORD aDword24, const QWORD aQword48)
+{
+    set(aClass, aType);
+    set(SegmentB, aWord);
+    set(SegmentC, aDword24 >> 12);
+    set(SegmentD, aDword24 & 0x00FFFFFF);
+    set(SegmentE, aQword48 & 0x0000FFFFFFFFFFFFL);
+
+}
+
+
+
 void Uid::set(const Index bitOffset, const Count bitCount, const QWORD qw)
 {
     OWORD tMask = (OWORD((1LL << bitCount) - 1)) << bitOffset;
@@ -247,7 +266,8 @@ Uid Uid::generateTimeMac(const Version ver, const QWORD &macOverride, const QDat
         break;
     }
     result.set(SegmentD,  (sSequence & 0x0FFF0000) >> 16);
-    result.set(SegmentE, ((sSequence & 0x0000FFFF) << 24) | (cMac & 0x00FFFFFF));
+    result.set(SegmentE, ((sSequence & 0x0000FFFF) << 24)
+                             | (cMac & 0x00FFFFFF));
     return result;
 }
 

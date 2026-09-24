@@ -3,13 +3,11 @@
 
 #define VER_MAJOR           6
 #define VER_MINOR           5
-#define VER_RELEASE         3
+#define VER_RELEASE         4
 #define VER_BRANCH          0
-#define VER_STRING          "v6.05C"
+#define VER_STRING          "v6.05D"
 #define VER_BUILD           0
 #define VER_BRANCHNAME      "develop"
-#define VER_PRODUCT         "CIRCmain"
-#define VER_APPNAME         VER_PRODUCT
 #define VER_ORGNAME         "CIRC Company"
 #define VER_COPYRIGHT       "Copyright (c) 1993-2026, Anthony Otto DBA CIRC Company. All rights reserved worldwide. See LEGAL.txt for more information."
 #define VER_LEGAL           "California Intermountain Research Center(tm) and CIRC(tm) are trademarks of Anthony Otto. All other marks are property their owners. See LEGAL.txt for more information."

@@ -16,7 +16,7 @@ ExeSupport::ExeSupport(const QString &aAppName, QObject *parent)
     , mpOptions(new Options(this))
     , mpSettings(new Settings(this))
     , mVersionInfo(VER_MAJOR, VER_MINOR, VER_RELEASE, VER_BRANCH,
-                   VER_BUILD, VER_BRANCHNAME, VER_APPNAME, VER_ORGNAME,
+                   VER_BUILD, VER_BRANCHNAME, "EXE_LIBRARY", VER_ORGNAME,
                    VER_COPYRIGHT)
 {
     setObjectName("ExeSupport");

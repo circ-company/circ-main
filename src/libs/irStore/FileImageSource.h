@@ -9,9 +9,16 @@ class FileImageSource : public BaseImageSource
 public:
     FileImageSource(const QDir aDir, QObject *parent=nullptr);
 
-private: // non-const
+public slots:
+    virtual void checkSource();
+    virtual void sourceFinished();
+
+public: // non-const
     virtual void readSource() override;
 
 private:
-    FileInfo mFileInfo;
+    QDir mDir;
+    QFileInfoList mFIList;
+    Count mLoQueuedCount=8;
+    Count mHiQueuedCount=16;
 };

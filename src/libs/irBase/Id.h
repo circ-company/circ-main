@@ -4,6 +4,7 @@
 #include "DataProperty.h"
 #include <QSharedData>
 
+#include <QList>
 #include <QString>
 #include <QVariant>
 
@@ -40,6 +41,9 @@ class Id
     DECLARE_PARENT_DATAPROPS(IDENT_DATAPROPS);
     DECLARE_DATAPROPS(Id, IdData);
 
+public: // types
+    typedef QList<Id> List;
+
 public: // our ctors
     Id(const bool nilUid); // else maxUid
     Id(const Uid &u);
@@ -55,6 +59,8 @@ public: // const
     bool isNull() const;
     bool isNil() const;
     bool isValid() const;
+    bool less(const Id &rhs) const;
+    bool operator < (const Id &rhs) const;
     QString toString() const;
 
 public: // non-const
@@ -70,11 +76,13 @@ private:
     static QWORD smCtorSeq;
 };
 
+//extern bool operator < (const Id &lhs,const Id &rhs);
 extern QDebug operator << (QDebug debug, const Id &ident);
 
 inline bool Id::isNull() const { return uid().isNull(); }
 inline bool Id::isNil() const { return uid().isNil(); }
 inline bool Id::isValid() const { return ! isNil(); }
+inline bool Id::operator <(const Id &rhs) const { return less(rhs); }
 inline void Id::uid(const bool nilUid) { uid(Uid(nilUid)); }
 
 

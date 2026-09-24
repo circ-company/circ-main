@@ -8,11 +8,7 @@ FileInfo::FileInfo(const QFileInfo &other)
     : QFileInfo(other), Null(false) { setup(); }
 FileInfo::FileInfo(const FSText &filePathName)
     : QFileInfo(filePathName), Null(false) { setup(); }
-
-FileInfo::FileInfo(const Url &aUrl)
-{
-
-}
+FileInfo::FileInfo(const Url &aUrl) { set(aUrl); }
 FileInfo::FileInfo(const QDir &dir, const QString &fileName)
     : QFileInfo(dir, fileName), Null(false) { setup(); }
 
@@ -200,5 +196,10 @@ FileInfo FileInfo::fromData(const QByteArray aBytes)
 void FileInfo::set(const QDir aDir)
 {
     setFile(aDir, fileName());
+}
+
+void FileInfo::set(const Url aUrl)
+{
+    setFile(aUrl.localFllePath());
 }
 

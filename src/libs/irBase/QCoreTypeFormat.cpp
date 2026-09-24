@@ -1,6 +1,7 @@
 #include "QCoreTypeFormat.h"
 
 #include <QFileInfo>
+#include <QPoint>
 #include <QRect>
 #include <QSize>
 
@@ -48,6 +49,14 @@ AText QCoreTypeFormat::formatHexData(const QVariant &aVar)
     cHexStr.truncate(64);
     result = QString("HEX[%1]:<%2>").arg(cBytes.length()).arg(cHexStr);
     return result;
+}
+
+AText QCoreTypeFormat::formatQPoint(const QVariant &aVar)
+{
+    const QPoint cPoint = aVar.toPoint();
+    return AText::format("QPoint(x%1, y%2)",
+                         TypeFormat(cPoint.x()),
+                         TypeFormat(cPoint.y()));
 }
 
 AText QCoreTypeFormat::formatQSize(const QVariant &aVar)

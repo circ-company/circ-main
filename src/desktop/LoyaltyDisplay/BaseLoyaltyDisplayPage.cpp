@@ -1,5 +1,6 @@
 #include "BaseLoyaltyDisplayPage.h"
 
+#include <QLabel>
 #include <QPainter>
 #include <QPaintEvent>
 
@@ -52,6 +53,45 @@ void BaseLoyaltyDisplayPage::setup()
     FNRTNVOID();
 }
 
+void BaseLoyaltyDisplayPage::startKey(const Key aKey)
+{
+    FNENTER();
+    FNARG(aKey(), "QString");
+    Index tRow = clearOldestRow();
+    mRowKeyDMap.insert(tRow, aKey);
+    FNRTNVOID();
+}
+
+void BaseLoyaltyDisplayPage::showImage(const Key aKey, const Image &aImage)
+{
+    FNENTER();
+    FNARG(aKey(), "QString");
+    Size tLayout = screen()->faceLayout();
+    Index tRow = mRowKeyDMap.a(aKey);
+    Index tCol = mRowImageCounts[tRow]++;
+    Point tPoint((int(tRow)), int(tCol));
+    DUMPVAR(tPoint());
+    NormalFaceLayoutWidget * pItem
+        = new NormalFaceLayoutWidget(aKey, aImage, screen());
+    mPointIxItemDMap.insert(tPoint.index(tLayout), pItem);
+    tPoint %= tLayout;
+    DUMPVAR(tPoint());
+    QLayoutItem * pOldItem = grid()->itemAtPosition(tPoint.row(),
+                                                    tPoint.col());
+    grid()->removeItem(pOldItem);
+//    grid()->addItem(pItem, tPoint.row(), tPoint.col());
+    QLabel * pLabel = new QLabel(screen());
+    QPixmap tPixmap = QPixmap::fromImage(aImage.toQImage()
+                        .scaled(screen()->faceSize()));
+    pLabel->setPixmap(tPixmap);
+    grid()->addWidget(pLabel, tPoint.row(), tPoint.col());
+    grid()->update();
+    screen()->setCentralWidget(pLabel);
+    FNEMIT("imageShown");
+    emit imageShown();
+    FNRTNVOID();
+}
+
 void BaseLoyaltyDisplayPage::add(const Index ix,
                                  NormalFaceLayoutWidget *pFaceItem)
 {
@@ -89,6 +129,15 @@ void BaseLoyaltyDisplayPage::clearRow(const Index aRow)
         pItem->point(tPoint);
         grid()->addItem(pItem, tPoint.row(), tPoint.col());
     }
+}
+
+Index BaseLoyaltyDisplayPage::clearOldestRow()
+{
+    FNENTER();
+    Index result = mCurrentRow++;
+    clearRow(result);
+    FNRTNVALUE(result, "Index");
+    return result;
 }
 
 LoyaltyDisplayScreen * BaseLoyaltyDisplayPage::screen() const

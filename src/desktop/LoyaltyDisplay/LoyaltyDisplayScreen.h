@@ -9,10 +9,11 @@ class QVBoxLayout;
 
 #include <KeyMap.h>
 #include <Size.h>
+class Image;
 
 #include "ToolButtonGenerator.h"
 class BaseLoyaltyDisplayPage;
-class LoyaltyDisplayBackend;
+class LoyaltyDisplayApplication;
 class NormalFaceLayoutWidget;
 
 class LoyaltyDisplayScreen : public QMainWindow
@@ -21,7 +22,7 @@ class LoyaltyDisplayScreen : public QMainWindow
 public: // types
 
 public: // 'tors
-    LoyaltyDisplayScreen(LoyaltyDisplayBackend *parent);
+    LoyaltyDisplayScreen(LoyaltyDisplayApplication *parent);
     ~LoyaltyDisplayScreen() override;
 
 public slots:
@@ -29,12 +30,15 @@ public slots:
     void initialize();
     void setup();
     void run();
+//    void startKey(const Key aKey);
+  //  void show(const Key aKey, const Image &aImage);
 
 signals:
     void started();
     void initialized();
     void setupd();
     void running();
+    void newKey(const Key aKey);
 
 public: // const
     const Size screenSize() const;
@@ -52,21 +56,23 @@ public: // static
     static Size faceLayout();
 
 public: // pointers
-    LoyaltyDisplayBackend * backend();
+    LoyaltyDisplayApplication * app();
     QToolBar * toolBar();
     ToolButtonGenerator * tbGen();
+    BaseLoyaltyDisplayPage * page();
 
 private: // non-const
     void addButtons();
 
 private:
-    LoyaltyDisplayBackend * mpBackend=nullptr;
+    LoyaltyDisplayApplication * mpBackend=nullptr;
     ToolButtonGenerator * mpButtonGenerator=nullptr;
     QThread * mpBackendThread=nullptr;
     Size mScreenSize=baseScreenSize();
     QToolBar * mpToolBar=nullptr;
     QWidget * mpMainWidget=nullptr;
     QStackedLayout * mpPageStack=nullptr;
+    EightCC mActivePage;
     QMap<EightCC, BaseLoyaltyDisplayPage *> mEccPageMap;
     KeyMapT<NormalFaceLayoutWidget *> mKeyFaceWidgetMap;
 };

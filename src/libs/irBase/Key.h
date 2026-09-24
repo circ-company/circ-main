@@ -8,6 +8,7 @@ class QVariant;
 
 #include <Types.h>
 #include <Url.h>
+class QDir;
 class Uid;
 
 class Key : public KeySegList
@@ -23,6 +24,7 @@ public: // ctors
     Key(const QList<KeySeg> &other) : KeySegList(other) {;}
     Key(const QString &s) : KeySegList(s) {;}
     Key(const QWORD &aQWord) : KeySegList(aQWord) {;}
+    Key(const QDir &aDir) { set(aDir); }
     Key(const Url &aUrl) { set(aUrl); }
 
 public: // const
@@ -35,6 +37,7 @@ public: // const
     friend Key operator+(const Key &aKey, KeySeg &aSeg);
 
 public: // non-const
+    void set(const QDir &aDir);
     void set(const Url &aUrl, const bool aPathOnly=true);
 
 public: // static

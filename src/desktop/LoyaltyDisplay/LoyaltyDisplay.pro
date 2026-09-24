@@ -22,7 +22,7 @@ SOURCES += \
     BaseLoyaltyDisplayPage.cpp \
     BlankPage.cpp \
     HomePage.cpp \
-    LoyaltyDisplayBackend.cpp \
+    LoyaltyDisplayApplication.cpp \
     LoyaltyDisplayScreen.cpp \
     NormalFaceLayoutWidget.cpp \
     ToolButtonGenerator.cpp \
@@ -32,7 +32,7 @@ HEADERS += \
     BaseLoyaltyDisplayPage.h \
     BlankPage.h \
     HomePage.h \
-    LoyaltyDisplayBackend.h \
+    LoyaltyDisplayApplication.h \
     LoyaltyDisplayScreen.h \
     NormalFaceLayoutWidget.h \
     ToolButtonGenerator.h \

@@ -10,7 +10,7 @@
 class Image
 {
 public: // ctors
-    Image(const FileInfo &aFI);
+    Image(const QFileInfo &aFI);
 
 public: // const
     bool isNull() const;
@@ -22,13 +22,14 @@ public: // const
 
 public: // non-const
     void clear();
-    bool set(const FileInfo &aFI);
+    bool set(const QFileInfo &aFI);
 
 
 public: // static
     static QImage::Format baseColorFormat();
     static void setColorFormat(const QImage::Format aQIF);
     static QString openFileFilters();
+    static QStringList dirEntryFilters();
 
 
 public: // pointers
@@ -40,7 +41,7 @@ public: // debug
 private:
     Id mId;
     QImage mQImage;
-    FileInfo mFileInfo;
+    QFileInfo mFileInfo;
     static QImage::Format smQIFormat;
 
 public: // QMetaType

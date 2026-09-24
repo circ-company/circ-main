@@ -18,6 +18,11 @@ Id::Id(const QString &n) : data(new IdData) { uid(false); name(n); ctor(); }
 Id::Id(const Uid &u, const IdNo i, const Key &k, const QString &n)
     : data(new IdData) { uid(u); idno(i); key(k); name(n); ctor(); }
 
+bool Id::less(const Id &rhs) const
+{
+    return toString() < rhs.toString();
+}
+
 void Id::ctor(void)
 {
     ctorEms(MillisecondTime::current());
@@ -111,7 +116,12 @@ void Id::set(const Uid::Version ver)
         break;
     }
 }
-
+/*
+bool operator <(const Id &lhs, const Id &rhs)
+{
+    return lhs.less(rhs);
+}
+*/
 QDebug operator << (QDebug debug, const Id &ident)
 {
     debug << "{Ident:" << ident.uid().tail() << ident.idno()

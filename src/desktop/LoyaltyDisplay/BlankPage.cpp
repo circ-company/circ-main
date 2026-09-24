@@ -34,7 +34,6 @@ void BlankPage::setup()
         }
     }
 
-    show();
     FNEMIT("setupd");
     emit setupd();
     FNRTNVOID();

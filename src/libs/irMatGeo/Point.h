@@ -48,8 +48,8 @@ public: // const
     Point operator * (const Size &rhs) const;
     bool operator < (const Point &rhs) const;
     QPoint operator () () const;
-    friend Point operator + (const Point lhs, const Point rhs);
-    friend Point operator < (const Point lhs, const Point rhs);
+    friend Point operator + (const Point &lhs, const Point &rhs);
+    friend Point operator < (const Point &lhs, const Point &rhs);
 
 public: // non-const
     Point set(const Point aPt);

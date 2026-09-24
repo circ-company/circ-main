@@ -105,13 +105,13 @@ Point Point::nullPoint()
 }
 
 
-extern Point operator + (const Point lhs, const Point rhs)
+extern Point operator + (const Point &lhs, const Point &rhs)
 {
     return Point(int(lhs.x() + rhs.x()),
                  int(lhs.y() + rhs.y()));
 }
 
-extern Point operator < (const Point lhs, const Point rhs)
+extern Point operator < (const Point &lhs, const Point &rhs)
 {
     return lhs.less(rhs);
 }

@@ -3,12 +3,14 @@
 #include <QWidget>
 
 #include <QGridLayout>
+#include <QPoint>
 
 #include <DualMap.h>
 #include <KeySeg.h>
 #include <LabelMap.h>
 #include <Point.h>
 #include <Size.h>
+class Image;
 
 #include "LoyaltyDisplayScreen.h"
 class BaseImageSource;
@@ -29,6 +31,8 @@ public slots:
     virtual void initialize();
     virtual void setup();
     virtual void run() {;}
+    virtual void startKey(const Key aKey);
+    virtual void showImage(const Key aKey, const Image &aImage);
     void add(const Index ix, NormalFaceLayoutWidget * pFaceItem);
 
 signals:
@@ -36,6 +40,7 @@ signals:
     void initialized();
     void setupd();
     void running();
+    void imageShown();
 
 public: // const
     const EightCC ecc() const;
@@ -43,6 +48,7 @@ public: // const
 
 public: // non-const
     void clearRow(const Index aRow);
+    Index clearOldestRow();
 
 public: // static
 
@@ -54,11 +60,14 @@ public: // pointers
 protected:
     static const Size scmGridSize;
 
-private:
+protected:
     const EightCC cmECC;
     QGridLayout * mpGridLayout=nullptr;
+    Index mCurrentRow=0;
+    DualMap<Index, Key> mRowKeyDMap;
     QList<Count> mRowImageCounts;
-    DualMap<Point, NormalFaceLayoutWidget *>mPointItemDMap;
+    DualMap<Index, NormalFaceLayoutWidget *>mPointIxItemDMap;
+    QMap<Milliseconds, Index> mOldestRowMap;
 };
 
 inline const EightCC BaseLoyaltyDisplayPage::ecc() const { return cmECC; }

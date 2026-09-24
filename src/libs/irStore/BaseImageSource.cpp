@@ -32,70 +32,57 @@ void BaseImageSource::initialize(const Options aOptions)
     FNRTNVOID();
 }
 
-void BaseImageSource::run(const Milliseconds aSampleMsec)
+void BaseImageSource::run()
 {
     FNENTER();
-    FNARG(aSampleMsec, Milliseconds);
-    mSampleMsec = aSampleMsec;
-    if (mSampleMsec)
-    {
-        mTimerId = Qt::TimerId(startTimer(mSampleMsec));
-        emit running();
-        FNEMIT("running");
-    }
-    FNRTNVOID();
-}
 
-void BaseImageSource::stop()
-{
-    FNENTER();
-    if (mSampleMsec)
+    readSource();
+    if (mOptions & Randomize)
     {
-        killTimer(mTimerId);
-        mTimerId = Qt::TimerId::Invalid;
-        mSampleMsec = 0;
-        emit stopped();
-        FNEMIT("stopped");
+        WANTDO("Randomize mReadyQueue");
     }
-    else
-    {
-        WARNING("Already stopped");
-    }
+
+    emit running();
+    FNEMIT("running");
     FNRTNVOID();
 }
 
 void BaseImageSource::dequeue()
 {
     FNENTER();
-    if (isEmpty())
-    {
-        handleEmpty();
-    }
-    // ...then...
-    if ( ! isEmpty())
-    {
-        Image tImage = mReadyQueue.dequeue();
-        if (mOptions & Loop)
-            mUsedQueue.enqueue(tImage);
-        Id tId = tImage.id();
-        Key tKey = tId.key();
-        FNEMIT("dequeued");
-        FNEMITARG("dequeued", tId.toString(), "QString");
-        emit dequeued(tId, tImage);
-    }
+    Image tImage = take();
+    Id tId = tImage.id();
+    Key tKey = tId.key();
+    FNEMIT("dequeued");
+    FNEMITARG("dequeued", tId.toString(), "QString");
+    emit dequeued(tId, tImage);
+    FNRTNVOID();
+}
+
+void BaseImageSource::checkSource()
+{
+    FNENTER();
+
+    FNRTNVOID();
+}
+
+void BaseImageSource::sourceFinished()
+{
+    FNENTER();
+
     FNRTNVOID();
 }
 
 void BaseImageSource::enqueue(const Image &aImage)
 {
-    FNENTER();
-    const Id cId = aImage.id();
-    FNARG(cId.toString(), "QString");
+//    FNENTER();
+    const FileInfo cFI = aImage.fileInfo();
+  //  FNARG(cFI.toString(), "QString");
     mReadyQueue.enqueue(aImage);
-    FNEMIT("enqueued");
-    FNEMITARG("enqueued", cId.toString(), "QString");
-    FNEMITARG("enqueued", aImage.toQImage().size(), "QSize");
-    FNRTNVOID();
+//    FNEMIT("enqueued");
+  //  FNEMITARG("enqueued", cFI.toString(), "QString");
+    //FNEMITARG("enqueued", aImage.toQImage().size(), "QSize");
+  //  FNRTNVOID();
 }
 
 bool BaseImageSource::isEmpty() const
@@ -108,24 +95,31 @@ Key BaseImageSource::key() const
     return Key(mUrl);
 }
 
-void BaseImageSource::timerEvent(QTimerEvent *event)
+Image BaseImageSource::take()
 {
-    if (event->id() == mTimerId)
+    Image result;
+    if (isEmpty())
     {
-        dequeue();
+        if (mOptions & (Loop | Randomize))
+        {
+            WANTDO("randomize mUsedQueue");
+        }
+        else if (mOptions & Loop)
+        {
+            mReadyQueue = mUsedQueue;
+            mUsedQueue.clear();
+        }
     }
+    // ...then...
+    if ( ! isEmpty())
+    {
+        Image tImage = mReadyQueue.dequeue();
+        if (mOptions & Loop)
+            mUsedQueue.enqueue(tImage);
+        result = tImage;
+    }
+    return result;
 }
 
-void BaseImageSource::handleEmpty()
-{
-    if (mOptions & (Loop | Randomize))
-    {
-        WANTDO("randomize");
-    }
-    else if (mOptions & Loop)
-    {
-        mReadyQueue = mUsedQueue;
-        mUsedQueue.clear();
-    }
-}
+
 
