@@ -3,9 +3,9 @@
 
 #define VER_MAJOR           6
 #define VER_MINOR           5
-#define VER_RELEASE         4
+#define VER_RELEASE         5
 #define VER_BRANCH          0
-#define VER_STRING          "v6.05D"
+#define VER_STRING          "v6.05E"
 #define VER_BUILD           0
 #define VER_BRANCHNAME      "develop"
 #define VER_ORGNAME         "CIRC Company"
