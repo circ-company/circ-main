@@ -24,6 +24,7 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
+    ../../version.h \
     ATApplication.h \
     ATMainWindow.h \
     version.h
