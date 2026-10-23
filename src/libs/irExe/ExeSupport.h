@@ -4,7 +4,7 @@
 
 class KeySeg;
 
-#include <VersionInfo.h>
+#include <irBase/VersionInfo.h>
 class CommandLine;
 class Configuration;
 class Option;

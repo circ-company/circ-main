@@ -3,7 +3,7 @@ include(LIBDIR.pri)
 include(DESTDIR.pri)
 
 INCLUDEPATH *= $$LIBDIR/irqGui
-INCLUDEPATH *= $$LIBDIR/../../src/libs/irqGui
+#NCLUDEPATH *= $$LIBDIR/../../src/libs/irqGui
 windows:LIBS *= -lirqGui6
 linux:LIBS *= -lirqGui
 LIBS *= -L$$DESTDIR

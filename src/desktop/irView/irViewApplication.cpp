@@ -23,7 +23,7 @@ irViewApplication::irViewApplication(int &argc, char **argv)
     LOG->initialize();
     setObjectName("Application:irView");
     const QStringList cArgs = arguments();
-    QDir tCurrentDir = FileInfo(cArgs.first()).dir();
+    QDir tCurrentDir = FileInfo(FSText(cArgs.first())).dir();
     tCurrentDir.cd("../Input");
     mCurrentDir.set(tCurrentDir);
 }

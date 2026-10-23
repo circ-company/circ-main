@@ -3,7 +3,7 @@ include(LIBDIR.pri)
 include(DESTDIR.pri)
 
 INCLUDEPATH *= $$LIBDIR/irqWidgets
-INCLUDEPATH *= $$LIBDIR/../../src/libs/irqWidgets
+#NCLUDEPATH *= $$LIBDIR/../../src/libs/irqWidgets
 windows:LIBS *= -lirqWidgets6
 linux:LIBS *= -lirqWidgets
 LIBS *= -L$$DESTDIR

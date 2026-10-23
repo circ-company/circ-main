@@ -3,7 +3,7 @@ include(LIBDIR.pri)
 include(DESTDIR.pri)
 
 INCLUDEPATH *= $$LIBDIR/irBase $$LIBDIR/irImage
-INCLUDEPATH *= $$LIBDIR/../../src/libs/irImage
+#NCLUDEPATH *= $$LIBDIR/../../src/libs/irImage
 windows:LIBS *= -lirImage6
 linux:LIBS *= -lirImage
 LIBS *= -L$$DESTDIR

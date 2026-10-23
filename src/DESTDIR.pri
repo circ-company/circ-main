@@ -1,6 +1,6 @@
 # {circ-main}/src/DESTDIR.pri
 
-OURDEST = "{bindir}/{bldcfg}{osbits}-Qt{qtver}CV{cvver}-{ver}"
+OURDEST = "{bindir}{bldcfg}{osbits}-Qt{qtver}CV{cvver}-{ver}"
 
 include(BINDIR.pri)
 include(BLDCFG.pri)
@@ -18,4 +18,4 @@ OURDEST = $$replace(OURDEST, "{ver}", $$VER_STRING)
 
 DESTDIR = $$OURDEST
 QMAKE_RPATHDIR = $$OURDEST
-message($$DESTDIR)
+#message($$DESTDIR)

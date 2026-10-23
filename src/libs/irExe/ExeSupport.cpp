@@ -7,7 +7,7 @@
 #include "Options.h"
 #include "Settings.h"
 
-#include <version.h>
+#include <../version.h> // in ./src not ./src/libs
 
 ExeSupport::ExeSupport(const QString &aAppName, QObject *parent)
     : QObject{parent}

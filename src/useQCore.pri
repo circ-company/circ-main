@@ -3,7 +3,7 @@ include(LIBDIR.pri)
 include(DESTDIR.pri)
 
 INCLUDEPATH *= $$LIBDIR/irqCore
-INCLUDEPATH *= $$LIBDIR/../../irMain/libs/irqCore
+#NCLUDEPATH *= $$LIBDIR/../../irMain/libs/irqCore
 windows:LIBS *= -lirqCore6
 linux:LIBS *= -lirqCore
 LIBS *= -L$$DESTDIR

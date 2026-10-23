@@ -2,7 +2,7 @@
 include(LIBDIR.pri)
 include(DESTDIR.pri)
 
-INCLUDEPATH *= $$LIBDIR/irBase $$LIBDIR/irMatGeo
+INCLUDEPATH *= $$LIBDIR/irMatGeo
 windows:LIBS *= -lirMatGeo6
 linux:LIBS *= -lirMatGeo
 LIBS *= -L$$DESTDIR

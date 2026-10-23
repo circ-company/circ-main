@@ -81,7 +81,7 @@ void irViewMainWindow::doFileOpenDialog()
         Image::openFileFilters(),
         nullptr,
         QFileDialog::ReadOnly);
-    foreach (const QString cName, tFileNames)
+    foreach (const FSText cName, tFileNames)
     {
         FileInfo tFI(cName);
         if (tFI.exists() && tFI.isReadable())

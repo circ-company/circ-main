@@ -3,7 +3,7 @@ include(LIBDIR.pri)
 include(DESTDIR.pri)
 
 INCLUDEPATH *= $$LIBDIR/irqNetwork
-INCLUDEPATH *= $$LIBDIR/../../src/libs/irqNetwork
+#NCLUDEPATH *= $$LIBDIR/../../src/libs/irqNetwork
 windows:LIBS *= -lirqNetwork6
 linux:LIBS *= -lirqNetwork
 QT *= network

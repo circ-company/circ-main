@@ -3,7 +3,7 @@ include(LIBDIR.pri)
 include(DESTDIR.pri)
 
 INCLUDEPATH *= $$LIBDIR/irBase $$LIBDIR/irTouch
-INCLUDEPATH *= $$LIBDIR/../../src/libs/irTouch
+#NCLUDEPATH *= $$LIBDIR/../../src/libs/irTouch
 windows:LIBS *= -lirTouch6
 linux:LIBS *= -lirTouch
 LIBS *= -L$$DESTDIR

@@ -6,6 +6,7 @@ include(../console.pri)
 include(../../useBase.pri)
 include(../../useTypes.pri)
 include(../../useQCore.pri)
+include(../../useQWidgets.pri)
 
 SOURCES += \
         MainConsoleApplication.cpp \
@@ -18,3 +19,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     MainConsoleApplication.h
+
+message(--------/src/useBase.pri LIBS=$$LIBS DESTDIR==$$DESTDIR LIBDIR==$$LIBDIR INCLUDEPATH==$$INCLUDEPATH )
