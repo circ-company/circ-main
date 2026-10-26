@@ -1,6 +1,13 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
+    ifAcquire \
+    ifBase \
+    ifDetect \
+    ifGenerate \
+    ifLocate \
+    ifMatch \
+    ifStore \
     irBase \
     irColor \
     irCore \
@@ -31,3 +38,4 @@ SUBDIRS += \
     QtCVimgproc \
     QtCVobjdetect \
     QtCVutils \
+    ryBase

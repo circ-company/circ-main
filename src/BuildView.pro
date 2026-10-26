@@ -2,19 +2,19 @@
 
 TEMPLATE = subdirs
 
-SUBDIRS +=              \
-    libs/irBase         \
-    libs/irLog          \
-    libs/irMatGeo       \
-    libs/irExe          \
-    libs/irqCore	\
-    libs/irStore        \
-    libs/irqXml         \
-    libs/irTypes        \
-    libs/irqGui         \
-    libs/irqWidgets	\
-    libs/irImage        \
-    desktop/irView      \
+SUBDIRS +=                  \
+    libs/irBase             \
+    libs/irLog              \
+    libs/irMatGeo           \
+    libs/irExe              \
+    libs/irqCore	        \
+    libs/irStore            \
+    libs/irqXml             \
+    libs/irTypes            \
+    libs/irqGui             \
+    libs/irqWidgets	        \
+    libs/irImage            \
+    desktop/irView          \
 
 irBase.depends          =
 irLog.depends           = irBase
@@ -27,7 +27,8 @@ irqXml.depends          = irBase    irLog       irMatGeo    irTypes             
 irqGui.depends          = irBase    irLog                   irTypes
 irqWidgets.depends      = irBase    irLog       irMatGeo    irTypes
 irImage.depends         = irBase    irLog
-irView.depends          = irBase    irLog       irMatGeo    irTypes     irqCore       irStore     irqXml   \
+irView.depends          = irBase    irLog       irMatGeo    irTypes     irqCore     \
+                            irStore     irqXml   \
                             irqGui      irqWidgets      irImage
 
 
