@@ -1,14 +1,13 @@
 #include "RYMainWindow.h"
-#include "ui_RYMainWindow.h"
 
-RYMainWindow::RYMainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::RYMainWindow)
+#include "RYApplication.h"
+
+RYMainWindow::RYMainWindow(RYApplication *parent)
+    : MainWindow(MainWindow::Stack, parent)
 {
-    ui->setupUi(this);
+    setObjectName("RYMainWindow");
 }
 
 RYMainWindow::~RYMainWindow()
 {
-    delete ui;
 }

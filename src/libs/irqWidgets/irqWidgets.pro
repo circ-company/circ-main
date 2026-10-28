@@ -9,19 +9,19 @@ include(../../useMatGeo.pri)
 include(../../useTypes.pri)
 
 SOURCES += \
+    Application.cpp \
     Label.cpp \
     LabelMap.cpp \
-    QQApplication.cpp \
-    QQMainWindow.cpp \
+    MainWindow.cpp \
     QQTextDocument.cpp \
     QQTextEdit.cpp \
     irqWidgets.cpp
 
 HEADERS += \
+    Application.h \
     Label.h \
     LabelMap.h \
-    QQApplication.h \
-    QQMainWindow.h \
+    MainWindow.h \
     QQTextDocument.h \
     QQTextEdit.h \
     irqWidgets_global.h \

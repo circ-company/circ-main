@@ -1,8 +1,8 @@
-#include "QQApplication.h"
+#include "Application.h"
 
 #include <Log.h>
 
-QQApplication::QQApplication(int &argc, char **argv)
+Application::Application(int &argc, char **argv)
     : QApplication(argc, argv)
 {
     mArguments.set(arguments());
@@ -10,35 +10,35 @@ QQApplication::QQApplication(int &argc, char **argv)
     setObjectName("QQApplication:" + exeInfo().completeBaseName());
 }
 
-void QQApplication::run()
+void Application::run()
 {
     FNENTER();
 
     FNRTNVOID();
 }
 
-void QQApplication::initialize()
+void Application::initialize()
 {
     FNENTER();
 
     FNRTNVOID();
 }
 
-void QQApplication::setup()
+void Application::setup()
 {
     FNENTER();
 
     FNRTNVOID();
 }
 
-void QQApplication::start()
+void Application::start()
 {
     FNENTER();
 
     FNRTNVOID();
 }
 
-void QQApplication::processFile()
+void Application::processFile()
 {
     FNENTER();
 

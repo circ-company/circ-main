@@ -2,6 +2,9 @@
 include(LIBDIR.pri)
 include(DESTDIR.pri)
 
+include(useBase.pri)
+include(useMatGeo.pri)
+
 INCLUDEPATH *= $$LIBDIR/irqWidgets
 #NCLUDEPATH *= $$LIBDIR/../../src/libs/irqWidgets
 windows:LIBS *= -lirqWidgets6

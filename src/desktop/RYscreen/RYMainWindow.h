@@ -1,21 +1,16 @@
 #pragma once
 
-#include <QMainWindow>
+#include <MainWindow.h>
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class RYMainWindow;
-}
-QT_END_NAMESPACE
+class RYApplication;
 
-class RYMainWindow : public QMainWindow
+class RYMainWindow : public MainWindow
 {
     Q_OBJECT
 
-public:
-    RYMainWindow(QWidget *parent = nullptr);
+public: // ctors
+    RYMainWindow(RYApplication *parent);
     ~RYMainWindow();
 
 private:
-    Ui::RYMainWindow *ui;
 };

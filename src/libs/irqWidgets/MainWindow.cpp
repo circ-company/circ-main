@@ -1,9 +1,12 @@
-#include "QQMainWindow.h"
+#include "MainWindow.h"
 
-#include <QQApplication.h>
+#include <QGridLayout>
+#include <QStackedLayout>
+
+#include <Application.h>
 #include <Log.h>
 
-QQMainWindow::QQMainWindow(const Contents cf, QQApplication *qqapp)
+MainWindow::MainWindow(const Contents cf, Application *qqapp)
     : QMainWindow{nullptr}
     , mpApplication(qqapp)
     , cmContents(cf)
@@ -13,16 +16,18 @@ QQMainWindow::QQMainWindow(const Contents cf, QQApplication *qqapp)
     FNRTNVOID();
 }
 
-void QQMainWindow::run()
+void MainWindow::run()
 {
     FNENTER();
     FNRTNVOID();
 }
 
-void QQMainWindow::initialize()
+void MainWindow::initialize()
 {
     FNENTER();
+    mpMainWidget = new QWidget(this);
     if (cmContents & Grid)  mpMainGrid = new QGridLayout(mpMainWidget);
+    if (cmContents & Stack)  mpMainStack = new QStackedLayout(mpMainWidget);
     if (cmContents & TextEdit)  mpMainEdit = new QQTextEdit(mpMainWidget);
     if (cmContents & TextDocument)  mpMainDoc = new QQTextDocument(mpMainWidget);
     if (cmContents & ImageLabel)  mpMainLabel = new Label(mpMainWidget);
@@ -30,7 +35,7 @@ void QQMainWindow::initialize()
     FNRTNVOID();
 }
 
-void QQMainWindow::setup()
+void MainWindow::setup()
 {
     FNENTER();
     if (cmContents & TextEdit)
@@ -55,16 +60,20 @@ void QQMainWindow::setup()
     }
     if (mpMainGrid)
     {
-        mpMainWidget = new QWidget(this);
         Q_CHECK_PTR(mpMainWidget);
         mpMainWidget->setLayout(mpMainGrid);
+    }
+    if (mpMainStack)
+    {
+        Q_CHECK_PTR(mpMainWidget);
+        mpMainWidget->setLayout(mpMainStack);
     }
     Q_CHECK_PTR(mpMainWidget);
     setCentralWidget(mpMainWidget);
     FNRTNVOID();
 }
 
-void QQMainWindow::ready()
+void MainWindow::ready()
 {
     FNENTER();
     FNRTNVOID();

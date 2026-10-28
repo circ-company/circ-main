@@ -9,13 +9,13 @@
 #include <UText.h>
 #include <UTextList.h>
 
-class QQMainWindow;
+class MainWindow;
 
-class QQApplication : public QApplication
+class Application : public QApplication
 {
     Q_OBJECT
 protected:
-    QQApplication(int &argc, char **argv);
+    Application(int &argc, char **argv);
 
 public slots:
     virtual void run();
@@ -41,7 +41,7 @@ public: // non-const
     UText takeArgAt(const Index ix);
 
 public: // pointers
-    QQApplication * it() { return this; }
+    Application * it() { return this; }
 
 protected: // pointers
 public: // pointers
@@ -49,13 +49,13 @@ public: // pointers
 private:
     FileInfo mExeInfo;
     UTextList mArguments;
-    QQMainWindow * mpMainWindow=nullptr;
+    MainWindow * mpMainWindow=nullptr;
 
 };
 
-inline QFileInfo QQApplication::exeInfo() const { return mExeInfo; }
-inline Count QQApplication::argCount() const { return argList().count(); }
-inline bool QQApplication::isValidArgIndex(const Index ix) const { return argList().isValidIndex(ix); }
-inline UTextList QQApplication::argList() const { return mArguments; }
-inline UText QQApplication::argAt(const Index ix) const { return argList().value(ix); }
-inline UText QQApplication::takeArgAt(const Index ix) { return argList().takeAt(ix); }
+inline QFileInfo Application::exeInfo() const { return mExeInfo; }
+inline Count Application::argCount() const { return argList().count(); }
+inline bool Application::isValidArgIndex(const Index ix) const { return argList().isValidIndex(ix); }
+inline UTextList Application::argList() const { return mArguments; }
+inline UText Application::argAt(const Index ix) const { return argList().value(ix); }
+inline UText Application::takeArgAt(const Index ix) { return argList().takeAt(ix); }
