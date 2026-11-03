@@ -4,7 +4,6 @@
 
 #include <QFlags>
 #include <QWidget>
-//class QCoreApplication;
 class QStackedLayout;
 class QGridLayout;
 
@@ -28,6 +27,7 @@ public: // types
         TextDocument        = 0x00000200,
         ImageLabel          = 0x00000800,
         LogStderr           = 0x00010000,
+        StatusBar           = 0x01000000,
         ReadOnly            = 0x80000000,
     };
     Q_DECLARE_FLAGS(Contents, Content);
@@ -50,16 +50,15 @@ signals:
     void readied();
 
 public: // const
-    Size mainSize() const;
 
 public: // non-const
-
 
 public: // pointers
     Label * mainLabel();
     Application * app() const;
-    QStackedLayout * stack();
-
+    QGridLayout * mainGrid();
+    QStackedLayout * mainStack();
+    QStatusBar * statusBar();
 private:
     Application * mpApplication=nullptr;
     Contents cmContents=$null;
@@ -69,11 +68,12 @@ private:
     QQTextEdit * mpMainEdit=nullptr;
     QQTextDocument * mpMainDoc=nullptr;
     Label * mpMainLabel=nullptr;
-    Size mMainWinSize=Size(512);
+    QStatusBar * mpStatusBar=nullptr;
 };
 
-inline Size MainWindow::mainSize() const { return mMainWinSize; }
 inline Label *MainWindow::mainLabel() { Q_CHECK_PTR(mpMainLabel); return mpMainLabel; }
 inline Application *MainWindow::app() const { Q_CHECK_PTR(mpApplication); return mpApplication; }
-inline QStackedLayout *MainWindow::stack()  { Q_CHECK_PTR(mpMainStack); return mpMainStack; }
+inline QGridLayout *MainWindow::mainGrid()  { Q_CHECK_PTR(mpMainGrid); return mpMainGrid; }
+inline QStackedLayout *MainWindow::mainStack()  { Q_CHECK_PTR(mpMainStack); return mpMainStack; }
+inline QStatusBar *MainWindow::statusBar() { Q_CHECK_PTR(mpStatusBar); return mpStatusBar; }
 

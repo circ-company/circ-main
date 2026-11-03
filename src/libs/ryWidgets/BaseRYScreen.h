@@ -11,7 +11,7 @@ protected: // ctors
     explicit BaseRYScreen(MainWindow *parent);
 
 public slots:
-    void addToMain();
+//    void addToMain();
 
 signals:
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QColor>
+#include <QList>
 #include <QMetaType>
 #include <QPixelFormat>
 class QRgba;
@@ -38,6 +39,7 @@ public: // types
         Biconic,    // Opacity, Hue, Sat, Value(Lightness)
         Video,      // Opacity, Value(Y), CRd, CBu
     };
+    typedef QList<Color> List;
 
 public: // ctors
     Color(const Representation aRep);

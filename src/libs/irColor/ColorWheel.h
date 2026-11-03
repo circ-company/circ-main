@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Loop.h>
+
 #include "Color.h"
 
 #include <Types.h>

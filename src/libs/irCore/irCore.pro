@@ -3,12 +3,15 @@ TEMPLATE = lib
 DEFINES += IRCORE_LIBRARY
 
 include(../libs.pri)
+include(../../useBase.pri)
 include(../../useTypes.pri)
 
 SOURCES += \
+    ObjectHelper.cpp \
     irCore.cpp
 
 HEADERS += \
+    ObjectHelper.h \
     irCore_global.h \
     irCore.h
 

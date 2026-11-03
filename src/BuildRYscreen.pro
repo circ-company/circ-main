@@ -4,15 +4,18 @@ TEMPLATE = subdirs
 
 SUBDIRS +=              \
     desktop/RYscreen \
+    libs/boostLogging \
     libs/ifBase         \
     libs/ifAcquire         \
     libs/ifDetect         \
     libs/ifGenerate         \
     libs/ifLocate         \
     libs/ifMatch         \
+    libs/ifSource \
     libs/ifStore        \
     libs/irBase          \
     libs/irCore          \
+    libs/irColor          \
     libs/irImage          \
     libs/irMsg          \
     libs/irLog          \
@@ -39,14 +42,16 @@ SUBDIRS +=              \
     libs/QtCVimgcodecs     \
     libs/QtCVimgproc  \
     libs/ryBase        \
-    libs/ryWidgets
+    libs/ryWidgets  \
 
 irBase.depends          =
 irLog.depends           = irBase
 irMatGeo.depends        =           irLog
+irCore.depends          = irBase    irTypes
 irqNetwork.depends      = irBase    irLog
 irqCore.depends         = irBase    irLog
 irStore.depends         = irBase    irLog
+irColor.depends         = irTypes
 irTypes.depends         = irBase    irLog   irqCore     irqNetwork
 irExe.depends           = irBase    irLog   irStore
 irqXml.depends          = irBase    irLog       irMatGeo    irTypes irStore
@@ -55,10 +60,11 @@ irqWidgets.depends      = irBase    irLog       irMatGeo    irTypes
 irImage.depends         = irBase ## TBD
 QtCVobjdetect.depends   = irBase    irLog       irMatGeo    irTypes    \
                             irStore     irqXml  QtCVcore
-ryScreen.depends        = irBase    irLog       irMatGeo    irTypes     irqCore \
-                            irqNetwork  irStore     irqXml  QtCVcore \
-                            irqGui      irqWidgets      irImage      \
-                            QtCVobjdetect
+ryWidgets.depends       = irTypes   irLog   irCore  irColor irqWidgets
+ryScreen.depends        = irBase    irLog       irMatGeo    irTypes irCore  \
+                            rqCore  irqNetwork  irStore     irqXml  QtCVcore \
+                            irqGui      irqWidgets  irColor irImage      \
+                            QtCVobjdetect   ryWidgets
 
 
 

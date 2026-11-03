@@ -41,7 +41,6 @@ void MainWindow::setup()
     if (cmContents & TextEdit)
     {
         Q_CHECK_PTR(mpMainEdit);
-        mpMainEdit->setMinimumSize(mMainWinSize);
         if (mpMainGrid)
             mpMainGrid->addWidget(mpMainEdit);
     }
@@ -52,7 +51,6 @@ void MainWindow::setup()
     if (cmContents & ImageLabel)
     {
         Q_CHECK_PTR(mpMainLabel);
-        mpMainLabel->setMinimumSize(mMainWinSize);
         if (mpMainGrid)
             mpMainGrid->addWidget(mpMainLabel);
         else

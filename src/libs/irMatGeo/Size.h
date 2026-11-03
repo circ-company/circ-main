@@ -32,6 +32,7 @@ public: // const
     bool isValidIndex(const int index) const;
     Aspect aspect() const;
     Point center() const;
+    Size reversed() const;
     int index(const Point pt) const;
     Point position(const int index) const;
     bool less(const Size &rhs) const;
@@ -81,6 +82,7 @@ inline WORDF Size::widthF() const { return width(); }
 inline WORDF Size::heightF() const { return height(); }
 inline int Size::minDim() const { return qMin(width(), height()); }
 inline int Size::maxDim() const { return qMax(width(), height()); }
+inline Size Size::reversed() const { return Size(height(), width()); }
 inline QSize Size::operator ()() const { return toQSize(); }
 inline bool Size::operator <(const Size &rhs) const { return less(rhs); }
 inline Size Size::operator |(const Size &rhs) const { return unioned(rhs); }

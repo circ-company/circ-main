@@ -17,6 +17,7 @@ typedef quint128        OWORD; // octo
 //#define SEWORD          unsigned _BitInt(256)
 #endif
 
+typedef qint8           SBYTE;
 typedef qint16          SWORD;
 typedef qint32          SDWORD;
 typedef qint64          SQWORD;
