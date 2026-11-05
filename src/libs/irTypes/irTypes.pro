@@ -18,6 +18,7 @@ SOURCES += \
 HEADERS += \
     Bytes.h \
     CircularArray.h \
+    DataProperty.h \
     EightCC.h \
     FourCC.h \
     Loop.h \

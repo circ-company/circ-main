@@ -45,6 +45,7 @@ public: // const
     int col() const;
     Sortable sortable() const;
     QPoint toQPoint() const;
+    QString toDebugString() const;
     Point operator * (const Size &rhs) const;
     bool operator < (const Point &rhs) const;
     QPoint operator () () const;

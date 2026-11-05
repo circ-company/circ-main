@@ -13,11 +13,11 @@ include(../../useRyWidgets.pri)
 SOURCES += \
     RYApplication.cpp \
     main.cpp \
-    RYMainWindow.cpp
+    RYMainWindow.cpp \
 
 HEADERS += \
     RYApplication.h \
-    RYMainWindow.h
+    RYMainWindow.h \
 
 message(INCLUDEPATH == $$INCLUDEPATH)
 

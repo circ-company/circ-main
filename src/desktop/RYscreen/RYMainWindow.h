@@ -20,7 +20,7 @@ public: // ctors
     ~RYMainWindow();
 
 
-public slots: // non-const
+public slots:
     void run();
     void initialize();
     void setup();
@@ -56,7 +56,6 @@ private:
 
 inline const Size RYMainWindow::screenSize() const  { return cmScreenSize; }
 inline const Size RYMainWindow::faceSize() const { return cmFaceSize; }
-
 inline RYApplication *RYMainWindow::app() {  Q_CHECK_PTR(mpApplication); return mpApplication; }
 inline QHBoxLayout *RYMainWindow::layout() {  Q_CHECK_PTR(mpBoxLayout); return mpBoxLayout; }
 inline ryTaskBar *RYMainWindow::taskBar() {  Q_CHECK_PTR(mpTaskBar); return mpTaskBar; }

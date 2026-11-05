@@ -28,6 +28,8 @@ public: // const
     WORDF heightF() const;
     int minDim() const;
     int maxDim() const;
+    Count rows() const;
+    Count cols() const;
     unsigned area() const;
     bool isValidIndex(const int index) const;
     Aspect aspect() const;
@@ -82,6 +84,8 @@ inline WORDF Size::widthF() const { return width(); }
 inline WORDF Size::heightF() const { return height(); }
 inline int Size::minDim() const { return qMin(width(), height()); }
 inline int Size::maxDim() const { return qMax(width(), height()); }
+inline Count Size::rows() const { return height(); }
+inline Count Size::cols() const { return width(); }
 inline Size Size::reversed() const { return Size(height(), width()); }
 inline QSize Size::operator ()() const { return toQSize(); }
 inline bool Size::operator <(const Size &rhs) const { return less(rhs); }

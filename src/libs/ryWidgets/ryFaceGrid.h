@@ -1,10 +1,14 @@
 #pragma once
 
-#include <QGridLayout>
+#include <QWidget>
+
+class QGridLayout;
 
 #include <ColorWheel.h>
+#include <Label.h>
+#include <Size.h>
 
-class ryFaceGrid : public QGridLayout
+class ryFaceGrid : public QWidget
 {
 public:
     ryFaceGrid(QWidget *parent = nullptr);
@@ -21,6 +25,21 @@ signals:
     void setuped();
     void readied();
 
+public: // const
+    const Size gridElements() const;
+
+public: // non-const
+
+public: // static
+    Label *dummy(const QColor aBaseColor);
+
+public: // pointers
+    QGridLayout * layout();
+
 private:
-    ColorWheel mBaseColorWheel;
+    const Size cmGridElements=Size(10, 6);
+    QGridLayout * mpLayout=nullptr;
 };
+
+inline const Size ryFaceGrid::gridElements() const { return cmGridElements; }
+inline QGridLayout *ryFaceGrid::layout() { Q_CHECK_PTR(mpLayout); return mpLayout; }

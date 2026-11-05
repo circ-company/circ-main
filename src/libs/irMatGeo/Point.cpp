@@ -60,6 +60,11 @@ QPoint Point::toQPoint() const
     return QPoint(x(), y());
 }
 
+QString Point::toDebugString() const
+{
+    return QString("{Point: x%1,y%2}").arg(x()).arg(y());
+}
+
 Point Point::set(const Point aPt)
 {
     return set(aPt.x(), aPt.y());

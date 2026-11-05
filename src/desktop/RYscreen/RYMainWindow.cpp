@@ -46,6 +46,7 @@ void RYMainWindow::initialize()
     Q_CHECK_PTR(mpTaskBar);
     Q_CHECK_PTR(mpFaceGrid);
     taskBar()->initialize();
+    faceGrid()->initialize();
     emit initialized();
 }
 
@@ -53,8 +54,9 @@ void RYMainWindow::setup()
 {
     FNENTER();
     taskBar()->setup();
+    faceGrid()->setup();
     layout()->addWidget(taskBar());
-    layout()->addLayout(faceGrid());
+    layout()->addWidget(faceGrid());
     Q_CHECK_PTR(mpMainWidget);
     mpMainWidget->setLayout(layout());
     setCentralWidget(mpMainWidget);

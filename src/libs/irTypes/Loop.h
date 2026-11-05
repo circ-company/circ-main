@@ -38,7 +38,7 @@ protected:
 template<typename T>
 inline bool LoopT<T>::isValidIndex(const Index ix) const
 {
-    return ix >= 0 && ix < size();
+    return ix >= 0 && ix < Index(size());
 }
 
 template<typename T>
