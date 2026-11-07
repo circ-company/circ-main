@@ -71,6 +71,29 @@ Color Color::lighterK(const SWORD aPerk) const
     return result;
 }
 
+Color Color::greyerK(const SWORD aPerk) const
+{
+    FNENTER();
+    DUMPVAR(name());
+    DUMPVAR(aPerk);
+    WEXPECTGT(aPerk, 1);
+    Color result = it();
+    switch (representation())
+    {
+    case ORGB:
+        result.mRed = (SDWORD(mRed - 32767) * SDWORD(aPerk) / 1000LL) + 32767;
+        result.mGrn = (SDWORD(mGrn - 32767) * SDWORD(aPerk) / 1000LL) + 32767;
+        result.mBlu = (SDWORD(mBlu - 32767) * SDWORD(aPerk) / 1000LL) + 32767;
+        break;
+
+    default:
+        WARNING("Unhandled representation()");
+        break;
+    }
+    DUMPVAR(result.name());
+    return result;
+}
+
 Color Color::inverted() const
 {
     FNENTER();
@@ -85,6 +108,7 @@ Color Color::inverted() const
         result.mRed = 65535 - mRed;
         result.mGrn = 65535 - mGrn;
         result.mBlu = 65535 - mBlu;
+        result.mOpa = mOpa;
         break;
     case Biconic:
         tDW = DWORD(mHue) + 32768L;

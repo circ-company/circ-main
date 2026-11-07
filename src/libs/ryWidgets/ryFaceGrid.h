@@ -31,15 +31,13 @@ public: // const
 public: // non-const
 
 public: // static
-    Label *dummy(const QColor aBaseColor);
 
 public: // pointers
     QGridLayout * layout();
 
 private:
-    const Size cmGridElements=Size(10, 6);
     QGridLayout * mpLayout=nullptr;
 };
 
-inline const Size ryFaceGrid::gridElements() const { return cmGridElements; }
+inline const Size ryFaceGrid::gridElements() const { return Size(10, 6); }
 inline QGridLayout *ryFaceGrid::layout() { Q_CHECK_PTR(mpLayout); return mpLayout; }

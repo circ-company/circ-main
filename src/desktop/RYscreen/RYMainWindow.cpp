@@ -12,8 +12,8 @@
 
 RYMainWindow::RYMainWindow(RYApplication *parent)
     : QMainWindow(nullptr)
-    , mpApplication(parent)
 {
+    Q_UNUSED(parent);
     FNENTER();
     setObjectName("RYMainWindow");
     resize(screenSize());

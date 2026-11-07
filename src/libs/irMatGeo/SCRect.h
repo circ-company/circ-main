@@ -63,6 +63,7 @@ public: // non-const
     void size(const int w, const int h);
     void set(const Size sz);
     void set(const Point aCenterPoint);
+    void reverseSize();
     SCRect trim(const int i);
     SCRect scale(const unsigned u);
     SCRect scale(const qreal f);

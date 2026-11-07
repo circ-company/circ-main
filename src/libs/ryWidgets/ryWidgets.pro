@@ -12,8 +12,6 @@ include(../../useQWidgets.pri)
 SOURCES += \
     BaseRYScreen.cpp \
     FaceWidget.cpp \
-    ryCamera.cpp \
-    ryCameraConfig.cpp \
     ryFaceGrid.cpp \
     ryStatusBar.cpp \
     ryTaskBar.cpp \
@@ -23,8 +21,6 @@ SOURCES += \
 HEADERS += \
     BaseRYScreen.h \
     FaceWidget.h \
-    ryCamera.h \
-    ryCameraConfig.h \
     ryFaceGrid.h \
     ryStatusBar.h \
     ryTaskBar.h \

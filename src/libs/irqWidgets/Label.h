@@ -20,7 +20,7 @@ public: // typedef
     typedef QWidget * WidgetPtr;
 
 public: // ctors
-    explicit Label(QWidget *parent = nullptr);
+    explicit Label(QWidget *parent=nullptr);
     explicit Label(const QString &text, QWidget *parent = nullptr);
     explicit Label(const BYTE digits, QWidget *parent = nullptr);
     explicit Label(const QPixmap &pxm, QWidget *parent = nullptr, const QString &text=QString());
@@ -42,7 +42,7 @@ public: // const
     QPixmap pixmap() const;
 
 public: // non-const
-    void setBack(const QColor &c);
+    void set(const QColor &c);
 
 
 public: // pointers
@@ -61,7 +61,7 @@ private:
 
 inline void Label::set(const Size sz) { mSize = sz; }
 inline QPixmap Label::pixmap() const { return mPixmap; }
-inline void Label::setBack(const QColor &c) { mBackColor = c; }
+inline void Label::set(const QColor &c) { mBackColor = c; }
 inline QFrame *Label::frame() const { return (QFrame *)(this); }
 inline Label::WidgetPtr Label::widget() const { return (QWidget *)(this); }
 inline Label::operator WidgetPtr() const { return widget(); }

@@ -59,6 +59,7 @@
 #define WEXPECT(op, exp, act) EXPECT4LI(op, StatusLevel::WExpect, exp, act);
 #define WEXPECTEQ(exp, act) EXPECT4LI(Log::Equal, StatusLevel::WExpect, exp, act);
 #define WEXPECTNE(exp, act) EXPECT4LI(Log::NotEqual, StatusLevel::WExpect, exp, act);
+#define WEXPECTGT(exp, act) EXPECT4LI(Log::Greater, StatusLevel::WExpect, exp, act);
 #define EXPECTEQ(exp, act) EXPECT4LI(Log::Equal, StatusLevel::Expect, exp, act);
 
 #define EXPECTIS(act)       ASSERTLI(Log::True, StatusLevel::Expect, act);

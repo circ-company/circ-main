@@ -73,7 +73,6 @@ SCRect SCRect::scaled(const unsigned int u) const
 
 SCRect SCRect::scaled(const qreal f) const
 {
-    // TODO Should center be multiplied?
     return SCRect((toQSizeF() * f).toSize(), center());
 }
 
@@ -109,6 +108,11 @@ SCRect SCRect::moved(const Point offset) const
 void SCRect::set(const Point aCenterPoint)
 {
     mCenterPoint = aCenterPoint;
+}
+
+void SCRect::reverseSize()
+{
+    mSize = mSize.reversed();
 }
 
 SCRect SCRect::trim(const int i)

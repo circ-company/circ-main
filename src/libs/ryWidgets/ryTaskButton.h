@@ -36,6 +36,10 @@ public slots:
 signals:
 
 public: // const
+    Color baseColor();
+    Color mainColor();
+    Color borderColor();
+    Color textColor();
 
 public: // non-const
     virtual void paintEvent(QPaintEvent *event) override;
@@ -45,8 +49,6 @@ public: // pointer
 
 
 public: // static
-    Color mainColor(const Color aBase, const States aStates);
-    Color textColor(const Color aBase, const States aStates);
 
 private:
     ryTaskBar * mpBar=nullptr;
@@ -55,6 +57,7 @@ private:
     Color mBaseColor;
 };
 
+inline Color ryTaskButton::baseColor() { return mBaseColor; }
 inline ryTaskBar *ryTaskButton::bar() { Q_CHECK_PTR(mpBar); return mpBar; }
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(ryTaskButton::States);

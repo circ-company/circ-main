@@ -42,6 +42,7 @@ public: // non-const
 
 public: // pointers
     Application * it() { return this; }
+    MainWindow * mainWin();
 
 protected: // pointers
 public: // pointers
@@ -59,3 +60,4 @@ inline bool Application::isValidArgIndex(const Index ix) const { return argList(
 inline UTextList Application::argList() const { return mArguments; }
 inline UText Application::argAt(const Index ix) const { return argList().value(ix); }
 inline UText Application::takeArgAt(const Index ix) { return argList().takeAt(ix); }
+inline MainWindow *Application::mainWin() { Q_CHECK_PTR(mpMainWindow);  return mpMainWindow; }
