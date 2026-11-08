@@ -8,6 +8,7 @@
 #include <Label.h>
 #include <Log.h>
 #include <SCRect.h>
+#include <ObjectHelper.h>
 
 #include "ryTaskBar.h"
 
@@ -19,47 +20,67 @@ ryTaskButton::ryTaskButton(ryTaskBar *parent)
     setObjectName("ryTaskButton:null");
 }
 
-ryTaskButton::ryTaskButton(const QString &aText, const Color aBaseColor, ryTaskBar *parent)
+ryTaskButton::ryTaskButton(const Task aTask, const Color aBaseColor, ryTaskBar *parent)
     : QToolButton(parent)
     , mpBar(parent)
-    , mText(aText)
+    , mpAction(new QAction(this))
+    , mState($nullState)
     , mBaseColor(aBaseColor)
 {
     FNENTER();
-    setObjectName("ryTaskButton:" + aText);
-    mStates.setFlag(Radio);
+    ObjectHelper tOH(this);
+    mName = tOH.enumKey("Task", aTask);
+    setObjectName("ryTaskButton:" + name()());
+    setUserText(name()());
+    EXPECTEQ(Color::ORGB, aBaseColor.representation());
+    EXPECTEQ(Color::ORGB, mBaseColor.representation());
 }
 
-Color ryTaskButton::mainColor()
+Color ryTaskButton::baseColor() const
+{
+    EXPECTEQ(Color::ORGB, mBaseColor.representation());
+    return mBaseColor;
+}
+
+Color ryTaskButton::mainColor() const
 {
     Color result = baseColor();
-    if ( ! mStates.testFlag(Enabled))
-        result = result.greyerK(450);
+    EXPECTEQ(Color::ORGB, result.representation());
+    if (isDisabled())
+        result = result.greyerK(100);
     return result;
 }
 
-Color ryTaskButton::borderColor()
+Color ryTaskButton::borderColor() const
 {
     Color result = baseColor();
-    if ( ! mStates.testFlag(Enabled))
-        result = result.greyerK(350);
+    EXPECTEQ(Color::ORGB, result.representation());
+    if (isDisabled())
+        result = result.greyerK(200);
     return result;
-
 }
 
-Color ryTaskButton::textColor()
+Color ryTaskButton::textColor() const
 {
     Color result = baseColor().inverted();
-    if ( ! mStates.testFlag(Enabled))
-        result = result.greyerK(250);
+    EXPECTEQ(Color::ORGB, result.representation());
+    if (isDisabled())
+        result = result.greyerK(50);
     return result;
+}
 
+void ryTaskButton::setUserText(const QString aEnglishText)
+{
+    tr(qPrintable(aEnglishText), "TaskButton");
 }
 
 void ryTaskButton::paintEvent(QPaintEvent *event)
 {
     FNENTER();
     Q_UNUSED(event);
+    DUMPVAR(mBaseColor.representation());
+    if (mBaseColor.isNull()) return;                           /*/=====\*/
+    EXPECTEQ(Color::ORGB, baseColor().representation());
     SCRect tOuterRect = bar()->buttonSize();
     tOuterRect.reverseSize();
     SCRect tInnerRect = tOuterRect;
@@ -77,7 +98,7 @@ void ryTaskButton::paintEvent(QPaintEvent *event)
     tPainter.fillRect(tInnerRect.toQRect(), cMainColor());
     tPainter.setBrush(cTextColor());
     tPainter.setFont(cFont);
-    tPainter.drawText(tInnerRect.topLeft()(), mText);
+    tPainter.drawText(tInnerRect.topLeft()(), mUserText);
     tPainter.rotate(-90);
     tPainter.end();
     EXPECTEQ(size(), bar()->buttonSize());

@@ -71,25 +71,19 @@ Color Color::lighterK(const SWORD aPerk) const
     return result;
 }
 
-Color Color::greyerK(const SWORD aPerk) const
+Color Color::greyerK(const DWORD aPerk) const
 {
     FNENTER();
     DUMPVAR(name());
     DUMPVAR(aPerk);
     WEXPECTGT(aPerk, 1);
+    const FLOAT cPerkF = FLOAT(aPerk) / 1000.0;
     Color result = it();
-    switch (representation())
-    {
-    case ORGB:
-        result.mRed = (SDWORD(mRed - 32767) * SDWORD(aPerk) / 1000LL) + 32767;
-        result.mGrn = (SDWORD(mGrn - 32767) * SDWORD(aPerk) / 1000LL) + 32767;
-        result.mBlu = (SDWORD(mBlu - 32767) * SDWORD(aPerk) / 1000LL) + 32767;
-        break;
-
-    default:
-        WARNING("Unhandled representation()");
-        break;
-    }
+    result.convertTo(ORGB);
+    result.mOpa = mOpa;
+    result.mRed = (FLOAT(result.mRed - 32767) * cPerkF) + 32767;
+    result.mGrn = (FLOAT(result.mGrn - 32767) * cPerkF) + 32767;
+    result.mBlu = (FLOAT(result.mBlu - 32767) * cPerkF) + 32767;
     DUMPVAR(result.name());
     return result;
 }
@@ -149,27 +143,11 @@ void Color::nullify()
 void Color::greyify()
 {
     FNENTER();
-    WEXPECTNOT(isNull(representation()));
-    switch (representation())
-    {
-    case GXO:
-    case GX:    /* leave it alone */
-        break;
-
-    case ORGB:
-        {
-        const DWORD cRed = DWORD(13932) * DWORD(mRed);
-        const DWORD cGrn = DWORD(46871) * DWORD(mGrn);
-        const DWORD cBlu = DWORD( 4732) * DWORD(mBlu);
-        mVal = DWORD(cRed + cGrn + cBlu) / DWORD(65335);
-        mRepresentation = (isNull(mOpa)) ? GX : GXO;
-        }
-        break;
-
-    default:
-        WARNING("Unhandled Representation");
-        break;
-    };
+    EXPECTEQ(ORGB, representation());
+    const DWORD cRed = DWORD(13932) * DWORD(mRed);
+    const DWORD cGrn = DWORD(46871) * DWORD(mGrn);
+    const DWORD cBlu = DWORD( 4732) * DWORD(mBlu);
+    mVal = DWORD(cRed + cGrn + cBlu) / DWORD(65335);
     FNRTNVOID();
 }
 

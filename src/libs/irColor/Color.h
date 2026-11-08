@@ -62,7 +62,7 @@ public: // const
     QColor operator () () const;
     Color lighterK(const SWORD aPerk) const;
     Color darkerK(const SWORD aPerk) const;
-    Color greyerK(const SWORD aPerk) const;
+    Color greyerK(const DWORD aPerk) const;
     Color inverted() const;
     BYTE opa8() const { return mOpa >> 8; }
     BYTE red8() const { return mRed >> 8; }

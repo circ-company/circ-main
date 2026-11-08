@@ -17,34 +17,24 @@ void ryTaskBar::initialize()
     FNENTER();
     mpLayout = new QVBoxLayout;
     Q_CHECK_PTR(mpLayout);
+    mButtonList.reserve(ryTaskButton::$maxTask);
     emit initialized();
 }
 
 void ryTaskBar::setup()
 {
     FNENTER();
-    ObjectHelper tOH(this);
-    ryTaskButton * pBtnGather = new ryTaskButton("Gather", Qt::blue, this);
-    ryTaskButton * pBtnQuery  = new ryTaskButton("Query", Qt::darkBlue, this);
-    ryTaskButton * pBtnEnroll = new ryTaskButton("Enroll", Qt::cyan, this);
-    ryTaskButton * pBtnReward = new ryTaskButton("Reward", Qt::darkYellow, this);
-    ryTaskButton * pBtnAlert  = new ryTaskButton("Alert", Qt::red, this);
-    ryTaskButton * pBtnMaint  = new ryTaskButton("Maint", Qt::gray, this);
-    Q_CHECK_PTR(pBtnGather);
-    Q_CHECK_PTR(pBtnQuery);
-    Q_CHECK_PTR(pBtnEnroll);
-    Q_CHECK_PTR(pBtnReward);
-    Q_CHECK_PTR(pBtnAlert);
-    Q_CHECK_PTR(pBtnMaint);
-    Q_CHECK_PTR(mpLayout);
-    mpLayout->addWidget(pBtnGather);
-    mpLayout->addWidget(pBtnQuery);
-    mpLayout->addWidget(pBtnEnroll);
-    mpLayout->addWidget(pBtnReward);
-    mpLayout->addWidget(pBtnAlert);
-    mpLayout->addWidget(pBtnMaint);
+    const Color::List cColors = Color::List() << Qt::blue << Qt::darkBlue
+                                              << Qt::green << Qt::darkYellow
+                                              << Qt::darkRed << Qt::black;
+    ObjectHelper tOH(new ryTaskButton(this));
+    for (int ix = ryTaskButton::$nullTask+1; ix < ryTaskButton::$maxTask; ++ix)
+    {
+        ryTaskButton * pButton = new ryTaskButton(ryTaskButton::Task(ix), cColors[ix], this);
+        mButtonList.append(pButton);
+        mpLayout->addWidget(pButton);
+    }
     setLayout(mpLayout);
     show();
-    //mpButtonGroup->addButton(new ryTaskButton(tr(qPrintable(tOH.enumKey("Task", Gather)), "TaskButton"), Qt::darkBlue, this), Maint);
     emit setuped();
 }
