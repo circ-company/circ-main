@@ -42,6 +42,7 @@ SUBDIRS +=              \
     libs/QtCVimgcodecs     \
     libs/QtCVimgproc  \
     libs/ryBase        \
+    libs/ryInput \
     libs/ryWidgets  \
 
 irBase.depends          =

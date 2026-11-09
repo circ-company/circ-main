@@ -27,6 +27,7 @@ public slots:
 signals:
     void running();
     void initialized();
+    void setuped();
     void started();
     void processedFile(const FileInfo fi);
 

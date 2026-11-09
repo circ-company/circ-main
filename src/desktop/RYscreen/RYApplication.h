@@ -2,7 +2,9 @@
 
 #include <Application.h>
 
+#include <QDir>
 #include <QFileInfo>
+#include <QFileInfoList>
 #include <QList>
 #include <QJsonDocument>
 #include <QStringList>
@@ -19,18 +21,16 @@ public:
 public slots:
 //    void run();
     void initialize();
-    //void setup();
+    void setup();
     //void ready();
-/*
+    void start();
+    void processFile();
+    void finish();
+
 signals:
-    void running();
-    void initialized();
-    void setuped();
-    void readied();
-*/
+    void finished();
 
 public: // const
-//    const QJsonDocument jsonDocument() const;
 
 public: // non-const
 
@@ -38,6 +38,8 @@ public: // pointers
 
 
 private:
+    QDir mInputDir;
+    QFileInfoList mFIList;
   //  QFileInfo mJsonFI;
     //QJsonDocument mJsonDoc;
 };
