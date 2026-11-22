@@ -1,6 +1,9 @@
 # {irMain}/libs/libs.pri
 #message(____________/src/libs/libs.pri)
 
-include(../LIBDIR.pri)
+RSRCDIR = "../.."
+RLIBDIR = ".."
+include(../INCIRLIBS.pri)
+include(../INCRYLIBS.pri)
 
-include(../src.pri)
+include(../DESTDIR.pri)

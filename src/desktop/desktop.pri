@@ -4,6 +4,9 @@
 DEFINES *= __CIRC__WARN_IS_ERROR
 DEFINES *= __CIRC__ERROR_IS_FAULT
 
-include(../LIBDIR.pri)
+RSRCDIR = "../.."
+RLIBDIR = "../../libs/"
+include(../INCIRLIBS.pri)
+include(../INCRYLIBS.pri)
 
-include(../src.pri)
+include(../DESTDIR.pri)

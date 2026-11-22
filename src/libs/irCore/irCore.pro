@@ -3,8 +3,6 @@ TEMPLATE = lib
 DEFINES += IRCORE_LIBRARY
 
 include(../libs.pri)
-include(../../useBase.pri)
-include(../../useTypes.pri)
 
 SOURCES += \
     ObjectHelper.cpp \

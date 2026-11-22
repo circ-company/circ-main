@@ -1,14 +1,10 @@
 QT *= core
 QT *= gui
+QT *= xml
 TEMPLATE = lib
 DEFINES += IREXE_LIBRARY
 
 include(../libs.pri)
-include(../../useBase.pri)
-include(../../useLog.pri)
-include(../../useMatGeo.pri)
-include(../../useStore.pri)
-include(../../useQXml.pri)
 
 SOURCES += \
     Action.cpp \

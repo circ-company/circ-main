@@ -3,10 +3,6 @@ TEMPLATE = lib
 DEFINES += IRQWIDGETS_LIBRARY
 
 include(../libs.pri)
-include(../../useBase.pri)
-include(../../useLog.pri)
-include(../../useMatGeo.pri)
-include(../../useTypes.pri)
 
 SOURCES += \
     Application.cpp \

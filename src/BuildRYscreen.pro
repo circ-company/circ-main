@@ -35,12 +35,12 @@ SUBDIRS +=              \
     libs/irqSQL     \
     libs/irqState     \
     libs/irqSVG     \
-    libs/QtCVcore       \
-    libs/QtCVobjdetect  \
-    libs/QtCVutils      \
-    libs/QtCVfacerec       \
-    libs/QtCVimgcodecs     \
-    libs/QtCVimgproc  \
+#    libs/QtCVcore       \
+#    libs/QtCVobjdetect  \
+#    libs/QtCVutils      \
+#    libs/QtCVfacerec       \
+#    libs/QtCVimgcodecs     \
+#    libs/QtCVimgproc  \
     libs/ryBase        \
     libs/ryInput \
     libs/ryWidgets  \
@@ -66,7 +66,7 @@ ryScreen.depends        = irBase    irLog       irMatGeo    irTypes irCore  \
                             rqCore  irqNetwork  irStore     irqXml  QtCVcore \
                             irqGui      irqWidgets  irColor irImage      \
                             QtCVobjdetect   ryWidgets
-
+RYscreen.depends        = irBase irqWidgets
 
 
 

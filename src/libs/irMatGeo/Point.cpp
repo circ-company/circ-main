@@ -4,6 +4,7 @@
 
 #include <TriBool.h>
 
+#include "Rational.h"
 #include "Size.h"
 
 Point::Point(const bool zero) { set(zero ? Point(0,0) : nullPoint()); }
@@ -106,7 +107,7 @@ void Point::nullify()
 
 Point Point::nullPoint()
 {
-    return Point(INT_MIN, INT_MIN);
+    return Point(Rational::invalidTerm(), Rational::invalidTerm());
 }
 
 

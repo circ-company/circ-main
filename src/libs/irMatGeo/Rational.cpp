@@ -1,8 +1,10 @@
 #include "Rational.h"
 
+#include <limits>
+
 //#include "Debug.h"
 
-Rational::Term Rational::smInvalidTerm = INT_MIN;
+Rational::Term Rational::smInvalidTerm = std::numeric_limits<int>::min();
 
 Rational::Rational(const Term num, const Term den)
     : mNumerator(num), mDenominator(den) {;}
@@ -18,7 +20,7 @@ bool Rational::isReal() const
 
 signed int Rational::ratio() const
 {
-    if (notValid()) return INT_MIN;
+    if (notValid()) return smInvalidTerm;
     return n() / d();
 }
 

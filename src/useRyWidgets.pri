@@ -1,9 +1,6 @@
 # {circ-code}/src/useRyWidgets.pri
-include(LIBDIR.pri)
-include(DESTDIR.pri)
 
-include(useBase.pri)
-include(useMatGeo.pri)
+
 
 INCLUDEPATH *= $$LIBDIR/ryWidgets
 #NCLUDEPATH *= $$LIBDIR/../../src/libs/ryWidgets

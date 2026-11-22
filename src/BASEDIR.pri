@@ -1,4 +1,4 @@
 # {circ-main}/src/BASEDIR.pri
 windows:BASEDIR  = "/home/code/"
-linux:BASEDIR    = "/home/data/"
+linux:BASEDIR    = "/data/"
 

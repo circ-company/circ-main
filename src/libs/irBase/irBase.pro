@@ -124,7 +124,6 @@ DISTFILES += \
     ../../CVMAJOR.pri \
     ../../CVVERSION.pri \
     ../../DESTDIR.pri \
-    ../../LIBDIR.pri \
     ../../OSBITS.pri \
     ../../BuildMainDesk.pro \
     ../../BuildTouchScreen.pro \

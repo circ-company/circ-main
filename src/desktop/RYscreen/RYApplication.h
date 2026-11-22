@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Application.h>
+//#include <irqWidgets/Application.h>
+#include "../../libs/irqWidgets/Application.h"
 
 #include <QDir>
 #include <QFileInfo>

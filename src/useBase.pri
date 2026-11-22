@@ -3,12 +3,9 @@ include(LIBDIR.pri)
 include(DESTDIR.pri)
 
 INCLUDEPATH *= $$LIBDIR/irBase
-#NCLUDEPATH *= $$LIBDIR/../../src/libs/irBase
+INCLUDEPATH *= ../../src/libs/irBase
 windows:LIBS *= -lirBase6
 linux:LIBS *= -lirBase
 LIBS *= -L$$DESTDIR
-#message(--------/src/useBase.pri LIBS=$$LIBS DESTDIR==$$DESTDIR LIBDIR==$$LIBDIR INCLUDEPATH==$$INCLUDEPATH )
-
-HEADERS +=
-
+message(--------/src/useBase.pri LIBS=$$LIBS DESTDIR==$$DESTDIR LIBDIR==$$LIBDIR INCLUDEPATH==$$INCLUDEPATH )
 
