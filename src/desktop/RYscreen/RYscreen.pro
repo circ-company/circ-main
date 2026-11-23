@@ -18,7 +18,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-unix:!macx: LIBS += $$DESTDIR -lryWidgets -lirqWidgets
+unix:!macx: LIBS += -L$$DESTDIR -lirBase -lirLog -lirMatGeo -lryWidgets -lirqWidgets
 
 message(===RYscreen.pro: DESTDIR=$$DESTDIR LIBS=$$LIBS)
 
